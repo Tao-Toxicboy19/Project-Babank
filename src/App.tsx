@@ -17,7 +17,6 @@ export default function App({}: Props) {
   return (
     <div>
       <Header />
-      <hr />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/plotdata" element={<PlotdataPage />} />
