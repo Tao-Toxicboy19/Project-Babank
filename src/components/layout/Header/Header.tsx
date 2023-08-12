@@ -71,31 +71,37 @@ export default function Header({}: Props) {
           <li>
             <Link to={"/"}>
               <AiFillHome />
-              หน้าแรก
+              Home
             </Link>
           </li>
           <li>
-            <Link to={"/plotdata"}>
+            <Link to={"/floating-crane"}>
               <PiPlantFill />
-              ข้อมูลแปลง
+              Floating crane
             </Link>
           </li>
           <li>
-            <Link className="" to={"/machineinformation"}>
+            <Link className="" to={"/carrier"}>
               <FaTractor />
-              ข้อมูลเครื่องจักร
+              Carrier
             </Link>
           </li>
           <li>
-            <Link to={"/machinemovement"}>
+            <Link to={"/cargo"}>
               <FaRoute />
-              เส้นทางการเคลื่อนย้ายของเครื่องจัก
+              Cargo
+            </Link>
+          </li>
+          <li>
+            <Link to={"/order"}>
+              <RiContactsBookFill />
+              Order
             </Link>
           </li>
           <li>
             <Link to={"/contact"}>
               <RiContactsBookFill />
-              ติอต่อเรา
+              Contact
             </Link>
           </li>
         </ul>
