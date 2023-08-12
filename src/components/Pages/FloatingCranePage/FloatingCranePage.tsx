@@ -115,14 +115,6 @@ export default function FloatingCranePage() {
                     <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
                   </div>
                 </td>
-                {/* <td className="flex justify-center gap-x-5 items-center">
-                  <div className="flex items-center justify-center gap-x-5 transition-transform hover:scale-125">
-                    <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
-                  </div>
-                  <div className="flex items-center justify-center gap-x-5 transition-transform hover:scale-125">
-                    <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
-                  </div>
-                </td> */}
               </tr>
             ))}
           </tbody>

@@ -1,60 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 export default function LoginPage({}: Props) {
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080")
+      .then((res) => {
+        if (res.data.valid) {
+          navigate("/");
+        } else {
+          navigate("/login");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/login",
+        formData
+      );
+      if (response.data.Login) {
+        navigate("/");
+        console.log("Login successful");
+      } else {
+        console.log("Login failed");
+        // You can handle failed login, such as displaying an error message
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // You can handle error here, such as displaying an error message
+    }
+  };
+
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
+    <div>
+      <div className="w-full h-20"></div>
+      <h2>Login Page</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <div className="card-body">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="text"
-                placeholder="email"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="password"
-                className="input input-bordered"
-              />
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
-            </div>
-            <div className="form-control mt-6 flex flex-col gap-3">
-              <a href="./MainPage/MainPage.html" className="btn btn-primary">
-                Login
-              </a>
-              <a
-                href="./RegisterPage/RegisterPage.html"
-                className="btn btn-outline btn-primary"
-              >
-                Register
-              </a>
-            </div>
-          </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
         </div>
-      </div>
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
