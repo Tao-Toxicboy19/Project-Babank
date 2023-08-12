@@ -91,7 +91,8 @@ export default function FloatingCranePage() {
               <th>Longitude</th>
               <th>Setup Time</th>
               <th>Speed</th>
-              <th className="flex justify-center">Edit</th>
+              <th>Edit</th>
+              <th>Detele</th>
             </tr>
           </thead>
           <tbody className="bg-[#EBEBEB] text-[#000]">
@@ -102,16 +103,26 @@ export default function FloatingCranePage() {
                 <td>{post.body}</td>
                 <td>112.6456454</td>
                 <td>465.545145</td>
-                  <td>20</td>
                 <td>20</td>
-                <td className="flex justify-center gap-x-5">
-                  <div className="flex justify-center gap-x-5 transition-transform hover:scale-125">
+                <td>20</td>
+                <td>
+                  <div className="flex items-center justify-center transition-transform hover:scale-125">
                     <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
                   </div>
-                  <div className="flex justify-center gap-x-5 transition-transform hover:scale-125">
+                </td>
+                <td>
+                  <div className="flex items-center justify-center transition-transform hover:scale-125">
                     <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
                   </div>
                 </td>
+                {/* <td className="flex justify-center gap-x-5 items-center">
+                  <div className="flex items-center justify-center gap-x-5 transition-transform hover:scale-125">
+                    <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
+                  </div>
+                  <div className="flex items-center justify-center gap-x-5 transition-transform hover:scale-125">
+                    <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
+                  </div>
+                </td> */}
               </tr>
             ))}
           </tbody>
