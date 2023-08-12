@@ -32,7 +32,7 @@ export default function RegisterPage({}: Props) {
                 </div>
                 <div>
                   <label
-                    htmlFor="lastname" // แก้เป็น htmlFor
+                    htmlFor="lastname"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Lastname
