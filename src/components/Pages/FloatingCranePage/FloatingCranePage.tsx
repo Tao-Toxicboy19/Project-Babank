@@ -28,9 +28,10 @@ export default function FloatingCranePage() {
 
   return (
     <div className="p-3">
+      <div className="w-full h-[4.5rem]"></div>
       <div className="flex justify-end">
         <button
-          className="btn btn-outline btn-primary border-2 mb-3 "
+          className="btn btn-outline border-2 mb-3 "
           onClick={() => (window as any).my_modal_1.showModal()}
         >
           Add Data
@@ -81,8 +82,8 @@ export default function FloatingCranePage() {
       </dialog>
       <div className="overflow-x-auto">
         <table className="table">
-          <thead className="bg-[#95a8b6]">
-            <tr>
+          <thead className="bg-[#d4d4d4]">
+            <tr className="">
               <th>ID</th>
               <th>Name</th>
               <th>Description</th>
@@ -93,7 +94,7 @@ export default function FloatingCranePage() {
               <th className="flex justify-center">Edit</th>
             </tr>
           </thead>
-          <tbody className="bg-[#edf0f2] text-[#000]">
+          <tbody className="bg-[#EBEBEB] text-[#000]">
             {posts.map((post) => (
               <tr className="border-b border-[#000]" key={post.id}>
                 <td>{post.id}</td>
@@ -105,10 +106,10 @@ export default function FloatingCranePage() {
                 <td>20</td>
                 <td className="flex justify-center gap-x-5">
                   <div className="flex justify-center gap-x-5 transition-transform hover:scale-125">
-                    <MdModeEditOutline className="text-2xl text-blue-500 hover:text-blue-700 transition-colors duration-300" />
+                    <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
                   </div>
                   <div className="flex justify-center gap-x-5 transition-transform hover:scale-125">
-                    <BsFillTrashFill className="text-2xl text-red-500 hover:text-red-700 transition-colors duration-300" />
+                    <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
                   </div>
                 </td>
               </tr>
