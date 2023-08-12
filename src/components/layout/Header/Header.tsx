@@ -9,7 +9,7 @@ type Props = {};
 
 export default function Header({}: Props) {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-[#384C62]  border-b border-sky-500">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -30,10 +30,10 @@ export default function Header({}: Props) {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 text-fuchsia-50"
           >
             <li>
-              <Link to={"/"}>
+              <Link to={"/"} className="text-fuchsia-50">
                 <AiFillHome />
                 หน้าแรก
               </Link>
@@ -67,7 +67,7 @@ export default function Header({}: Props) {
         <a className="btn btn-ghost normal-case text-xl">Logo</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 text-[#fff]">
           <li>
             <Link to={"/"}>
               <AiFillHome />
@@ -107,7 +107,7 @@ export default function Header({}: Props) {
         </ul>
       </div>
       <div className="navbar-end">
-        <ul className="flex justify-center gap-x-5 mx-3">
+        <ul className="flex justify-center gap-x-5 mx-3 text-[#fff]">
           <li>
             <Link
               to={"/register"}

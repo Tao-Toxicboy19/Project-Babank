@@ -28,12 +28,14 @@ export default function FloatingCranePage() {
 
   return (
     <div className="p-3">
-      <button
-        className="btn"
-        onClick={() => (window as any).my_modal_1.showModal()}
-      >
-        Add Data
-      </button>
+      <div className="flex justify-end">
+        <button
+          className="btn btn-outline btn-primary border-2 mb-3 "
+          onClick={() => (window as any).my_modal_1.showModal()}
+        >
+          Add Data
+        </button>
+      </div>
       <dialog id="my_modal_1" className="modal">
         <form className="modal-box w-11/12 max-w-5xl">
           <h3 className="font-bold text-lg">Add Data</h3>
@@ -79,7 +81,7 @@ export default function FloatingCranePage() {
       </dialog>
       <div className="overflow-x-auto">
         <table className="table">
-          <thead>
+          <thead className="bg-[#95a8b6]">
             <tr>
               <th>ID</th>
               <th>Name</th>
@@ -91,9 +93,9 @@ export default function FloatingCranePage() {
               <th className="flex justify-center">Edit</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-[#edf0f2] text-[#000]">
             {posts.map((post) => (
-              <tr key={post.id}>
+              <tr className="border-b border-[#000]" key={post.id}>
                 <td>{post.id}</td>
                 <td>{post.title}</td>
                 <td>{post.body}</td>
@@ -101,7 +103,7 @@ export default function FloatingCranePage() {
                 <td>465.545145</td>
                 <td>20</td>
                 <td>20</td>
-                <td className="flex justify-center gap-x-10">
+                <td className="flex justify-center gap-x-5">
                   <div className="flex justify-center gap-x-5 transition-transform hover:scale-125">
                     <MdModeEditOutline className="text-2xl text-blue-500 hover:text-blue-700 transition-colors duration-300" />
                   </div>

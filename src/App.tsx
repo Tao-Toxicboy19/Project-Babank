@@ -17,7 +17,7 @@ export default function App({}: Props) {
   const [data, setData] = useState(0);
 
   return (
-    <div>
+    <div className="bg-[#fff]">
       <Header />
       <div className="container mx-auto">
         <Routes>
