@@ -101,7 +101,7 @@ export default function FloatingCranePage() {
                 <td>{post.body}</td>
                 <td>112.6456454</td>
                 <td>465.545145</td>
-                <td>20</td>
+                  <td>20</td>
                 <td>20</td>
                 <td className="flex justify-center gap-x-5">
                   <div className="flex justify-center gap-x-5 transition-transform hover:scale-125">

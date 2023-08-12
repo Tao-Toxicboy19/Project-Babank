@@ -30,7 +30,7 @@ export default function Header({}: Props) {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 text-fuchsia-50"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 text-fuchsia-50 bg-[#384C62]"
           >
             <li>
               <Link to={"/"} className="text-fuchsia-50">
