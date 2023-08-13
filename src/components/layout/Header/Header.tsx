@@ -92,6 +92,12 @@ export default function Header({}: Props) {
               </Link>
             </li>
             <li>
+              <Link to={"/"}>
+                <AiFillHome />
+                Home
+              </Link>
+            </li>
+            <li>
               <Link to={"/floating-crane"}>
                 <PiPlantFill />
                 Floating crane
