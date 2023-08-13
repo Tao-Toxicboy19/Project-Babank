@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { AiFillHome } from "react-icons/ai";
+import { FaTractor, FaRoute } from "react-icons/fa";
+import { PiPlantFill } from "react-icons/pi";
+import { RiContactsBookFill } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -10,7 +14,7 @@ export default function HomePage({}: Props) {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:8080")
+      .get("http://localhost:5173")
       .then((res) => {
         if (res.data.valid) {
           setName(res.data.username);
@@ -21,9 +25,45 @@ export default function HomePage({}: Props) {
       .catch((err) => console.log(err));
   }, []);
   return (
-    <div>
-      <div className="w-full h-20"></div>
-      <h1>Welcome {name}</h1>
-    </div>
+    <>
+      <div>
+        <div className="w-full h-20 flex flex-col justify-center"></div>
+        <div className="container flex text-center justify-center text-xl m-4 text-black">
+          <h1>Floating Crane Scheduling.........</h1>
+        </div>
+        <div className="container flex justify-center gap-4">
+          <Link to={"/floating-crane"}>
+            <button className="btn btn-outline btn-info">
+              <PiPlantFill />
+              Floating crane
+            </button>
+          </Link>
+          <Link to={"/carrier"}>
+            <button className="btn btn-outline btn-info">
+              <FaTractor />
+              Carrier
+            </button>
+          </Link>
+          <Link to={"/cargo"}>
+            <button className="btn btn-outline btn-info">
+              <FaRoute />
+              Cargo
+            </button>
+          </Link>
+          <Link to={"/order"}>
+            <button className="btn btn-outline btn-info">
+              <RiContactsBookFill />
+              Order
+            </button>
+          </Link>
+          <Link to={"/contact"}>
+            <button className="btn btn-outline btn-info">
+              <RiContactsBookFill />
+              Contact
+            </button>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 }

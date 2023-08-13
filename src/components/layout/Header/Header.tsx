@@ -64,7 +64,9 @@ export default function Header({}: Props) {
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">Logo</a>
+        <Link to={"/"}>
+          <a className="btn btn-ghost normal-case text-xl">Logo</a>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 text-[#000]">

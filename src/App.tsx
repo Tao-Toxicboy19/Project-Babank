@@ -10,6 +10,7 @@ import HomePage from "./components/Pages/HomePage/HomePage";
 import Header from "./components/layout/Header/Header";
 import FloatingCranePage from "./components/Pages/FloatingCranePage/FloatingCranePage";
 import OrderPage from "./components/Pages/OrderPage/OrderPage";
+import Footer from "./components/layout/Footer/Footer";
 
 type Props = {};
 
@@ -30,6 +31,7 @@ export default function App({}: Props) {
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
+      <Footer />
     </div>
   );
 }

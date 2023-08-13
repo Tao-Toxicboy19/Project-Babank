@@ -13,6 +13,16 @@ interface Post {
 
 export default function FloatingCranePage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = posts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(posts.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
     // Fetch data from API using Axios
@@ -96,7 +106,7 @@ export default function FloatingCranePage() {
             </tr>
           </thead>
           <tbody className="bg-[#EBEBEB] text-[#000]">
-            {posts.map((post) => (
+            {currentItems.map((post) => (
               <tr className="border-b border-[#000]" key={post.id}>
                 <td>{post.id}</td>
                 <td>{post.title}</td>
@@ -119,6 +129,20 @@ export default function FloatingCranePage() {
             ))}
           </tbody>
         </table>
+        {/* Pagination buttons */}
+        <div className="flex justify-center mt-4">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`btn mx-2 ${
+                currentPage === index + 1 ? "btn-primary" : "btn-outline"
+              }`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
