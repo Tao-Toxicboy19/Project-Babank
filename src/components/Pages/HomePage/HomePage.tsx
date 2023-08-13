@@ -29,7 +29,7 @@ export default function HomePage({}: Props) {
     <>
       <div>
         <div className="container flex text-center justify-center text-xl m-4 text-black">
-          <h1>Floating Crane Scheduling.........</h1>
+          <h1>Floating Crane Scheduling........</h1>
         </div>
         <div className="container flex flex-col items-center md:flex-row md:justify-center gap-4">
           <Link to={"/floating-crane"} className="btn-link">
