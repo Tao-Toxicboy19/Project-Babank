@@ -24,39 +24,39 @@ export default function HomePage({}: Props) {
       })
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <>
       <div>
-        <div className="w-full h-20 flex flex-col justify-center"></div>
         <div className="container flex text-center justify-center text-xl m-4 text-black">
           <h1>Floating Crane Scheduling.........</h1>
         </div>
-        <div className="container flex justify-center gap-4">
-          <Link to={"/floating-crane"}>
+        <div className="container flex flex-col items-center md:flex-row md:justify-center gap-4">
+          <Link to={"/floating-crane"} className="btn-link">
             <button className="btn btn-outline btn-info">
               <PiPlantFill />
               Floating crane
             </button>
           </Link>
-          <Link to={"/carrier"}>
+          <Link to={"/carrier"} className="btn-link">
             <button className="btn btn-outline btn-info">
               <FaTractor />
               Carrier
             </button>
           </Link>
-          <Link to={"/cargo"}>
+          <Link to={"/cargo"} className="btn-link">
             <button className="btn btn-outline btn-info">
               <FaRoute />
               Cargo
             </button>
           </Link>
-          <Link to={"/order"}>
+          <Link to={"/order"} className="btn-link">
             <button className="btn btn-outline btn-info">
               <RiContactsBookFill />
               Order
             </button>
           </Link>
-          <Link to={"/contact"}>
+          <Link to={"/contact"} className="btn-link">
             <button className="btn btn-outline btn-info">
               <RiContactsBookFill />
               Contact

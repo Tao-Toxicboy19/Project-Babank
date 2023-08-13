@@ -38,7 +38,6 @@ export default function FloatingCranePage() {
 
   return (
     <div className="p-3">
-      <div className="w-full h-[4.5rem]"></div>
       <div className="flex justify-end">
         <button
           className="btn btn-outline border-2 mb-3 "
