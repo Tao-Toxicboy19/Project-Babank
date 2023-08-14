@@ -3,7 +3,6 @@ import axios from "axios";
 import { MdModeEditOutline } from "react-icons/md";
 import { BsFillTrashFill } from "react-icons/bs";
 import AddFloatingCranePage from "./AddFloatingCranePage/AddFloatingCranePage";
-import DeleteFloatingCranePage from "./DeleteFloatingCranePage/DeleteFloatingCranePage";
 
 type Location = {
   id: number;
@@ -27,20 +26,6 @@ export default function FloatingCranePage() {
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-  };
-
-  const handleDelete = async (id: number) => {
-    try {
-      await axios.delete(`http://localhost:8080/api/deleteLocation/${id}`);
-      console.log(`Item with ID ${id} deleted successfully`);
-      // อัพเดตข้อมูลหลังจากการลบ
-      const updatedLocations = locationsArray.filter(
-        (location) => location.id !== id
-      );
-      setLocationsArray(updatedLocations);
-    } catch (error) {
-      console.error("Error deleting item:", error);
-    }
   };
 
   useEffect(() => {
@@ -94,11 +79,9 @@ export default function FloatingCranePage() {
                     </div>
                   </td>
                   <td>
-                    {/* <DeleteFloatingCranePage id={location.id} /> */}
-                    <DeleteFloatingCranePage
-                      id={location.id}
-                      onDelete={handleDelete}
-                    />
+                    <div className="flex items-center justify-center transition-transform hover:scale-125">
+                      <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
+                    </div>
                   </td>
                 </tr>
               ))

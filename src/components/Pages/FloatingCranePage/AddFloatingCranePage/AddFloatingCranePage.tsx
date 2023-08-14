@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-import { FloatingCrane } from "../../../types/FloatingCrane.type";
-import { Event } from "../../../types/Event.type";
+import { FloatingCrane } from "../../../../types/FloatingCrane.type";
+import { Event } from "../../../../types/Event.type";
 
 type Props = {};
 
