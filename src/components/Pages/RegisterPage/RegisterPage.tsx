@@ -27,7 +27,7 @@ export default function RegisterPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/register",
+        "http://localhost:8080/api/register",
         formData
       );
       navigate("/login");
@@ -56,6 +56,7 @@ export default function RegisterPage() {
               label="First Name"
               variant="outlined"
               name="firstname"
+              type="text"
               value={formData.firstname}
               onChange={handleChange}
             />
@@ -64,6 +65,7 @@ export default function RegisterPage() {
               label="Last Name"
               variant="outlined"
               name="lastname"
+              type="text"
               value={formData.lastname}
               onChange={handleChange}
             />
@@ -73,6 +75,7 @@ export default function RegisterPage() {
             label="Email"
             variant="outlined"
             name="email"
+            type="email"
             value={formData.email}
             onChange={handleChange}
           />
@@ -81,6 +84,7 @@ export default function RegisterPage() {
             label="Password"
             variant="outlined"
             name="password"
+            type="password"
             value={formData.password}
             onChange={handleChange}
           />
@@ -89,6 +93,7 @@ export default function RegisterPage() {
             label="Confirm Password"
             variant="outlined"
             name="confirmpassword"
+            type="password"
             value={formData.confirmpassword}
             onChange={handleChange}
           />

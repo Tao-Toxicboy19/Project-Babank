@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
 
 type Props = {};
 
@@ -27,7 +28,7 @@ export default function LoginPage({}: Props) {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:8080")
+      .get("http://localhost:8080/api")
       .then((res) => {
         if (res.data.valid) {
           navigate("/");
@@ -43,7 +44,7 @@ export default function LoginPage({}: Props) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/login",
+        "http://localhost:8080/api/login",
         formData
       );
       if (response.data.Login) {
@@ -78,7 +79,10 @@ export default function LoginPage({}: Props) {
                   <label className="label">
                     <span className="label-text">Email</span>
                   </label>
-                  <input
+                  <TextField
+                    id="outlined-basic"
+                    label="Email"
+                    variant="outlined"
                     type="email"
                     name="email"
                     value={formData.email}
@@ -90,7 +94,10 @@ export default function LoginPage({}: Props) {
                   <label className="label">
                     <span className="label-text">Password</span>
                   </label>
-                  <input
+                  <TextField
+                    id="outlined-basic"
+                    label="Password"
+                    variant="outlined"
                     type="password"
                     name="password"
                     value={formData.password}
