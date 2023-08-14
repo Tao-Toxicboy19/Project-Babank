@@ -1,5 +1,3 @@
-import React from 'react';
-
 type Props = {
   id: number;
   onDelete: (id: number) => void;
