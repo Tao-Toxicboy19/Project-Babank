@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-
-type FloatingCrane = {
-  id: number;
-  name: string;
-  description: string;
-  latitude: number;
-  longitude: number;
-  setuptime: string;
-  speed: number;
-};
+import { FloatingCrane } from "../../../types/FloatingCrane.type";
 
 type Props = {};
 
