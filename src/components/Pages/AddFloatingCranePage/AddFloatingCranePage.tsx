@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import { FloatingCrane } from "../../../types/FloatingCrane.type";
+import { Event } from "../../../types/Event.type";
 
 type Props = {};
 
@@ -16,7 +17,7 @@ export default function AddFloatingCranePage({}: Props) {
     speed: 0,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: Event) => {
     const { name, value } = e.target;
     setFloatingCrane((prevData) => ({
       ...prevData,
@@ -62,65 +63,62 @@ export default function AddFloatingCranePage({}: Props) {
       <dialog id="my_modal_1" className="modal">
         <form className="modal-box w-11/12 max-w-5xl" onSubmit={handleSubmit}>
           <h3 className="font-bold text-lg">Add Data</h3>
-          <p className="py-4">
-            <div className="grid grid-cols-3 gap-x-3 gap-y-4">
-              <TextField id="outlined-basic" label="Name" variant="outlined" />
-              <TextField
-                id="outlined-basic"
-                label="Description"
-                variant="outlined"
-                type="text"
-                name="name"
-                value={floatingCrane.name}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Latitude"
-                variant="outlined"
-                type="text"
-                name="description"
-                value={floatingCrane.description}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Longitude"
-                variant="outlined"
-                type="number"
-                name="latitude"
-                value={floatingCrane.latitude}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Setup Time"
-                variant="outlined"
-                type="number"
-                name="longitude"
-                value={floatingCrane.longitude}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Setup Time"
-                variant="outlined"
-                type="number"
-                name="setuptime"
-                value={floatingCrane.setuptime}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Speed"
-                variant="outlined"
-                type="number"
-                name="speed"
-                value={floatingCrane.speed}
-                onChange={handleChange}
-              />
-            </div>
-          </p>
+          <div className="grid grid-cols-3 gap-x-3 gap-y-4">
+            <TextField
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              type="text"
+              name="name"
+              value={floatingCrane.name}
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Description"
+              variant="outlined"
+              type="text"
+              name="description"
+              value={floatingCrane.description}
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Latitude"
+              variant="outlined"
+              type="number"
+              name="latitude"
+              value={floatingCrane.latitude}
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Longitude"
+              variant="outlined"
+              type="number"
+              name="longitude"
+              value={floatingCrane.longitude}
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Setup Time"
+              variant="outlined"
+              type="number"
+              name="setuptime"
+              value={floatingCrane.setuptime}
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Speed"
+              variant="outlined"
+              type="number"
+              name="speed"
+              value={floatingCrane.speed}
+              onChange={handleChange}
+            />
+          </div>
           <div className="modal-action">
             <button type="submit" className="btn">
               Add Floating Crane

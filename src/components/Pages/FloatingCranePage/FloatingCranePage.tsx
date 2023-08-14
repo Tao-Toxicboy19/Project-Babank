@@ -4,37 +4,45 @@ import { MdModeEditOutline } from "react-icons/md";
 import { BsFillTrashFill } from "react-icons/bs";
 import AddFloatingCranePage from "../AddFloatingCranePage/AddFloatingCranePage";
 
-interface Post {
-  userId: number;
+type Location = {
   id: number;
-  title: string;
-  body: string;
-}
+  name: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  setuptime: string;
+  speed: number;
+};
 
 export default function FloatingCranePage() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Location[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = posts.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(posts.length / itemsPerPage);
+  const [locationsArray, setLocationsArray] = useState<Location[]>([]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
-    // Fetch data from API using Axios
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => {
-        setPosts(response.data);
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/getLocations"
+        );
+        setLocationsArray(response.data.floatingcrane);
+        // console.log(response.data.floatingcrane);
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
-  }, []); // Empty dependency array to fetch data only once
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="p-3">
@@ -55,27 +63,33 @@ export default function FloatingCranePage() {
             </tr>
           </thead>
           <tbody className="bg-[#EBEBEB] text-[#000]">
-            {currentItems.map((post) => (
-              <tr className="border-b border-[#000]" key={post.id}>
-                <td>{post.id}</td>
-                <td>{post.title}</td>
-                <td>{post.body}</td>
-                <td>112.6456454</td>
-                <td>465.545145</td>
-                <td>20</td>
-                <td>20</td>
-                <td>
-                  <div className="flex items-center justify-center transition-transform hover:scale-125">
-                    <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center justify-center transition-transform hover:scale-125">
-                    <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
-                  </div>
-                </td>
+            {locationsArray.length > 0 ? (
+              locationsArray.map((location) => (
+                <tr className="border-b border-[#000]" key={location.id}>
+                  <td>{location.id}</td>
+                  <td>{location.name}</td>
+                  <td>{location.description}</td>
+                  <td>{location.latitude}</td>
+                  <td>{location.longitude}</td>
+                  <td>{location.setuptime}</td>
+                  <td>{location.speed}</td>
+                  <td>
+                    <div className="flex items-center justify-center transition-transform hover:scale-125">
+                      <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex items-center justify-center transition-transform hover:scale-125">
+                      <BsFillTrashFill className="text-2xl text-[#000] hover:text-red-700 transition-colors duration-300" />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>Loading...</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         {/* Pagination buttons */}

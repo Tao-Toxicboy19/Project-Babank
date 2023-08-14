@@ -1,7 +1,8 @@
-import React, { useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
+import { Event } from "../../../types/Event.type";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ export default function RegisterPage() {
   });
   const navigate = useNavigate();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: Event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
@@ -42,7 +43,10 @@ export default function RegisterPage() {
     <div className="bg-[#fff]">
       <div className="w-full h-20"></div>
       <div className="flex justify-center my-5">
-        <form className="flex flex-col gap-y-3 border-solid border-[1px] drop-shadow-xl px-5 pb-5" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col gap-y-3 border-solid border-[1px] drop-shadow-xl px-5 pb-5"
+          onSubmit={handleSubmit}
+        >
           <label className="flex justify-center font-medium text-[4vh] my-3">
             Register
           </label>
@@ -113,7 +117,7 @@ export default function RegisterPage() {
           <p className="text-sm font-light text-gray-500">
             Already have an account?{" "}
             <Link
-              to={'/login'}
+              to={"/login"}
               className="font-medium text-primary-600 hover:underline dark:text-primary-500"
             >
               Login here
