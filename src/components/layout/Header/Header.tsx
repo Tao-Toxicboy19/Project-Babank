@@ -10,7 +10,7 @@ type Props = {};
 export default function Header({}: Props) {
   return (
     <div>
-      <div className="navbar bg-[#fff] fixed z-50 opacity-95 border-b">
+      <div className="navbar bg-[#384C62] fixed z-50 opacity-95 border-b">
         <div className="navbar-start">
           <div className="dropdown">
             <label
@@ -19,7 +19,7 @@ export default function Header({}: Props) {
               className="btn btn-ghost lg:hidden"
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2fff/svg"
                 className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ export default function Header({}: Props) {
               <input id="my-drawer" type="checkbox" className="drawer-toggle" />
               <div className="drawer-side">
                 <label htmlFor="my-drawer" className="drawer-overlay"></label>
-                <ul className="menu p-4 w-60 h-full bg-base-200 text-base-content">
+                <ul className="menu p-4 w-60 h-full text-base-content ">
                   <li>
                     <Link to={"/"}>
                       <AiFillHome />
@@ -80,11 +80,12 @@ export default function Header({}: Props) {
           </div>
 
           <Link to={"/"}>
-            <a className="btn btn-ghost normal-case text-xl">Logo</a>
+            Logo
+            {/* <Link to={"/"} className="btn btn-ghost normal-case text-xl">Logo</Link> */}
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-[#000]">
+          <ul className="menu menu-horizontal px-1 text-[#fff] ">
             <li>
               <Link to={"/"}>
                 <AiFillHome />
@@ -130,7 +131,7 @@ export default function Header({}: Props) {
           </ul>
         </div>
         <div className="navbar-end">
-          <ul className="flex justify-center gap-x-5 mx-3 text-[#000]">
+          <ul className="flex justify-center gap-x-5 mx-3 text-[#fff]">
             <li>
               <Link
                 to={"/register"}

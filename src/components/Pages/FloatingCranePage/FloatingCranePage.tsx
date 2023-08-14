@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { MdModeEditOutline } from "react-icons/md";
 import { BsFillTrashFill } from "react-icons/bs";
-import TextField from "@mui/material/TextField";
+import AddFloatingCranePage from "../AddFloatingCranePage/AddFloatingCranePage";
 
 interface Post {
   userId: number;
@@ -38,61 +38,11 @@ export default function FloatingCranePage() {
 
   return (
     <div className="p-3">
-      <div className="flex justify-end">
-        <button
-          className="btn btn-outline border-2 mb-3 "
-          onClick={() => (window as any).my_modal_1.showModal()}
-        >
-          Add Data
-        </button>
-      </div>
-      <dialog id="my_modal_1" className="modal">
-        <form className="modal-box w-11/12 max-w-5xl">
-          <h3 className="font-bold text-lg">Add Data</h3>
-          <p className="py-4">
-            <div className="grid grid-cols-3 gap-x-3 gap-y-4">
-              <TextField id="outlined-basic" label="Name" variant="outlined" />
-              <TextField
-                id="outlined-basic"
-                label="Description"
-                variant="outlined"
-              />
-              <TextField
-                id="outlined-basic"
-                label="Latitude"
-                variant="outlined"
-              />
-              <TextField
-                id="outlined-basic"
-                label="Longitude"
-                variant="outlined"
-              />
-              <TextField
-                id="outlined-basic"
-                label="Setup Time"
-                variant="outlined"
-              />
-              <TextField id="outlined-basic" label="Speed" variant="outlined" />
-            </div>
-          </p>
-          <div className="modal-action">
-            <button type="submit" className="btn">
-              Submit
-            </button>
-            <button
-              type="button"
-              className="btn"
-              onClick={() => (window as any).my_modal_1.close()}
-            >
-              Close
-            </button>
-          </div>
-        </form>
-      </dialog>
+      <AddFloatingCranePage />
       <div className="overflow-x-auto">
         <table className="table">
-          <thead className="bg-[#d4d4d4]">
-            <tr className="">
+          <thead className="bg-[#95a8b6]">
+            <tr className="text-[#333]">
               <th>ID</th>
               <th>Name</th>
               <th>Description</th>

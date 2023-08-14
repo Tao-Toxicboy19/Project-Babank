@@ -1,97 +1,126 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, FormEvent } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { TextField } from "@mui/material";
 
-type Props = {};
-
-interface RegisterFormData {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export default function RegisterPage({}: Props) {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState<RegisterFormData>({
-    username: "",
+export default function RegisterPage() {
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
+    confirmpassword: "",
   });
+  const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
 
-  axios.defaults.withCredentials = true;
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080")
-      .then((res) => {
-        if (res.data.valid) {
-          navigate("/");
-        } else {
-          navigate("/login");
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
       const response = await axios.post(
         "http://localhost:8080/register",
         formData
       );
+      navigate("/login");
       console.log(response.data);
-      // You can handle success or redirect to another page here
+      // Handle successful registration here, e.g. show a success message or navigate to another page
     } catch (error) {
-      console.error("Error:", error);
-      // You can handle error here, such as displaying an error message
+      console.error("Error registering:", error);
+      // Handle registration error here, e.g. show an error message
     }
   };
 
   return (
-    <div>
+    <div className="bg-[#fff]">
       <div className="w-full h-20"></div>
-      <h2>Register Page</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
+      <div className="flex justify-center my-5">
+        <form className="flex flex-col gap-y-3 border-solid border-[1px] drop-shadow-xl px-5 pb-5" onSubmit={handleSubmit}>
+          <label className="flex justify-center font-medium text-[4vh] my-3">
+            Register
+          </label>
+          <div className="flex gap-3">
+            <TextField
+              id="outlined-basic"
+              label="First Name"
+              variant="outlined"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleChange}
+            />
+          </div>
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
           />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
+          <TextField
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            required
           />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+          <TextField
+            id="outlined-basic"
+            label="Confirm Password"
+            variant="outlined"
+            name="confirmpassword"
+            value={formData.confirmpassword}
+            onChange={handleChange}
+          />
+          <div className="flex">
+            <div className="flex items-center h-5">
+              <input
+                type="checkbox"
+                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label className="font-light text-gray-500 dark:text-gray-300">
+                I accept the{" "}
+                <a
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  href="#"
+                >
+                  Terms and Conditions
+                </a>
+              </label>
+            </div>
+          </div>
+          <button className="btn btn-primary my-3" type="submit">
+            Register
+          </button>
+          <p className="text-sm font-light text-gray-500">
+            Already have an account?{" "}
+            <Link
+              to={'/login'}
+              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            >
+              Login here
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
