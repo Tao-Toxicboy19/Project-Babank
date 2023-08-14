@@ -12,6 +12,7 @@ export default function DeleteFloatingCranePage({ id, onDelete }: Props) {
       onDelete(id);
     }
   };
+  
 
   return (
     <div>
