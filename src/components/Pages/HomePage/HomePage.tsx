@@ -14,10 +14,10 @@ export default function HomePage({}: Props) {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:5173")
+      .get("http://localhost:8080/api/")
       .then((res) => {
         if (res.data.valid) {
-          setName(res.data.username);
+          setName(res.data.email);
         } else {
           navigate("/login");
         }
@@ -29,7 +29,7 @@ export default function HomePage({}: Props) {
     <>
       <div>
         <div className="container flex text-center justify-center text-xl m-4 text-black">
-          <h1>Floating Crane Scheduling........</h1>
+          <h1>Floating Crane Scheduling........{name}</h1>
         </div>
         <div className="container flex flex-col items-center md:flex-row md:justify-center gap-4">
           <Link to={"/floating-crane"} className="btn-link">
