@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
@@ -21,6 +21,20 @@ export default function RegisterPage() {
       [name]: value,
     });
   };
+
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api")
+      .then((res) => {
+        if (res.data.valid) {
+          navigate("/");
+        } else {
+          navigate("/register");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

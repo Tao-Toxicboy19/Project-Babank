@@ -20,6 +20,7 @@ export default function AddFloatingCranePage({}: Props) {
 
   const handleAddFloating = () => {
     dispatch(Postfloating(newFloating));
+    window.location.reload();
   };
 
   useEffect(() => {
