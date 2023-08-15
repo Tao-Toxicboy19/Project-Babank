@@ -1,14 +1,13 @@
-import { useContext, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { TodoContext } from "../../../../App";
-import { Floating } from "../../../../types/FloatingCrane.type";
 import TextField from "@mui/material/TextField";
+import { Event } from "../../../../types/Event.type";
+import { Floating } from "../../../../types/FloatingCrane.type";
 
 type Props = {};
 
 export default function AddFloatingCranePage({}: Props) {
-  const { floating, setFloating } = useContext(TodoContext);
-  const [data, setData] = useState<Floating>({
+  const [floatingCrane, setFloatingCrane] = useState<Floating>({
     id: 0,
     name: "",
     description: "",
@@ -18,37 +17,37 @@ export default function AddFloatingCranePage({}: Props) {
     speed: 0,
   });
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleChange = (e: Event) => {
+    const { name, value } = e.target;
+    setFloatingCrane((prevData: any) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-    const newData: Floating = {
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      latitude: data.latitude,
-      longitude: data.longitude,
-      setuptime: data.setuptime,
-      speed: data.speed,
-    };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    axios
-      .post("http://localhost:8080/api/addLocation", newData)
-      .then((response) => {
-        console.log("New Todo created:", response.data);
-        setFloating([...floating, newData]);
-        setData({
-          id: 0,
-          name: "",
-          description: "",
-          latitude: 0,
-          longitude: 0,
-          setuptime: "",
-          speed: 0,
-        });
-      })
-      .catch((error) => {
-        console.error("Error creating new Todo:", error);
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/addLocation",
+        floatingCrane
+      );
+      console.log(response.data);
+
+      // Clear form after successful submission
+      setFloatingCrane({
+        id: 0,
+        name: "",
+        description: "",
+        latitude: 0,
+        longitude: 0,
+        setuptime: "",
+        speed: 0,
       });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -96,13 +95,13 @@ export default function AddFloatingCranePage({}: Props) {
               variant="outlined"
               type="number"
               name="latitude"
-              value={data.latitude}
-              onChange={(e) =>
-                setData((prevData) => ({
-                  ...prevData,
-                  latitude: parseFloat(e.target.value),
-                }))
-              }
+            value={data.latitude}
+            onChange={(e) =>
+              setData((prevData) => ({
+                ...prevData,
+                latitude: parseFloat(e.target.value),
+              }))
+            }
             />
             <TextField
               id="outlined-basic"
@@ -110,13 +109,13 @@ export default function AddFloatingCranePage({}: Props) {
               variant="outlined"
               type="number"
               name="longitude"
-              value={data.longitude}
-              onChange={(e) =>
-                setData((prevData) => ({
-                  ...prevData,
-                  longitude: parseFloat(e.target.value),
-                }))
-              }
+            value={data.longitude}
+            onChange={(e) =>
+              setData((prevData) => ({
+                ...prevData,
+                longitude: parseFloat(e.target.value),
+              }))
+            }
             />
             <TextField
               id="outlined-basic"
@@ -124,13 +123,13 @@ export default function AddFloatingCranePage({}: Props) {
               variant="outlined"
               type="number"
               name="setuptime"
-              value={data.setuptime}
-              onChange={(e) =>
-                setData((prevData) => ({
-                  ...prevData,
-                  setuptime: e.target.value,
-                }))
-              }
+            value={data.setuptime}
+            onChange={(e) =>
+              setData((prevData) => ({
+                ...prevData,
+                setuptime: e.target.value,
+              }))
+            }
             />
             <TextField
               id="outlined-basic"
@@ -138,13 +137,13 @@ export default function AddFloatingCranePage({}: Props) {
               variant="outlined"
               type="number"
               name="speed"
-              value={data.speed}
-              onChange={(e) =>
-                setData((prevData) => ({
-                  ...prevData,
-                  speed: parseFloat(e.target.value),
-                }))
-              }
+            value={data.speed}
+            onChange={(e) =>
+              setData((prevData) => ({
+                ...prevData,
+                speed: parseFloat(e.target.value),
+              }))
+            }
             />
           </div>
           <div className="modal-action">

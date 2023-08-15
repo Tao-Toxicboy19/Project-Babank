@@ -24,7 +24,6 @@ export default function HomePage({}: Props) {
       })
       .catch((err) => console.log(err));
   }, []);
-
   return (
     <>
       <div>
