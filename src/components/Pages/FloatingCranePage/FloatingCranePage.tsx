@@ -42,15 +42,15 @@ export default function FloatingCranePage({}: Props) {
               </tr>
             </thead>
             <tbody className="bg-[#EBEBEB] text-[#000]">
-              {floating.map((todo: Floating) => (
-                <tr key={todo.id}>
-                  <td>{todo.id}</td>
-                  <td>{todo.name}</td>
-                  <td>{todo.description}</td>
-                  <td>{todo.latitude}</td>
-                  <td>{todo.longitude}</td>
-                  <td>{todo.setuptime}</td>
-                  <td>{todo.speed}</td>
+              {floating.map((items: Floating) => (
+                <tr key={items.id}>
+                  <td>{items.id}</td>
+                  <td>{items.name}</td>
+                  <td>{items.description}</td>
+                  <td>{items.latitude}</td>
+                  <td>{items.longitude}</td>
+                  <td>{items.setuptime}</td>
+                  <td>{items.speed}</td>
                   <td className="flex justify-center gap-x-10">
                     <div className="flex items-center transition-transform hover:scale-125">
                       <MdModeEditOutline className="text-2xl text-[#4BC375] hover:text-blue-700 transition-colors duration-300" />
