@@ -10,6 +10,8 @@ import LoginPage from "./components/Pages/LoginPage/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage/RegisterPage";
 import AddFloatingCranePage from "./components/Pages/FloatingCranePage/AddFloatingCranePage/AddFloatingCranePage";
 import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloatingCranePage/EditFloatingCranePage";
+import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCarrierPage";
+import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
 
 
 export default function App() {
@@ -29,6 +31,8 @@ export default function App() {
               <Route path="/update-position/:id" element={<EditFloatingCranePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/addcarrierpage" element={<AddCarrierPage />} />
+              <Route path="/editcarrierpage/:id" element={<EditCarrierPage />} />
             </Routes>
           </div>
           <Footer />

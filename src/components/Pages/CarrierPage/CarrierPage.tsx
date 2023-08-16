@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -7,6 +8,9 @@ interface Carrier {
   // Define the structure of your Carrier object here
   id: number;
   name: string;
+  maxcapacity: number;
+  power: string;
+  burden: number;
   // ... other properties
 }
 
@@ -27,12 +31,19 @@ export default function CarrierPage({}: Props) {
   return (
     <div>
       <h1>CarrierPage</h1>
-      <ul>
-        {carriers.map((carrier) => (
-          <li key={carrier.id}>{carrier.name}</li>
-          // Render other carrier properties as needed
-        ))}
-      </ul>
+      {carriers.map((carrier) => (
+        <ul key={carrier.id}>
+          <li>{carrier.id}</li>
+          <li>{carrier.name}</li>
+          <li>{carrier.maxcapacity}</li>
+          <li>{carrier.power}</li>
+          <li>{carrier.burden}</li>
+          <li>
+            <Link to={`/editcarrierpage/${carrier.id}`}>Edit</Link>
+          </li>
+        </ul>
+      ))}
+      <Link to={"/addcarrierpage"}>Add</Link>
     </div>
   );
 }
