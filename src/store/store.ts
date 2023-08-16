@@ -1,14 +1,11 @@
 // store.ts
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
-import locationSliceReducer from './slices/locationSlice';
-import { api } from '../api';
+import floatingReducer from "./slices/locationSlice"
 
 export const store = configureStore({
   reducer: {
-    [api.reducerPath]: api.reducer,
-    locationSlice: locationSliceReducer,
+    floating: floatingReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
 
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;

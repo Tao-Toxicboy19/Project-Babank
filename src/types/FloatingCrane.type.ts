@@ -10,6 +10,4 @@ export interface Floating {
 
 export interface FloatingState {
   data: Floating[]
-  loading: boolean
-  error: string | null
 }

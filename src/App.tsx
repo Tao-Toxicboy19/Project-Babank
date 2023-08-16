@@ -9,6 +9,7 @@ import OrderPage from "./components/Pages/OrderPage/OrderPage";
 import LoginPage from "./components/Pages/LoginPage/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage/RegisterPage";
 import AddFloatingCranePage from "./components/Pages/FloatingCranePage/AddFloatingCranePage/AddFloatingCranePage";
+import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloatingCranePage/EditFloatingCranePage";
 
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
               <Route path="/cargo" element={<MachineMovementPage />} />
               <Route path="/Order" element={<OrderPage />} />
               <Route path="/add-position" element={<AddFloatingCranePage />} />
+              <Route path="/update-position/:id" element={<EditFloatingCranePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Routes>

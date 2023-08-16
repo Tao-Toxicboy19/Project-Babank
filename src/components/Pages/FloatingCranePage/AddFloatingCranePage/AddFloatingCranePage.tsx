@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
-import {
-  useAddLocationMutation,
-  useGetLocationSliceQuery,
-} from "../../../../api";
-import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../../../../store/slices/locationSlice";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../../../api/api";
+import { Floating } from "../../../../types/FloatingCrane.type";
+import Swal from "sweetalert2";
 
 type Props = {};
 
 export default function AddFloatingCranePage({}: Props) {
-  const dispatch = useDispatch();
-  const { data, loading, error } = useSelector(
-    (state: RootState) => state.locationSlice
-  );
-
-  const { data: apiData } = useGetLocationSliceQuery();
-
-  const [addLocation, { isLoading: isAdding, isError: addError }] =
-    useAddLocationMutation();
-
-  const [newLocation, setNewLocation] = useState({
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<Floating>({
     id: 0,
     name: "",
     description: "",
@@ -30,68 +18,102 @@ export default function AddFloatingCranePage({}: Props) {
     speed: 0,
   });
 
-  useEffect(() => {
-    dispatch(fetchDataStart());
-
-    if (apiData) {
-      dispatch(fetchDataSuccess(apiData.result));
-    } else {
-      dispatch(fetchDataFailure("Error loading data."));
-    }
-  }, [apiData, dispatch]);
-
-  const handleAddLocation = () => {
-    addLocation(newLocation)
-      .unwrap()
-      .then(() => {
-        // Handle success
-        setNewLocation({
-          id: 0,
-          name: "",
-          description: "",
-          latitude: 0,
-          longitude: 0,
-          setuptime: "",
-          speed: 0,
-        });
-      })
-      .catch((error: unknown) => {
-        // Handle error
-        console.log(`ส้นตีน ${error}`);
-      });
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  if (loading || isAdding) {
-    return <div>Loading...</div>;
-  }
-
-  if (error || addError) {
-    return <div>Error: {error || addError}</div>;
-  }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await api
+        .post("addLocation", formData)
+        .then(() => {
+          let timerInterval: any;
+          Swal.fire({
+            title: "Auto close alert!",
+            html: "I will close in <b></b> milliseconds.",
+            timer: 400,
+            timerProgressBar: true,
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+              navigate("/floating-crane");
+            }
+          });
+        })
+        .catch((err) => console.log(`ส้นตีน ${err}`));
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
 
   return (
     <div>
-      <div>
-        <h2>Add New Location</h2>
-        <input
-          type="text"
-          value={newLocation.name}
-          onChange={(e) =>
-            setNewLocation({ ...newLocation, name: e.target.value })
-          }
-          placeholder="Name"
-        />
-        <input
-          type="text"
-          value={newLocation.description}
-          onChange={(e) =>
-            setNewLocation({ ...newLocation, description: e.target.value })
-          }
-          placeholder="Description"
-        />
-        {/* Add more input fields for other properties */}
-        <button onClick={handleAddLocation}>Add Location</button>
-      </div>
+      <h1>Add Floating Crane Location</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Description:</label>
+          <input
+            type="text"
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Latitude:</label>
+          <input
+            type="number"
+            name="latitude"
+            value={formData.latitude}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Longitude:</label>
+          <input
+            type="number"
+            name="longitude"
+            value={formData.longitude}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Setup Time:</label>
+          <input
+            type="text"
+            name="setuptime"
+            value={formData.setuptime}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Speed:</label>
+          <input
+            type="number"
+            name="speed"
+            value={formData.speed}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
