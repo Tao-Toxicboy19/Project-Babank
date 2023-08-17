@@ -21,7 +21,7 @@ export default function FloatingCranePage({}: Props) {
   useEffect(() => {
     const fetchFloatingBySearch = async () => {
       try {
-        const res = await api.get(`searchCarrier/${searchValue}`);
+        const res = await api.get(`location/${searchValue}`);
         dispatch(addfloating(res.data.result));
       } catch (err) {
         console.log(`Error: ${err}`);
@@ -34,7 +34,7 @@ export default function FloatingCranePage({}: Props) {
   const handleDelete = (id: number) => {
     dispatch(deleteFloating(id));
     api
-      .delete(`deleteLocation/${id}`)
+      .delete(`location/${id}`)
       .then((response) => {
         console.log("Data deleted successfully:", response.data);
       })
