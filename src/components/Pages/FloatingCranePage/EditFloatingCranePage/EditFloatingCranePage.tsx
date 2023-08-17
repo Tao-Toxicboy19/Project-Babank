@@ -1,7 +1,12 @@
-import React from "react";
+import React from 'react'
+import { useParams } from 'react-router-dom';
 
-type Props = {};
+type Props = {}
 
 export default function EditFloatingCranePage({}: Props) {
-  return <div>EditFloatingCranePage</div>;
+  const { id } = useParams();
+
+  return (
+    <div>EditFloatingCranePage{id}</div>
+  )
 }

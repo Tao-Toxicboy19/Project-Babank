@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../../api/api";
 import { Floating } from "../../../../types/FloatingCrane.type";
 import Swal from "sweetalert2";
+import { Alert } from "@mui/material";
 
 type Props = {};
 
 export default function AddFloatingCranePage({}: Props) {
+  const [showErrorAlert, setShowErrorAlert] = useState(false); // เพิ่ม state เพื่อแสดง Alert
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState<Floating>({
     id: 0,
@@ -28,6 +31,19 @@ export default function AddFloatingCranePage({}: Props) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (
+      !formData.name ||
+      !formData.description ||
+      formData.latitude === 0 ||
+      formData.longitude === 0 ||
+      !formData.setuptime ||
+      formData.speed === 0
+    ) {
+      setShowErrorAlert(true);
+      return;
+    }
+
     try {
       await api
         .post("addLocation", formData)
@@ -44,11 +60,13 @@ export default function AddFloatingCranePage({}: Props) {
           }).then((result) => {
             /* Read more about handling dismissals below */
             if (result.dismiss === Swal.DismissReason.timer) {
-              navigate("/floating-crane");
+              navigate("/floating crane");
             }
           });
         })
-        .catch((err) => console.log(`ส้นตีน ${err}`));
+        .catch((err) => {
+          console.log(`ส้นตีน ${err}`);
+        });
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -112,6 +130,11 @@ export default function AddFloatingCranePage({}: Props) {
             onChange={handleInputChange}
           />
         </div>
+        {showErrorAlert && (
+          <Alert variant="outlined" severity="error">
+            กรอกให้ครบ
+          </Alert>
+        )}
         <button type="submit">Submit</button>
       </form>
     </div>
