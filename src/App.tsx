@@ -20,8 +20,8 @@ export default function App() {
           <Header />
           <div className="container mx-auto">
             <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/floating-crane" element={<FloatingCranePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/floating crane" element={<FloatingCranePage />} />
               <Route path="/carrier" element={<MachinePage />} />
               <Route path="/cargo" element={<MachineMovementPage />} />
               <Route path="/Order" element={<OrderPage />} />
