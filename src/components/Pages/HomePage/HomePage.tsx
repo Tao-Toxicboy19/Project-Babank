@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { AiFillHome } from "react-icons/ai";
 import { FaTractor, FaRoute } from "react-icons/fa";
 import { PiPlantFill } from "react-icons/pi";
 import { RiContactsBookFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../../../api/api";
 
 type Props = {};
 
@@ -13,8 +13,8 @@ export default function HomePage({}: Props) {
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/")
+    api
+      .get("/")
       .then((res) => {
         if (res.data.valid) {
           setName(res.data.email);

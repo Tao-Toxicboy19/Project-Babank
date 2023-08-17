@@ -1,6 +1,8 @@
+import { Box, TextField } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import api from "../../../../api/api";
 
 type Props = {};
 
@@ -48,8 +50,8 @@ export default function EditFloatingCranePage({}: Props) {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    axios
-      .put(`http://localhost:8080/api/location/${id}`, locationData)
+    api
+      .put(`/location/${id}`, locationData)
       .then(() => {
         alert("Update successful");
       })
@@ -57,65 +59,70 @@ export default function EditFloatingCranePage({}: Props) {
   };
 
   return (
-    <div>
-      <h1>Edit Location</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={locationData.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <input
-            type="text"
-            name="description"
-            value={locationData.description}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>latitude:</label>
-          <input
-            type="text"
-            name="latitude"
-            value={locationData.latitude}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>longitude:</label>
-          <input
-            type="text"
-            name="longitude"
-            value={locationData.longitude}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>setuptime:</label>
-          <input
-            type="text"
-            name="setuptime"
-            value={locationData.setuptime}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>speed:</label>
-          <input
-            type="text"
-            name="speed"
-            value={locationData.speed}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="submit">Update</button>
-      </form>
-    </div>
+    <>
+      <Box>
+        <TextField id="standard-basic" label="Standard" variant="standard" />
+      </Box>
+      <div>
+        <h1>Edit Location</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={locationData.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>Description:</label>
+            <input
+              type="text"
+              name="description"
+              value={locationData.description}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>latitude:</label>
+            <input
+              type="text"
+              name="latitude"
+              value={locationData.latitude}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>longitude:</label>
+            <input
+              type="text"
+              name="longitude"
+              value={locationData.longitude}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>setuptime:</label>
+            <input
+              type="text"
+              name="setuptime"
+              value={locationData.setuptime}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>speed:</label>
+            <input
+              type="text"
+              name="speed"
+              value={locationData.speed}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    </>
   );
 }

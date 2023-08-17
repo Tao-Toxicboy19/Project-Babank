@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginType } from "../../../types/User.type";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import api from "../../../api/api";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -37,8 +38,8 @@ export default function SignIn() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api")
+    api
+      .get("/")
       .then((res) => {
         if (res.data.valid) {
           navigate("/");
@@ -53,10 +54,7 @@ export default function SignIn() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/login",
-        formData
-      );
+      const response = await api.post("/login", formData);
       if (response.data.Login) {
         navigate("/home");
         console.log("Login successful");

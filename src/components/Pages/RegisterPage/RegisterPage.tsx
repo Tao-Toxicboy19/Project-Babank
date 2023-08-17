@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../../../api/api";
 
 function Copyright(props: any) {
   return (
@@ -57,8 +58,8 @@ export default function SignUp() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api")
+    api
+      .get(`/`)
       .then((res) => {
         if (res.data.valid) {
           navigate("/");
@@ -73,10 +74,7 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/register",
-        formData
-      );
+      const response = await api.post(`/register`, formData);
       navigate("/login");
       console.log(response.data);
     } catch (error) {
