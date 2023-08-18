@@ -46,7 +46,7 @@ export default function AddFloatingCranePage({}: Props) {
 
     try {
       await api
-        .post("/addLocation", formData)
+        .post("/location", formData)
         .then(() => {
           let timerInterval: any;
           Swal.fire({

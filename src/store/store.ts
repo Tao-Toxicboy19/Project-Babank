@@ -1,10 +1,12 @@
 // store.ts
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import floatingReducer from "./slices/locationSlice"
+import authReducer from "./slices/authSlice"
 
 export const store = configureStore({
   reducer: {
     floating: floatingReducer,
+    auth: authReducer,
   },
 });
 

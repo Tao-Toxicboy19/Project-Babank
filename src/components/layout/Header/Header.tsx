@@ -102,7 +102,7 @@ function ResponsiveAppBar() {
                 <MenuItem
                   key={page}
                   component={Link}
-                  to={`/${page.toLowerCase()}`} // Dynamic route based on page name
+                  to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
                   onClick={handleCloseNavMenu}
                 >
                   <Typography textAlign="center">{page}</Typography>
@@ -133,7 +133,7 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 component={Link} // Use Link instead of anchor tag
-                to={`/${page.toLowerCase()}`} // Specify the route path here
+                to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >

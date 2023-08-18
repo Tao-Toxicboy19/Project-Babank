@@ -38,8 +38,8 @@ export default function SignIn() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    api
-      .get("/")
+    axios
+      .get("http://localhost:7070/api")
       .then((res) => {
         if (res.data.valid) {
           navigate("/");
