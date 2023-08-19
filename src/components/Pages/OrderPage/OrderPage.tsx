@@ -10,7 +10,8 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useEffect, useState } from "react";
 import { Data, Order } from "../../../types/Order.type";
 import api from "../../../api/api";
-import { columns } from "./ColumnData";
+import { columns } from "./ColumnDataOrder";
+
 
 export default function ReactVirtualizedTable() {
   const [orders, setOrders] = useState<Order[]>([]);
