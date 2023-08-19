@@ -16,12 +16,13 @@ import { useNavigate } from "react-router-dom";
 import { LoginType } from "../../../types/User.type";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import api from "../../../api/api";
+import { Alert } from "@mui/material";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState<LoginType>({
     email: "",
@@ -54,17 +55,17 @@ export default function SignIn() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/login", formData);
+      const response = await axios.post(
+        "http://localhost:7070/api/login",
+        formData
+      );
       if (response.data.Login) {
         navigate("/home");
-        console.log("Login successful");
       } else {
-        console.log("Login failed");
-        // You can handle failed login, such as displaying an error message
+        setShowErrorAlert(true);
       }
     } catch (error) {
       console.error("Error:", error);
-      // You can handle error here, such as displaying an error message
     }
   };
 
@@ -120,6 +121,11 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {showErrorAlert && (
+              <Alert variant="outlined" severity="error">
+                Username or password is incorrect
+              </Alert>
+            )}
             <Button
               type="submit"
               fullWidth

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,6 +12,10 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUserEmail } from "../../../store/slices/authSlice";
+import { RootState } from "../../../store/store";
+import axios from "axios";
 
 const pages = [
   "Home",
@@ -24,6 +28,26 @@ const pages = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userEmail = useSelector((state: RootState) => state.auth.userEmail);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:7070/api/logout");
+      if (response.data.Message === "Logged out successfully") {
+        // Handle successful logout
+        dispatch(clearUserEmail())
+        navigate("/login");
+      } else {
+        // Handle failed logout
+        console.log("Failed to logout");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -54,7 +78,7 @@ function ResponsiveAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component={Link} // Use Link instead of anchor tag
+            component={Link}
             to="/"
             sx={{
               mr: 2,
@@ -143,11 +167,30 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            <Toolbar>
+              {userEmail ? (
+                <Button
+                  color="inherit"
+                  onClick={handleLogout}
+                >
+                  Logut
+                </Button>
+              ) : (
+                <>
+                  <Button color="inherit" component={Link} to="/register">
+                    Register
+                  </Button>
+                  <Button
+                    color="inherit"
+                    sx={{ backgroundColor: "#1565C0", marginLeft: "auto" }}
+                    component={Link}
+                    to="/login"
+                  >
+                    Login
+                  </Button>
+                </>
+              )}
+            </Toolbar>
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
