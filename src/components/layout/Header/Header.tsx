@@ -22,6 +22,7 @@ const pages = [
   "Floating crane",
   "Carrier",
   "Cargo",
+  "Cargo Crane",
   "Order",
   "Contact",
 ];

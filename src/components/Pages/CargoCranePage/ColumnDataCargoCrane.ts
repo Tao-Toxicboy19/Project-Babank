@@ -1,16 +1,22 @@
-import { ColumnData } from "../../../types/Cargo.type";
+import { ColumnData } from "../../../types/CargoCrane.type";
 
 export const columns: ColumnData[] = [
     {
         width: 60,
-        label: "Cargo ID",
-        dataKey: "cargo_id",
+        label: "Cargo Crane ID",
+        dataKey: "cargo_crane_id",
         numeric: true,
     },
     {
         width: 120,
         label: "Cargo",
         dataKey: "cargo_name",
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: "Floating Crane",
+        dataKey: "floating_name",
         numeric: true,
     },
     {

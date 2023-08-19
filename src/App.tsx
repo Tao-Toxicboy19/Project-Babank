@@ -12,6 +12,7 @@ import AddFloatingCranePage from "./components/Pages/FloatingCranePage/AddFloati
 import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloatingCranePage/EditFloatingCranePage";
 import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCarrierPage";
 import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
+import CargoCranePage from "./components/Pages/CargoCranePage/CargoCranePage";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
               path="/update-position/:id"
               element={<EditFloatingCranePage />}
             />
+            <Route path="/cargo Crane" element={<CargoCranePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/addcarrierpage" element={<AddCarrierPage />} />

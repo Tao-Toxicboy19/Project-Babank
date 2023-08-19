@@ -99,8 +99,6 @@ export default function FloatingCranePage({}: Props) {
         >
           {column.dataKey === "editColumn" ? (
             <button>Edit</button>
-          ) : column.dataKey === "setuptime" || column.dataKey === "speed" ? (
-            new Date(row[column.dataKey]).toLocaleString()
           ) : (
             row[column.dataKey]
           )}
@@ -109,9 +107,6 @@ export default function FloatingCranePage({}: Props) {
     </React.Fragment>
   );
 
-  if (!floatingData) {
-    alert("Hello");
-  }
   return (
     <Box sx={{ marginTop: 2 }}>
       <TextField

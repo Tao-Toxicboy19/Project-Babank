@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
 import api from "../../../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { setCargoCrane } from "../../../store/slices/cargocraneSlice";
+import { TableComponents, TableVirtuoso } from "react-virtuoso";
+import React from "react";
 import {
   Box,
   Paper,
@@ -13,30 +16,31 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { TableVirtuoso, TableComponents } from "react-virtuoso";
-import React from "react";
-import { Cargo } from "../../../types/Cargo.type";
-import { columns } from "./ColumnDataCargo";
+import { CargoCrane } from "../../../types/CargoCrane.type";
+import { columns } from "./ColumnDataCargoCrane";
 
 type Props = {};
 
-export default function CargoPage({}: Props) {
-  const [cargo, setCargo] = useState<Cargo[]>([]);
+export default function CargoCranePage({}: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const dispatch = useDispatch();
+  const cargoCrane = useSelector(
+    (state: RootState) => state.cargoCrane.cargoCrane
+  );
 
   useEffect(() => {
-    api.get("/cargos").then((res) => {
-      console.log(res.data.cargo);
-      setCargo(res.data.cargo);
+    api.get("/cargocranes").then((res) => {
+      dispatch(setCargoCrane(res.data.cargocranes));
+      console.log(res.data.cargocranes);      
     });
   }, []);
 
   // search
-  const filteredData = cargo.filter((item) =>
-    item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = cargoCrane.filter((item) =>
+    item.floating_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const VirtuosoTableComponents: TableComponents<Cargo> = {
+  const VirtuosoTableComponents: TableComponents<CargoCrane> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -53,12 +57,13 @@ export default function CargoPage({}: Props) {
     )),
   };
 
-  const convertedFloating: Cargo[] = filteredData.map((Cargo) => ({
-    cargo_id: Cargo.cargo_id,
-    cargo_name: Cargo.cargo_name,
-    consumption_rate: Cargo.consumption_rate,
-    work_rate: Cargo.work_rate,
-    category: Cargo.category,
+  const convertedCargo: CargoCrane[] = filteredData.map((CargoCrane) => ({
+    cargo_crane_id: CargoCrane.cargo_crane_id,
+    floating_name: CargoCrane.floating_name,
+    cargo_name: CargoCrane.cargo_name,
+    consumption_rate: CargoCrane.consumption_rate,
+    work_rate: CargoCrane.work_rate,
+    category: CargoCrane.category,
   }));
 
   function fixedHeaderContent() {
@@ -81,7 +86,7 @@ export default function CargoPage({}: Props) {
     );
   }
 
-  const rowContent = (_index: number, row: Cargo) => (
+  const rowContent = (_index: number, row: CargoCrane) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
@@ -97,9 +102,8 @@ export default function CargoPage({}: Props) {
       ))}
     </React.Fragment>
   );
-
   return (
-    <Box sx={{ marginTop: 2 }}>
+    <Box sx={{ marginTop: 2 }}> 
       <TextField
         id="standard-basic"
         label="Search"
@@ -107,9 +111,9 @@ export default function CargoPage({}: Props) {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Paper sx={{ height: 600, width: "100%", marginTop: 1 }}>
+      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
         <TableVirtuoso
-          data={convertedFloating}
+          data={convertedCargo}
           components={VirtuosoTableComponents}
           fixedHeaderContent={fixedHeaderContent}
           itemContent={rowContent}

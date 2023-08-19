@@ -17,5 +17,4 @@ const cargoSlice = createSlice({
 });
 
 export const { setCargo } = cargoSlice.actions;
-
 export default cargoSlice.reducer;

@@ -1,7 +1,7 @@
 export interface Cargo {
     cargo_id: string;
     cargo_name: string;
-    consumption_rete: number;
+    consumption_rate: number;
     work_rate: number;
     category: string;
 }
@@ -15,4 +15,4 @@ export interface ColumnData {
     label: string;
     numeric?: boolean;
     width: number;
-  }
+}
