@@ -31,7 +31,6 @@ export default function CargoCranePage({}: Props) {
   useEffect(() => {
     api.get("/cargocranes").then((res) => {
       dispatch(setCargoCrane(res.data.cargocranes));
-      console.log(res.data.cargocranes);      
     });
   }, []);
 
@@ -103,7 +102,7 @@ export default function CargoCranePage({}: Props) {
     </React.Fragment>
   );
   return (
-    <Box sx={{ marginTop: 2 }}> 
+    <Box sx={{ marginTop: 2 }}>
       <TextField
         id="standard-basic"
         label="Search"

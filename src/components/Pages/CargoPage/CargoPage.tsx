@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
+import { RootState } from "../../../store/store";
 import api from "../../../api/api";
 import {
   Box,
@@ -17,17 +17,18 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
 import { Cargo } from "../../../types/Cargo.type";
 import { columns } from "./ColumnDataCargo";
+import { setCargo } from "../../../store/slices/cargoSlice";
 
 type Props = {};
 
 export default function CargoPage({}: Props) {
-  const [cargo, setCargo] = useState<Cargo[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const cargo = useSelector((state: RootState) => state.cargo.cargo);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     api.get("/cargos").then((res) => {
-      console.log(res.data.cargo);
-      setCargo(res.data.cargo);
+      dispatch(setCargo(res.data.cargo));
     });
   }, []);
 
