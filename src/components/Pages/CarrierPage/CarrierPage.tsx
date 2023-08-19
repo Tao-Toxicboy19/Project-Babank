@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -20,7 +20,7 @@ export default function CarrierPage({}: Props) {
   useEffect(() => {
     // Fetch data from the API using axios when the component mounts
     axios
-      .get("http://localhost:8080/api/getCarriers")
+      .get("http://localhost:7070/api/carriers")
       .then((response) => {
         setCarriers(response.data.Carriers);
         console.log(response.data.Carriers);

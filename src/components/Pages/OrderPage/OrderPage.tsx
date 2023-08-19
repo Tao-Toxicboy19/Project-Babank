@@ -8,26 +8,36 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useEffect, useState } from "react";
-import { Data, Order } from "../../../types/Order.type";
+import { Order } from "../../../types/Order.type";
 import api from "../../../api/api";
 import { columns } from "./ColumnDataOrder";
-
+import { Box, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { setOrders } from "../../../store/slices/OrderSlice";
 
 export default function ReactVirtualizedTable() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const orders = useSelector((state: RootState) => state.order.orders);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     api
       .get("/orders")
       .then((response) => {
-        setOrders(response.data.orders);
+        dispatch(setOrders(response.data.orders));
       })
       .catch((error) => {
         console.error("Error fetching orders:", error);
       });
   }, []);
 
-  const VirtuosoTableComponents: TableComponents<Data> = {
+  // search
+  const filteredData = orders.filter((item) =>
+    item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const VirtuosoTableComponents: TableComponents<Order> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -44,7 +54,7 @@ export default function ReactVirtualizedTable() {
     )),
   };
 
-  const convertedOrders: Data[] = orders.map((order) => ({
+  const convertedOrders: Order[] = filteredData.map((order) => ({
     order_id: order.order_id,
     carrier_name: order.carrier_name,
     cargo_name: order.cargo_name,
@@ -76,7 +86,7 @@ export default function ReactVirtualizedTable() {
     );
   }
 
-  const rowContent = (_index: number, row: Data) => (
+  const rowContent = (_index: number, row: Order) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
@@ -97,13 +107,22 @@ export default function ReactVirtualizedTable() {
   );
 
   return (
-    <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
-      <TableVirtuoso
-        data={convertedOrders}
-        components={VirtuosoTableComponents}
-        fixedHeaderContent={fixedHeaderContent}
-        itemContent={rowContent}
+    <Box sx={{ marginTop: 2 }}>
+      <TextField
+        id="standard-basic"
+        label="Search"
+        variant="standard"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
-    </Paper>
+      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
+        <TableVirtuoso
+          data={convertedOrders}
+          components={VirtuosoTableComponents}
+          fixedHeaderContent={fixedHeaderContent}
+          itemContent={rowContent}
+        />
+      </Paper>
+    </Box>
   );
 }

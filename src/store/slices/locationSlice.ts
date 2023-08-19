@@ -14,11 +14,11 @@ const floatingSlice = createSlice({
     },
     deleteFloating: (state, action) => {
       const idToDelete = action.payload;
-      state.data = state.data.filter(floating => floating.id !== idToDelete);
+      state.data = state.data.filter(floating => floating.floating_id !== idToDelete);
     },
     updateFloating: (state, action: PayloadAction<Floating>) => {
-      const { id, ...updatedData } = action.payload;
-      const existingFloatingIndex = state.data.findIndex(floating => floating.id === id);
+      const { floating_id, ...updatedData } = action.payload;
+      const existingFloatingIndex = state.data.findIndex(floating => floating.floating_id === floating_id);
 
       if (existingFloatingIndex !== -1) {
         state.data[existingFloatingIndex] = {

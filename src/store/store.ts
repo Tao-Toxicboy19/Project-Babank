@@ -2,10 +2,14 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import floatingReducer from "./slices/locationSlice"
 import authReducer from "./slices/authSlice"
+import orderReducer from "./slices/OrderSlice"
+import cargoReducer from "./slices/cargoSlice"
 
 export const store = configureStore({
   reducer: {
     floating: floatingReducer,
+    order: orderReducer,
+    cargo: cargoReducer,
     auth: authReducer,
   },
 });

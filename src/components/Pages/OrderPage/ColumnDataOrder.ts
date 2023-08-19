@@ -8,7 +8,7 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 120,
+        width: 170,
         label: "Carrier",
         dataKey: "carrier_name",
         numeric: true,
@@ -20,7 +20,7 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 120,
+        width: 70,
         label: "Load",
         dataKey: "load_status",
         numeric: true,
@@ -44,19 +44,19 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 140,
+        width: 130,
         label: "Latitude",
         dataKey: "latitude",
         numeric: true,
     },
     {
-        width: 140,
+        width: 130,
         label: "Longitude",
         dataKey: "longitude",
         numeric: true,
     },
     {
-        width: 50,
+        width: 70,
         label: "Edit",
         dataKey: "editColumn",
         numeric: true,
