@@ -9,7 +9,7 @@ export const columns: ColumnData[] = [
     },
     {
         width: 120,
-        label: "Cargo",
+        label: "Cargo name",
         dataKey: "cargo_name",
         numeric: true,
     },

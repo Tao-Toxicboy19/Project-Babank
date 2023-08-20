@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { CargoCrane } from "../../../types/CargoCrane.type";
 import api from "../../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -16,7 +17,6 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { CargoCrane } from "../../../types/CargoCrane.type";
 import { columns } from "./ColumnDataCargoCrane";
 
 type Props = {};
@@ -30,6 +30,7 @@ export default function CargoCranePage({}: Props) {
 
   useEffect(() => {
     api.get("/cargocranes").then((res) => {
+      console.log(res.data.cargocranes);
       dispatch(setCargoCrane(res.data.cargocranes));
     });
   }, []);
@@ -57,7 +58,6 @@ export default function CargoCranePage({}: Props) {
   };
 
   const convertedCargo: CargoCrane[] = filteredData.map((CargoCrane) => ({
-    cargo_crane_id: CargoCrane.cargo_crane_id,
     floating_name: CargoCrane.floating_name,
     cargo_name: CargoCrane.cargo_name,
     consumption_rate: CargoCrane.consumption_rate,
@@ -84,7 +84,6 @@ export default function CargoCranePage({}: Props) {
       </TableRow>
     );
   }
-
   const rowContent = (_index: number, row: CargoCrane) => (
     <React.Fragment>
       {columns.map((column) => (
@@ -101,6 +100,7 @@ export default function CargoCranePage({}: Props) {
       ))}
     </React.Fragment>
   );
+
   return (
     <Box sx={{ marginTop: 2 }}>
       <TextField
