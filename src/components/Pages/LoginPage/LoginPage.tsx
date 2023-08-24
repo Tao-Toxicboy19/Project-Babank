@@ -127,9 +127,10 @@ export default function SignIn() {
               </Alert>
             )}
             <Button
+              className="text-[#000] hover:text-[#fff] hover:bg-[#1976D2]"
               type="submit"
               fullWidth
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In

@@ -13,8 +13,11 @@ const cargoSlice = createSlice({
     setCargo: (state, action: PayloadAction<Cargo[]>) => {
       state.cargo = action.payload;
     },
+    addCargo: (state, action: PayloadAction<Cargo>) => {
+      state.cargo.push(action.payload);
+    },
   },
 });
 
-export const { setCargo } = cargoSlice.actions;
+export const { setCargo, addCargo } = cargoSlice.actions;
 export default cargoSlice.reducer;

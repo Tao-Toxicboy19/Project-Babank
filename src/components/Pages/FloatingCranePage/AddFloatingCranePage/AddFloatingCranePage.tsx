@@ -12,12 +12,12 @@ export default function AddFloatingCranePage({}: Props) {
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState<Floating>({
-    id: 0,
-    name: "",
+    floating_id: 0,
+    floating_name: "",
     description: "",
     latitude: 0,
     longitude: 0,
-    setuptime: "",
+    setuptime: 0,
     speed: 0,
   });
 
@@ -33,11 +33,11 @@ export default function AddFloatingCranePage({}: Props) {
     event.preventDefault();
 
     if (
-      !formData.name ||
+      !formData.floating_name ||
       !formData.description ||
       formData.latitude === 0 ||
       formData.longitude === 0 ||
-      !formData.setuptime ||
+      formData.setuptime === 0 ||
       formData.speed === 0
     ) {
       setShowErrorAlert(true);
@@ -46,7 +46,7 @@ export default function AddFloatingCranePage({}: Props) {
 
     try {
       await api
-        .post("/location", formData)
+        .post("/floating", formData)
         .then(() => {
           let timerInterval: any;
           Swal.fire({
@@ -80,8 +80,8 @@ export default function AddFloatingCranePage({}: Props) {
           <label>Name:</label>
           <input
             type="text"
-            name="name"
-            value={formData.name}
+            name="floating_name"
+            value={formData.floating_name}
             onChange={handleInputChange}
           />
         </div>

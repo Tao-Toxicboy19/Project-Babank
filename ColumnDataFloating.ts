@@ -1,4 +1,4 @@
-import { ColumnData } from "../../../types/FloatingCrane.type";
+import { ColumnData } from "./src/types/FloatingCrane.type";
 
 export const columns: ColumnData[] = [
     {

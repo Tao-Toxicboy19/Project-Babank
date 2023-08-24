@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { CargoCrane } from "../../../types/CargoCrane.type";
-import api from "../../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { setCargoCrane } from "../../../store/slices/cargocraneSlice";
-import { TableComponents, TableVirtuoso } from "react-virtuoso";
-import React from "react";
+import api from "../../../api/api";
 import {
   Box,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -17,30 +14,31 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { TableVirtuoso, TableComponents } from "react-virtuoso";
+import React from "react";
+import { Cargo } from "../../../types/Cargo.type";
+import { Link } from "react-router-dom";
+import { CargoCrane } from "../../../types/CargoCrane.type";
 import { columns } from "./ColumnDataCargoCrane";
+import { setCargoCrane } from "../../../store/slices/cargocraneSlice";
+import AddCargoCranePage from "./AddCargoCranePage/AddCargoCranePage";
 
 type Props = {};
 
 export default function CargoCranePage({}: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const dispatch = useDispatch();
-  const cargoCrane = useSelector(
+  const cargocrane = useSelector(
     (state: RootState) => state.cargoCrane.cargoCrane
   );
 
   useEffect(() => {
     api.get("/cargocranes").then((res) => {
-      console.log(res.data.cargocranes);
       dispatch(setCargoCrane(res.data.cargocranes));
     });
   }, []);
 
-  // search
-  const filteredData = cargoCrane.filter((item) =>
-    item.floating_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const VirtuosoTableComponents: TableComponents<CargoCrane> = {
+  const VirtuosoTableComponents: TableComponents<Cargo> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -56,13 +54,15 @@ export default function CargoCranePage({}: Props) {
       <TableBody {...props} ref={ref} />
     )),
   };
-
-  const convertedCargo: CargoCrane[] = filteredData.map((CargoCrane) => ({
-    floating_name: CargoCrane.floating_name,
-    cargo_name: CargoCrane.cargo_name,
-    consumption_rate: CargoCrane.consumption_rate,
-    work_rate: CargoCrane.work_rate,
-    category: CargoCrane.category,
+  const convertedFloating: CargoCrane[] = cargocrane.map((items) => ({
+    cargo_crane_id: items.cargo_crane_id,
+    floating_id: items.floating_id,
+    cargo_id: items.cargo_id,
+    cargo_name: items.cargo_name,
+    floating_name: items.floating_name,
+    consumption_rate: items.consumption_rate,
+    work_rate: items.work_rate,
+    category: items.category,
   }));
 
   function fixedHeaderContent() {
@@ -84,7 +84,8 @@ export default function CargoCranePage({}: Props) {
       </TableRow>
     );
   }
-  const rowContent = (_index: number, row: CargoCrane) => (
+
+  const rowContent = (_index: number, row: Cargo) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
@@ -94,7 +95,7 @@ export default function CargoCranePage({}: Props) {
           {column.dataKey === "editColumn" ? (
             <button>Edit</button>
           ) : (
-            row[column.dataKey]
+            row[column.dataKey as keyof Cargo]
           )}
         </TableCell>
       ))}
@@ -103,16 +104,28 @@ export default function CargoCranePage({}: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <TextField
-        id="standard-basic"
-        label="Search"
-        variant="standard"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
+      <h1>Cargo Crane Page</h1>
+      <AddCargoCranePage />
+      <Box sx={{ marginTop: 2 }}>
+        <TextField
+          id="standard-basic"
+          label="Search"
+          variant="standard"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Button
+          component={Link}
+          to={"/cargo/add-crago"}
+          sx={{ mt: 1, mx: 5, textTransform: "none" }}
+          variant="outlined"
+        >
+          เพิ่ม Cargo
+        </Button>
+      </Box>
+      <Paper sx={{ height: 600, width: "100%", marginTop: 1 }}>
         <TableVirtuoso
-          data={convertedCargo}
+          data={convertedFloating}
           components={VirtuosoTableComponents}
           fixedHeaderContent={fixedHeaderContent}
           itemContent={rowContent}

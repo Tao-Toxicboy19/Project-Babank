@@ -4,7 +4,7 @@ export interface Floating {
   description: string;
   latitude: number;
   longitude: number;
-  setuptime: string;
+  setuptime: number;
   speed: number;
 }
 

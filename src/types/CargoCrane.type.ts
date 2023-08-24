@@ -1,6 +1,9 @@
 export interface CargoCrane {
-    floating_name: string
+    cargo_crane_id: string
+    floating_id: string
+    cargo_id: string
     cargo_name: string
+    floating_name: string
     consumption_rate: number
     work_rate: number
     category: string

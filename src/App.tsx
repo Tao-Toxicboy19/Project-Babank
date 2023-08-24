@@ -13,8 +13,22 @@ import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloa
 import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCarrierPage";
 import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
 import CargoCranePage from "./components/Pages/CargoCranePage/CargoCranePage";
+import AddCargoPage from "./components/Pages/CargoPage/AddCargoPage/AddCargoPage";
+import AddCargoCranePage from "./components/Pages/CargoCranePage/AddCargoCranePage/AddCargoCranePage";
+import { useEffect } from "react";
+import api from "./api/api";
+import { addfloating } from "./store/slices/locationSlice";
+import { useDispatch } from "react-redux";
+import { setCargo } from "./store/slices/cargoSlice";
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    api.get("/cargos").then((res) => dispatch(setCargo(res.data.cargo)));
+    api.get("/floating").then((res) => dispatch(addfloating(res.data.result)));
+  }, []);
+
   return (
     <>
       <div className="bg-[#fff]">
@@ -25,13 +39,21 @@ export default function App() {
             <Route path="/floating crane" element={<FloatingCranePage />} />
             <Route path="/carrier" element={<MachinePage />} />
             <Route path="/cargo" element={<MachineMovementPage />} />
+            <Route path="/cargo/add-crago" element={<AddCargoPage />} />
             <Route path="/Order" element={<OrderPage />} />
-            <Route path="/add-position" element={<AddFloatingCranePage />} />
+            <Route
+              path="/floating crane/insert-crane"
+              element={<AddFloatingCranePage />}
+            />
             <Route
               path="/update-position/:id"
               element={<EditFloatingCranePage />}
             />
-            <Route path="/cargo Crane" element={<CargoCranePage />} />
+            <Route path="/cargo crane" element={<CargoCranePage />} />
+            <Route
+              path="/cargo crane/insert-crago crane"
+              element={<AddCargoCranePage />}
+            />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/addcarrierpage" element={<AddCarrierPage />} />

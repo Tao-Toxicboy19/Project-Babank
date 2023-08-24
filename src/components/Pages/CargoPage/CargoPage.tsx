@@ -4,6 +4,7 @@ import { RootState } from "../../../store/store";
 import api from "../../../api/api";
 import {
   Box,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -18,6 +19,7 @@ import React from "react";
 import { Cargo } from "../../../types/Cargo.type";
 import { columns } from "./ColumnDataCargo";
 import { setCargo } from "../../../store/slices/cargoSlice";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -26,11 +28,9 @@ export default function CargoPage({}: Props) {
   const cargo = useSelector((state: RootState) => state.cargo.cargo);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    api.get("/cargos").then((res) => {
-      dispatch(setCargo(res.data.cargo));
-    });
-  }, []);
+  // useEffect(() => {
+  //   api.get("/cargos").then((res) => dispatch(setCargo(res.data.cargo)));
+  // }, []);
 
   // search
   const filteredData = cargo.filter((item) =>
@@ -102,13 +102,23 @@ export default function CargoPage({}: Props) {
   return (
     <Box sx={{ marginTop: 2 }}>
       <h1>Cargo Page</h1>
-      <TextField
-        id="standard-basic"
-        label="Search"
-        variant="standard"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <Box sx={{ marginTop: 2 }}>
+        <TextField
+          id="standard-basic"
+          label="Search"
+          variant="standard"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Button
+          component={Link}
+          to={"/cargo/add-crago"}
+          sx={{ mt: 1, mx: 5, textTransform: "none" }}
+          variant="outlined"
+        >
+          เพิ่ม Cargo
+        </Button>
+      </Box>
       <Paper sx={{ height: 600, width: "100%", marginTop: 1 }}>
         <TableVirtuoso
           data={convertedFloating}
