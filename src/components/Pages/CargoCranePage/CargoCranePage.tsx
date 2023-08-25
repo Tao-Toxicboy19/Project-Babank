@@ -4,7 +4,6 @@ import { RootState } from "../../../store/store";
 import api from "../../../api/api";
 import {
   Box,
-  Button,
   Paper,
   Table,
   TableBody,
@@ -17,11 +16,10 @@ import {
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
 import { Cargo } from "../../../types/Cargo.type";
-import { Link } from "react-router-dom";
 import { CargoCrane } from "../../../types/CargoCrane.type";
 import { columns } from "./ColumnDataCargoCrane";
 import { setCargoCrane } from "../../../store/slices/cargocraneSlice";
-import AddCargoCranePage from "./AddCargoCranePage/AddCargoCranePage";
+import ModalPopUp from "./AddCargoCranePage/ModalPopUp";
 
 type Props = {};
 
@@ -105,8 +103,7 @@ export default function CargoCranePage({}: Props) {
   return (
     <Box sx={{ marginTop: 2 }}>
       <h1>Cargo Crane Page</h1>
-      <AddCargoCranePage />
-      <Box sx={{ marginTop: 2 }}>
+      <Box className="mx-5 flex justify-between">
         <TextField
           id="standard-basic"
           label="Search"
@@ -114,14 +111,7 @@ export default function CargoCranePage({}: Props) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button
-          component={Link}
-          to={"/cargo/add-crago"}
-          sx={{ mt: 1, mx: 5, textTransform: "none" }}
-          variant="outlined"
-        >
-          เพิ่ม Cargo
-        </Button>
+        <ModalPopUp />
       </Box>
       <Paper sx={{ height: 600, width: "100%", marginTop: 1 }}>
         <TableVirtuoso

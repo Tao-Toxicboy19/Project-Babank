@@ -8,18 +8,6 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 60,
-        label: "floating_id",
-        dataKey: "floating_id",
-        numeric: true,
-    },
-    {
-        width: 120,
-        label: "cargo_id",
-        dataKey: "cargo_id",
-        numeric: true,
-    },
-    {
         width: 120,
         label: "cargo_name rate",
         dataKey: "cargo_name",

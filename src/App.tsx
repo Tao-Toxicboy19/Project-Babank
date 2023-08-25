@@ -14,7 +14,6 @@ import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCar
 import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
 import CargoCranePage from "./components/Pages/CargoCranePage/CargoCranePage";
 import AddCargoPage from "./components/Pages/CargoPage/AddCargoPage/AddCargoPage";
-import AddCargoCranePage from "./components/Pages/CargoCranePage/AddCargoCranePage/AddCargoCranePage";
 import { useEffect } from "react";
 import api from "./api/api";
 import { addfloating } from "./store/slices/locationSlice";
@@ -50,10 +49,6 @@ export default function App() {
               element={<EditFloatingCranePage />}
             />
             <Route path="/cargo crane" element={<CargoCranePage />} />
-            <Route
-              path="/cargo crane/insert-crago crane"
-              element={<AddCargoCranePage />}
-            />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/addcarrierpage" element={<AddCarrierPage />} />
