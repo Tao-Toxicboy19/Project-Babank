@@ -1,5 +1,5 @@
 export interface Floating {
-  floating_id: number;
+  floating_id: string;
   floating_name: string;
   description: string;
   latitude: number;
