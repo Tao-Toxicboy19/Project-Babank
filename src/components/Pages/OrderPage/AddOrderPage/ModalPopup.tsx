@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../../store/store";
 import { useState } from "react";
 import { Order } from "../../../../types/Order.type";
 import api from "../../../../api/api";
@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import { addOrder } from "../../../../store/slices/OrderSlice";
 
 const style = {
   position: "absolute" as "absolute",
@@ -39,6 +40,7 @@ const style = {
 };
 
 export default function ModalPopup() {
+  const dispatch = useDispatch<AppDispatch>();
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const carrier = useSelector((state: RootState) => state.carrier.carrier);
   const cargo = useSelector((state: RootState) => state.cargo.cargo);
@@ -130,23 +132,26 @@ export default function ModalPopup() {
       setShowErrorAlert(true);
       return;
     }
+    const newData = {
+      ...data,
+      arrival_date: data.arrival_date
+        ? dayjs(data.arrival_date).format("YYYY-MM-DD")
+        : null,
+      arrival_time: data.arrival_time
+        ? dayjs(data.arrival_time, "HH:mm:ss").format("HH:mm:ss")
+        : null,
+      deadline_date: data.deadline_date
+        ? dayjs(data.deadline_date).format("YYYY-MM-DD")
+        : null,
+      deadline_time: data.deadline_time
+        ? dayjs(data.deadline_time, "HH:mm:ss").format("HH:mm:ss")
+        : null,
+    };
 
     try {
-      await api.post("/order", {
-        ...data,
-        arrival_date: data.arrival_date
-          ? dayjs(data.arrival_date).format("YYYY-MM-DD")
-          : null,
-        arrival_time: data.arrival_time
-          ? dayjs(data.arrival_time, "HH:mm:ss").format("HH:mm:ss")
-          : null,
-        deadline_date: data.deadline_date
-          ? dayjs(data.deadline_date).format("YYYY-MM-DD")
-          : null,
-        deadline_time: data.deadline_time
-          ? dayjs(data.deadline_time, "HH:mm:ss").format("HH:mm:ss")
-          : null,
-      });
+      await api.post("/order", newData);
+      dispatch(addOrder(newData));
+      setOpen(false);
       setData({
         order_id: "",
         carrier_name: "",
@@ -183,22 +188,6 @@ export default function ModalPopup() {
           <form onSubmit={handleSubmit}>
             <Box className="grid grid-cols-2 gap-5 my-3">
               <FormControl fullWidth>
-                <InputLabel id="cargo-select-label">Cargo</InputLabel>
-                <Select
-                  labelId="cargo-select-label"
-                  id="cargo-select"
-                  value={data.cargo_id}
-                  label="Cargo"
-                  onChange={(e) => handleCargoChange(e.target.value as string)}
-                >
-                  {cargo.map((item: Cargo) => (
-                    <MenuItem key={item.cargo_id} value={item.cargo_id}>
-                      {item.cargo_name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl fullWidth>
                 <InputLabel id="Carrier-select-label">Carrier</InputLabel>
                 <Select
                   labelId="Carrier-select-label"
@@ -212,6 +201,22 @@ export default function ModalPopup() {
                   {carrier.map((item: carrier) => (
                     <MenuItem key={item.carrier_id} value={item.carrier_id}>
                       {item.carrier_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel id="cargo-select-label">Cargo</InputLabel>
+                <Select
+                  labelId="cargo-select-label"
+                  id="cargo-select"
+                  value={data.cargo_id}
+                  label="Cargo"
+                  onChange={(e) => handleCargoChange(e.target.value as string)}
+                >
+                  {cargo.map((item: Cargo) => (
+                    <MenuItem key={item.cargo_id} value={item.cargo_id}>
+                      {item.cargo_name}
                     </MenuItem>
                   ))}
                 </Select>

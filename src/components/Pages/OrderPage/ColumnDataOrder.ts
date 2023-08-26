@@ -2,7 +2,7 @@ import { ColumnData } from "../../../types/Order.type";
 
 export const columns: ColumnData[] = [
     {
-        width: 80,
+        width: 150,
         label: "Carrier",
         dataKey: "carrier_name",
         numeric: true,
@@ -14,25 +14,25 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 70,
+        width: 100,
         label: "Load",
         dataKey: "load_status",
         numeric: true,
     },
     {
-        width: 120,
+        width: 100,
         label: "Category",
         dataKey: "category",
         numeric: true,
     },
     {
-        width: 300, // Adjust the width as needed
+        width: 180, 
         label: "Arrival time",
         dataKey: "arrival_time",
         numeric: true,
     },
     {
-        width: 300, // Adjust the width as needed
+        width: 180, 
         label: "Deadline time",
         dataKey: "deadline_time",
         numeric: true,

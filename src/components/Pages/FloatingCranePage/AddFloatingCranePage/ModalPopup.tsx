@@ -72,6 +72,15 @@ export default function ModalPopup() {
         .then(() => {
           dispatch(addFloating(formData));
           setOpen(false);
+          setFormData({
+            floating_id: "",
+            floating_name: "",
+            description: "",
+            latitude: 0,
+            longitude: 0,
+            setuptime: 0,
+            speed: 0,
+          });
         })
         .catch((err) => console.log(err));
     } catch (error) {
