@@ -146,7 +146,7 @@ export default function ModalPopup() {
             <Box className="my-3">
               {showErrorAlert && (
                 <Alert variant="outlined" severity="error">
-                  กรุณากรอกให้ครบ
+                  กรุณากรอกให้ครบ!!
                 </Alert>
               )}
             </Box>

@@ -10,7 +10,7 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useState } from "react";
 import { Order } from "../../../types/Order.type";
 import { columns } from "./ColumnDataOrder";
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import ModalPopup from "./AddOrderPage/ModalPopup";
@@ -49,7 +49,9 @@ export default function ReactVirtualizedTable() {
     cargo_id: order.cargo_id,
     load_status: order.load_status,
     category: order.category,
+    arrival_date: order.arrival_date,
     arrival_time: order.arrival_time,
+    deadline_date: order.deadline_date,
     deadline_time: order.deadline_time,
     latitude: order.latitude,
     longitude: order.longitude,
@@ -82,11 +84,12 @@ export default function ReactVirtualizedTable() {
           key={column.dataKey}
           align={column.numeric || false ? "right" : "left"}
         >
-          {column.dataKey === "editColumn" ? (
+          {column.dataKey === "arrival_time" ? (
+            `${row.arrival_date} ${row.arrival_time}`
+          ) : column.dataKey === "deadline_time" ? (
+            `${row.deadline_date} ${row.deadline_time}`
+          ) : column.dataKey === "editColumn" ? (
             <button>Edit</button>
-          ) : column.dataKey === "arrival_time" ||
-            column.dataKey === "deadline_time" ? (
-            new Date(row[column.dataKey]).toLocaleString()
           ) : (
             row[column.dataKey]
           )}
@@ -97,6 +100,7 @@ export default function ReactVirtualizedTable() {
 
   return (
     <Box sx={{ marginTop: 2 }}>
+      <Typography className="text-xl">Order</Typography>
       <Box className="flex justify-between m-5">
         <TextField
           id="standard-basic"

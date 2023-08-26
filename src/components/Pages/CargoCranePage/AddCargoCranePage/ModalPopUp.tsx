@@ -122,7 +122,7 @@ export default function ModalPopUp({}: Props): JSX.Element {
             Cargo Crane
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Box className="grid grid-cols-2 gap-x-5">
+            <Box className="grid grid-cols-2 gap-x-5 my-3">
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
                   <InputLabel id="cargo-select-label">Cargo</InputLabel>
@@ -130,7 +130,7 @@ export default function ModalPopUp({}: Props): JSX.Element {
                     labelId="cargo-select-label"
                     id="cargo-select"
                     value={formData.cargo_id}
-                    label="Select a Cargo"
+                    label="Cargo"
                     onChange={(e) =>
                       handleCargoChange(e.target.value as string)
                     }
@@ -145,12 +145,12 @@ export default function ModalPopUp({}: Props): JSX.Element {
               </Box>
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="floating-select-label">Crane</InputLabel>
+                  <InputLabel id="Crane-select-label">Crane</InputLabel>
                   <Select
-                    labelId="floating-select-label"
-                    id="floating-select"
+                    labelId="Crane-select-label"
+                    id="Crane-select"
                     value={formData.floating_id}
-                    label="Select a Floating"
+                    label="Crane"
                     onChange={(e) =>
                       handleFloatingChange(e.target.value as string)
                     }
@@ -201,7 +201,7 @@ export default function ModalPopUp({}: Props): JSX.Element {
             <Box>
               {error && (
                 <Alert className="flex w-full h-13 my-3" severity="error">
-                  This is an error alert — check it out!
+                  กรุณากรอกให้ครบ!!
                 </Alert>
               )}
             </Box>

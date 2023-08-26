@@ -6,8 +6,10 @@ export interface Order {
     cargo_id: string
     load_status: number;
     category: string;
-    arrival_time: number;
-    deadline_time: number;
+    arrival_date: any
+    arrival_time: any;
+    deadline_date: any;
+    deadline_time: any;
     latitude: number;
     longitude: number;
 }

@@ -26,13 +26,13 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 150,
+        width: 300, // Adjust the width as needed
         label: "Arrival time",
         dataKey: "arrival_time",
         numeric: true,
     },
     {
-        width: 150,
+        width: 300, // Adjust the width as needed
         label: "Deadline time",
         dataKey: "deadline_time",
         numeric: true,
@@ -56,3 +56,4 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
 ];
+

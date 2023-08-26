@@ -93,7 +93,7 @@ export default function ModalPopup() {
             Floating crane
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Box className="grid grid-cols-2 gap-5">
+            <Box className="grid grid-cols-2 gap-5 my-3">
               <TextField
                 id="outlined-basic"
                 label="Floating Name:"
@@ -176,7 +176,7 @@ export default function ModalPopup() {
             <Box className="my-3">
               {showErrorAlert && (
                 <Alert variant="outlined" severity="error">
-                  กรุณากรอกให้ครบ
+                  กรุณากรอกให้ครบ!!
                 </Alert>
               )}
             </Box>

@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
 } from "@mui/material";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
@@ -93,7 +94,7 @@ export default function CargoPage({}: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <h1>Cargo Page</h1>
+      <Typography className="text-xl">Cargo</Typography>
       <Box className="flex justify-between m-5">
         <TextField
           id="standard-basic"

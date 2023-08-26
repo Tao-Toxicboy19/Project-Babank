@@ -99,7 +99,7 @@ export default function ModalPopup({}: Props) {
             Cargo
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Box className="grid grid-cols-2 gap-5">
+            <Box className="grid grid-cols-2 gap-5 my-3">
               <TextField
                 id="outlined-basic"
                 label="Cargo Name"
@@ -158,7 +158,7 @@ export default function ModalPopup({}: Props) {
             <Box className="my-3">
               {showErrorAlert && (
                 <Alert variant="outlined" severity="error">
-                  กรุณากรอกให้ครบ
+                  กรุณากรอกให้ครบ!!
                 </Alert>
               )}
             </Box>

@@ -8,7 +8,6 @@ import MachineMovementPage from "./components/Pages/CargoPage/CargoPage";
 import OrderPage from "./components/Pages/OrderPage/OrderPage";
 import LoginPage from "./components/Pages/LoginPage/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage/RegisterPage";
-import AddFloatingCranePage from "./components/Pages/FloatingCranePage/AddFloatingCranePage/AddFloatingCranePage";
 import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloatingCranePage/EditFloatingCranePage";
 import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCarrierPage";
 import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
@@ -44,10 +43,6 @@ export default function App() {
             <Route path="/cargo" element={<MachineMovementPage />} />
             <Route path="/cargo/add-crago" element={<AddCargoPage />} />
             <Route path="/Order" element={<OrderPage />} />
-            <Route
-              path="/floating crane/insert-crane"
-              element={<AddFloatingCranePage />}
-            />
             <Route
               path="/update-position/:id"
               element={<EditFloatingCranePage />}

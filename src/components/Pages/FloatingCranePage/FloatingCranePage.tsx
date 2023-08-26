@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
 } from "@mui/material";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { Floating } from "../../../types/FloatingCrane.type";
@@ -94,6 +95,7 @@ export default function FloatingCranePage({}: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
+      <Typography className="text-xl">Floating Crane</Typography>
       <Box className="flex justify-between m-5">
         <TextField
           id="standard-basic"

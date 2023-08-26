@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
 } from "@mui/material";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
@@ -102,7 +103,7 @@ export default function CargoCranePage({}: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <h1>Cargo Crane Page</h1>
+     <Typography className="text-xl">Cargo crane</Typography>
       <Box className="mx-5 flex justify-between">
         <TextField
           id="standard-basic"
