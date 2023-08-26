@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import api from "../../../api/api";
 import {
   Box,
-  Button,
   Paper,
   Table,
   TableBody,
@@ -18,19 +16,13 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
 import { Cargo } from "../../../types/Cargo.type";
 import { columns } from "./ColumnDataCargo";
-import { setCargo } from "../../../store/slices/cargoSlice";
-import { Link } from "react-router-dom";
+import ModalPopup from "./AddCargoPage/ModalPopup";
 
 type Props = {};
 
 export default function CargoPage({}: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const cargo = useSelector((state: RootState) => state.cargo.cargo);
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   api.get("/cargos").then((res) => dispatch(setCargo(res.data.cargo)));
-  // }, []);
 
   // search
   const filteredData = cargo.filter((item) =>
@@ -102,7 +94,7 @@ export default function CargoPage({}: Props) {
   return (
     <Box sx={{ marginTop: 2 }}>
       <h1>Cargo Page</h1>
-      <Box sx={{ marginTop: 2 }}>
+      <Box className="flex justify-between m-5">
         <TextField
           id="standard-basic"
           label="Search"
@@ -110,14 +102,7 @@ export default function CargoPage({}: Props) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button
-          component={Link}
-          to={"/cargo/add-crago"}
-          sx={{ mt: 1, mx: 5, textTransform: "none" }}
-          variant="outlined"
-        >
-          เพิ่ม Cargo
-        </Button>
+        <ModalPopup />
       </Box>
       <Paper sx={{ height: 600, width: "100%", marginTop: 1 }}>
         <TableVirtuoso

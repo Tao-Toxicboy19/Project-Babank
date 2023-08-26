@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "ColumnDataFloating.ts"],
+  "include": ["src", "src/components/Pages/FloatingCranePage/ColumnDataFloating.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

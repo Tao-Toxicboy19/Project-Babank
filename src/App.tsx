@@ -13,19 +13,23 @@ import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloa
 import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCarrierPage";
 import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
 import CargoCranePage from "./components/Pages/CargoCranePage/CargoCranePage";
-import AddCargoPage from "./components/Pages/CargoPage/AddCargoPage/AddCargoPage";
+import AddCargoPage from "./components/Pages/CargoPage/AddCargoPage/ModalPopup";
 import { useEffect } from "react";
 import api from "./api/api";
-import { addfloating } from "./store/slices/locationSlice";
 import { useDispatch } from "react-redux";
 import { setCargo } from "./store/slices/cargoSlice";
+import { setFloating } from "./store/slices/FloatingSlice";
+import { setCarrier } from "./store/slices/CarrierSlice";
+import { setOrders } from "./store/slices/OrderSlice";
 
 export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     api.get("/cargos").then((res) => dispatch(setCargo(res.data.cargo)));
-    api.get("/floating").then((res) => dispatch(addfloating(res.data.result)));
+    api.get("/floating").then((res) => dispatch(setFloating(res.data.result)));
+    api.get("/carriers").then((res) => dispatch(setCarrier(res.data.Carriers)));
+    api.get("/orders").then((res) => dispatch(setOrders(res.data.orders)));
   }, []);
 
   return (

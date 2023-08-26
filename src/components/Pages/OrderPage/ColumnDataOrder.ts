@@ -3,12 +3,6 @@ import { ColumnData } from "../../../types/Order.type";
 export const columns: ColumnData[] = [
     {
         width: 80,
-        label: "Order ID",
-        dataKey: "order_id",
-        numeric: true,
-    },
-    {
-        width: 170,
         label: "Carrier",
         dataKey: "carrier_name",
         numeric: true,

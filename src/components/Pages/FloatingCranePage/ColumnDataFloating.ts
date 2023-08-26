@@ -1,14 +1,8 @@
-import { ColumnData } from "./src/types/FloatingCrane.type";
+import { ColumnData } from "../../../types/FloatingCrane.type";
 
 export const columns: ColumnData[] = [
     {
         width: 80,
-        label: "Floating ID",
-        dataKey: "floating_id",
-        numeric: true,
-    },
-    {
-        width: 120,
         label: "Name",
         dataKey: "floating_name",
         numeric: true,
@@ -44,7 +38,7 @@ export const columns: ColumnData[] = [
         numeric: true,
     },
     {
-        width: 50,
+        width: 80,
         label: "Edit",
         dataKey: "editColumn",
         numeric: true,

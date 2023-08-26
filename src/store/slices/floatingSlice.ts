@@ -9,8 +9,11 @@ const floatingSlice = createSlice({
   name: "floating",
   initialState,
   reducers: {
-    addfloating: (state, action) => {
+    setFloating: (state, action: PayloadAction<Floating[]>) => {
       state.data = action.payload;
+    },
+    addFloating: (state, action: PayloadAction<Floating>) => {
+      state.data.push(action.payload);
     },
     deleteFloating: (state, action) => {
       const idToDelete = action.payload;
@@ -30,5 +33,5 @@ const floatingSlice = createSlice({
   }
 });
 
-export const { addfloating, deleteFloating, updateFloating } = floatingSlice.actions;
+export const { setFloating, addFloating, deleteFloating, updateFloating } = floatingSlice.actions;
 export default floatingSlice.reducer;

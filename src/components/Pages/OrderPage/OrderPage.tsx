@@ -7,30 +7,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Order } from "../../../types/Order.type";
-import api from "../../../api/api";
 import { columns } from "./ColumnDataOrder";
 import { Box, TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { setOrders } from "../../../store/slices/OrderSlice";
+import ModalPopup from "./AddOrderPage/ModalPopup";
 
 export default function ReactVirtualizedTable() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const orders = useSelector((state: RootState) => state.order.orders);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    api
-      .get("/orders")
-      .then((response) => {
-        dispatch(setOrders(response.data.orders));
-      })
-      .catch((error) => {
-        console.error("Error fetching orders:", error);
-      });
-  }, []);
 
   // search
   const filteredData = orders.filter((item) =>
@@ -57,7 +44,9 @@ export default function ReactVirtualizedTable() {
   const convertedOrders: Order[] = filteredData.map((order) => ({
     order_id: order.order_id,
     carrier_name: order.carrier_name,
+    carrier_id: order.carrier_id,
     cargo_name: order.cargo_name,
+    cargo_id: order.cargo_id,
     load_status: order.load_status,
     category: order.category,
     arrival_time: order.arrival_time,
@@ -108,13 +97,16 @@ export default function ReactVirtualizedTable() {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <TextField
-        id="standard-basic"
-        label="Search"
-        variant="standard"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <Box className="flex justify-between m-5">
+        <TextField
+          id="standard-basic"
+          label="Search"
+          variant="standard"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <ModalPopup />
+      </Box>
       <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
         <TableVirtuoso
           data={convertedOrders}

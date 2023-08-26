@@ -10,7 +10,7 @@ export interface CargoCrane {
 }
 
 export interface CargoCraneState {
-    cargoCrane: CargoCrane[]
+    cargoCrane: CargoCrane[];
 }
 
 export interface ColumnData {

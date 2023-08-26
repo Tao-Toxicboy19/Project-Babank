@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/store";
-import api from "../../../api/api";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 import {
   Box,
-  Button,
   Paper,
   Table,
   TableBody,
@@ -15,31 +13,16 @@ import {
   TextField,
 } from "@mui/material";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
-import { addfloating } from "../../../store/slices/locationSlice";
 import { Floating } from "../../../types/FloatingCrane.type";
 import React from "react";
-import { columns } from "../../../../ColumnDataFloating";
-import { Link } from "react-router-dom";
+import { columns } from "./ColumnDataFloating";
+import ModalPopup from "./AddFloatingCranePage/ModalPopup";
 
 type Props = {};
 
 export default function FloatingCranePage({}: Props) {
-  const dispatch = useDispatch<AppDispatch>();
   const floatingData = useSelector((state: RootState) => state.floating.data);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  // useEffect(() => {
-  //   const fetchFloatingBySearch = async () => {
-  //     try {
-  //       const res = await api.get(`/floating`);
-  //       dispatch(addfloating(res.data.result));
-  //     } catch (err) {
-  //       console.log(`Error: ${err}`);
-  //     }
-  //   };
-
-  //   fetchFloatingBySearch();
-  // }, []);
 
   // search
   const filteredData = floatingData.filter((item) =>
@@ -111,7 +94,7 @@ export default function FloatingCranePage({}: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Box sx={{ marginTop: 2 }}>
+      <Box className="flex justify-between m-5">
         <TextField
           id="standard-basic"
           label="Search"
@@ -119,14 +102,7 @@ export default function FloatingCranePage({}: Props) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button
-          component={Link}
-          to={"/floating crane/insert-crane"}
-          sx={{ mt: 1, mx: 5, textTransform: "none" }}
-          variant="outlined"
-        >
-          เพิ่ม Floating Crane
-        </Button>
+        <ModalPopup />
       </Box>
       <Paper sx={{ height: 600, width: "100%", marginTop: 1 }}>
         <TableVirtuoso

@@ -2,37 +2,31 @@ import { ColumnData } from "../../../types/Cargo.type";
 
 export const columns: ColumnData[] = [
     {
-        width: 60,
-        label: "Cargo ID",
-        dataKey: "cargo_id",
-        numeric: true,
-    },
-    {
-        width: 120,
+        width: 80,
         label: "Cargo name",
         dataKey: "cargo_name",
         numeric: true,
     },
     {
-        width: 120,
+        width: 150,
         label: "Consumption rate",
         dataKey: "consumption_rate",
         numeric: true,
     },
     {
-        width: 120,
+        width: 150,
         label: "Work rate",
         dataKey: "work_rate",
         numeric: true,
     },
     {
-        width: 120,
+        width: 150,
         label: "Category",
         dataKey: "category",
         numeric: true,
     },
     {
-        width: 50,
+        width: 80,
         label: "Edit",
         dataKey: "editColumn",
         numeric: true,

@@ -1,11 +1,13 @@
 export interface Order {
-    order_id: number;
+    order_id: string;
     carrier_name: string;
+    carrier_id: string
     cargo_name: string;
+    cargo_id: string
     load_status: number;
     category: string;
-    arrival_time: Date;
-    deadline_time: Date;
+    arrival_time: number;
+    deadline_time: number;
     latitude: number;
     longitude: number;
 }
