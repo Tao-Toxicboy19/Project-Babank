@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../store/store";
-import { addFloating } from "../../../../store/slices/FloatingSlice";
+import { addFloating } from "../../../../store/slices/floatingSlice";
 
 const style = {
   position: "absolute" as "absolute",

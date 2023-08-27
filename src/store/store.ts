@@ -1,11 +1,11 @@
 // store.ts
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
-import floatingReducer from "./slices/FloatingSlice"
+import floatingReducer from "./slices/floatingSlice"
 import authReducer from "./slices/authSlice"
 import orderReducer from "./slices/OrderSlice"
 import cargoReducer from "./slices/cargoSlice"
 import cargoCraneReducer from "./slices/cargocraneSlice"
-import carrierReducer from './slices/CarrierSlice'
+import carrierReducer from './slices/carrierSlice'
 
 export const store = configureStore({
   reducer: {

@@ -15,7 +15,7 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { addCarrier } from "../../../../store/slices/CarrierSlice";
+import { addCarrier } from "../../../../store/slices/carrierSlice";
 
 const style = {
   position: "absolute" as "absolute",

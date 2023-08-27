@@ -8,7 +8,7 @@ import InjectTailwind from "./InjectTailwind.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename="/public_html">
       <InjectTailwind>
         <App />
       </InjectTailwind>

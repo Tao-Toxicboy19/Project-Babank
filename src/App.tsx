@@ -9,7 +9,6 @@ import OrderPage from "./components/Pages/OrderPage/OrderPage";
 import LoginPage from "./components/Pages/LoginPage/LoginPage";
 import RegisterPage from "./components/Pages/RegisterPage/RegisterPage";
 import EditFloatingCranePage from "./components/Pages/FloatingCranePage/EditFloatingCranePage/EditFloatingCranePage";
-import AddCarrierPage from "./components/Pages/CarrierPage/AddCarrierPage/AddCarrierPage";
 import EditCarrierPage from "./components/Pages/CarrierPage/EditCarrierPage/EditCarrierPage";
 import CargoCranePage from "./components/Pages/CargoCranePage/CargoCranePage";
 import AddCargoPage from "./components/Pages/CargoPage/AddCargoPage/ModalPopup";
@@ -17,9 +16,9 @@ import { useEffect } from "react";
 import api from "./api/api";
 import { useDispatch } from "react-redux";
 import { setCargo } from "./store/slices/cargoSlice";
-import { setFloating } from "./store/slices/FloatingSlice";
-import { setCarrier } from "./store/slices/CarrierSlice";
 import { setOrders } from "./store/slices/OrderSlice";
+import { setFloating } from "./store/slices/floatingSlice";
+import { setCarrier } from "./store/slices/carrierSlice";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -50,7 +49,6 @@ export default function App() {
             <Route path="/cargo crane" element={<CargoCranePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/addcarrierpage" element={<AddCarrierPage />} />
             <Route path="/editcarrierpage/:id" element={<EditCarrierPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

@@ -216,7 +216,8 @@ export default function ModalPopup() {
                 >
                   {cargo.map((item: Cargo) => (
                     <MenuItem key={item.cargo_id} value={item.cargo_id}>
-                      {item.cargo_name}
+                      {item.cargo_name}t
+                      y
                     </MenuItem>
                   ))}
                 </Select>
