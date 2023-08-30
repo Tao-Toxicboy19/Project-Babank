@@ -40,7 +40,7 @@ export default function SignIn() {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:7070/api")
+      .get("http://localhost:5018/api")
       .then((res) => {
         if (res.data.valid) {
           navigate("/");
@@ -56,7 +56,7 @@ export default function SignIn() {
 
     try {
       const response = await axios.post(
-        "http://localhost:7070/api/login",
+        "http://localhost:5018/api/login",
         formData
       );
       if (response.data.Login) {

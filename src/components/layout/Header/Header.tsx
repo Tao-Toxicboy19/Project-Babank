@@ -17,7 +17,7 @@ import axios from "axios";
 
 const pages = [
   "Home",
-  "Floating crane",
+  "Floating Transfer",
   "Carrier",
   "Cargo",
   "Cargo Crane",
@@ -33,7 +33,7 @@ function ResponsiveAppBar() {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:7070/api/logout");
+      const response = await axios.post("http://crane.otpzlab.com:7070/api/logout");
       if (response.data.Message === "Logged out successfully") {
         // Handle successful logout
         dispatch(clearUserEmail())
@@ -81,15 +81,16 @@ function ResponsiveAppBar() {
             to="/"
             sx={{
               mr: 2,
+              fontSize: 22,
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            LOGO
+            crane.otpzlab
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

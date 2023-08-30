@@ -26,7 +26,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -59,7 +59,7 @@ export default function SignUp() {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:7070/api")
+      .get("http://localhost:5018/api")
       .then((res) => {
         if (res.data.valid) {
           navigate("/");
