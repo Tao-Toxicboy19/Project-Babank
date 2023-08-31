@@ -14,7 +14,8 @@ export interface FloatingState {
 
 export interface ColumnData {
   dataKey: keyof Floating | "editColumn";
-  label: string;
+  label?: string;
   numeric?: boolean;
   width: number;
+  className?: string;
 }

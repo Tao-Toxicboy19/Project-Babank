@@ -18,4 +18,5 @@ export interface ColumnData {
     label: string;
     numeric?: boolean;
     width: number;
+    className?: string;
 }

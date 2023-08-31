@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/store.ts";
 import { Provider } from "react-redux";
 import InjectTailwind from "./InjectTailwind.tsx";
+console.log = function() {};
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -12,6 +13,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <InjectTailwind>
         <App />
       </InjectTailwind>
-    </BrowserRouter>
+    </BrowserRouter> 
   </Provider>
 );
