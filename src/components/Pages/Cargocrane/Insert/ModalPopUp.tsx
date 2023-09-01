@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store/store";
 import api from "../../../../api/api";
-import { addCargoCrane } from "../../../../store/slices/cargocraneSlice";
+import { setInsertCargoCrane } from "../../../../store/slices/cargocraneSlice";
 import {
   Alert,
   Box,
@@ -22,10 +22,10 @@ import { Cargo } from "../../../../types/Cargo.type";
 import { CargoCrane } from "../../../../types/CargoCrane.type";
 import { style } from "../../../../style/Styles";
 
-interface Props {}
+interface Props { }
 
-export default function ModalPopUp({}: Props): JSX.Element {
-  const floatingData = useSelector((state: RootState) => state.floating.data);
+export default function ModalPopUp({ }: Props): JSX.Element {
+  const floatingData = useSelector((state: RootState) => state.floating.floating);
   const cargo = useSelector((state: RootState) => state.cargo.cargo);
   const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState<CargoCrane>({
@@ -89,13 +89,111 @@ export default function ModalPopUp({}: Props): JSX.Element {
       setError(false);
       try {
         await api.post("/cargocrane", formData);
-        dispatch(addCargoCrane(formData));
+        dispatch(setInsertCargoCrane(formData));
         setOpen(false);
       } catch (error) {
         console.error("Error posting data:", error);
       }
     }
   };
+
+  const FormInsert = () => (
+    <form onSubmit={handleSubmit}>
+      <Box className="grid grid-cols-2 gap-x-5 my-3">
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="cargo-select-label">Cargo</InputLabel>
+            <Select
+              labelId="cargo-select-label"
+              id="cargo-select"
+              value={formData.cargo_id}
+              label="Cargo"
+              onChange={(e) =>
+                handleCargoChange(e.target.value as string)
+              }
+            >
+              {cargo.map((item: Cargo) => (
+                <MenuItem key={item.cargo_id} value={item.cargo_id}>
+                  {item.cargo_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="Crane-select-label">Crane</InputLabel>
+            <Select
+              labelId="Crane-select-label"
+              id="Crane-select"
+              value={formData.floating_id}
+              label="Crane"
+              onChange={(e) =>
+                handleFloatingChange(e.target.value as string)
+              }
+            >
+              {floatingData.map((item: Floating) => (
+                <MenuItem key={item.floating_id} value={item.floating_id}>
+                  {item.floating_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <FormControl variant="outlined">
+          <FormHelperText id="outlined-weight-helper-text">
+            Consumpation Rate
+          </FormHelperText>
+          <OutlinedInput
+            type="number"
+            id="outlined-adornment-weight"
+            name="consumption_rate"
+            value={
+              formData.consumption_rate === 0
+                ? ""
+                : formData.consumption_rate
+            }
+            onChange={handleChange}
+            endAdornment={
+              <InputAdornment position="end">CR</InputAdornment>
+            }
+          />
+        </FormControl>
+        <FormControl variant="outlined">
+          <FormHelperText id="outlined-weight-helper-text">
+            Work Rate
+          </FormHelperText>
+          <OutlinedInput
+            type="number"
+            id="outlined-adornment-weight2"
+            name="work_rate"
+            value={formData.work_rate === 0 ? "" : formData.work_rate}
+            onChange={handleChange}
+            endAdornment={
+              <InputAdornment position="end">WR</InputAdornment>
+            }
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        {error && (
+          <Alert className="flex w-full h-13 my-3" severity="error">
+            กรุณากรอกให้ครบ!!
+          </Alert>
+        )}
+      </Box>
+      <Box className="flex justify-center mt-2">
+        <Button
+          type="submit"
+          className="bg-[#439947]"
+          variant="contained"
+          color="success"
+        >
+          Success
+        </Button>
+      </Box>
+    </form>
+  )
 
   return (
     <div>
@@ -111,101 +209,7 @@ export default function ModalPopUp({}: Props): JSX.Element {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Cargo Crane
           </Typography>
-          <form onSubmit={handleSubmit}>
-            <Box className="grid grid-cols-2 gap-x-5 my-3">
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="cargo-select-label">Cargo</InputLabel>
-                  <Select
-                    labelId="cargo-select-label"
-                    id="cargo-select"
-                    value={formData.cargo_id}
-                    label="Cargo"
-                    onChange={(e) =>
-                      handleCargoChange(e.target.value as string)
-                    }
-                  >
-                    {cargo.map((item: Cargo) => (
-                      <MenuItem key={item.cargo_id} value={item.cargo_id}>
-                        {item.cargo_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="Crane-select-label">Crane</InputLabel>
-                  <Select
-                    labelId="Crane-select-label"
-                    id="Crane-select"
-                    value={formData.floating_id}
-                    label="Crane"
-                    onChange={(e) =>
-                      handleFloatingChange(e.target.value as string)
-                    }
-                  >
-                    {floatingData.map((item: Floating) => (
-                      <MenuItem key={item.floating_id} value={item.floating_id}>
-                        {item.floating_name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
-              <FormControl variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Consumpation Rate
-                </FormHelperText>
-                <OutlinedInput
-                  type="number"
-                  id="outlined-adornment-weight"
-                  name="consumption_rate"
-                  value={
-                    formData.consumption_rate === 0
-                      ? ""
-                      : formData.consumption_rate
-                  }
-                  onChange={handleChange}
-                  endAdornment={
-                    <InputAdornment position="end">CR</InputAdornment>
-                  }
-                />
-              </FormControl>
-              <FormControl variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Work Rate
-                </FormHelperText>
-                <OutlinedInput
-                  type="number"
-                  id="outlined-adornment-weight2"
-                  name="work_rate"
-                  value={formData.work_rate === 0 ? "" : formData.work_rate}
-                  onChange={handleChange}
-                  endAdornment={
-                    <InputAdornment position="end">WR</InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-            <Box>
-              {error && (
-                <Alert className="flex w-full h-13 my-3" severity="error">
-                  กรุณากรอกให้ครบ!!
-                </Alert>
-              )}
-            </Box>
-            <Box className="flex justify-center mt-2">
-              <Button
-                type="submit"
-                className="bg-[#439947]"
-                variant="contained"
-                color="success"
-              >
-                Success
-              </Button>
-            </Box>
-          </form>
+          {FormInsert()}
         </Box>
       </Modal>
     </div>

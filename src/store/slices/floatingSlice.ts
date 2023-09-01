@@ -2,30 +2,41 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Floating, FloatingState } from '../../types/FloatingCrane.type';
 
 const initialState: FloatingState = {
-  data: []
+  floating: [],
+  loading: false,
+  error: null
 }
 
 const floatingSlice = createSlice({
   name: "floating",
   initialState,
   reducers: {
-    setFloating: (state, action: PayloadAction<Floating[]>) => {
-      state.data = action.payload;
+    setFloatingStart: (state) => {
+      state.loading = true
+      state.error = null
     },
-    addFloating: (state, action: PayloadAction<Floating>) => {
-      state.data.push(action.payload);
+    setFloatingSuccess: (state, action: PayloadAction<Floating[]>) => {
+      state.floating = action.payload
+      state.loading = false
     },
-    deleteFloating: (state, action) => {
+    setFloatingFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false
+      state.error = action.payload
+    },
+    setInsertFloating: (state, action: PayloadAction<Floating>) => {
+      state.floating.push(action.payload);
+    },
+    setDeleteFloating: (state, action) => {
       const idToDelete = action.payload;
-      state.data = state.data.filter(floating => floating.floating_id !== idToDelete);
+      state.floating = state.floating.filter(floating => floating.floating_id !== idToDelete);
     },
-    updateFloating: (state, action: PayloadAction<Floating>) => {
+    setUpdateFloating: (state, action: PayloadAction<Floating>) => {
       const { floating_id, ...updatedData } = action.payload;
-      const existingFloatingIndex = state.data.findIndex(floating => floating.floating_id === floating_id);
+      const existingFloatingIndex = state.floating.findIndex(floating => floating.floating_id === floating_id);
 
       if (existingFloatingIndex !== -1) {
-        state.data[existingFloatingIndex] = {
-          ...state.data[existingFloatingIndex],
+        state.floating[existingFloatingIndex] = {
+          ...state.floating[existingFloatingIndex],
           ...updatedData,
         };
       }
@@ -33,5 +44,5 @@ const floatingSlice = createSlice({
   }
 });
 
-export const { setFloating, addFloating, deleteFloating, updateFloating } = floatingSlice.actions;
+export const { setFloatingStart, setFloatingSuccess, setFloatingFailure, setInsertFloating, setDeleteFloating, setUpdateFloating } = floatingSlice.actions;
 export default floatingSlice.reducer;

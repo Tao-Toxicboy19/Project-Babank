@@ -25,8 +25,8 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
-import { addOrder } from "../../../../store/slices/OrderSlice";
 import { style } from "../../../../style/Styles";
+import { setInsertOrder } from "../../../../store/slices/OrderSlice";
 
 export default function ModalPopup() {
   const dispatch = useDispatch<AppDispatch>();
@@ -139,7 +139,7 @@ export default function ModalPopup() {
 
     try {
       await api.post("/order", newData);
-      dispatch(addOrder(newData));
+      dispatch(setInsertOrder(newData));
       setOpen(false);
       setData({
         order_id: "",

@@ -10,32 +10,32 @@ import EditCarrierPage from "./components/Pages/Carrier/Edit/EditCarrierPage";
 import { useEffect } from "react";
 import api from "./api/api";
 import { useDispatch } from "react-redux";
-import { setCargo } from "./store/slices/cargoSlice";
-import { setFloating } from "./store/slices/floatingSlice";
-import { setCarrier } from "./store/slices/carrierSlice";
-import { setCargoCrane } from "./store/slices/cargocraneSlice";
-import { setOrders } from "./store/slices/OrderSlice";
-import CargocranePage from "./components/Pages/Cargocrane/CargoCranePage";
+import { setCargoSuccess } from "./store/slices/cargoSlice";
+import CargocranePage from "./components/Pages/Cargocrane/Page";
 import OrderPage from "./components/Pages/Order/Page";
 import LoginPage from "./components/Pages/Login/Page";
 import CargoPage from "./components/Pages/Cargo/Page";
+import { setFloatingSuccess } from "./store/slices/floatingSlice";
+import { setCarrierSuccess } from "./store/slices/carrierSlice";
+import { setCargoCraneSuccess } from "./store/slices/cargocraneSlice";
+import { setOrderSuccess } from "./store/slices/OrderSlice";
 
 export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    api.get("/cargo").then((res) => dispatch(setCargo(res.data.cargo)))
-    api.get("/cargocrane").then((res) => dispatch(setCargoCrane(res.data.cargocranes)))
-    api.get("/floating").then((res) => dispatch(setFloating(res.data.result)))
-    api.get("/carrier").then((res) => dispatch(setCarrier(res.data.Carriers)))
-    api.get("/order").then((res) => dispatch(setOrders(res.data.orders)))
+    api.get("/cargo").then((res) => dispatch(setCargoSuccess(res.data.result)))
+    api.get("/cargocrane").then((res) => dispatch(setCargoCraneSuccess(res.data.cargocranes)))
+    api.get("/floating").then((res) => dispatch(setFloatingSuccess(res.data.result)))
+    api.get("/carrier").then((res) => dispatch(setCarrierSuccess(res.data.Carriers)))
+    api.get("/order").then((res) => dispatch(setOrderSuccess(res.data.orders)))
   }, []);
 
   return (
     <>
-      <div className="bg-[#fff]">
+      <div className="bg-[#fff] flex flex-col min-h-screen">
         <Header />
-        <div className="container mx-auto">
+        <div className="container mx-auto flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/Floating Transfer" element={<FloatingCranePage />} />
@@ -60,17 +60,16 @@ export default function App() {
 }
 
 
-{/* <VirtualHost *:80>
-    ServerAdmin webmaster@yourdomain.com
-    ServerName babackapi.com
-    DocumentRoot /root/api-crane/babank-backend/src
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
+// const [loading, setLoading] = useState(true); // เพิ่ม state สำหรับตัวแปร loading
+// const [error, setError] = useState<string | null>(null); // เพิ่ม state สำหรับตัวแปร error
+// useEffect(() => {
+//   // ใช้ setTimeout เพื่อจำลองการโหลด
+//   const loadingTimeout = setTimeout(() => {
+//     setLoading(false); // เมื่อโหลดเสร็จสิ้น
+//   }, 3500); // หน่วงเวลาในการโหลดเป็น 1.5 วินาที
 
-    <Directory /root/api-crane/babank-backend/src>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost> */}
-
+//   // คืนค่าฟังก์ชันเพื่อทำความสะอาดเมื่อคอมโพเนนต์ถูกยกเลิก
+//   return () => {
+//     clearTimeout(loadingTimeout);
+//   };
+// }, []);

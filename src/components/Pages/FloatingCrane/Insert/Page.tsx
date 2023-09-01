@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../store/store";
-import { addFloating } from "../../../../store/slices/floatingSlice";
 import { style } from "../../../../style/Styles";
+import { setInsertFloating } from "../../../../store/slices/floatingSlice";
 
 export default function ModalPopup() {
   const [open, setOpen] = React.useState(false);
@@ -60,7 +60,7 @@ export default function ModalPopup() {
       await api
         .post("/floating", formData)
         .then(() => {
-          dispatch(addFloating(formData));
+          dispatch(setInsertFloating(formData));
           setOpen(false);
           setFormData({
             floating_id: "",

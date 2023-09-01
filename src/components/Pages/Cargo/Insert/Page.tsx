@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Cargo } from "../../../../types/Cargo.type";
 import api from "../../../../api/api";
-import { addCargo } from "../../../../store/slices/cargoSlice";
 import AddIcon from '@mui/icons-material/Add';
 import {
   Alert,
@@ -20,6 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { style } from "../../../../style/Styles";
+import { setInsertCargo } from "../../../../store/slices/cargoSlice";
 
 type Props = {};
 
@@ -62,7 +62,7 @@ export default function EditCargo({ }: Props) {
 
     try {
       await api.post("/cargo", cargo);
-      dispatch(addCargo(cargo));
+      dispatch(setInsertCargo(cargo));
       setOpen(false);
       setCargo({
         cargo_id: "",
@@ -76,71 +76,75 @@ export default function EditCargo({ }: Props) {
     }
   };
   const FormSubmit = () => (
-    <form onSubmit={handleSubmit}>
-      <Box className="grid grid-cols-2 gap-5 my-3">
-        <TextField
-          id="outlined-basic"
-          label="Cargo Name"
-          variant="outlined"
-          type="text"
-          name="cargo_name"
-          value={cargo.cargo_name}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <TextField
+        id="outlined-basic"
+        label="Cargo Name"
+        variant="outlined"
+        type="text"
+        name="cargo_name"
+        value={cargo.cargo_name}
+        onChange={handleInputChange}
+      />
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Action</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={cargo.category}
+          label="Action"
+          onChange={handleCategoryChange as any}
+        >
+          <MenuItem value="import">Import</MenuItem>
+          <MenuItem value="export">Export</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl variant="outlined">
+        <FormHelperText id="outlined-weight-helper-text">
+          Consumption Rate:
+        </FormHelperText>
+        <OutlinedInput
+          id="outlined-adornment-weight2"
+          type="number"
+          name="consumption_rate"
+          value={
+            cargo.consumption_rate === 0 ? "" : cargo.consumption_rate
+          }
           onChange={handleInputChange}
+          endAdornment={
+            <InputAdornment position="end">CR</InputAdornment>
+          }
         />
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Action</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={cargo.category}
-            label="Action"
-            onChange={handleCategoryChange as any}
-          >
-            <MenuItem value="import">Import</MenuItem>
-            <MenuItem value="export">Export</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl variant="outlined">
-          <FormHelperText id="outlined-weight-helper-text">
-            Consumption Rate:
-          </FormHelperText>
-          <OutlinedInput
-            id="outlined-adornment-weight2"
-            type="number"
-            name="consumption_rate"
-            value={
-              cargo.consumption_rate === 0 ? "" : cargo.consumption_rate
-            }
-            onChange={handleInputChange}
-            endAdornment={
-              <InputAdornment position="end">CR</InputAdornment>
-            }
-          />
-        </FormControl>
-        <FormControl variant="outlined">
-          <FormHelperText id="outlined-weight-helper-text">
-            Work Rate:
-          </FormHelperText>
-          <OutlinedInput
-            id="outlined-adornment-weight2"
-            type="number"
-            name="work_rate"
-            value={cargo.work_rate === 0 ? "" : cargo.work_rate}
-            onChange={handleInputChange}
-            endAdornment={
-              <InputAdornment position="end">WR</InputAdornment>
-            }
-          />
-        </FormControl>
-      </Box>
-      <Box className="my-3">
+      </FormControl>
+      <FormControl variant="outlined">
+        <FormHelperText id="outlined-weight-helper-text">
+          Work Rate:
+        </FormHelperText>
+        <OutlinedInput
+          id="outlined-adornment-weight2"
+          type="number"
+          name="work_rate"
+          value={cargo.work_rate === 0 ? "" : cargo.work_rate}
+          onChange={handleInputChange}
+          endAdornment={
+            <InputAdornment position="end">WR</InputAdornment>
+          }
+        />
+      </FormControl>
+      <Box>
         {showErrorAlert && (
           <Alert variant="outlined" severity="error">
             กรุณากรอกให้ครบ!!
           </Alert>
         )}
       </Box>
-      <Box className="flex justify-center mt-2">
+      <Box className="flex justify-start gap-x-5">
+        <Button
+          variant="outlined"
+          onClick={() => setOpen(false)}
+        >
+          Exit
+        </Button>
         <Button
           type="submit"
           className="bg-[#439947]"
@@ -163,7 +167,7 @@ export default function EditCargo({ }: Props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 3 }}>
             Cargo
           </Typography>
           {FormSubmit()}

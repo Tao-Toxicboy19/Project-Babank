@@ -9,7 +9,9 @@ export interface Floating {
 }
 
 export interface FloatingState {
-  data: Floating[]
+  floating: Floating[]
+  loading: boolean
+  error: string | null
 }
 
 export interface ColumnData {

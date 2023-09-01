@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
+  CircularProgress,
   InputAdornment,
   Paper,
   Table,
@@ -24,8 +25,10 @@ import ModalPopup from "./Insert/Page";
 type Props = {};
 
 export default function FloatingCranePage({ }: Props) {
-  const floatingData = useSelector((state: RootState) => state.floating.data);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const floatingData = useSelector((state: RootState) => state.floating.floating);
+  const loading = useSelector((state: RootState) => state.floating.loading)
+  const error = useSelector((state: RootState) => state.floating.error)
 
   // search
   const filteredData = floatingData.filter((item) =>
@@ -124,14 +127,29 @@ export default function FloatingCranePage({ }: Props) {
         />
         <ModalPopup />
       </Box>
-      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
-        <TableVirtuoso
-          data={convertedFloating}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={rowContent}
-        />
-      </Paper>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography>Error: {error}</Typography>
+      ) : (
+        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+          <TableVirtuoso
+            data={convertedFloating}
+            components={VirtuosoTableComponents}
+            fixedHeaderContent={fixedHeaderContent}
+            itemContent={rowContent}
+          />
+        </Paper>
+      )}
     </Box>
   );
 }

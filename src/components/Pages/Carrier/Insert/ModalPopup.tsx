@@ -15,8 +15,8 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { addCarrier } from "../../../../store/slices/carrierSlice";
 import { style } from "../../../../style/Styles";
+import { setInsertCarrier } from "../../../../store/slices/carrierSlice";
 
 export default function ModalPopup() {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
@@ -54,7 +54,7 @@ export default function ModalPopup() {
     api
       .post("/carrier", carrier)
       .then(() => {
-        dispatch(addCarrier(carrier));
+        dispatch(setInsertCarrier(carrier));
         setCarrier({
           carrier_id: "",
           carrier_name: "",

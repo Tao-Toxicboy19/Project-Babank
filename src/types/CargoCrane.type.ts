@@ -11,6 +11,8 @@ export interface CargoCrane {
 
 export interface CargoCraneState {
     cargoCrane: CargoCrane[];
+    loading: boolean
+    error: string | null
 }
 
 export interface ColumnData {

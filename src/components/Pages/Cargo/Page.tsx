@@ -20,17 +20,20 @@ import { Cargo } from "../../../types/Cargo.type";
 import { columns } from "./ColumnDataCargo";
 import ModalPopup from "./Insert/Page";
 import SearchIcon from '@mui/icons-material/Search';
-import EditCargo from "./Edit/Page";
 import DeletePage from "./Delete/Page";
+import CircularProgress from '@mui/material/CircularProgress';
+import EditPageV2 from "./Edit/Page";
 
 type Props = {};
 
 export default function CargoPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const cargo = useSelector((state: RootState) => state.cargo.cargo);
+  const setCargo = useSelector((state: RootState) => state.cargo.cargo);
+  const loading = useSelector((state: RootState) => state.cargo.loading);
+  const error = useSelector((state: RootState) => state.cargo.error);
 
   // search
-  const filteredData = cargo.filter((item) =>
+  const filteredData = setCargo.filter((item) =>
     item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -51,7 +54,7 @@ export default function CargoPage({ }: Props) {
     )),
   };
 
-  const convertedFloating: Cargo[] = filteredData.map((Cargo) => ({
+  const convertedCargo: Cargo[] = filteredData.map((Cargo) => ({
     cargo_id: Cargo.cargo_id,
     cargo_name: Cargo.cargo_name,
     consumption_rate: Cargo.consumption_rate,
@@ -104,7 +107,8 @@ export default function CargoPage({ }: Props) {
         >
           {column.dataKey === "editColumn" ? (
             <Box className="flex justify-end item-center">
-              <EditCargo cargoId={row.cargo_id} />
+              <EditPageV2 cargoId={row.cargo_id} />
+              {/* <EditCargo /> */}
               <DeletePage />
             </Box>
           ) : (
@@ -139,14 +143,29 @@ export default function CargoPage({ }: Props) {
         />
         <ModalPopup />
       </Box>
-      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
-        <TableVirtuoso
-          data={convertedFloating}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={rowContent}
-        />
-      </Paper>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography>Error: {error}</Typography>
+      ) : (
+        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+          <TableVirtuoso
+            data={convertedCargo}
+            components={VirtuosoTableComponents}
+            fixedHeaderContent={fixedHeaderContent}
+            itemContent={rowContent}
+          />
+        </Paper>
+      )}
     </Box>
   );
 }

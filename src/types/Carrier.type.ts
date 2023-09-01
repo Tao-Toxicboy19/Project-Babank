@@ -8,6 +8,8 @@ export interface carrier {
 
 export interface carrierState {
     carrier: carrier[]
+    loading: boolean
+    error: string | null
 }
 
 export interface ColumnData {

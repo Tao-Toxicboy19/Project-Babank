@@ -10,7 +10,7 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useState } from "react";
 import { Order } from "../../../types/Order.type";
 import { columns } from "./ColumnDataOrder";
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, InputAdornment, TextField, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import ModalPopup from "./Insert/Page";
@@ -19,6 +19,8 @@ import SearchIcon from '@mui/icons-material/Search';
 export default function OrderPage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const orders = useSelector((state: RootState) => state.order.orders);
+  const loading = useSelector((state: RootState) => state.order.loading);
+  const error = useSelector((state: RootState) => state.order.error);
 
   // search
   const filteredData = orders.filter((item) =>
@@ -133,14 +135,29 @@ export default function OrderPage() {
         />
         <ModalPopup />
       </Box>
-      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
-        <TableVirtuoso
-          data={convertedOrders}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={rowContent}
-        />
-      </Paper>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography>Error: {error}</Typography>
+      ) : (
+        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+          <TableVirtuoso
+            data={convertedOrders}
+            components={VirtuosoTableComponents}
+            fixedHeaderContent={fixedHeaderContent}
+            itemContent={rowContent}
+          />
+        </Paper>
+      )}
     </Box>
   );
 }

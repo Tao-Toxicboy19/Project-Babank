@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
+  CircularProgress,
   InputAdornment,
   Paper,
   Table,
@@ -26,6 +27,8 @@ type Props = {};
 
 export default function CargoCranePage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const loading = useSelector((state: RootState) => state.cargoCrane.loading);
+  const error = useSelector((state: RootState) => state.cargoCrane.error);
   const cargocrane = useSelector(
     (state: RootState) => state.cargoCrane.cargoCrane
   );
@@ -46,7 +49,7 @@ export default function CargoCranePage({ }: Props) {
       <TableBody {...props} ref={ref} />
     )),
   };
-  const convertedFloating: CargoCrane[] = cargocrane.map((items) => ({
+  const convertedCargoCrane: CargoCrane[] = cargocrane.map((items) => ({
     cargo_crane_id: items.cargo_crane_id,
     floating_id: items.floating_id,
     cargo_id: items.cargo_id,
@@ -134,14 +137,29 @@ export default function CargoCranePage({ }: Props) {
         />
         <ModalPopUp />
       </Box>
-      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
-        <TableVirtuoso
-          data={convertedFloating}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={rowContent}
-        />
-      </Paper>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography>Error: {error}</Typography>
+      ) : (
+        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+          <TableVirtuoso
+            data={convertedCargoCrane}
+            components={VirtuosoTableComponents}
+            fixedHeaderContent={fixedHeaderContent}
+            itemContent={rowContent}
+          />
+        </Paper>
+      )}
     </Box>
   );
 }

@@ -24,4 +24,6 @@ export interface ColumnData {
 
 export interface OrderState {
     orders: Order[];
+    loading: boolean
+    error: string | null
 }

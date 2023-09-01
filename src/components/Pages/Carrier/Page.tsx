@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
+  CircularProgress,
   InputAdornment,
   Paper,
   Table,
@@ -26,6 +27,8 @@ type Props = {};
 export default function CarrierPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const carrier = useSelector((state: RootState) => state.carrier.carrier);
+  const loading = useSelector((state: RootState) => state.carrier.loading);
+  const error = useSelector((state: RootState) => state.carrier.error);
 
   // search
   const filteredData = carrier.filter((item) =>
@@ -49,7 +52,7 @@ export default function CarrierPage({ }: Props) {
     )),
   };
 
-  const convertedFloating: carrier[] = filteredData.map((items) => ({
+  const convertedCarrier: carrier[] = filteredData.map((items) => ({
     carrier_id: items.carrier_id,
     carrier_name: items.carrier_name,
     maxcapacity: items.maxcapacity,
@@ -128,14 +131,29 @@ export default function CarrierPage({ }: Props) {
         />
         <ModalPopup />
       </Box>
-      <Paper sx={{ height: 600, width: "100%", marginTop: 3 }}>
-        <TableVirtuoso
-          data={convertedFloating}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={rowContent}
-        />
-      </Paper>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography>Error: {error}</Typography>
+      ) : (
+        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+          <TableVirtuoso
+            data={convertedCarrier}
+            components={VirtuosoTableComponents}
+            fixedHeaderContent={fixedHeaderContent}
+            itemContent={rowContent}
+          />
+        </Paper>
+      )}
     </Box>
   );
 }
