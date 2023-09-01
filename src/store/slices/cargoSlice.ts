@@ -24,24 +24,25 @@ const cargoSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
-    setInsertCargo: (state, action: PayloadAction<Cargo>) => {
+    setInsertSuccess: (state, action: PayloadAction<Cargo>) => {
       state.cargo.push(action.payload);
+      state.loading = false;
     },
     setUpdateCargo: (state, action: PayloadAction<Cargo>) => {
+      state.loading = false;
       const cargoIndex = state.cargo.findIndex(c => c.cargo_id === action.payload.cargo_id);
       if (cargoIndex !== -1) {
         state.cargo[cargoIndex] = action.payload;
       }
     },
     setDeleteCargo: (state, action: PayloadAction<string>) => {
+      state.loading = false;
       state.cargo = state.cargo.filter(
         (cargo) => cargo.cargo_id !== action.payload
       );
     },
   },
-
 });
 
-export const { setCargoStart, setCargoSuccess, setCargoFailure, setInsertCargo, setUpdateCargo, setDeleteCargo } = cargoSlice.actions;
+export const { setCargoStart, setCargoSuccess, setCargoFailure, setInsertSuccess, setUpdateCargo, setDeleteCargo } = cargoSlice.actions;
 export default cargoSlice.reducer;

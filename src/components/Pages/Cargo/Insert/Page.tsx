@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Cargo } from "../../../../types/Cargo.type";
 import api from "../../../../api/api";
 import AddIcon from '@mui/icons-material/Add';
@@ -18,8 +18,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { style } from "../../../../style/Styles";
-import { setInsertCargo } from "../../../../store/slices/cargoSlice";
+import { btnColor, style } from "../../../../style/Styles";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from '@mui/icons-material/Save';
+import { RootState } from "../../../../store/store";
+import { setInsertSuccess } from "../../../../store/slices/cargoSlice";
 
 type Props = {};
 
@@ -27,6 +30,7 @@ export default function EditCargo({ }: Props) {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.cargo.loading);
   const [cargo, setCargo] = useState<Cargo>({
     cargo_id: "",
     cargo_name: "",
@@ -62,7 +66,7 @@ export default function EditCargo({ }: Props) {
 
     try {
       await api.post("/cargo", cargo);
-      dispatch(setInsertCargo(cargo));
+      dispatch(setInsertSuccess(cargo));
       setOpen(false);
       setCargo({
         cargo_id: "",
@@ -145,14 +149,16 @@ export default function EditCargo({ }: Props) {
         >
           Exit
         </Button>
-        <Button
+        <LoadingButton
           type="submit"
-          className="bg-[#439947]"
+          loading={loading}
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
           variant="contained"
-          color="success"
+          style={btnColor}
         >
           Success
-        </Button>
+        </LoadingButton>
       </Box>
     </form>
   )

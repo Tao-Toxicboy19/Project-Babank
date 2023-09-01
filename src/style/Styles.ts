@@ -8,3 +8,7 @@ export const style = {
     boxShadow: 24,
     p: 4,
 };
+
+export const btnColor = {
+    backgroundColor: "#1976D2"
+}

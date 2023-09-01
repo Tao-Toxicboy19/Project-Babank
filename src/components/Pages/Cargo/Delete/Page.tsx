@@ -1,33 +1,42 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import { useDispatch } from 'react-redux';
+import api from '../../../../api/api';
+import { EditCargoProps } from '../../../../types/Cargo.type'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { style } from '../../../../style/Styles';
+import Swal from 'sweetalert2'
+import { setDeleteCargo } from '../../../../store/slices/cargoSlice';
 
-export default function DeletePage() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+export default function Page({ cargoId }: EditCargoProps) {
+  const dispatch = useDispatch();
 
-    return (
-        <div>
-            <DeleteIcon onClick={handleOpen} className="hover:text-red-500 hover:scale-110 transform transition-transform duration-300" />
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
-                </Box>
-            </Modal>
-        </div>
-    );
+  const handleDeleteCargo = () => {
+    Swal.fire({
+      title: 'ยืนยันการลบ',
+      text: 'คุณต้องการลบข้อมูล Cargo นี้ใช่หรือไม่?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่, ลบ',
+      cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        api.delete(`/cargo/${cargoId}`)
+          .then(() => {
+            dispatch(setDeleteCargo(cargoId));
+            Swal.fire(
+              'ลบข้อมูลเรียบร้อย',
+              'ข้อมูล Cargo ถูกลบแล้ว',
+              'success'
+            );
+          })
+          .catch(error => {
+            console.error('เกิดข้อผิดพลาดในการลบข้อมูล Cargo: ', error);
+          });
+      }
+    });
+  };
+
+  return (
+    <div>
+      <DeleteIcon onClick={handleDeleteCargo} className="hover:text-red-500 hover:scale-110 transform transition-transform duration-300" />
+    </div>
+  )
 }

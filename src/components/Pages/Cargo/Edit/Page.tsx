@@ -9,12 +9,15 @@ import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/mater
 import { Cargo, EditCargoProps } from '../../../../types/Cargo.type';
 import { RootState } from '../../../../store/store';
 import { setUpdateCargo } from '../../../../store/slices/cargoSlice';
-import { style } from '../../../../style/Styles';
+import { btnColor, style } from '../../../../style/Styles';
 import api from '../../../../api/api';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function EditPageV2({ cargoId }: EditCargoProps) {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
+    const loading = useSelector((state: RootState) => state.cargo.loading);
     const cargos = useSelector((state: RootState) => state.cargo.cargo);
     const [cargo, setCargo] = useState<Cargo | null>(
         cargos.find(cargo => cargo.cargo_id === cargoId) || null
@@ -79,7 +82,25 @@ export default function EditPageV2({ cargoId }: EditCargoProps) {
                     <MenuItem value="export">Export</MenuItem>
                 </Select>
             </FormControl>
-            <Button onClick={handleEditCargo}>Save</Button>
+            <Box className="flex justify-start gap-x-5">
+                <Button
+                    variant="outlined"
+                    onClick={() => setOpen(false)}
+                >
+                    Exit
+                </Button>
+                <LoadingButton
+                    type="submit"
+                    loading={loading}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    variant="contained"
+                    style={btnColor}
+                    onClick={handleEditCargo}
+                >
+                    Save
+                </LoadingButton>
+            </Box>
         </Box>
     )
 

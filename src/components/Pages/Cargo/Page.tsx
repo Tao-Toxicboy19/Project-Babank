@@ -108,8 +108,7 @@ export default function CargoPage({ }: Props) {
           {column.dataKey === "editColumn" ? (
             <Box className="flex justify-end item-center">
               <EditPageV2 cargoId={row.cargo_id} />
-              {/* <EditCargo /> */}
-              <DeletePage />
+              <DeletePage cargoId={row.cargo_id} />
             </Box>
           ) : (
             row[column.dataKey]
