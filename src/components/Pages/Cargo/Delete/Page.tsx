@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2'
 import { setDeleteCargo } from '../../../../store/slices/cargoSlice';
 
-export default function Page({ cargoId }: EditCargoProps) {
+export default function Page({ Id }: EditCargoProps) {
   const dispatch = useDispatch();
 
   const handleDeleteCargo = () => {
@@ -18,9 +18,9 @@ export default function Page({ cargoId }: EditCargoProps) {
       cancelButtonText: 'ยกเลิก'
     }).then((result) => {
       if (result.isConfirmed) {
-        api.delete(`/cargo/${cargoId}`)
+        api.delete(`/cargo/${Id}`)
           .then(() => {
-            dispatch(setDeleteCargo(cargoId));
+            dispatch(setDeleteCargo(Id));
             Swal.fire(
               'ลบข้อมูลเรียบร้อย',
               'ข้อมูล Cargo ถูกลบแล้ว',

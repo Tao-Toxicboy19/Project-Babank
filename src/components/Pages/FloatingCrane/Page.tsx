@@ -21,6 +21,7 @@ import { Floating } from "../../../types/FloatingCrane.type";
 import React from "react";
 import { columns } from "./ColumnDataFloating";
 import ModalPopup from "./Insert/Page";
+import EditPage from "./Edit/Page";
 
 type Props = {};
 
@@ -29,7 +30,7 @@ export default function FloatingCranePage({ }: Props) {
   const floatingData = useSelector((state: RootState) => state.floating.floating);
   const loading = useSelector((state: RootState) => state.floating.loading)
   const error = useSelector((state: RootState) => state.floating.error)
-
+  
   // search
   const filteredData = floatingData.filter((item) =>
     item.floating_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,7 +54,7 @@ export default function FloatingCranePage({ }: Props) {
   };
 
   const convertedFloating: Floating[] = filteredData.map((floating) => ({
-    floating_id: floating.floating_id,
+    fl_id: floating.fl_id,
     floating_name: floating.floating_name,
     description: floating.description,
     latitude: floating.latitude,
@@ -94,7 +95,8 @@ export default function FloatingCranePage({ }: Props) {
           className={column.className}
         >
           {column.dataKey === "editColumn" ? (
-            <button>Edit</button>
+            <EditPage Id={row.fl_id} />
+            // <DeletePage cargoId={row.cargo_id} />
           ) : (
             row[column.dataKey]
           )}

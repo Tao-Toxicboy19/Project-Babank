@@ -14,16 +14,14 @@ import api from '../../../../api/api';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 
-export default function EditPageV2({ cargoId }: EditCargoProps) {
+export default function EditPageV2({ Id }: EditCargoProps) {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const loading = useSelector((state: RootState) => state.cargo.loading);
     const cargos = useSelector((state: RootState) => state.cargo.cargo);
     const [cargo, setCargo] = useState<Cargo | null>(
-        cargos.find(cargo => cargo.cargo_id === cargoId) || null
+        cargos.find(cargo => cargo.cargo_id === Id) || null
     );
-
-    const handleClose = () => setOpen(false);
 
     const handleCargoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -35,9 +33,9 @@ export default function EditPageV2({ cargoId }: EditCargoProps) {
 
     const handleEditCargo = () => {
         if (cargo !== null) {
-            api.put(`/cargo/${cargoId}`, cargo)
+            api.put(`/cargo/${Id}`, cargo)
                 .then(() => {
-                    handleClose();
+                    () => setOpen(false)
                     dispatch(setUpdateCargo(cargo));
                 })
                 .catch(error => {
@@ -112,7 +110,7 @@ export default function EditPageV2({ cargoId }: EditCargoProps) {
             />
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={() => setOpen(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >

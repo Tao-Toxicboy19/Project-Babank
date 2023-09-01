@@ -26,20 +26,17 @@ const floatingSlice = createSlice({
     setInsertFloating: (state, action: PayloadAction<Floating>) => {
       state.floating.push(action.payload);
     },
-    setDeleteFloating: (state, action) => {
-      const idToDelete = action.payload;
-      state.floating = state.floating.filter(floating => floating.floating_id !== idToDelete);
-    },
     setUpdateFloating: (state, action: PayloadAction<Floating>) => {
-      const { floating_id, ...updatedData } = action.payload;
-      const existingFloatingIndex = state.floating.findIndex(floating => floating.floating_id === floating_id);
-
-      if (existingFloatingIndex !== -1) {
-        state.floating[existingFloatingIndex] = {
-          ...state.floating[existingFloatingIndex],
-          ...updatedData,
-        };
+      state.loading = false;
+      const cargoIndex = state.floating.findIndex(floating => floating.fl_id === action.payload.fl_id);
+      if (cargoIndex !== -1) {
+        state.floating[cargoIndex] = action.payload;
       }
+    },
+    setDeleteFloating: (state, action) => {
+      state.loading = false;
+      const idToDelete = action.payload;
+      state.floating = state.floating.filter(floating => floating.fl_id !== idToDelete);
     },
   }
 });

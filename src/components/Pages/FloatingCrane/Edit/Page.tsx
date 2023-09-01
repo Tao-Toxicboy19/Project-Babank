@@ -1,128 +1,134 @@
-import { Box, TextField } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import api from "../../../../api/api";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { btnColor, style } from '../../../../style/Styles';
+import { EditCargoProps } from '../../../../types/Cargo.type';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
+import { useState } from 'react';
+import { Floating } from '../../../../types/FloatingCrane.type';
+import api from '../../../../api/api';
+import { setUpdateFloating } from '../../../../store/slices/floatingSlice';
+import { TextField } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
-type Props = {};
 
-interface LocationData {
-  id: number;
-  name: string;
-  description: string;
-  latitude: number;
-  longitude: number;
-  setuptime: string;
-  speed: number;
-}
+export default function EditPage({ Id }: EditCargoProps) {
+  const [open, setOpen] = React.useState(false);
 
-export default function EditFloatingCranePage({}: Props) {
-  const { id } = useParams<{ id: string }>();
-
-  const [locationData, setLocationData] = useState<LocationData>({
-    id: 0,
-    name: "",
-    description: "",
-    latitude: 0,
-    longitude: 0,
-    setuptime: "",
-    speed: 0,
-  });
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/singlelocation/${id}`)
-      .then((res) => {
-        setLocationData(res.data.result[0]);
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.floating.loading);
+  const floatings = useSelector((state: RootState) => state.floating.floating);
+  const [floating, setfloating] = useState<Floating | null>(
+    floatings.find(floating => floating.fl_id === Id) || null
+  );
+  // alert(`Hello${Id}`)
+  const handleCargoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setLocationData((prevData) => ({
-      ...prevData,
+    setfloating((prevCargo: Floating | any) => ({
+      ...prevCargo,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    api
-      .put(`/location/${id}`, locationData)
-      .then(() => {
-        alert("Update successful");
-      })
-      .catch((err) => console.log("Error updating data:", err));
+  const handleEditCargo = () => {
+    if (floating !== null) {
+      api.put(`/floating_crane/${Id}`, floating)
+        .then(() => {
+          () => setOpen(false)
+          dispatch(setUpdateFloating(floating));
+        })
+        .catch(error => {
+          console.error('เกิดข้อผิดพลาดในการแก้ไขข้อมูล floatings: ', error);
+        });
+    }
   };
 
-  return (
-    <>
-      <Box>
-        <TextField id="standard-basic" label="Standard" variant="standard" />
+  const FormEdit = () => (
+    <Box className="flex flex-col gap-5">
+      <TextField
+        label="Floating Transfer Station name"
+        name="floating_name"
+        type="text"
+        value={floating?.floating_name}
+        onChange={handleCargoChange}
+      />
+      <TextField
+        label="Description"
+        name="description"
+        type="text"
+        value={floating?.description}
+        onChange={handleCargoChange}
+      />
+      <TextField
+        label="Latitude"
+        name="latitude"
+        type="number"
+        value={floating?.latitude}
+        onChange={handleCargoChange}
+      />
+      <TextField
+        label="Longitude"
+        name="work_rate"
+        type="number"
+        value={floating?.longitude}
+        onChange={handleCargoChange}
+      />
+      <TextField
+        label="Setup time"
+        name="setuptime"
+        type="number"
+        value={floating?.setuptime}
+        onChange={handleCargoChange}
+      />
+      <TextField
+        label="Speed"
+        name="speed"
+        type="number"
+        value={floating?.speed}
+        onChange={handleCargoChange}
+      />
+      <Box className="flex justify-start gap-x-5">
+        <Button
+          variant="outlined"
+          onClick={() => setOpen(false)}
+        >
+          Exit
+        </Button>
+        <LoadingButton
+          type="submit"
+          loading={loading}
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          variant="contained"
+          style={btnColor}
+          onClick={handleEditCargo}
+        >
+          Save
+        </LoadingButton>
       </Box>
-      <div>
-        <h1>Edit Location</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={locationData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Description:</label>
-            <input
-              type="text"
-              name="description"
-              value={locationData.description}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>latitude:</label>
-            <input
-              type="text"
-              name="latitude"
-              value={locationData.latitude}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>longitude:</label>
-            <input
-              type="text"
-              name="longitude"
-              value={locationData.longitude}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>setuptime:</label>
-            <input
-              type="text"
-              name="setuptime"
-              value={locationData.setuptime}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>speed:</label>
-            <input
-              type="text"
-              name="speed"
-              value={locationData.speed}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button type="submit">Update</button>
-        </form>
-      </div>
-    </>
+    </Box>
+  )
+
+  return (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 3 }}>
+            Floating Transfer Station {Id}
+          </Typography>
+          {FormEdit()}
+        </Box>
+      </Modal>
+    </div>
   );
 }

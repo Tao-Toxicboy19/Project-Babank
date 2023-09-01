@@ -21,5 +21,5 @@ export interface ColumnData {
 }
 
 export interface EditCargoProps {
-    cargoId: string;
+    Id: string;
 }

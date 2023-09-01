@@ -14,17 +14,20 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../store/store";
-import { style } from "../../../../style/Styles";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../../store/store";
+import { btnColor, style } from "../../../../style/Styles";
 import { setInsertFloating } from "../../../../store/slices/floatingSlice";
+import AddIcon from '@mui/icons-material/Add';
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function ModalPopup() {
   const [open, setOpen] = React.useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const loading = useSelector((state: RootState) => state.floating.loading)
   const dispatch = useDispatch<AppDispatch>();
-
-  const [formData, setFormData] = useState<Floating>({
+  const [floating_crane, setFloating_crane] = useState<Floating>({
     floating_id: "",
     floating_name: "",
     description: "",
@@ -36,7 +39,7 @@ export default function ModalPopup() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({
+    setFloating_crane((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -45,12 +48,12 @@ export default function ModalPopup() {
     event.preventDefault();
 
     if (
-      !formData.floating_name ||
-      !formData.description ||
-      formData.latitude === 0 ||
-      formData.longitude === 0 ||
-      formData.setuptime === 0 ||
-      formData.speed === 0
+      !floating_crane.floating_name ||
+      !floating_crane.description ||
+      floating_crane.latitude === 0 ||
+      floating_crane.longitude === 0 ||
+      floating_crane.setuptime === 0 ||
+      floating_crane.speed === 0
     ) {
       setShowErrorAlert(true);
       return;
@@ -58,11 +61,11 @@ export default function ModalPopup() {
 
     try {
       await api
-        .post("/floating", formData)
+        .post("/floating_crane", floating_crane)
         .then(() => {
-          dispatch(setInsertFloating(formData));
+          dispatch(setInsertFloating(floating_crane));
           setOpen(false);
-          setFormData({
+          setFloating_crane({
             floating_id: "",
             floating_name: "",
             description: "",
@@ -78,9 +81,117 @@ export default function ModalPopup() {
     }
   };
 
+  const FormInsert = () => (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <TextField
+        id="outlined-basic"
+        label="Floating Name:"
+        variant="outlined"
+        type="text"
+        name="floating_name"
+        value={floating_crane.floating_name}
+        onChange={handleInputChange}
+      />
+      <TextField
+        id="outlined-basic"
+        label="Description:"
+        variant="outlined"
+        type="text"
+        name="description"
+        value={floating_crane.description}
+        onChange={handleInputChange}
+      />
+      <FormControl variant="outlined">
+        <FormHelperText id="outlined-weight-helper-text">
+          Latitude:
+        </FormHelperText>
+        <OutlinedInput
+          id="outlined-adornment-weight2"
+          type="number"
+          name="latitude"
+          value={floating_crane.latitude === 0 ? "" : floating_crane.latitude}
+          onChange={handleInputChange}
+          endAdornment={
+            <InputAdornment position="end">Lat</InputAdornment>
+          }
+        />
+      </FormControl>
+      <FormControl variant="outlined">
+        <FormHelperText id="outlined-weight-helper-text">
+          Longitude:
+        </FormHelperText>
+        <OutlinedInput
+          id="outlined-adornment-weight2"
+          type="number"
+          name="longitude"
+          value={floating_crane.longitude === 0 ? "" : floating_crane.longitude}
+          onChange={handleInputChange}
+          endAdornment={
+            <InputAdornment position="end">Long</InputAdornment>
+          }
+        />
+      </FormControl>
+      <FormControl variant="outlined">
+        <FormHelperText id="outlined-weight-helper-text">
+          Setup time:
+        </FormHelperText>
+        <OutlinedInput
+          id="outlined-adornment-weight2"
+          type="number"
+          name="setuptime"
+          value={floating_crane.setuptime === 0 ? "" : floating_crane.setuptime}
+          onChange={handleInputChange}
+          endAdornment={
+            <InputAdornment position="end">ST</InputAdornment>
+          }
+        />
+      </FormControl>
+      <FormControl variant="outlined">
+        <FormHelperText id="outlined-weight-helper-text">
+          Speed:
+        </FormHelperText>
+        <OutlinedInput
+          id="outlined-adornment-weight2"
+          type="number"
+          name="speed"
+          value={floating_crane.speed === 0 ? "" : floating_crane.speed}
+          onChange={handleInputChange}
+          endAdornment={
+            <InputAdornment position="end">SP</InputAdornment>
+          }
+        />
+      </FormControl>
+      <Box>
+        {showErrorAlert && (
+          <Alert variant="outlined" severity="error">
+            กรุณากรอกให้ครบ!!
+          </Alert>
+        )}
+      </Box>
+      <Box className="flex justify-start gap-x-5">
+        <Button
+          variant="outlined"
+          onClick={() => setOpen(false)}
+        >
+          Exit
+        </Button>
+        <LoadingButton
+          type="submit"
+          loading={loading}
+          loadingPosition="start"
+          startIcon={<SaveIcon />}
+          variant="contained"
+          style={btnColor}
+        >
+          Success
+        </LoadingButton>
+      </Box>
+    </form>
+  )
+
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Insert Crane</Button>
+      <Button onClick={() => setOpen(true)}><AddIcon className="mx-2" />Insert Crane</Button>
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -88,108 +199,10 @@ export default function ModalPopup() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 3 }}>
             Floating crane
           </Typography>
-          <form onSubmit={handleSubmit}>
-            <Box className="grid grid-cols-2 gap-5 my-3">
-              <TextField
-                id="outlined-basic"
-                label="Floating Name:"
-                variant="outlined"
-                type="text"
-                name="floating_name"
-                value={formData.floating_name}
-                onChange={handleInputChange}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Description:"
-                variant="outlined"
-                type="text"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-              />
-              <FormControl variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Latitude:
-                </FormHelperText>
-                <OutlinedInput
-                  id="outlined-adornment-weight2"
-                  type="number"
-                  name="latitude"
-                  value={formData.latitude === 0 ? "" : formData.latitude}
-                  onChange={handleInputChange}
-                  endAdornment={
-                    <InputAdornment position="end">Lat</InputAdornment>
-                  }
-                />
-              </FormControl>
-              <FormControl variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Longitude:
-                </FormHelperText>
-                <OutlinedInput
-                  id="outlined-adornment-weight2"
-                  type="number"
-                  name="longitude"
-                  value={formData.longitude === 0 ? "" : formData.longitude}
-                  onChange={handleInputChange}
-                  endAdornment={
-                    <InputAdornment position="end">Long</InputAdornment>
-                  }
-                />
-              </FormControl>
-              <FormControl variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Setup time:
-                </FormHelperText>
-                <OutlinedInput
-                  id="outlined-adornment-weight2"
-                  type="number"
-                  name="setuptime"
-                  value={formData.setuptime === 0 ? "" : formData.setuptime}
-                  onChange={handleInputChange}
-                  endAdornment={
-                    <InputAdornment position="end">ST</InputAdornment>
-                  }
-                />
-              </FormControl>
-              <FormControl variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Speed:
-                </FormHelperText>
-                <OutlinedInput
-                  id="outlined-adornment-weight2"
-                  type="number"
-                  name="speed"
-                  value={formData.speed === 0 ? "" : formData.speed}
-                  onChange={handleInputChange}
-                  endAdornment={
-                    <InputAdornment position="end">SP</InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Box>
-            <Box className="my-3">
-              {showErrorAlert && (
-                <Alert variant="outlined" severity="error">
-                  กรุณากรอกให้ครบ!!
-                </Alert>
-              )}
-            </Box>
-            <Box className="flex justify-center mt-2">
-              <Button
-                type="submit"
-                className="bg-[#439947]"
-                variant="contained"
-                color="success"
-              >
-                Success
-              </Button>
-            </Box>
-          </form>
+          {FormInsert()}
         </Box>
       </Modal>
     </div>

@@ -24,9 +24,9 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    api.get("/cargo").then((res) => dispatch(setCargoSuccess(res.data.result)))
+    api.get("/cargo").then((res) => dispatch(setCargoSuccess(res.data)))
+    api.get("/floating_crane").then((res) => dispatch(setFloatingSuccess(res.data)))
     api.get("/cargocrane").then((res) => dispatch(setCargoCraneSuccess(res.data.cargocranes)))
-    api.get("/floating").then((res) => dispatch(setFloatingSuccess(res.data.result)))
     api.get("/carrier").then((res) => dispatch(setCarrierSuccess(res.data.Carriers)))
     api.get("/order").then((res) => dispatch(setOrderSuccess(res.data.orders)))
   }, []);
@@ -73,3 +73,30 @@ export default function App() {
 //     clearTimeout(loadingTimeout);
 //   };
 // }, []);
+
+
+// แปลงเวลา
+
+// import React, { useEffect, useState } from 'react';
+
+// function App() {
+//   const [isoDateTime, setIsoDateTime] = useState("2023-09-08T13:36:26.000Z");
+//   const [localDateTime, setLocalDateTime] = useState("");
+
+//   useEffect(() => {
+//     const date = new Date(isoDateTime);
+//     const localTime = date.toLocaleString();
+
+//     setLocalDateTime(localTime);
+//   }, [isoDateTime]);
+
+//   return (
+//     <div>
+//       <p>ISO DateTime: {isoDateTime}</p>
+//       <p>Local DateTime: {localDateTime}</p>
+//     </div>
+//   );
+// }
+
+// export default App;
+
