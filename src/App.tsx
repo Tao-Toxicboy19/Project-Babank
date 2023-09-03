@@ -5,8 +5,6 @@ import HomePage from "./components/Pages/Home/Page";
 import FloatingCranePage from "./components/Pages/FloatingCrane/Page";
 import CarrierPage from "./components/Pages/Carrier/Page";
 import RegisterPage from "./components/Pages/Register/Page";
-import EditFloatingCranePage from "./components/Pages/FloatingCrane/Edit/Page";
-import EditCarrierPage from "./components/Pages/Carrier/Edit/EditCarrierPage";
 import { useEffect } from "react";
 import api from "./api/api";
 import { useDispatch } from "react-redux";
@@ -26,9 +24,9 @@ export default function App() {
   useEffect(() => {
     api.get("/cargo").then((res) => dispatch(setCargoSuccess(res.data)))
     api.get("/floating_crane").then((res) => dispatch(setFloatingSuccess(res.data)))
-    api.get("/cargocrane").then((res) => dispatch(setCargoCraneSuccess(res.data.cargocranes)))
-    api.get("/carrier").then((res) => dispatch(setCarrierSuccess(res.data.Carriers)))
-    api.get("/order").then((res) => dispatch(setOrderSuccess(res.data.orders)))
+    api.get("/cargo_crane").then((res) => dispatch(setCargoCraneSuccess(res.data)))
+    api.get("/carrier").then((res) => dispatch(setCarrierSuccess(res.data)))
+    api.get("/orders").then((res) => dispatch(setOrderSuccess(res.data)))
   }, []);
 
   return (
@@ -42,14 +40,9 @@ export default function App() {
             <Route path="/carrier" element={<CarrierPage />} />
             <Route path="/cargo" element={<CargoPage />} />
             <Route path="/Order" element={<OrderPage />} />
-            <Route
-              path="/update-position/:id"
-              element={<EditFloatingCranePage />}
-            />
             <Route path="/cargo crane" element={<CargocranePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/editcarrierpage/:id" element={<EditCarrierPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

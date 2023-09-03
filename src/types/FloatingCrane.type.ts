@@ -1,7 +1,7 @@
 export interface Floating {
   fl_id: string;
   floating_name: string;
-  description: string;
+  NumberOfCranes: number;
   latitude: number;
   longitude: number;
   setuptime: number;

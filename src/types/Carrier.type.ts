@@ -1,5 +1,5 @@
 export interface carrier {
-    carrier_id: string
+    cr_id: string
     carrier_name: string
     maxcapacity: number
     ower: string

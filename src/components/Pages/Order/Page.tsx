@@ -1,20 +1,13 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useState } from "react";
-import { Order } from "../../../types/Order.type";
-import { columns } from "./ColumnDataOrder";
-import { Box, CircularProgress, InputAdornment, TextField, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import ModalPopup from "./Insert/Page";
+import { useSelector } from "react-redux";
+import { Order } from "../../../types/Order.type";
+import { TableComponents, TableVirtuoso } from "react-virtuoso";
+import { Box, CircularProgress, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import React from "react";
+import { columns } from "./ColumnDataOrder";
 import SearchIcon from '@mui/icons-material/Search';
+import PageInsert from "./Insert/Page";
 
 export default function OrderPage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -24,7 +17,7 @@ export default function OrderPage() {
 
   // search
   const filteredData = orders.filter((item) =>
-    item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const VirtuosoTableComponents: TableComponents<Order> = {
@@ -44,20 +37,18 @@ export default function OrderPage() {
     )),
   };
 
-  const convertedOrders: Order[] = filteredData.map((order) => ({
-    order_id: order.order_id,
-    carrier_name: order.carrier_name,
-    carrier_id: order.carrier_id,
-    cargo_name: order.cargo_name,
-    cargo_id: order.cargo_id,
-    load_status: order.load_status,
-    category: order.category,
-    arrival_date: order.arrival_date,
-    arrival_time: order.arrival_time,
-    deadline_date: order.deadline_date,
-    deadline_time: order.deadline_time,
-    latitude: order.latitude,
-    longitude: order.longitude,
+  const convertedCargoCrane: Order[] | any = filteredData.map((items) => ({
+    or_id: items.or_id,
+    carrier_name: items.carrier_name,
+    cr_id: items.cr_id,
+    cargo_name: items.cargo_name,
+    ca_id: items.ca_id,
+    load_status: items.load_status,
+    category: items.category,
+    arrival_time: items.arrival_time,
+    deadline_time: items.deadline_time,
+    latitude: items.latitude,
+    longitude: items.longitude,
   }));
 
   function fixedHeaderContent() {
@@ -67,7 +58,13 @@ export default function OrderPage() {
           <TableCell
             key={column.dataKey}
             variant="head"
-            align={column.numeric || false ? "right" : "left"}
+            align={
+              column.dataKey === "cargo_name"
+                ? "center"
+                : column.numeric || false
+                  ? "right"
+                  : "left"
+            }
             style={{ width: column.width }}
             sx={{
               width: column.width,
@@ -90,21 +87,20 @@ export default function OrderPage() {
         <TableCell
           key={column.dataKey}
           align={
-            column.dataKey === "carrier_name"
-              ? "left"
+            column.dataKey === "cargo_name"
+              ? "center"
               : column.numeric || false
                 ? "right"
                 : "left"
           }
         >
-          {column.dataKey === "arrival_time" ? (
-            `${row.arrival_date} ${row.arrival_time}`
-          ) : column.dataKey === "deadline_time" ? (
-            `${row.deadline_date} ${row.deadline_time}`
-          ) : column.dataKey === "editColumn" ? (
-            <button>Edit</button>
+          {column.dataKey === "editColumn" ? (
+            <Box className="flex justify-end item-center">
+              {/* <EditPage Id={row.cc_id} /> */}
+              {/* <DeletePage Id={row.fl_id} /> */}
+            </Box>
           ) : (
-            row[column.dataKey]
+            row[column.dataKey as keyof Order]
           )}
         </TableCell>
       ))}
@@ -113,8 +109,8 @@ export default function OrderPage() {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Typography className="text-xl">Order</Typography>
-      <Box className="flex justify-between m-5">
+      <Typography className="text-xl">Cargo crane</Typography>
+      <Box className="m-5 flex justify-between">
         <TextField
           id="standard-basic"
           variant="standard"
@@ -133,7 +129,7 @@ export default function OrderPage() {
             ),
           }}
         />
-        <ModalPopup />
+        <PageInsert />
       </Box>
       {loading ? (
         <Box
@@ -151,7 +147,7 @@ export default function OrderPage() {
       ) : (
         <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
           <TableVirtuoso
-            data={convertedOrders}
+            data={convertedCargoCrane}
             components={VirtuosoTableComponents}
             fixedHeaderContent={fixedHeaderContent}
             itemContent={rowContent}

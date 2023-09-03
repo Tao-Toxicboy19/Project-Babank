@@ -14,35 +14,38 @@ import { setUpdateFloating } from '../../../../store/slices/floatingSlice';
 import { TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from "@mui/icons-material/Edit";
 
 
 export default function EditPage({ Id }: EditCargoProps) {
   const [open, setOpen] = React.useState(false);
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const loading = useSelector((state: RootState) => state.floating.loading);
   const floatings = useSelector((state: RootState) => state.floating.floating);
-  const [floating, setfloating] = useState<Floating | null>(
+  const [floating, setFloating] = useState<Floating | null>(
     floatings.find(floating => floating.fl_id === Id) || null
   );
   // alert(`Hello${Id}`)
   const handleCargoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setfloating((prevCargo: Floating | any) => ({
+    setFloating((prevCargo: Floating | any) => ({
       ...prevCargo,
       [name]: value,
     }));
   };
 
   const handleEditCargo = () => {
+    setLoading(true);
     if (floating !== null) {
       api.put(`/floating_crane/${Id}`, floating)
         .then(() => {
+          setLoading(false);
           () => setOpen(false)
           dispatch(setUpdateFloating(floating));
         })
         .catch(error => {
           console.error('เกิดข้อผิดพลาดในการแก้ไขข้อมูล floatings: ', error);
+          setLoading(false);
         });
     }
   };
@@ -60,7 +63,7 @@ export default function EditPage({ Id }: EditCargoProps) {
         label="Description"
         name="description"
         type="text"
-        value={floating?.description}
+        value={floating?.NumberOfCranes}
         onChange={handleCargoChange}
       />
       <TextField
@@ -115,7 +118,10 @@ export default function EditPage({ Id }: EditCargoProps) {
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      <EditIcon
+        onClick={() => setOpen(true)}
+        className="hover:text-blue-500 hover:scale-110 transform transition-transform duration-300 mx-2"
+      />
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -124,7 +130,7 @@ export default function EditPage({ Id }: EditCargoProps) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 3 }}>
-            Floating Transfer Station {Id}
+            แก้ไข ทุ่น
           </Typography>
           {FormEdit()}
         </Box>

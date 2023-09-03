@@ -19,8 +19,10 @@ import { carrier } from "../../../types/Carrier.type";
 import { TableComponents, TableVirtuoso } from "react-virtuoso";
 import React from "react";
 import { columns } from "./ColumnDataCarrier";
-import ModalPopup from "./Insert/ModalPopup";
 import SearchIcon from '@mui/icons-material/Search';
+import Page from "./Insert/Page";
+import EditPage from "./Edit/Page";
+import DeletePage from "./Delete/Page";
 
 type Props = {};
 
@@ -53,7 +55,7 @@ export default function CarrierPage({ }: Props) {
   };
 
   const convertedCarrier: carrier[] = filteredData.map((items) => ({
-    carrier_id: items.carrier_id,
+    cr_id: items.cr_id,
     carrier_name: items.carrier_name,
     maxcapacity: items.maxcapacity,
     ower: items.ower,
@@ -67,7 +69,13 @@ export default function CarrierPage({ }: Props) {
           <TableCell
             key={column.dataKey}
             variant="head"
-            align={column.numeric || false ? "right" : "left"}
+            align={
+              column.dataKey === "carrier_name" || column.dataKey === "ower"
+                ? "center"
+                : column.numeric || false
+                  ? "right"
+                  : "left"
+            }
             style={{ width: column.width }}
             sx={{
               width: column.width,
@@ -90,7 +98,7 @@ export default function CarrierPage({ }: Props) {
         <TableCell
           key={column.dataKey}
           align={
-            column.dataKey === "carrier_name"
+            column.dataKey === "carrier_name" || column.dataKey === "ower"
               ? "left"
               : column.numeric || false
                 ? "right"
@@ -98,7 +106,10 @@ export default function CarrierPage({ }: Props) {
           }
         >
           {column.dataKey === "editColumn" ? (
-            <button>Edit</button>
+            <Box className="flex justify-end item-center">
+              <EditPage Id={row.cr_id} />
+              <DeletePage Id={row.cr_id} />
+            </Box>
           ) : (
             row[column.dataKey]
           )}
@@ -129,7 +140,7 @@ export default function CarrierPage({ }: Props) {
             ),
           }}
         />
-        <ModalPopup />
+        <Page />
       </Box>
       {loading ? (
         <Box

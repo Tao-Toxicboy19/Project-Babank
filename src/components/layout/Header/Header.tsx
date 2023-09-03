@@ -15,7 +15,7 @@ import { clearUserEmail } from "../../../store/slices/authSlice";
 import { RootState } from "../../../store/store";
 import axios from "axios";
 
-const pages = [
+const LinkUrl = [
   "Home",
   "Floating Transfer",
   "Carrier",
@@ -24,6 +24,27 @@ const pages = [
   "Order",
   "Contact",
 ];
+
+const pages = [
+  "หน้าแรก",
+  "ทุ่น",
+  "เรือสินค้า",
+  "สินค้า",
+  "ข้อมูลระหว่างสินค้าเเละเครน",
+  "รายการถ่ายโอนสินค้า",
+  "ติดต่อเรา",
+];
+
+// const pages = [
+//   "หน้าแรก",
+//   "สถานีโอนสินค้าบนเรือลอย",
+//   "ขนส่งสินค้า",
+//   "สินค้า",
+//   "เครนสินค้า",
+//   "คำสั่งซื้อ",
+//   "ติดต่อเรา",
+// ];
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
@@ -122,11 +143,11 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, index) => (
                 <MenuItem
                   key={page}
                   component={Link}
-                  to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
+                  to={LinkUrl[index] === "Home" ? "/" : `/${LinkUrl[index].toLowerCase()}`}
                   onClick={handleCloseNavMenu}
                 >
                   <Typography textAlign="center">{page}</Typography>
@@ -153,16 +174,15 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
+            {pages.map((page, index) => (
+              <MenuItem
                 key={page}
-                component={Link} // Use Link instead of anchor tag
-                to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
+                component={Link}
+                to={LinkUrl[index] === "Home" ? "/" : `/${LinkUrl[index].toLowerCase()}`}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
-              </Button>
+                <Typography textAlign="center">{page}</Typography>
+              </MenuItem>
             ))}
           </Box>
 

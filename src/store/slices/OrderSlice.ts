@@ -28,14 +28,14 @@ const orderSlice = createSlice({
       state.orders.push(action.payload)
     },
     setUpdateOrder: (state, action: PayloadAction<Order>) => {
-      const orderIndex = state.orders.findIndex(order => order.order_id === action.payload.order_id);
+      const orderIndex = state.orders.findIndex(order => order.or_id === action.payload.or_id);
       if (orderIndex !== -1) {
         state.orders[orderIndex] = action.payload;
       }
     },
     setDeleteOrder: (state, action: PayloadAction<string>) => {
       state.orders = state.orders.filter(
-        (orders) => orders.order_id !== action.payload
+        (orders) => orders.or_id !== action.payload
       );
     },
   },

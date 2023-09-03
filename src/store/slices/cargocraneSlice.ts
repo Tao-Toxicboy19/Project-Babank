@@ -27,19 +27,19 @@ const cargoCraneSlice = createSlice({
     setInsertCargoCrane: (state, action: PayloadAction<CargoCrane>) => {
       state.cargoCrane.push(action.payload);
     },
-    setUpdateCargo: (state, action: PayloadAction<CargoCrane>) => {
-      const CargoCraneIndex = state.cargoCrane.findIndex(c => c.cargo_crane_id === action.payload.cargo_crane_id);
+    setUpdateCargoCrane: (state, action: PayloadAction<CargoCrane>) => {
+      const CargoCraneIndex = state.cargoCrane.findIndex(c => c.cc_id === action.payload.cc_id);
       if (CargoCraneIndex !== -1) {
         state.cargoCrane[CargoCraneIndex] = action.payload;
       }
     },
-    setDeleteCargo: (state, action: PayloadAction<string>) => {
+    setDeleteCargoCrane: (state, action: PayloadAction<string>) => {
       state.cargoCrane = state.cargoCrane.filter(
-        (cargoCrane) => cargoCrane.cargo_crane_id !== action.payload
+        (cargoCrane) => cargoCrane.cc_id !== action.payload
       );
     },
   },
 });
 
-export const { setDeleteCargo, setUpdateCargo, setInsertCargoCrane, setCargoCraneFailure, setCargoCraneSuccess, setCargoCraneStart } = cargoCraneSlice.actions;
+export const { setDeleteCargoCrane, setUpdateCargoCrane, setInsertCargoCrane, setCargoCraneFailure, setCargoCraneSuccess, setCargoCraneStart } = cargoCraneSlice.actions;
 export default cargoCraneSlice.reducer;

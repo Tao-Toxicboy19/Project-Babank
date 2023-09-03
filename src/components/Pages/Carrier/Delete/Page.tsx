@@ -3,9 +3,9 @@ import api from '../../../../api/api';
 import { EditCargoProps } from '../../../../types/Cargo.type'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2'
-import { setDeleteCargo } from '../../../../store/slices/cargoSlice';
+import { setDeleteCarrier } from '../../../../store/slices/carrierSlice';
 
-export default function Page({ Id }: EditCargoProps) {
+export default function DeletePage({ Id }: EditCargoProps) {
   const dispatch = useDispatch();
 
   const handleDeleteCargo = () => {
@@ -18,14 +18,14 @@ export default function Page({ Id }: EditCargoProps) {
       cancelButtonText: 'ยกเลิก'
     }).then((result) => {
       if (result.isConfirmed) {
-        api.delete(`/cargo/${Id}`)
+        api.delete(`/carrier/${Id}`)
           .then(() => {
             Swal.fire(
               'ลบข้อมูลเรียบร้อย',
               'ข้อมูล Cargo ถูกลบแล้ว',
               'success'
             );
-            dispatch(setDeleteCargo(Id));
+            dispatch(setDeleteCarrier(Id));
           })
           .catch(error => {
             console.error('เกิดข้อผิดพลาดในการลบข้อมูล Cargo: ', error);

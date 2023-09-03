@@ -17,11 +17,12 @@ import {
 } from "@mui/material";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
-import { Cargo } from "../../../types/Cargo.type";
-import { CargoCrane } from "../../../types/CargoCrane.type";
 import { columns } from "./ColumnDataCargoCrane";
-import ModalPopUp from "./Insert/ModalPopUp";
 import SearchIcon from '@mui/icons-material/Search';
+import { CargoCrane } from "../../../types/CargoCrane.type";
+import PageInsert from "./Insert/Page";
+import EditPage from "./Edit/Page";
+import DeletePage from "./Delete/Page";
 
 type Props = {};
 
@@ -33,7 +34,12 @@ export default function CargoCranePage({ }: Props) {
     (state: RootState) => state.cargoCrane.cargoCrane
   );
 
-  const VirtuosoTableComponents: TableComponents<Cargo> = {
+  // search
+  const filteredData = cargocrane.filter((item) =>
+    item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const VirtuosoTableComponents: TableComponents<CargoCrane> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -49,10 +55,12 @@ export default function CargoCranePage({ }: Props) {
       <TableBody {...props} ref={ref} />
     )),
   };
-  const convertedCargoCrane: CargoCrane[] = cargocrane.map((items) => ({
-    cargo_crane_id: items.cargo_crane_id,
-    floating_id: items.floating_id,
-    cargo_id: items.cargo_id,
+
+  const convertedCargoCrane: CargoCrane[] | any = filteredData.map((items) => ({
+    cc_id: items.cc_id,
+    fl_id: items.fl_id,
+    ca_id: items.ca_id,
+    crane: items.crane,
     cargo_name: items.cargo_name,
     floating_name: items.floating_name,
     consumption_rate: items.consumption_rate,
@@ -90,7 +98,7 @@ export default function CargoCranePage({ }: Props) {
     );
   }
 
-  const rowContent = (_index: number, row: Cargo) => (
+  const rowContent = (_index: number, row: CargoCrane) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
@@ -104,14 +112,18 @@ export default function CargoCranePage({ }: Props) {
           }
         >
           {column.dataKey === "editColumn" ? (
-            <button>Edit</button>
+            <Box className="flex justify-end item-center">
+              <EditPage Id={row.cc_id} />
+              <DeletePage Id={row.cc_id} />
+            </Box>
           ) : (
-            row[column.dataKey as keyof Cargo]
+            row[column.dataKey as keyof CargoCrane]
           )}
         </TableCell>
       ))}
     </React.Fragment>
   );
+
 
   return (
     <Box sx={{ marginTop: 2 }}>
@@ -135,7 +147,7 @@ export default function CargoCranePage({ }: Props) {
             ),
           }}
         />
-        <ModalPopUp />
+        <PageInsert />
       </Box>
       {loading ? (
         <Box

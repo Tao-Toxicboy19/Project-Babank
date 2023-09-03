@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import LoadingButton from '@mui/lab/LoadingButton';
 import api from '../../../../api/api';
 import { btnColor, style } from '../../../../style/Styles';
-import { Alert, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Cargo } from '../../../../types/Cargo.type';
@@ -17,11 +17,11 @@ import { Order } from '../../../../types/Order.type';
 import { setInsertOrder } from '../../../../store/slices/OrderSlice';
 import AddIcon from '@mui/icons-material/Add';
 
+
 export default function CreateOrderModal() {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const dispatch = useDispatch();
   const cargos = useSelector((state: RootState) => state.cargo.cargo);
   const carrier = useSelector((state: RootState) => state.carrier.carrier);
   const [formData, setFormData] = useState<Order>({
@@ -56,32 +56,6 @@ export default function CreateOrderModal() {
     });
   };
 
-  const handleCargoChange = (selectedCargoId: string) => {
-    const selectedCargo = cargos.find(
-      (item) => item.cargo_id === selectedCargoId
-    );
-    if (selectedCargo) {
-      setFormData((prevData) => ({
-        ...prevData,
-        ca_id: selectedCargo.cargo_id,
-        cargo_name: selectedCargo.cargo_name,
-      }));
-    }
-  };
-
-  const handleCarrier = (selectedCarrierId: string) => {
-    const selectedCarrier = carrier.find(
-      (item) => item.cr_id === selectedCarrierId
-    );
-    if (selectedCarrier) {
-      setFormData((prevData) => ({
-        ...prevData,
-        cr_id: selectedCarrier.cr_id,
-        carrier_name: selectedCarrier.carrier_name,
-      }));
-    }
-  };
-
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -91,22 +65,6 @@ export default function CreateOrderModal() {
   };
 
   const handleSubmit = () => {
-
-    if (
-      formData.cr_id === '' ||
-      formData.ca_id === '' ||
-      formData.load_status === 0 ||
-      formData.category === '' ||
-      formData.arrival_time === 0 ||
-      formData.deadline_time === 0 ||
-      formData.latitude === 0 ||
-      formData.longitude === 0
-    ) {
-      setLoading(false);
-      setShowErrorAlert(true);
-      return;
-    }
-
     setLoading(true);
     api
       .post('/orders', formData)
@@ -130,9 +88,7 @@ export default function CreateOrderModal() {
           id="Carrier-select"
           name="cr_id"
           value={formData.cr_id}
-          onChange={(e) =>
-            handleCarrier(e.target.value as string)
-          }
+          onChange={handleInputChange}
         >
           {carrier.map((item: carrier) => (
             <MenuItem key={item.cr_id} value={item.cr_id}>
@@ -148,9 +104,7 @@ export default function CreateOrderModal() {
           id="Cargo-select"
           name="ca_id"
           value={formData.ca_id}
-          onChange={(e) =>
-            handleCargoChange(e.target.value as string)
-          }
+          onChange={handleInputChange}
         >
           {cargos.map((item: Cargo) => (
             <MenuItem key={item.cargo_id} value={item.cargo_id}>
@@ -212,13 +166,6 @@ export default function CreateOrderModal() {
         onChange={handleInputChange}
         fullWidth
       />
-      <Box>
-        {showErrorAlert && (
-          <Alert variant="outlined" severity="error">
-            กรุณากรอกให้ครบ!!
-          </Alert>
-        )}
-      </Box>
       <Box className="flex justify-start gap-x-5">
         <Button
           variant="outlined"

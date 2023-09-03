@@ -14,8 +14,8 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../store/store";
 import { btnColor, style } from "../../../../style/Styles";
 import { setInsertFloating } from "../../../../store/slices/floatingSlice";
 import AddIcon from '@mui/icons-material/Add';
@@ -24,13 +24,13 @@ import SaveIcon from '@mui/icons-material/Save';
 
 export default function ModalPopup() {
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const loading = useSelector((state: RootState) => state.floating.loading)
   const dispatch = useDispatch<AppDispatch>();
   const [floating_crane, setFloating_crane] = useState<Floating>({
-    floating_id: "",
+    fl_id: "",
     floating_name: "",
-    description: "",
+    NumberOfCranes: 0,
     latitude: 0,
     longitude: 0,
     setuptime: 0,
@@ -46,15 +46,16 @@ export default function ModalPopup() {
   };
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    setLoading(true);
     if (
       !floating_crane.floating_name ||
-      !floating_crane.description ||
+      !floating_crane.NumberOfCranes ||
       floating_crane.latitude === 0 ||
       floating_crane.longitude === 0 ||
       floating_crane.setuptime === 0 ||
       floating_crane.speed === 0
     ) {
+      setLoading(false);
       setShowErrorAlert(true);
       return;
     }
@@ -65,17 +66,18 @@ export default function ModalPopup() {
         .then(() => {
           dispatch(setInsertFloating(floating_crane));
           setOpen(false);
+          setLoading(false);
           setFloating_crane({
-            floating_id: "",
+            fl_id: "",
             floating_name: "",
-            description: "",
+            NumberOfCranes: 0,
             latitude: 0,
             longitude: 0,
             setuptime: 0,
             speed: 0,
           });
         })
-        .catch((err) => console.log(err));
+        .catch(() => setLoading(false));
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -98,7 +100,7 @@ export default function ModalPopup() {
         variant="outlined"
         type="text"
         name="description"
-        value={floating_crane.description}
+        value={floating_crane.NumberOfCranes}
         onChange={handleInputChange}
       />
       <FormControl variant="outlined">
@@ -200,7 +202,7 @@ export default function ModalPopup() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 3 }}>
-            Floating crane
+            เพิ่มทุ่น
           </Typography>
           {FormInsert()}
         </Box>

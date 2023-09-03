@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Cargo } from "../../../../types/Cargo.type";
 import api from "../../../../api/api";
 import AddIcon from '@mui/icons-material/Add';
@@ -21,7 +21,6 @@ import {
 import { btnColor, style } from "../../../../style/Styles";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from '@mui/icons-material/Save';
-import { RootState } from "../../../../store/store";
 import { setInsertSuccess } from "../../../../store/slices/cargoSlice";
 
 type Props = {};
@@ -30,7 +29,7 @@ export default function EditCargo({ }: Props) {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const loading = useSelector((state: RootState) => state.cargo.loading);
+  const [loading, setLoading] = useState(false);
   const [cargo, setCargo] = useState<Cargo>({
     cargo_id: "",
     cargo_name: "",
@@ -58,16 +57,17 @@ export default function EditCargo({ }: Props) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    setLoading(true);
     if (!cargo.cargo_name || !cargo.consumption_rate || !cargo.work_rate) {
       setShowErrorAlert(true);
+      setLoading(false);
       return;
     }
 
     try {
       await api.post("/cargo", cargo);
       dispatch(setInsertSuccess(cargo));
-      setOpen(false);
+      setOpen(false); setLoading(false);
       setCargo({
         cargo_id: "",
         cargo_name: "",
@@ -76,6 +76,7 @@ export default function EditCargo({ }: Props) {
         category: "",
       });
     } catch (error) {
+      setLoading(false);
       console.log(`${error}`);
     }
   };
@@ -90,19 +91,6 @@ export default function EditCargo({ }: Props) {
         value={cargo.cargo_name}
         onChange={handleInputChange}
       />
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Action</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={cargo.category}
-          label="Action"
-          onChange={handleCategoryChange as any}
-        >
-          <MenuItem value="import">Import</MenuItem>
-          <MenuItem value="export">Export</MenuItem>
-        </Select>
-      </FormControl>
       <FormControl variant="outlined">
         <FormHelperText id="outlined-weight-helper-text">
           Consumption Rate:
@@ -134,6 +122,20 @@ export default function EditCargo({ }: Props) {
             <InputAdornment position="end">WR</InputAdornment>
           }
         />
+      </FormControl>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Action</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={cargo.category}
+          label="Action"
+          onChange={handleCategoryChange as any}
+        >
+          <MenuItem value="import">Import</MenuItem>
+          <MenuItem value="export">Export</MenuItem>
+          <MenuItem value="Any">Any</MenuItem>
+        </Select>
       </FormControl>
       <Box>
         {showErrorAlert && (

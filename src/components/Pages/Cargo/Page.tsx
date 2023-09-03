@@ -99,7 +99,7 @@ export default function CargoPage({ }: Props) {
           key={column.dataKey}
           align={
             column.dataKey === "cargo_name"
-              ? "center"
+              ? "left"
               : column.numeric || false
                 ? "right"
                 : "left"

@@ -5,27 +5,28 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Cargo, EditCargoProps } from '../../../../types/Cargo.type';
 import { RootState } from '../../../../store/store';
-import { setUpdateCargo } from '../../../../store/slices/cargoSlice';
 import { btnColor, style } from '../../../../style/Styles';
 import api from '../../../../api/api';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import { carrier } from '../../../../types/Carrier.type';
+import { setUpdateCarrier } from '../../../../store/slices/carrierSlice';
+import { TextField } from '@mui/material';
 
-export default function EditPageV2({ Id }: EditCargoProps) {
+export default function EditPage({ Id }: EditCargoProps) {
     const dispatch = useDispatch();
-    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const cargos = useSelector((state: RootState) => state.cargo.cargo);
-    const [cargo, setCargo] = useState<Cargo | null>(
-        cargos.find(cargo => cargo.cargo_id === Id) || null
+    const [open, setOpen] = useState(false);
+    const carriers = useSelector((state: RootState) => state.carrier.carrier);
+    const [carrier, setCarrier] = useState<carrier | null>(
+        carriers.find(carrier => carrier.cr_id === Id) || null
     );
 
     const handleCargoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setCargo((prevCargo: Cargo | any) => ({
+        setCarrier((prevCargo: Cargo | any) => ({
             ...prevCargo,
             [name]: value,
         }));
@@ -33,12 +34,12 @@ export default function EditPageV2({ Id }: EditCargoProps) {
 
     const handleEditCargo = () => {
         setLoading(true);
-        if (cargo !== null) {
-            api.put(`/cargo/${Id}`, cargo)
+        if (carrier !== null) {
+            api.put(`/carrier/${Id}`, carrier)
                 .then(() => {
                     setLoading(false);
                     () => setOpen(false)
-                    dispatch(setUpdateCargo(cargo));
+                    dispatch(setUpdateCarrier(carrier));
                 })
                 .catch(error => {
                     setLoading(false);
@@ -50,39 +51,33 @@ export default function EditPageV2({ Id }: EditCargoProps) {
     const FormEdit = () => (
         <Box className="flex flex-col gap-5">
             <TextField
-                label="Cargo Name"
-                name="cargo_name"
-                value={cargo?.cargo_name}
+                label="Carrier Name"
+                name="carrier_name"
+                type='text'
+                value={carrier?.carrier_name}
                 onChange={handleCargoChange}
             />
             <TextField
-                label="Consumption Rate"
-                name="consumption_rate"
+                label="Maxcapacity"
+                name="maxcapacity"
                 type="number"
-                value={cargo?.consumption_rate}
+                value={carrier?.maxcapacity}
                 onChange={handleCargoChange}
             />
             <TextField
-                label="Work Rate"
-                name="work_rate"
-                type="number"
-                value={cargo?.work_rate}
+                label="Ower"
+                name="ower"
+                type="text"
+                value={carrier?.ower}
                 onChange={handleCargoChange}
             />
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Action</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="category"
-                    value={cargo?.category}
-                    onChange={(event: any) => handleCargoChange(event)}
-                    label="Action"
-                >
-                    <MenuItem value="import">Import</MenuItem>
-                    <MenuItem value="export">Export</MenuItem>
-                </Select>
-            </FormControl>
+            <TextField
+                label="ระวาง (ช่อง)"
+                name="burden"
+                type="text"
+                value={carrier?.burden}
+                onChange={handleCargoChange}
+            />
             <Box className="flex justify-start gap-x-5">
                 <Button
                     variant="outlined"
