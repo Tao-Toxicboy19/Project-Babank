@@ -10,7 +10,7 @@ import { RootState } from '../../../../store/store';
 import { useState } from 'react';
 import { Floating } from '../../../../types/FloatingCrane.type';
 import api from '../../../../api/api';
-import { setUpdateFloating } from '../../../../store/slices/floatingSlice';
+import { setUpdateFloating } from '../../../../store/slices/floatingSlice.bak';
 import { TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';

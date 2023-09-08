@@ -36,6 +36,7 @@ export default function Page({ Id }: EditCargoProps) {
 
   return (
     <div>
+      <h1>{Id}</h1>
       <DeleteIcon onClick={handleDeleteCargo} className="hover:text-red-500 hover:scale-110 transform transition-transform duration-300" />
     </div>
   )

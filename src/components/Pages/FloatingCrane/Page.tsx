@@ -20,7 +20,7 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { Floating } from "../../../types/FloatingCrane.type";
 import React from "react";
 import { columns } from "./ColumnDataFloating";
-import ModalPopup from "./Insert/Page";
+import ModalPopup from "./Insert/InsertPage";
 import EditPage from "./Edit/Page";
 import DeletePage from "./Delete/Page";
 

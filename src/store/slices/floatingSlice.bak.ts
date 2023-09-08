@@ -1,8 +1,5 @@
-import { PayloadAction, ThunkAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Floating, FloatingState } from '../../types/FloatingCrane.type';
-import { RootState } from '../store';
-import { httpClient } from '../../utlis/httpclient';
-import { server } from '../../Constants';
 
 const initialState: FloatingState = {
   floating: [],
@@ -16,7 +13,6 @@ const floatingSlice = createSlice({
   reducers: {
     setFloatingStart: (state) => {
       state.loading = true
-      state.floating = []
       state.error = null
     },
     setFloatingSuccess: (state, action: PayloadAction<Floating[]>) => {
@@ -25,7 +21,6 @@ const floatingSlice = createSlice({
     },
     setFloatingFailure: (state, action: PayloadAction<string>) => {
       state.loading = false
-      state.floating = []
       state.error = action.payload
     },
     setInsertFloating: (state, action: PayloadAction<Floating>) => {
@@ -47,27 +42,4 @@ const floatingSlice = createSlice({
 });
 
 export const { setFloatingStart, setFloatingSuccess, setFloatingFailure, setInsertFloating, setDeleteFloating, setUpdateFloating } = floatingSlice.actions;
-
-export const floating = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-  try {
-    dispatch(setFloatingStart())
-    const result = await httpClient.get(server.FLOATING)
-    dispatch(setFloatingSuccess(result.data))
-  }
-  catch (error) {
-    dispatch(setFloatingFailure("Failed to fetch floating data"))
-  }
-}
-
-
-export const addFloating = (formData: FormData, setOpen: any) => {
-  return async (dispatch: any) => {
-    try {
-      await httpClient.post(server.FLOATING, formData);
-      alert('Successfully')
-      setOpen(false)
-    } catch (error) {
-      console.error('Error while adding floating:', error);
-    }
-  };
-};
+export default floatingSlice.reducer;

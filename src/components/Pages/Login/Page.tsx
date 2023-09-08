@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,10 +12,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { LoginType } from "../../../types/User.type";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { User } from "../../../types/User.type";
+import { useState } from "react";
 import { Alert } from "@mui/material";
+import { Formik, FormikProps } from "formik"
+import { useDispatch } from "react-redux";
+import { login } from "../../../store/slices/loginSlice";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -24,51 +25,72 @@ const defaultTheme = createTheme();
 export default function LoginPage() {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<LoginType>({
-    email: "",
-    password: "",
-  });
+  const dispatch = useDispatch<any>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  axios.defaults.withCredentials = true;
-  useEffect(() => {
-    axios
-      .get("http://crane.otpzlab.com:7070/api")
-      .then((res) => {
-        if (res.data.valid) {
-          navigate("/");
-        } else {
-          navigate("/login");
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://crane.otpzlab.com:7070/api/login",
-        formData
-      );
-      if (response.data.Login) {
-        navigate("/home");
-      } else {
-        setShowErrorAlert(true);
-      }
-    } catch (error) {
-      console.error("Errors:", error);
-    }
-  };
-
+  const showForm = ({ handleSubmit, handleChange, values }: FormikProps<User>) => (
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      noValidate
+      sx={{ mt: 1 }}
+    >
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        id="email"
+        label="Email Address"
+        name="email"
+        autoComplete="email"
+        autoFocus
+        value={values.email}
+        onChange={handleChange}
+      />
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        name="password"
+        label="Password"
+        type="password"
+        id="password"
+        autoComplete="current-password"
+        value={values.password}
+        onChange={handleChange}
+      />
+      <FormControlLabel
+        control={<Checkbox value="remember" color="primary" />}
+        label="Remember me"
+      />
+      {showErrorAlert && (
+        <Alert variant="outlined" severity="error">
+          Username or password is incorrect
+        </Alert>
+      )}
+      <Button
+        className="text-[#000] hover:text-[#fff] hover:bg-[#1976D2]"
+        type="submit"
+        fullWidth
+        variant="outlined"
+        sx={{ mt: 3, mb: 2 }}
+      >
+        Sign In
+      </Button>
+      <Grid container>
+        <Grid item xs>
+          <Link href="#" variant="body2">
+            Forgot password?
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link href="#" variant="body2">
+            {"Don't have an account? Sign Up"}
+          </Link>
+        </Grid>
+      </Grid>
+    </Box>
+  )
+  const initialValues: User = { email: '', password: '' }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -87,67 +109,13 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+          <Formik onSubmit={(valuse, { }) => {
+            dispatch(login(valuse))
+          }}
+            initialValues={initialValues}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            {showErrorAlert && (
-              <Alert variant="outlined" severity="error">
-                Username or password is incorrect
-              </Alert>
-            )}
-            <Button
-              className="text-[#000] hover:text-[#fff] hover:bg-[#1976D2]"
-              type="submit"
-              fullWidth
-              variant="outlined"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            {props => showForm(props)}
+          </Formik>
         </Box>
       </Container>
     </ThemeProvider>
