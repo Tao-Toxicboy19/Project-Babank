@@ -1,4 +1,4 @@
-import { Button, Modal, Box, Typography } from '@mui/material'
+import { Button, Modal, Box, Typography, Select, MenuItem } from '@mui/material'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor, style } from '../../../../style/Styles'
@@ -19,7 +19,7 @@ export default function InsertPage({ }: Props) {
     setSubmitting(false);
   };
 
-  const showForm = ({ isSubmitting }: FormikProps<Floating>) => {
+  const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Floating>) => {
     return (
       <Form>
         <Field
@@ -29,11 +29,16 @@ export default function InsertPage({ }: Props) {
           label='floating_name'
         />
         <Field
-          component={TextField}
+          as={Select}
           name='NumberOfCranes'
-          type='number'
           label='NumberOfCranes'
-        />
+          value={values.NumberOfCranes}
+          onChange={handleChange}
+        >
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+        </Field>
         <Field
           component={TextField}
           name='latitude'
@@ -79,7 +84,7 @@ export default function InsertPage({ }: Props) {
   }
 
   const initialValues = {
-    floating_name: 'qw',
+    floating_name: 'efs',
     NumberOfCranes: 1,
     latitude: 111,
     longitude: 111,

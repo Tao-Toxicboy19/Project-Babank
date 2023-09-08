@@ -61,7 +61,7 @@ export const floating = (): ThunkAction<void, RootState, unknown, any> => async 
 
 
 export const addFloating = (formData: FormData, setOpen: any) => {
-  return async (dispatch: any) => {
+  return async () => {
     try {
       await httpClient.post(server.FLOATING, formData);
       alert('Successfully')
