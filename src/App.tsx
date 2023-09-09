@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Footer from "./components/layout/Footer/Footer";
 import HomePage from "./components/Pages/Home/Page";
 import FloatingPage from "./components/Pages/FloatingCrane/FloatingPage";
-import CarrierPage from "./components/Pages/Carrier/Page";
+import CarrierPage from "./components/Pages/Carrier/CarrierPage";
 import RegisterPage from "./components/Pages/Register/Page";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -13,14 +13,15 @@ import LoginPage from "./components/Pages/Login/Page";
 import CargoPage from "./components/Pages/Cargo/Page";
 import MovingTablePage from "./components/Pages/Summarize/movingTable";
 import { floating } from "./store/slices/floating.slice";
+import { loadCarrier } from "./store/slices/carrier.slice";
 
 export default function App() {
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(floating()); // เรียก action ใน useEffect ด้วย await
-      // อื่น ๆ ที่คุณต้องการทำหลังจากการโหลดข้อมูลเสร็จ
+      await dispatch(floating());
+      await dispatch(loadCarrier())
     };
 
     fetchData();

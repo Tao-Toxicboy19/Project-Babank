@@ -23,7 +23,7 @@ import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { Floating } from "../../../types/FloatingCrane.type";
 import React from "react";
 import { columns } from "./ColumnDataFloating";
-import ModalPopup from "./Insert/InsertPage";
+import ModalPopup from "./Insert/FloatingInsertPage";
 import FloatingEditPage from "./Edit/FloatingEditPage";
 import DeleteFloatingPage from "./Delete/DeleteFloatingPage";
 
@@ -128,7 +128,7 @@ export default function FloatingCranePage({ }: Props) {
       <Card sx={{ marginY: 1 }}>
         <CardContent className="flex justify-between">
           <Stack direction='row' spacing={3}>
-            <Typography className="text-3xl font-bold flex justify-center">ทุ่น</Typography>
+            <Typography className="text-2xl font-bold flex justify-center">ทุ่น</Typography>
             <TextField
               id="standard-basic"
               variant="standard"

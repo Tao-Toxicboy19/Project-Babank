@@ -22,6 +22,7 @@ export const server = {
     LOGIN_URL: `auth/login`,
     REGISTER_URL: `auth/signup`,
     FLOATING: `floating`,
+    CARRIER: `carrier`,
 };
 
 export const TOKEN = "TOKEN";

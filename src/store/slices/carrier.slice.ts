@@ -1,5 +1,8 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { carrier, carrierState } from "../../types/Carrier.type";
+import { server } from "../../Constants";
+import { httpClient } from "../../utlis/httpclient";
+import { RootState } from "../store";
 
 const initialState: carrierState = {
     carrier: [],
@@ -42,3 +45,25 @@ const carrierSlice = createSlice({
 
 export const { setDeleteCarrier, setUpdateCarrier, setCarrierStart, setCarrierSuccess, setCarrierFailure, setInsertCarrier } = carrierSlice.actions
 export default carrierSlice.reducer
+
+export const loadCarrier = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+    try {
+        dispatch(setCarrierStart())
+        const result = await httpClient.get(server.CARRIER)
+        dispatch(setCarrierSuccess(result.data))
+    }
+    catch (error) {
+        dispatch(setCarrierFailure("Failed to fetch floating data"))
+    }
+}
+
+export const addCarrier = (formData: FormData, setOpen: any) => {
+    return async () => {
+        try {
+            await httpClient.post(server.CARRIER, formData);
+            setOpen(false)
+        } catch (error) {
+            console.error('Error while adding floating:', error);
+        }
+    };
+};

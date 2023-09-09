@@ -7,7 +7,7 @@ import authReducer from './slices/authSlice';
 import orderReducer from './slices/OrderSlice';
 import cargoReducer from './slices/cargoSlice';
 import cargoCraneReducer from './slices/cargocraneSlice';
-import carrierReducer from './slices/carrierSlice';
+import carrierReducer from './slices/carrier.slice';
 import floatingEditReducer from './slices/floating.edit.slice'
 
 const middleware = [...getDefaultMiddleware()];

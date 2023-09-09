@@ -2,9 +2,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
+  Card,
+  CardContent,
   CircularProgress,
   InputAdornment,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,9 +23,10 @@ import { TableComponents, TableVirtuoso } from "react-virtuoso";
 import React from "react";
 import { columns } from "./ColumnDataCarrier";
 import SearchIcon from '@mui/icons-material/Search';
-import Page from "./Insert/Page";
 import EditPage from "./Edit/Page";
 import DeletePage from "./Delete/Page";
+import CarrierEditPage from "./Edit/CarrierEditPage";
+import CarrierInsertPage from "./Insert/CarrierInsertPage";
 
 type Props = {};
 
@@ -106,10 +110,10 @@ export default function CarrierPage({ }: Props) {
           }
         >
           {column.dataKey === "editColumn" ? (
-            <Box className="flex justify-end item-center">
-              <EditPage Id={row.cr_id} />
-              <DeletePage Id={row.cr_id} />
-            </Box>
+            <Stack direction='row' spacing={1} className="flex justify-end">
+              {/* <CarrierEditPage id={row.cr_id} result={row} /> */}
+              {/* <DeleteFloatingPage id={row.fl_id} result={row.floating_name} /> */}
+            </Stack>
           ) : (
             row[column.dataKey]
           )}
@@ -120,28 +124,32 @@ export default function CarrierPage({ }: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Typography className="text-xl">Carrier Page</Typography>
-      <Box className="flex justify-between m-5">
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                Search
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Page />
-      </Box>
+      <Card sx={{ marginY: 1 }}>
+        <CardContent className="flex justify-between">
+          <Stack direction='row' spacing={3}>
+            <Typography className="text-2xl font-bold flex justify-center">เรือสินค้า</Typography>
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    Search
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
+          <CarrierInsertPage />
+        </CardContent>
+      </Card>
       {loading ? (
         <Box
           sx={{
@@ -156,7 +164,7 @@ export default function CarrierPage({ }: Props) {
       ) : error ? (
         <Typography>Error: {error}</Typography>
       ) : (
-        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+        <Paper sx={{ height: 600, width: "100%", marginBottom: 5 }}>
           <TableVirtuoso
             data={convertedCarrier}
             components={VirtuosoTableComponents}

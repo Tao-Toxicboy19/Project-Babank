@@ -8,6 +8,7 @@ import { Floating } from '../../../../types/FloatingCrane.type';
 import { useDispatch } from 'react-redux';
 import { addFloating, setInsertFloating } from '../../../../store/slices/floating.slice';
 import { TransitionProps } from '@mui/material/transitions';
+import { carrier } from '../../../../types/Carrier.type';
 
 type Props = {}
 
@@ -20,17 +21,25 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function InsertPage({ }: Props) {
+export default function CarrierInsertPage({ }: Props) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch<any>();
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
   const handleSubmit = (values: any, { setSubmitting }: any) => {
     dispatch(addFloating(values, setOpen))
     dispatch(setInsertFloating(values))
     setSubmitting(false);
+  };
+
+  const validateForm = (values: Floating) => {
+    let errors: any = {}
+    if (!values.floating_name) errors.floating_name = 'Enter name'
+    if (values.latitude <= 0) errors.latitude = 'Enter latitude'
+    if (values.longitude <= 0) errors.longitude = 'Enter longitude'
+    if (values.setuptime <= 0) errors.setuptime = 'Enter setuptime'
+    if (values.speed <= 0) errors.speed = 'Enter speed'
+    return errors
   };
 
   const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Floating>) => {
@@ -108,14 +117,7 @@ export default function InsertPage({ }: Props) {
     )
   }
 
-  const initialValues: Floating = {
-    floating_name: '',
-    NumberOfCranes: 1,
-    latitude: 0,
-    longitude: 0,
-    setuptime: 0,
-    speed: 0,
-  };
+  const initialValues: Floating = { floating_name: '', NumberOfCranes: 1, latitude: 0, longitude: 0, setuptime: 0, speed: 0, };
 
   return (
     <div>
@@ -138,7 +140,11 @@ export default function InsertPage({ }: Props) {
       >
         <DialogTitle>{"เพิ่มทุ่น"}</DialogTitle>
         <DialogContent>
-          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validate={validateForm}
+          >
             {(props: any) => showForm(props)}
           </Formik>
         </DialogContent>

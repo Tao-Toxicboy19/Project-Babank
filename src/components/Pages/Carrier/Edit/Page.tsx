@@ -12,7 +12,7 @@ import api from '../../../../api/api';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import { carrier } from '../../../../types/Carrier.type';
-import { setUpdateCarrier } from '../../../../store/slices/carrierSlice';
+import { setUpdateCarrier } from '../../../../store/slices/carrier.slice';
 import { TextField } from '@mui/material';
 
 export default function EditPage({ Id }: EditCargoProps) {
