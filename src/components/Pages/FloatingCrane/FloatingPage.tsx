@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
+  Card,
+  CardContent,
   CircularProgress,
   InputAdornment,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -21,8 +24,8 @@ import { Floating } from "../../../types/FloatingCrane.type";
 import React from "react";
 import { columns } from "./ColumnDataFloating";
 import ModalPopup from "./Insert/InsertPage";
-import EditPage from "./Edit/Page";
-import DeletePage from "./Delete/Page";
+import FloatingEditPage from "./Edit/FloatingEditPage";
+import DeleteFloatingPage from "./Delete/DeleteFloatingPage";
 
 type Props = {};
 
@@ -105,12 +108,13 @@ export default function FloatingCranePage({ }: Props) {
                 : "left"
           }
           className={column.className}
+
         >
           {column.dataKey === "editColumn" ? (
-            <Box className="flex justify-end item-center">
-              <EditPage id={row.fl_id} result={row} />
-              {/* <DeletePage Id={row.fl_id} /> */}
-            </Box>
+            <Stack direction='row' spacing={1} className="flex justify-end">
+              <FloatingEditPage id={row.fl_id} result={row} />
+              <DeleteFloatingPage id={row.fl_id} result={row.floating_name} />
+            </Stack>
           ) : (
             row[column.dataKey]
           )}
@@ -121,51 +125,57 @@ export default function FloatingCranePage({ }: Props) {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Typography className="text-xl">ทุ่น</Typography>
-      <Box className="flex justify-between m-5 ">
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                Search
-              </InputAdornment>
-            ),
-          }}
-        />
-        <ModalPopup />
-      </Box>
-      {floatingReducer.loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%"
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : floatingReducer.error ? (
-        <Typography>Error: {floatingReducer.error}</Typography>
-      ) : (
-        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
-          <TableVirtuoso
-            data={convertedFloating}
-            components={VirtuosoTableComponents}
-            fixedHeaderContent={fixedHeaderContent}
-            itemContent={rowContent}
-          />
-        </Paper>
-      )}
-    </Box>
+      <Card sx={{ marginY: 1 }}>
+        <CardContent className="flex justify-between">
+          <Stack direction='row' spacing={3}>
+            <Typography className="text-3xl font-bold flex justify-center">ทุ่น</Typography>
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    Search
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
+          <ModalPopup />
+        </CardContent>
+      </Card>
+      {
+        floatingReducer.loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%"
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : floatingReducer.error ? (
+          <Typography>Error: {floatingReducer.error}</Typography>
+        ) : (
+          <Paper sx={{ height: 600, width: "100%", marginBottom: 5 }}>
+            <TableVirtuoso
+              data={convertedFloating}
+              components={VirtuosoTableComponents}
+              fixedHeaderContent={fixedHeaderContent}
+              itemContent={rowContent}
+            />
+          </Paper>
+        )
+      }
+    </Box >
   );
 }

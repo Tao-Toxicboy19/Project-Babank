@@ -44,7 +44,7 @@ export const updateFloating = (id: any, formData: FormData, setOpen: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(setFloatingEditStart());
-            const result = await httpClient.put(`http://localhost:5018/api/floating/${id}`, formData);
+            const result = await httpClient.put(`${server.FLOATING}/${id}`, formData);
             dispatch(setFloatingEditSuccess(result.data));
             alert(JSON.stringify(result.data));
             setOpen(false)
@@ -60,7 +60,7 @@ export const getFloatingById = (id: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(setFloatingEditStart())
-            const result = await httpClient.get(`http://localhost:5018/api/floating/${id}`)
+            const result = await httpClient.get(`${server.FLOATING}/${id}`)
             dispatch(setFloatingEditSuccess(result.data))
         }
         catch (error) {

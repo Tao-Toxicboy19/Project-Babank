@@ -55,7 +55,7 @@ export default floatingSlice.reducer;
 export const floating = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
   try {
     dispatch(setFloatingStart())
-    const result = await httpClient.get('http://localhost:5018/api/floating')
+    const result = await httpClient.get(server.FLOATING)
     dispatch(setFloatingSuccess(result.data))
   }
   catch (error) {
@@ -66,7 +66,7 @@ export const floating = (): ThunkAction<void, RootState, unknown, any> => async 
 export const addFloating = (formData: FormData, setOpen: any) => {
   return async () => {
     try {
-      await httpClient.post('http://localhost:5018/api/floating', formData);
+      await httpClient.post(server.FLOATING, formData);
       alert('Successfully')
       setOpen(false)
     } catch (error) {
@@ -75,3 +75,13 @@ export const addFloating = (formData: FormData, setOpen: any) => {
   };
 };
 
+export const deleteProduct = (id: string) => {
+  return async (dispatch: any) => {
+    try {
+      await httpClient.delete(`${server.FLOATING}/${id}`)
+      dispatch(setDeleteFloating(id));
+    } catch (error: any) {
+      dispatch(setFloatingFailure(error.message));
+    }
+  };
+};
