@@ -8,6 +8,7 @@ import orderReducer from './slices/OrderSlice';
 import cargoReducer from './slices/cargoSlice';
 import cargoCraneReducer from './slices/cargocraneSlice';
 import carrierReducer from './slices/carrierSlice';
+import floatingEditReducer from './slices/floating.edit.slice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
 export const store = configureStore({
   reducer: {
     floating: floatingReducer,
+    floatingedit: floatingEditReducer,
     order: orderReducer,
     cargo: cargoReducer,
     cargoCrane: cargoCraneReducer,

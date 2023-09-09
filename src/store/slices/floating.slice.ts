@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from '@reduxjs/toolkit';
-import { Floating, FloatingState } from '../../types/FloatingCrane.type';
 import { RootState } from '../store';
-import { httpClient } from '../../utlis/httpclient';
 import { server } from '../../Constants';
+import { Floating, FloatingState } from '../../types/FloatingCrane.type';
+import { httpClient } from '../../utlis/httpclient';
 
 const initialState: FloatingState = {
   floating: [],
@@ -22,6 +22,7 @@ const floatingSlice = createSlice({
     setFloatingSuccess: (state, action: PayloadAction<Floating[]>) => {
       state.floating = action.payload
       state.loading = false
+      state.error = null
     },
     setFloatingFailure: (state, action: PayloadAction<string>) => {
       state.loading = false
@@ -30,6 +31,8 @@ const floatingSlice = createSlice({
     },
     setInsertFloating: (state, action: PayloadAction<Floating>) => {
       state.floating.push(action.payload);
+      state.loading = false
+      state.error = null
     },
     setUpdateFloating: (state, action: PayloadAction<Floating>) => {
       state.loading = false;
@@ -47,11 +50,12 @@ const floatingSlice = createSlice({
 });
 
 export const { setFloatingStart, setFloatingSuccess, setFloatingFailure, setInsertFloating, setDeleteFloating, setUpdateFloating } = floatingSlice.actions;
+export default floatingSlice.reducer;
 
 export const floating = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
   try {
     dispatch(setFloatingStart())
-    const result = await httpClient.get(server.FLOATING)
+    const result = await httpClient.get('http://localhost:5018/api/floating')
     dispatch(setFloatingSuccess(result.data))
   }
   catch (error) {
@@ -59,11 +63,10 @@ export const floating = (): ThunkAction<void, RootState, unknown, any> => async 
   }
 }
 
-
 export const addFloating = (formData: FormData, setOpen: any) => {
   return async () => {
     try {
-      await httpClient.post(server.FLOATING, formData);
+      await httpClient.post('http://localhost:5018/api/floating', formData);
       alert('Successfully')
       setOpen(false)
     } catch (error) {
@@ -71,3 +74,4 @@ export const addFloating = (formData: FormData, setOpen: any) => {
     }
   };
 };
+

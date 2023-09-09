@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
@@ -28,12 +28,10 @@ type Props = {};
 
 export default function FloatingCranePage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const floatingData = useSelector((state: RootState) => state.floating.floating);
-  const loading = useSelector((state: RootState) => state.floating.loading)
-  const error = useSelector((state: RootState) => state.floating.error)
+  const floatingReducer = useSelector((state: RootState) => state.floating);
 
   // search
-  const filteredData = floatingData.filter((item) =>
+  const filteredData = (floatingReducer.floating).filter((item) =>
     item.floating_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -110,8 +108,8 @@ export default function FloatingCranePage({ }: Props) {
         >
           {column.dataKey === "editColumn" ? (
             <Box className="flex justify-end item-center">
-              <EditPage Id={row.fl_id} />
-              <DeletePage Id={row.fl_id} />
+              <EditPage id={row.fl_id} result={row} />
+              {/* <DeletePage Id={row.fl_id} /> */}
             </Box>
           ) : (
             row[column.dataKey]
@@ -145,7 +143,7 @@ export default function FloatingCranePage({ }: Props) {
         />
         <ModalPopup />
       </Box>
-      {loading ? (
+      {floatingReducer.loading ? (
         <Box
           sx={{
             display: "flex",
@@ -156,8 +154,8 @@ export default function FloatingCranePage({ }: Props) {
         >
           <CircularProgress />
         </Box>
-      ) : error ? (
-        <Typography>Error: {error}</Typography>
+      ) : floatingReducer.error ? (
+        <Typography>Error: {floatingReducer.error}</Typography>
       ) : (
         <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
           <TableVirtuoso

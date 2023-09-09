@@ -6,7 +6,7 @@ const isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 
 axios.interceptors.request.use(async (config: any) => {
     if (!isAbsoluteURLRegex.test(config.url)) {
-        config.url = join(apiUrl, config.url)
+        config.url = join(apiUrlV2, config.url)
     }
     config.timeout = 10000
     return config

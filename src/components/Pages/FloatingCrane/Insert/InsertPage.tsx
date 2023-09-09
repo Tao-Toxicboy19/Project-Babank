@@ -1,4 +1,4 @@
-import { Button, Modal, Box, Typography, Select, MenuItem } from '@mui/material'
+import { Button, Modal, Box, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor, style } from '../../../../style/Styles'
@@ -6,7 +6,7 @@ import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Floating } from '../../../../types/FloatingCrane.type';
 import { useDispatch } from 'react-redux';
-import { addFloating, setInsertFloating } from '../../../../store/slices/floatingSlice';
+import { addFloating, setInsertFloating } from '../../../../store/slices/floating.slice';
 
 type Props = {}
 
@@ -28,17 +28,20 @@ export default function InsertPage({ }: Props) {
           type='text'
           label='floating_name'
         />
-        <Field
-          as={Select}
-          name='NumberOfCranes'
-          label='NumberOfCranes'
-          value={values.NumberOfCranes}
-          onChange={handleChange}
-        >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-        </Field>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <Field
+            as={Select}
+            name='NumberOfCranes'
+            label='NumberOfCranes'
+            value={values.NumberOfCranes}
+            onChange={handleChange}
+          >
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+          </Field>
+        </FormControl>
         <Field
           component={TextField}
           name='latitude'
@@ -83,13 +86,13 @@ export default function InsertPage({ }: Props) {
     )
   }
 
-  const initialValues = {
-    floating_name: 'efs',
+  const initialValues: Floating = {
+    floating_name: '',
     NumberOfCranes: 1,
-    latitude: 111,
-    longitude: 111,
-    setuptime: 111,
-    speed: 111,
+    latitude: 0,
+    longitude: 0,
+    setuptime: 0,
+    speed: 0,
   };
 
   return (

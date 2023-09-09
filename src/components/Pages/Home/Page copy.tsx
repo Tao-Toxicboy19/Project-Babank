@@ -12,6 +12,19 @@ export default function HomePage({ }: Props) {
   const navigate = useNavigate();
   const userEmail = useSelector((state: RootState) => state.auth.userEmail); // ดึง userEmail จาก Redux state
 
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios
+      .get("http://crane.otpzlab.com:7070/api")
+      .then((res) => {
+        if (res.data.valid) {
+          dispatch(setUserEmail(res.data.email));
+        } else {
+          navigate("/login");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>

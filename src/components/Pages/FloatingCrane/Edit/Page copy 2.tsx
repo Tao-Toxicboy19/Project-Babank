@@ -1,26 +1,47 @@
-import { Button, Modal, Box, Typography, Select, MenuItem, FormControl, InputLabel, Fab } from '@mui/material'
-import { btnColor, style } from '../../../../style/Styles'
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { TextField } from 'formik-material-ui';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { btnColor, style } from '../../../../style/Styles';
+import { EditCargoProps } from '../../../../types/Cargo.type';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
+import { useEffect, useState } from 'react';
 import { Floating } from '../../../../types/FloatingCrane.type';
-import { useDispatch } from 'react-redux';
-import Edit from '@mui/icons-material/Edit';
-import { useState } from 'react';
-import { updateFloating } from '../../../../store/slices/floating.edit.slice';
+import api from '../../../../api/api';
+import { setUpdateFloating } from '../../../../store/slices/floatingSlice.bak';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from "@mui/icons-material/Edit";
+import { Field, Form, Formik, FormikProps } from 'formik';
+import { Select, TextField } from 'formik-material-ui';
+import { FormControl, InputLabel } from '@mui/material';
+import { MenuItem } from 'material-ui';
+import { getFloatingById, updateFloating } from '../../../../store/slices/floating.slice';
 
 
-export default function InsertPage({ id, result }: { id: any; result: any }) {
-  const [open, setOpen] = useState(false);
+type EditPageProps = {
+  id: any;
+};
+export default function EditPage({ id }: EditPageProps) {
+  const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch<any>();
 
-  const handleSubmit = (values: any, { setSubmitting }: any) => {
-    dispatch(updateFloating(id, values,setOpen));
-    setSubmitting(false);
-  };
+  useEffect(() => {
+    dispatch(getFloatingById(id))
+  }, []);
+
+  // const handleSubmit = (values: any, { setSubmitting }: any) => {
+  //   dispatch(updateFloating(values, setOpen))
+  //   dispatch(setUpdateFloating(values))
+  //   setSubmitting(false);
+  // };
 
   const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Floating>) => {
     return (
       <Form>
+        <h1>Hello {id}</h1>
         <Field
           component={TextField}
           name='floating_name'
@@ -87,15 +108,10 @@ export default function InsertPage({ id, result }: { id: any; result: any }) {
 
   return (
     <div>
-      <Fab
-        color="primary"
-        aria-label="add"
-        size="small"
-        className='bg-purple-400 hover:bg-purple-600'
+      <EditIcon
         onClick={() => setOpen(true)}
-      >
-        <Edit />
-      </Fab>
+        className="hover:text-blue-500 hover:scale-110 transform transition-transform duration-300 mx-2"
+      />
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -104,13 +120,15 @@ export default function InsertPage({ id, result }: { id: any; result: any }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBottom: 3 }}>
-            Edit {id}
+            แก้ไข ทุ่น
           </Typography>
-          <Formik initialValues={result} onSubmit={handleSubmit}>
+          <Formik initialValues={{}} onSubmit={(values)=>{
+            
+          }}>
             {(props: any) => showForm(props)}
           </Formik>
         </Box>
       </Modal>
     </div>
-  )
+  );
 }

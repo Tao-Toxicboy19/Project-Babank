@@ -10,5 +10,8 @@ export const style = {
 };
 
 export const btnColor = {
-    backgroundColor: "#1976D2"
+    background: '#1976D2',
+}
+export const editColor = {
+    background: '#AB47BC'
 }
