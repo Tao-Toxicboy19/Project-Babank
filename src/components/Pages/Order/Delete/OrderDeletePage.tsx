@@ -3,7 +3,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteOrder } from '../../../../store/slices/order.slice';
-import axios from 'axios';
 
 export default function OrderDeletePage({ id, result }: any) {
     const dispatch = useDispatch<any>();

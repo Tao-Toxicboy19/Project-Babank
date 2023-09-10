@@ -1,16 +1,13 @@
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor } from '../../../../style/Styles'
-import { Carrier } from '../../../../types/Carrier.type';
 import { Cargo } from '../../../../types/Cargo.type';
 import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionProps } from '@mui/material/transitions';
-import { addCargo, setInsertCargo, } from '../../../../store/slices/cargo.slice';
 import { CargoCrane } from '../../../../types/CargoCrane.type';
-import axios from 'axios';
 import { addCargoCrane, setInsertCargoCrane } from '../../../../store/slices/cargocrane.slice';
 import { RootState } from '../../../../store/store';
 import { Floating } from '../../../../types/FloatingCrane.type';

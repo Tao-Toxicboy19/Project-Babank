@@ -1,7 +1,7 @@
-import { Button, Modal, Box, Typography, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Grid } from '@mui/material'
+import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide, } from '@mui/material'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
-import { btnColor, style } from '../../../../style/Styles'
+import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Floating } from '../../../../types/FloatingCrane.type';

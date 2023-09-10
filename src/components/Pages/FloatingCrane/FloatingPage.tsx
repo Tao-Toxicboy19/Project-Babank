@@ -25,7 +25,6 @@ import React from "react";
 import { columns } from "./ColumnDataFloating";
 import ModalPopup from "./Insert/FloatingInsertPage";
 import FloatingEditPage from "./Edit/FloatingEditPage";
-import DeleteFloatingPage from "./Delete/DeleteFloatingPage";
 import CarrierDeletePage from "./Delete/DeleteFloatingPage";
 
 type Props = {};

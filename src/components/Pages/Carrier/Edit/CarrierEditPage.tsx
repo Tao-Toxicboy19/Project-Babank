@@ -1,13 +1,10 @@
-import { Button, Modal, Box, Typography, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
-import { btnColor, style } from '../../../../style/Styles'
+import { Button, Box, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
+import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Floating } from '../../../../types/FloatingCrane.type';
 import { useDispatch } from 'react-redux';
 import Edit from '@mui/icons-material/Edit';
 import { useState } from 'react';
-import { updateFloating } from '../../../../store/slices/floating.edit.slice';
-import { setUpdateFloating } from '../../../../store/slices/floating.slice';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 import { setUpdateCarrier } from '../../../../store/slices/carrier.slice';

@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../utlis/httpclient"
 import { server } from "../../Constants"
-import { CargoCrane, CargoCraneEditState } from "../../types/CargoCrane.type"
 import { Order, OrderEditState } from "../../types/Order.type"
 
 const initialState: OrderEditState = {
