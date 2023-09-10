@@ -1,6 +1,9 @@
 // cargoCraneSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { CargoCrane, CargoCraneState } from '../../types/CargoCrane.type'; // ปรับเป็นที่อยู่ของ CargoCrane interface ของคุณ
+import { server } from '../../Constants';
+import { httpClient } from '../../utlis/httpclient';
+import { RootState } from '../store';
 
 const initialState: CargoCraneState = {
   cargoCrane: [],
@@ -43,3 +46,37 @@ const cargoCraneSlice = createSlice({
 
 export const { setDeleteCargoCrane, setUpdateCargoCrane, setInsertCargoCrane, setCargoCraneFailure, setCargoCraneSuccess, setCargoCraneStart } = cargoCraneSlice.actions;
 export default cargoCraneSlice.reducer;
+
+export const loadCargoCrane = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+  try {
+    dispatch(setCargoCraneStart())
+    const result = await httpClient.get(server.CARGOCRANE)
+    dispatch(setCargoCraneSuccess(result.data))
+  }
+  catch (error) {
+    dispatch(setCargoCraneFailure("Failed to fetch CARGO data"))
+  }
+}
+
+export const addCargoCrane = (formData: FormData, setOpen: any) => {
+  return async () => {
+    try {
+      await httpClient.post(`http://localhost:5018/api/cargocrane`, formData);
+      alert(JSON.stringify(formData))
+      setOpen(false)
+    } catch (error) {
+      console.error('Error while adding CARRIER:', error);
+    }
+  };
+};
+
+export const DeleteCargoCrane = (id: string) => {
+  return async (dispatch: any) => {
+    try {
+      await httpClient.delete(`http://localhost:5018/api/cargocrane/${id}`)
+      dispatch(setDeleteCargoCrane(id));
+    } catch (error: any) {
+      dispatch(setCargoCraneFailure(error.message));
+    }
+  };
+};

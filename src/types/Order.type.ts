@@ -10,6 +10,14 @@ export interface Order {
     deadline_time: any;
     latitude: number;
     longitude: number;
+    bulks: number
+    maxFTS: number
+}
+
+export interface OrderEditState {
+    result: Order | null
+    loading: boolean
+    error: null | string
 }
 
 export interface ColumnData {

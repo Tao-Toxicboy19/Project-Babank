@@ -1,6 +1,9 @@
 // orderSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { Order, OrderState } from '../../types/Order.type';
+import { server } from '../../Constants';
+import { httpClient } from '../../utlis/httpclient';
+import { RootState } from '../store';
 
 const initialState: OrderState = {
   orders: [],
@@ -36,10 +39,43 @@ const orderSlice = createSlice({
     setDeleteOrder: (state, action: PayloadAction<string>) => {
       state.orders = state.orders.filter(
         (orders) => orders.or_id !== action.payload
-      );
+      )
     },
   },
 });
 
 export const { setOrderStart, setOrderSuccess, setOrdersFailure, setInsertOrder, setUpdateOrder, setDeleteOrder } = orderSlice.actions;
 export default orderSlice.reducer;
+
+export const loadOrder = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+  try {
+    dispatch(setOrderStart())
+    const result = await httpClient.get(server.ORDER)
+    dispatch(setOrderSuccess(result.data))
+  }
+  catch (error) {
+    dispatch(setOrdersFailure("Failed to fetch CARRIER data"))
+  }
+}
+
+export const addOrder = (formData: FormData, setOpen: any) => {
+  return async () => {
+    try {
+      await httpClient.post(server.ORDER, formData);
+      setOpen(false)
+    } catch (error) {
+      console.error('Error while adding CARRIER:', error);
+    }
+  };
+};
+
+export const deleteOrder = (id: string) => {
+  return async (dispatch: any) => {
+    try {
+      await httpClient.delete(`http://localhost:5018/api/order/${id}`)
+      dispatch(setDeleteOrder(id));
+    } catch (error: any) {
+      dispatch(setOrdersFailure(error.message));
+    }
+  };
+};

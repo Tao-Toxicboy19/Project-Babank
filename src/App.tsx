@@ -7,13 +7,16 @@ import CarrierPage from "./components/Pages/Carrier/CarrierPage";
 import RegisterPage from "./components/Pages/Register/Page";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import CargocranePage from "./components/Pages/Cargocrane/Page";
-import OrderPage from "./components/Pages/Order/Page";
+import CargocranePage from "./components/Pages/Cargocrane/CargoCranePage";
+import OrderPage from "./components/Pages/Order/OrderPage";
 import LoginPage from "./components/Pages/Login/Page";
-import CargoPage from "./components/Pages/Cargo/Page";
+import CargoPage from "./components/Pages/Cargo/CargoPage";
 import MovingTablePage from "./components/Pages/Summarize/movingTable";
 import { floating } from "./store/slices/floating.slice";
 import { loadCarrier } from "./store/slices/carrier.slice";
+import { loadCargo } from "./store/slices/cargo.slice";
+import { loadCargoCrane } from "./store/slices/cargocrane.slice";
+import { loadOrder } from "./store/slices/order.slice";
 
 export default function App() {
   const dispatch = useDispatch<any>();
@@ -22,6 +25,9 @@ export default function App() {
     const fetchData = async () => {
       await dispatch(floating());
       await dispatch(loadCarrier())
+      await dispatch(loadCargo())
+      await dispatch(loadCargoCrane())
+      await dispatch(loadOrder())
     };
 
     fetchData();

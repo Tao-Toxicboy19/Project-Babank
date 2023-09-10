@@ -33,7 +33,7 @@ export default function FloatingEditPage({ id, result }: { id: any; result: any 
   const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Floating>) => {
     return (
       <Form>
-        <Box className='grid grid-cols-2 gap-3 m-1'>
+        <Box className='grid grid-cols-2 gap-3 m-3'>
           <Field
             component={TextField}
             name='floating_name'

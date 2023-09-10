@@ -7,6 +7,11 @@ export interface Floating {
   setuptime: number;
   speed: number;
 }
+export interface floatingEditState {
+  result: Floating | null
+  loading: boolean
+  error: null | string
+}
 
 export interface FloatingState {
   floating: Floating[]

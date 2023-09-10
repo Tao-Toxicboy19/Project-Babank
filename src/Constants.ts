@@ -23,6 +23,9 @@ export const server = {
     REGISTER_URL: `auth/signup`,
     FLOATING: `floating`,
     CARRIER: `carrier`,
+    CARGO: `cargo`,
+    CARGOCRANE:`cargocrane`,
+    ORDER:`order`,
 };
 
 export const TOKEN = "TOKEN";

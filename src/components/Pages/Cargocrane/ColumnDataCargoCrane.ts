@@ -44,7 +44,7 @@ export const columns: ColumnData[] = [
         className: "text-[14px]  font-normal",
     },
     {
-        width: 50,
+        width: 80,
         label: "Edit",
         dataKey: "editColumn",
         numeric: true,

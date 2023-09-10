@@ -1,4 +1,4 @@
-export interface carrier {
+export interface Carrier {
     cr_id?: string
     carrier_name: string
     maxcapacity: number
@@ -6,14 +6,20 @@ export interface carrier {
     burden: number
 }
 
+export interface CarrierEditState {
+    carrier: Carrier | null
+    loading: boolean
+    error: null | string
+}
+
 export interface carrierState {
-    carrier: carrier[]
+    carrier: Carrier[]
     loading: boolean
     error: string | null
 }
 
 export interface ColumnData {
-    dataKey: keyof carrier | "editColumn";
+    dataKey: keyof Carrier | "editColumn";
     label: string;
     numeric?: boolean;
     width: number;

@@ -3,8 +3,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import {
   Box,
+  Card,
+  CardContent,
+  CircularProgress,
   InputAdornment,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -16,28 +20,29 @@ import {
 } from "@mui/material";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
-import { Cargo } from "../../../types/Cargo.type";
-import { columns } from "./ColumnDataCargo";
-import ModalPopup from "./Insert/Page";
+import { columns } from "./ColumnDataCargoCrane";
 import SearchIcon from '@mui/icons-material/Search';
-import DeletePage from "./Delete/Page";
-import CircularProgress from '@mui/material/CircularProgress';
-import EditPageV2 from "./Edit/Page";
+import { CargoCrane } from "../../../types/CargoCrane.type";
+import CargoCraneInsertPage from "./Insert/CargoCraneInsertPage";
+import CargoCraneEditPage from "./Edit/CargoCraneEditPage";
+import CargoCraneDeletePage from "./Delete/CargoCraneDeletePage";
 
 type Props = {};
 
-export default function CargoPage({ }: Props) {
+export default function CargoCranePage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const setCargo = useSelector((state: RootState) => state.cargo.cargo);
-  const loading = useSelector((state: RootState) => state.cargo.loading);
-  const error = useSelector((state: RootState) => state.cargo.error);
+  const loading = useSelector((state: RootState) => state.cargoCrane.loading);
+  const error = useSelector((state: RootState) => state.cargoCrane.error);
+  const cargocrane = useSelector(
+    (state: RootState) => state.cargoCrane.cargoCrane
+  );
 
   // search
-  const filteredData = setCargo.filter((item) =>
+  const filteredData = cargocrane.filter((item) =>
     item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const VirtuosoTableComponents: TableComponents<Cargo> = {
+  const VirtuosoTableComponents: TableComponents<CargoCrane> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -54,12 +59,16 @@ export default function CargoPage({ }: Props) {
     )),
   };
 
-  const convertedCargo: Cargo[] = filteredData.map((Cargo) => ({
-    cargo_id: Cargo.cargo_id,
-    cargo_name: Cargo.cargo_name,
-    consumption_rate: Cargo.consumption_rate,
-    work_rate: Cargo.work_rate,
-    category: Cargo.category,
+  const convertedCargoCrane: CargoCrane[] = filteredData.map((items) => ({
+    cc_id: items.cc_id,
+    fl_id: items.fl_id,
+    ca_id: items.ca_id,
+    crane: items.crane,
+    cargo_name: items.cargo_name,
+    floating_name: items.floating_name,
+    consumption_rate: items.consumption_rate,
+    work_rate: items.work_rate,
+    category: items.category,
   }));
 
   function fixedHeaderContent() {
@@ -92,7 +101,7 @@ export default function CargoPage({ }: Props) {
     );
   }
 
-  const rowContent = (_index: number, row: Cargo) => (
+  const rowContent = (_index: number, row: CargoCrane) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
@@ -106,10 +115,10 @@ export default function CargoPage({ }: Props) {
           }
         >
           {column.dataKey === "editColumn" ? (
-            <Box className="flex justify-end item-center">
-              <EditPageV2 Id={row.cargo_id} />
-              <DeletePage Id={row.cargo_id} />
-            </Box>
+            <Stack direction='row' spacing={1} className="flex justify-end">
+              <CargoCraneEditPage id={row.cc_id} result={row} />
+              <CargoCraneDeletePage id={row.cc_id} result={row.cargo_name} />
+            </Stack>
           ) : (
             row[column.dataKey]
           )}
@@ -118,30 +127,35 @@ export default function CargoPage({ }: Props) {
     </React.Fragment>
   );
 
+
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Typography className="text-xl">Cargo</Typography>
-      <Box className="flex justify-between m-5">
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                Search
-              </InputAdornment>
-            ),
-          }}
-        />
-        <ModalPopup />
-      </Box>
+      <Card sx={{ marginY: 1 }}>
+        <CardContent className="flex justify-between">
+          <Stack direction='row' spacing={3}>
+            <Typography className="text-2xl font-bold flex justify-center">เรือสินค้า</Typography>
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    Search
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
+          <CargoCraneInsertPage />
+        </CardContent>
+      </Card>
       {loading ? (
         <Box
           sx={{
@@ -156,9 +170,9 @@ export default function CargoPage({ }: Props) {
       ) : error ? (
         <Typography>Error: {error}</Typography>
       ) : (
-        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+        <Paper sx={{ height: 600, width: "100%", marginBottom: 5 }}>
           <TableVirtuoso
-            data={convertedCargo}
+            data={convertedCargoCrane}
             components={VirtuosoTableComponents}
             fixedHeaderContent={fixedHeaderContent}
             itemContent={rowContent}

@@ -4,11 +4,13 @@ import { logger } from 'redux-logger';
 
 import floatingReducer from './slices/floatingSlice.bak';
 import authReducer from './slices/authSlice';
-import orderReducer from './slices/OrderSlice';
-import cargoReducer from './slices/cargoSlice';
-import cargoCraneReducer from './slices/cargocraneSlice';
+import orderReducer from './slices/order.slice';
+import cargoReducer from './slices/cargo.slice';
+import cargoCraneReducer from './slices/cargocrane.slice';
 import carrierReducer from './slices/carrier.slice';
+import carrierEditReducer from './slices/carrier.slice';
 import floatingEditReducer from './slices/floating.edit.slice'
+import cargoCraneEditReducer from './slices/cargocrane.edit.slice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -19,11 +21,13 @@ if (process.env.NODE_ENV !== 'production') {
 export const store = configureStore({
   reducer: {
     floating: floatingReducer,
-    floatingedit: floatingEditReducer,
+    floatingEdit: floatingEditReducer,
+    carrier: carrierReducer,
+    carrierEdit: carrierEditReducer,
     order: orderReducer,
     cargo: cargoReducer,
     cargoCrane: cargoCraneReducer,
-    carrier: carrierReducer,
+    cargoCraneEdit: cargoCraneEditReducer,
     auth: authReducer,
   },
   middleware: middleware,

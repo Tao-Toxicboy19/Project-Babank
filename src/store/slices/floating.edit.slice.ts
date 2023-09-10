@@ -1,13 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { Floating } from "../../types/FloatingCrane.type"
+import { Floating, floatingEditState } from "../../types/FloatingCrane.type"
 import { httpClient } from "../../utlis/httpclient"
 import { server } from "../../Constants"
-
-export interface floatingEditState {
-    result: Floating | null
-    loading: boolean
-    error: null | string
-}
 
 const initialState: floatingEditState = {
     result: null,
@@ -46,7 +40,6 @@ export const updateFloating = (id: any, formData: FormData, setOpen: any) => {
             dispatch(setFloatingEditStart());
             const result = await httpClient.put(`${server.FLOATING}/${id}`, formData);
             dispatch(setFloatingEditSuccess(result.data));
-            alert(JSON.stringify(result.data));
             setOpen(false)
         } catch (error) {
             alert(JSON.stringify(error));

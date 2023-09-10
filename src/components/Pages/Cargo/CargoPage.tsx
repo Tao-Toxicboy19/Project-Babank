@@ -1,26 +1,46 @@
 import { useState } from "react";
-import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
-import { Order } from "../../../types/Order.type";
-import { TableComponents, TableVirtuoso } from "react-virtuoso";
-import { Box, CircularProgress, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { RootState } from "../../../store/store";
+import {
+  Box,
+  Card,
+  CardContent,
+  InputAdornment,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import React from "react";
-import { columns } from "./ColumnDataOrder";
+import { Cargo } from "../../../types/Cargo.type";
+import { columns } from "./ColumnDataCargo";
 import SearchIcon from '@mui/icons-material/Search';
-import PageInsert from "./Insert/Page";
+import CircularProgress from '@mui/material/CircularProgress';
+import InsertCargoPage from "./Insert/InsertCargoPage";
+import CargoEditPage from "./Edit/CargoEditPage";
+import CargoDeletePage from "./Delete/CargoDeletePage";
 
-export default function OrderPage() {
+type Props = {};
+
+export default function CargoPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const orders = useSelector((state: RootState) => state.order.orders);
-  const loading = useSelector((state: RootState) => state.order.loading);
-  const error = useSelector((state: RootState) => state.order.error);
+  const setCargo = useSelector((state: RootState) => state.cargo.cargo);
+  const loading = useSelector((state: RootState) => state.cargo.loading);
+  const error = useSelector((state: RootState) => state.cargo.error);
 
   // search
-  const filteredData = orders.filter((item) =>
+  const filteredData = setCargo.filter((item) =>
     item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const VirtuosoTableComponents: TableComponents<Order> = {
+  const VirtuosoTableComponents: TableComponents<Cargo> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -37,18 +57,12 @@ export default function OrderPage() {
     )),
   };
 
-  const convertedCargoCrane: Order[] | any = filteredData.map((items) => ({
-    or_id: items.or_id,
-    carrier_name: items.carrier_name,
-    cr_id: items.cr_id,
-    cargo_name: items.cargo_name,
-    ca_id: items.ca_id,
-    load_status: items.load_status,
-    category: items.category,
-    arrival_time: items.arrival_time,
-    deadline_time: items.deadline_time,
-    latitude: items.latitude,
-    longitude: items.longitude,
+  const convertedCargo: Cargo[] = filteredData.map((Cargo) => ({
+    cargo_id: Cargo.cargo_id,
+    cargo_name: Cargo.cargo_name,
+    consumption_rate: Cargo.consumption_rate,
+    work_rate: Cargo.work_rate,
+    category: Cargo.category,
   }));
 
   function fixedHeaderContent() {
@@ -81,26 +95,26 @@ export default function OrderPage() {
     );
   }
 
-  const rowContent = (_index: number, row: Order) => (
+  const rowContent = (_index: number, row: Cargo) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
           key={column.dataKey}
           align={
             column.dataKey === "cargo_name"
-              ? "center"
+              ? "left"
               : column.numeric || false
                 ? "right"
                 : "left"
           }
         >
           {column.dataKey === "editColumn" ? (
-            <Box className="flex justify-end item-center">
-              {/* <EditPage Id={row.cc_id} /> */}
-              {/* <DeletePage Id={row.fl_id} /> */}
-            </Box>
+            <Stack direction='row' spacing={1} className="flex justify-end">
+              <CargoEditPage id={row.cargo_id} result={row} />
+              <CargoDeletePage id={row.cargo_id} result={row.cargo_name} />
+            </Stack>
           ) : (
-            row[column.dataKey as keyof Order]
+            row[column.dataKey]
           )}
         </TableCell>
       ))}
@@ -109,28 +123,32 @@ export default function OrderPage() {
 
   return (
     <Box sx={{ marginTop: 2 }}>
-      <Typography className="text-xl">Cargo crane</Typography>
-      <Box className="m-5 flex justify-between">
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                Search
-              </InputAdornment>
-            ),
-          }}
-        />
-        <PageInsert />
-      </Box>
+      <Card sx={{ marginY: 1 }}>
+        <CardContent className="flex justify-between">
+          <Stack direction='row' spacing={3}>
+            <Typography className="text-2xl font-bold flex justify-center">สินค้า</Typography>
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    Search
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Stack>
+          <InsertCargoPage />
+        </CardContent>
+      </Card>
       {loading ? (
         <Box
           sx={{
@@ -145,9 +163,9 @@ export default function OrderPage() {
       ) : error ? (
         <Typography>Error: {error}</Typography>
       ) : (
-        <Paper sx={{ height: 600, width: "100%", marginTop: 3, marginBottom: 5 }}>
+        <Paper sx={{ height: 600, width: "100%", marginBottom: 5 }}>
           <TableVirtuoso
-            data={convertedCargoCrane}
+            data={convertedCargo}
             components={VirtuosoTableComponents}
             fixedHeaderContent={fixedHeaderContent}
             itemContent={rowContent}

@@ -10,6 +10,12 @@ export interface CargoCrane {
     category: string
 }
 
+export interface CargoCraneEditState {
+    result: CargoCrane | null
+    loading: boolean
+    error: null | string
+}
+
 export interface CargoCraneState {
     cargoCrane: CargoCrane[];
     loading: boolean

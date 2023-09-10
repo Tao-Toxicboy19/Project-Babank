@@ -75,7 +75,7 @@ export const addFloating = (formData: FormData, setOpen: any) => {
   };
 };
 
-export const deleteProduct = (id: string) => {
+export const deleteFloating = (id: string) => {
   return async (dispatch: any) => {
     try {
       await httpClient.delete(`${server.FLOATING}/${id}`)

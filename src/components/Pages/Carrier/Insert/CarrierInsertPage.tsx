@@ -6,7 +6,7 @@ import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch } from 'react-redux';
 import { TransitionProps } from '@mui/material/transitions';
-import { carrier } from '../../../../types/Carrier.type';
+import { Carrier } from '../../../../types/Carrier.type';
 import { addCarrier, setInsertCarrier } from '../../../../store/slices/carrier.slice';
 
 type Props = {}
@@ -32,7 +32,7 @@ export default function CarrierInsertPage({ }: Props) {
     setSubmitting(false);
   };
 
-  const validateForm = (values: carrier) => {
+  const validateForm = (values: Carrier) => {
     let errors: any = {}
     if (!values.carrier_name) errors.carrier_name = 'Enter name'
     if (!values.ower) errors.ower = 'Enter ower'
@@ -41,10 +41,10 @@ export default function CarrierInsertPage({ }: Props) {
     return errors
   };
 
-  const showForm = ({ isSubmitting }: FormikProps<carrier>) => {
+  const showForm = ({ isSubmitting }: FormikProps<Carrier>) => {
     return (
       <Form>
-        <Box className='flex flex-col gap-4'>
+        <Box className='flex flex-col gap-4 m-3'>
           <Field
             component={TextField}
             name='carrier_name'
@@ -94,14 +94,13 @@ export default function CarrierInsertPage({ }: Props) {
     )
   }
 
-  const initialValues: carrier = {
+  const initialValues: Carrier = {
     cr_id: '',
     carrier_name: '',
     ower: '',
     maxcapacity: 0,
     burden: 0,
   }
-  // const initialValues: Floating = { floating_name: '', NumberOfCranes: 1, latitude: 0, longitude: 0, setuptime: 0, speed: 0, };
 
   return (
     <div>

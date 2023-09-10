@@ -1,5 +1,5 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import { carrier, carrierState } from "../../types/Carrier.type";
+import { Carrier, carrierState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
 import { RootState } from "../store";
@@ -18,7 +18,7 @@ const carrierSlice = createSlice({
             state.loading = true
             state.error = null
         },
-        setCarrierSuccess: (state, action: PayloadAction<carrier[]>) => {
+        setCarrierSuccess: (state, action: PayloadAction<Carrier[]>) => {
             state.carrier = action.payload
             state.loading = false
         },
@@ -26,10 +26,10 @@ const carrierSlice = createSlice({
             state.error = action.payload
             state.loading = false
         },
-        setInsertCarrier: (state, action: PayloadAction<carrier>) => {
+        setInsertCarrier: (state, action: PayloadAction<Carrier>) => {
             state.carrier.push(action.payload)
         },
-        setUpdateCarrier: (state, action: PayloadAction<carrier>) => {
+        setUpdateCarrier: (state, action: PayloadAction<Carrier>) => {
             const carrierIndex = state.carrier.findIndex(carrier => carrier.cr_id === action.payload.cr_id);
             if (carrierIndex !== -1) {
                 state.carrier[carrierIndex] = action.payload
@@ -53,7 +53,7 @@ export const loadCarrier = (): ThunkAction<void, RootState, unknown, any> => asy
         dispatch(setCarrierSuccess(result.data))
     }
     catch (error) {
-        dispatch(setCarrierFailure("Failed to fetch floating data"))
+        dispatch(setCarrierFailure("Failed to fetch CARRIER data"))
     }
 }
 
@@ -63,7 +63,18 @@ export const addCarrier = (formData: FormData, setOpen: any) => {
             await httpClient.post(server.CARRIER, formData);
             setOpen(false)
         } catch (error) {
-            console.error('Error while adding floating:', error);
+            console.error('Error while adding CARRIER:', error);
+        }
+    };
+};
+
+export const deleteCarrier = (id: string) => {
+    return async (dispatch: any) => {
+        try {
+            await httpClient.delete(`${server.CARRIER}/${id}`)
+            dispatch(setDeleteCarrier(id));
+        } catch (error: any) {
+            dispatch(setCarrierFailure(error.message));
         }
     };
 };

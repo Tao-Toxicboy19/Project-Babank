@@ -8,7 +8,6 @@ import { Floating } from '../../../../types/FloatingCrane.type';
 import { useDispatch } from 'react-redux';
 import { addFloating, setInsertFloating } from '../../../../store/slices/floating.slice';
 import { TransitionProps } from '@mui/material/transitions';
-import { carrier } from '../../../../types/Carrier.type';
 
 type Props = {}
 
@@ -45,7 +44,7 @@ export default function CarrierInsertPage({ }: Props) {
   const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Floating>) => {
     return (
       <Form>
-        <Box className='grid grid-cols-2 gap-3 m-1'>
+        <Box className='grid grid-cols-2 gap-3 m-3'>
           <Field
             component={TextField}
             name='floating_name'

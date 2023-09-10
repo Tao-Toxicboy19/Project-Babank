@@ -18,15 +18,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { carrier } from "../../../types/Carrier.type";
+import { Carrier } from "../../../types/Carrier.type";
 import { TableComponents, TableVirtuoso } from "react-virtuoso";
 import React from "react";
 import { columns } from "./ColumnDataCarrier";
 import SearchIcon from '@mui/icons-material/Search';
-import EditPage from "./Edit/Page";
-import DeletePage from "./Delete/Page";
 import CarrierEditPage from "./Edit/CarrierEditPage";
 import CarrierInsertPage from "./Insert/CarrierInsertPage";
+import CarrierDeletePage from "./Delete/CarrierDeletePage";
 
 type Props = {};
 
@@ -41,7 +40,7 @@ export default function CarrierPage({ }: Props) {
     item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const VirtuosoTableComponents: TableComponents<carrier> = {
+  const VirtuosoTableComponents: TableComponents<Carrier> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -58,7 +57,7 @@ export default function CarrierPage({ }: Props) {
     )),
   };
 
-  const convertedCarrier: carrier[] = filteredData.map((items) => ({
+  const convertedCarrier: Carrier[] = filteredData.map((items) => ({
     cr_id: items.cr_id,
     carrier_name: items.carrier_name,
     maxcapacity: items.maxcapacity,
@@ -96,7 +95,7 @@ export default function CarrierPage({ }: Props) {
     );
   }
 
-  const rowContent = (_index: number, row: carrier) => (
+  const rowContent = (_index: number, row: Carrier) => (
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
@@ -111,8 +110,8 @@ export default function CarrierPage({ }: Props) {
         >
           {column.dataKey === "editColumn" ? (
             <Stack direction='row' spacing={1} className="flex justify-end">
-              {/* <CarrierEditPage id={row.cr_id} result={row} /> */}
-              {/* <DeleteFloatingPage id={row.fl_id} result={row.floating_name} /> */}
+              <CarrierEditPage id={row.cr_id} result={row} />
+              <CarrierDeletePage id={row.cr_id} result={row.carrier_name} />
             </Stack>
           ) : (
             row[column.dataKey]

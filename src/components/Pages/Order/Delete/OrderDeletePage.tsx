@@ -2,14 +2,15 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteFloating } from '../../../../store/slices/floating.slice';
+import { deleteOrder } from '../../../../store/slices/order.slice';
+import axios from 'axios';
 
-export default function CarrierDeletePage({ id, result }: any) {
+export default function OrderDeletePage({ id, result }: any) {
     const dispatch = useDispatch<any>();
     const [open, setOpen] = useState(false);
 
     const handleDeleteConfirm = () => {
-        dispatch(deleteFloating(id))
+        dispatch(deleteOrder(id))
     }
 
     return (
@@ -20,8 +21,6 @@ export default function CarrierDeletePage({ id, result }: any) {
             >
                 <DeleteIcon />
             </Box>
-
-
             <Dialog
                 open={open}
                 onClose={() => setOpen(false)}

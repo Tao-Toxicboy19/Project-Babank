@@ -26,6 +26,7 @@ import { columns } from "./ColumnDataFloating";
 import ModalPopup from "./Insert/FloatingInsertPage";
 import FloatingEditPage from "./Edit/FloatingEditPage";
 import DeleteFloatingPage from "./Delete/DeleteFloatingPage";
+import CarrierDeletePage from "./Delete/DeleteFloatingPage";
 
 type Props = {};
 
@@ -113,7 +114,7 @@ export default function FloatingCranePage({ }: Props) {
           {column.dataKey === "editColumn" ? (
             <Stack direction='row' spacing={1} className="flex justify-end">
               <FloatingEditPage id={row.fl_id} result={row} />
-              <DeleteFloatingPage id={row.fl_id} result={row.floating_name} />
+              <CarrierDeletePage id={row.fl_id} result={row.floating_name} />
             </Stack>
           ) : (
             row[column.dataKey]

@@ -6,13 +6,11 @@ import { Floating } from '../../../../types/FloatingCrane.type';
 import { useDispatch } from 'react-redux';
 import Edit from '@mui/icons-material/Edit';
 import { useState } from 'react';
-import { updateFloating } from '../../../../store/slices/floating.edit.slice';
-import { setUpdateFloating } from '../../../../store/slices/floating.slice';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
-import { setUpdateCarrier } from '../../../../store/slices/carrier.slice';
-import { updateCarrier } from '../../../../store/slices/carrier.edit.slice';
-import { Carrier } from '../../../../types/Carrier.type';
+import { Cargo } from '../../../../types/Cargo.type';
+import { setUpdateCargo } from '../../../../store/slices/cargo.slice';
+import { updateCargo } from '../../../../store/slices/cargo.edit.slice';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -23,49 +21,55 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FloatingEditPage({ id, result }: { id: any; result: any }) {
+export default function CargoEditPage({ id, result }: { id: any; result: any }) {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch<any>();
     const handleClose = () => setOpen(false);
     const handleSubmit = (values: any, { setSubmitting }: any) => {
-        dispatch(updateCarrier(id, values, setOpen))
-        dispatch(setUpdateCarrier(values))
-        alert(JSON.stringify(values))
+        dispatch(updateCargo(id, values, setOpen))
+        dispatch(setUpdateCargo(values))
         setSubmitting(false);
     };
 
-    const showForm = ({ isSubmitting }: FormikProps<Carrier>) => {
+    const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Cargo>) => {
         return (
             <Form>
                 <Box className='flex flex-col gap-4 m-3'>
                     <Field
                         component={TextField}
-                        name='carrier_name'
+                        name='cargo_name'
                         type='text'
                         label='ชื่อ'
                         fullWidth
                     />
                     <Field
                         component={TextField}
-                        name='ower'
-                        type='text'
+                        name='consumption_rate'
+                        type='number'
                         label='ชื่อบริษัท'
                         fullWidth
                     />
                     <Field
                         component={TextField}
-                        name='maxcapacity'
+                        name='work_rate'
                         type='number'
                         label='ความจุสูงสุด (ตัน)'
                         fullWidth
                     />
-                    <Field
-                        component={TextField}
-                        name='burden'
-                        type='number'
-                        label='จำนวนระวาง'
-                        fullWidth
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">จำนวนเครน</InputLabel>
+                        <Field
+                            as={Select}
+                            name='category'
+                            label='จำนวนเครน'
+                            value={values.category}
+                            onChange={handleChange}
+                            fullWidth
+                        >
+                            <MenuItem value='Import'>Import</MenuItem>
+                            <MenuItem value='Export'>Export</MenuItem>
+                        </Field>
+                    </FormControl>
                 </Box>
                 <Box className="flex justify-end gap-x-3 mt-3 mx-1">
                     <Button
