@@ -1,53 +1,55 @@
-import { ColumnData } from "../../../types/FloatingCrane.type";
+import { ColumnFloating } from "../../../types/FloatingCrane.type";
 
-export const columns: ColumnData[] = [
+export const columns: ColumnFloating[] = [
     {
-        width: 80,
-        label: "ชื่อ",
-        dataKey: "floating_name",
-        numeric: true,
-        className: "text-[14px]  font-normal",
+        width: 40,
+        label: '#',
+        dataKey: 'fl_id',
+    },
+    {
+        width: 100,
+        label: 'ตำแหน่งทุ่น',
+        dataKey: 'map',
+    },
+    {
+        width: 150,
+        label: 'ชื่อ',
+        dataKey: 'floating_name',
     },
     {
         width: 120,
-        label: "จำนวนเครน",
-        dataKey: "NumberOfCranes",
+        label: 'จำนวนเครน',
+        dataKey: 'NumberOfCranes',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
         width: 120,
-        label: "ละติจูด",
-        dataKey: "latitude",
+        label: 'ละติจูด',
+        dataKey: 'latitude',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
         width: 120,
-        label: "ลองจิจูด",
-        dataKey: "longitude",
+        label: 'ลองจิจูด',
+        dataKey: 'longitude',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
-        width: 140,
-        label: "เวลาเตรียมความพร้อม (นาที)",
-        dataKey: "setuptime",
+        width: 120,
+        label: 'เวลาเตรียมความพร้อม',
+        dataKey: 'setuptime',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
-        width: 140,
-        label: "ความเร็วการเคลื่อนย้าย (กม./ชม.)",
-        dataKey: "speed",
+        width: 120,
+        label: 'ความเร็วการเคลื่อนย้าย',
+        dataKey: 'speed',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
         width: 80,
         label: "แก้ไข",
         dataKey: "editColumn",
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
-];
+]

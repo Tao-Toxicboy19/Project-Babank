@@ -1,4 +1,4 @@
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide, } from '@mui/material'
+import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, } from '@mui/material'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor } from '../../../../style/Styles'
@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CarrierInsertPage({ }: Props) {
+export default function FloatingInsertPage({ }: Props) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch<any>();
 
@@ -120,14 +120,16 @@ export default function CarrierInsertPage({ }: Props) {
 
   return (
     <div>
-      <Fab
-        color="primary"
-        aria-label="add"
-        size='small'
-        className='bg-blue-500 hover:bg-blue-700'
-        onClick={() => setOpen(true)}>
-        <AddIcon />
-      </Fab>
+      <Tooltip title="เพิ่มทุ่น">
+        <Fab
+          color="primary"
+          aria-label="add"
+          size='small'
+          className='bg-blue-500 hover:bg-blue-700'
+          onClick={() => setOpen(true)}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
       <Dialog
         open={open}
         TransitionComponent={Transition}

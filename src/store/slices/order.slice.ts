@@ -72,7 +72,7 @@ export const addOrder = (formData: FormData, setOpen: any) => {
 export const deleteOrder = (id: string) => {
   return async (dispatch: any) => {
     try {
-      await httpClient.delete(`http://localhost:5018/api/order/${id}`)
+      await httpClient.delete(`${server.ORDER}${id}`)
       dispatch(setDeleteOrder(id));
     } catch (error: any) {
       dispatch(setOrdersFailure(error.message));

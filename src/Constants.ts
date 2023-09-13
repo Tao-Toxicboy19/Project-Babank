@@ -19,8 +19,8 @@ export const apiUrl = "http://localhost:5018/api";
 export const apiUrlV2 = "http://crane.otpzlab.com:7070/api";
 
 export const server = {
-    LOGIN_URL: `auth/login`,
-    REGISTER_URL: `auth/signup`,
+    LOGIN_URL: `login`,
+    REGISTER_URL: `register`,
     FLOATING: `floating`,
     CARRIER: `carrier`,
     CARGO: `cargo`,
@@ -28,4 +28,8 @@ export const server = {
     ORDER:`order`,
 };
 
+export const YES = "YES";
+export const NO = "NO";
+export const OK = "ok";
+export const NOK = "nok";
 export const TOKEN = "TOKEN";

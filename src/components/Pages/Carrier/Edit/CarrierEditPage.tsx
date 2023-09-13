@@ -1,4 +1,4 @@
-import { Button, Box, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
+import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
 import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FloatingEditPage({ id, result }: { id: any; result: any }) {
+export default function CarrierEditPage({ id, result }: { id: any; result: any }) {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch<any>();
     const handleClose = () => setOpen(false);
@@ -86,12 +86,13 @@ export default function FloatingEditPage({ id, result }: { id: any; result: any 
 
     return (
         <div>
-            <Box
-                className='bg-blue-400 hover:bg-blue-600 w-10 h-10 flex justify-center items-center rounded-full'
-                onClick={() => setOpen(true)}
-            >
-                <Edit />
-            </Box>
+            <Tooltip title="แก้ไข">
+                <IconButton
+                    onClick={() => setOpen(true)}
+                >
+                    <Edit className='text-emerald-700' />
+                </IconButton>
+            </Tooltip>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}

@@ -19,8 +19,8 @@ export interface FloatingState {
   error: string | null
 }
 
-export interface ColumnData {
-  dataKey: keyof Floating | "editColumn";
+export interface ColumnFloating {
+  dataKey: keyof Floating | "editColumn" | "map";
   label?: string;
   numeric?: boolean;
   width: number;

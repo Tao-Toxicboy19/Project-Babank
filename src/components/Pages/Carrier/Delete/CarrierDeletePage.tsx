@@ -1,8 +1,8 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteCarrier } from '../../../../store/slices/carrier.slice';
+import DeleteForever from '@mui/icons-material/DeleteForever';
 
 export default function CarrierDeletePage({ id, result }: any) {
   const dispatch = useDispatch<any>();
@@ -14,12 +14,13 @@ export default function CarrierDeletePage({ id, result }: any) {
 
   return (
     <>
-      <Box
-        className='bg-purple-400 hover:bg-purple-600 w-10 h-10 flex justify-center items-center rounded-full'
-        onClick={() => setOpen(true)}
-      >
-        <DeleteIcon />
-      </Box>
+      <Tooltip title="ลบ">
+        <IconButton
+          onClick={() => setOpen(true)}
+        >
+          <DeleteForever className='text-red-800' />
+        </IconButton>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}

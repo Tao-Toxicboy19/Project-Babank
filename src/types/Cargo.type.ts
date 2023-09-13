@@ -18,7 +18,7 @@ export interface CargoEditState {
     error: null | string
 }
 
-export interface ColumnData {
+export interface ColumnCargo {
     dataKey: keyof Cargo | "editColumn";
     label: string;
     numeric?: boolean;

@@ -1,9 +1,8 @@
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor } from '../../../../style/Styles'
-import { Carrier } from '../../../../types/Carrier.type';
 import { Cargo } from '../../../../types/Cargo.type';
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
+import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch } from 'react-redux';
@@ -21,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function InsertCargoPage({ }: Props) {
+export default function CargoInsertPage({ }: Props) {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch<any>();
 
@@ -112,14 +111,16 @@ export default function InsertCargoPage({ }: Props) {
 
     return (
         <div>
-            <Fab
-                color="primary"
-                aria-label="add"
-                size='small'
-                className='bg-blue-500 hover:bg-blue-700'
-                onClick={() => setOpen(true)}>
-                <AddIcon />
-            </Fab>
+            <Tooltip title="เพิ่มสินค้า">
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    size='small'
+                    className='bg-blue-500 hover:bg-blue-700'
+                    onClick={() => setOpen(true)}>
+                    <AddIcon />
+                </Fab>
+            </Tooltip>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}

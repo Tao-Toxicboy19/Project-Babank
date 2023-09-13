@@ -1,39 +1,39 @@
-import { ColumnData } from "../../../types/Carrier.type";
+import { ColumnsCarrier } from "../../../types/Carrier.type";
 
-export const columns: ColumnData[] = [
+
+export const columns: ColumnsCarrier[] = [
     {
-        width: 150,
-        label: "ชื่อ",
-        dataKey: "carrier_name",
-        numeric: true,
-        className: "text-[14px]  font-normal",
+        width: 40,
+        label: '#',
+        dataKey: 'cr_id',
     },
     {
         width: 150,
-        label: "ชื่อบริษัท",
-        dataKey: "ower",
+        label: 'ชื่อ',
+        dataKey: 'carrier_name',
+    },
+    {
+        width: 120,
+        label: 'ชื่อบริษัท',
+        dataKey: 'ower',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
         width: 150,
-        label: "ความจุสูงสุด (ตัน)",
-        dataKey: "maxcapacity",
+        label: 'ความจุสูงสุด (ตัน)	',
+        dataKey: 'maxcapacity',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
-        width: 150,
-        label: "จำนวนระวาง",
-        dataKey: "burden",
+        width: 120,
+        label: 'จำนวนระวาง',
+        dataKey: 'burden',
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
     {
-        width: 150,
+        width: 80,
         label: "แก้ไข",
         dataKey: "editColumn",
         numeric: true,
-        className: "text-[14px]  font-normal",
     },
 ]

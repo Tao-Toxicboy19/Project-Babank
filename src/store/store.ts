@@ -11,6 +11,7 @@ import carrierReducer from './slices/carrier.slice';
 import carrierEditReducer from './slices/carrier.slice';
 import floatingEditReducer from './slices/floating.edit.slice'
 import cargoCraneEditReducer from './slices/cargocrane.edit.slice'
+import loginReducer from './slices/login.slice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -29,8 +30,9 @@ export const store = configureStore({
     cargoCrane: cargoCraneReducer,
     cargoCraneEdit: cargoCraneEditReducer,
     auth: authReducer,
+    login: loginReducer,
   },
-  middleware: middleware,
+  // middleware: middleware,
 });
 
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;

@@ -22,7 +22,7 @@ export interface CargoCraneState {
     error: string | null
 }
 
-export interface ColumnData {
+export interface ColumnCargoCrane {
     dataKey: keyof CargoCrane | "editColumn";
     label: string;
     numeric?: boolean;

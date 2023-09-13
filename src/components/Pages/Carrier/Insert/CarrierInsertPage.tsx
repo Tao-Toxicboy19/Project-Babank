@@ -1,4 +1,4 @@
-import { Button, Box, Fab, Dialog, DialogTitle, Slide, DialogContent } from '@mui/material'
+import { Button, Box, Fab, Dialog, DialogTitle, Slide, DialogContent, Tooltip } from '@mui/material'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor } from '../../../../style/Styles'
@@ -104,14 +104,16 @@ export default function CarrierInsertPage({ }: Props) {
 
   return (
     <div>
-      <Fab
-        color="primary"
-        aria-label="add"
-        size='small'
-        className='bg-blue-500 hover:bg-blue-700'
-        onClick={() => setOpen(true)}>
-        <AddIcon />
-      </Fab>
+      <Tooltip title="เพิ่มเรือสินค้า">
+        <Fab
+          color="primary"
+          aria-label="add"
+          size='small'
+          className='bg-blue-500 hover:bg-blue-700'
+          onClick={() => setOpen(true)}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
       <Dialog
         open={open}
         TransitionComponent={Transition}

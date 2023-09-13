@@ -18,7 +18,7 @@ export interface carrierState {
     error: string | null
 }
 
-export interface ColumnData {
+export interface ColumnsCarrier {
     dataKey: keyof Carrier | "editColumn";
     label: string;
     numeric?: boolean;

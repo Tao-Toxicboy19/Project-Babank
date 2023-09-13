@@ -20,7 +20,7 @@ export interface OrderEditState {
     error: null | string
 }
 
-export interface ColumnData {
+export interface ColumnOrder {
     dataKey: keyof Order | "editColumn";
     label: string;
     numeric?: boolean;

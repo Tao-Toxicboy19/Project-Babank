@@ -4,12 +4,12 @@ import Footer from "./components/layout/Footer/Footer";
 import HomePage from "./components/Pages/Home/Page";
 import FloatingPage from "./components/Pages/FloatingCrane/FloatingPage";
 import CarrierPage from "./components/Pages/Carrier/CarrierPage";
-import RegisterPage from "./components/Pages/Register/Page";
+import RegisterPage from "./components/Pages/Register/RegisterPage";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import CargocranePage from "./components/Pages/Cargocrane/CargoCranePage";
 import OrderPage from "./components/Pages/Order/OrderPage";
-import LoginPage from "./components/Pages/Login/Page";
+import LoginPage from "./components/Pages/LoginPage/LoginPage";
 import CargoPage from "./components/Pages/Cargo/CargoPage";
 import MovingTablePage from "./components/Pages/Summarize/movingTable";
 import { floating } from "./store/slices/floating.slice";
@@ -17,46 +17,73 @@ import { loadCarrier } from "./store/slices/carrier.slice";
 import { loadCargo } from "./store/slices/cargo.slice";
 import { loadCargoCrane } from "./store/slices/cargocrane.slice";
 import { loadOrder } from "./store/slices/order.slice";
+import PrivateRoute from "./utlis/PrivateRoute";
+import { TOKEN } from "./Constants";
+import { restoreLogin } from "./store/slices/login.slice";
+
 
 export default function App() {
   const dispatch = useDispatch<any>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(floating());
-      await dispatch(loadCarrier())
-      await dispatch(loadCargo())
-      await dispatch(loadCargoCrane())
-      await dispatch(loadOrder())
-    };
+  // useEffect(() => {
+  //   dispatch(restoreLogin())
+  // }, []);
 
-    fetchData();
-  }, [dispatch]);
+  const Token = localStorage.getItem(TOKEN);
+  if (Token) {
+    console.log(Token)
+  } else {
+    // กรณีที่ไม่มีโทเค็นใน localStorage
+    console.log('ไม่มีโทเค็น');
+  }
+
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await dispatch(floating());
+  //     await dispatch(loadCarrier())
+  //     await dispatch(loadCargo())
+  //     await dispatch(loadCargoCrane())
+  //     await dispatch(loadOrder())
+  //   };
+
+  //   fetchData();
+  // }, [dispatch]);
+
+
 
   return (
     <>
-      <div className="bg-[#DCE2EB] flex flex-col min-h-screen">
-        <Header />
+      {/* <div className="bg-[#DCE2EB] flex flex-col min-h-screen"> */}
+      <div className="bg-[#DCE2EB] flex flex-col min-h-screen" >
+        {false && <Header />}
         <div className="container mx-auto flex-grow">
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/Floating Transfer" element={<FloatingPage />} />
-            <Route path="/carrier" element={<CarrierPage />} />
-            <Route path="/cargo" element={<CargoPage />} />
-            <Route path="/Order" element={<OrderPage />} />
-            <Route path="/cargo crane" element={<CargocranePage />} />
-            <Route path="/summarize" element={< MovingTablePage />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/cargo" element={<CargoPage />} />
+              {/* <Route path="/" element={<Maps />} /> */}
+              <Route path="/Floating Transfer" element={<FloatingPage />} />
+              <Route path="/carrier" element={<CarrierPage />} />
+              <Route path="/Order" element={<OrderPage />} />
+              <Route path="/cargo crane" element={<CargocranePage />} />
+              <Route path="/summarize" element={< MovingTablePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
-        <Footer />
-      </div>
+        {false && <Footer />}
+      </div >
     </>
   );
 }
 
+
+// AIzaSyDGi7e4tZrKmr7svv78ZdIKd6El2uyDBdg
 
 // const [loading, setLoading] = useState(true); // เพิ่ม state สำหรับตัวแปร loading
 // const [error, setError] = useState<string | null>(null); // เพิ่ม state สำหรับตัวแปร error

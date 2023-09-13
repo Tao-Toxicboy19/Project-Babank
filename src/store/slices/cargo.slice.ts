@@ -53,16 +53,45 @@ const cargoSlice = createSlice({
 export const { setCargoStart, setCargoSuccess, setCargoFailure, setInsertCargo, setUpdateCargo, setDeleteCargo } = cargoSlice.actions
 export default cargoSlice.reducer
 
+// export const loadCargo = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+//   try {
+//     dispatch(setCargoStart())
+//     const result = await httpClient.get(server.CARGO)
+//     dispatch(setCargoSuccess(result.data))
+//   }
+//   catch (error) {
+//     dispatch(setCargoFailure("Failed to fetch CARGO data"))
+//   }
+// }
+
+// ตัวอย่างการส่ง Token ใน Header ของคำขอ HTTP ด้วย Axios
 export const loadCargo = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
   try {
-    dispatch(setCargoStart())
-    const result = await httpClient.get(server.CARGO)
-    dispatch(setCargoSuccess(result.data))
+    dispatch(setCargoStart());
+
+    // ดึง Token จาก Local Storage
+    const token = localStorage.getItem('token');
+
+    // ตรวจสอบว่า Token ถูกต้องหรือไม่
+    if (!token) {
+      // ถ้าไม่มี Token ให้ทำการจัดการข้อผิดพลาด
+      alert("Token ไม่ถูกต้องหรือหมดอายุ")
+      return;
+    }
+
+    // ส่ง Token ใน Authorization Header ของคำขอ HTTP
+    const result = await httpClient.get(server.CARGO, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // ดึงข้อมูลจากการร้องขอ
+    dispatch(setCargoSuccess(result.data));
+  } catch (error) {
+    dispatch(setCargoFailure("Failed to fetch CARGO data"));
   }
-  catch (error) {
-    dispatch(setCargoFailure("Failed to fetch CARGO data"))
-  }
-}
+};
 
 export const addCargo = (formData: FormData, setOpen: any) => {
   return async () => {

@@ -1,4 +1,4 @@
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
+import { Button, Box, Select, MenuItem, FormControl, InputLabel, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
 import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -186,12 +186,13 @@ export default function OrderEditPage({ id, result }: { id: any; result: any }) 
 
     return (
         <div>
-            <Box
-                className='bg-blue-400 hover:bg-blue-600 w-10 h-10 flex justify-center items-center rounded-full'
-                onClick={() => setOpen(true)}
-            >
-                <Edit />
-            </Box>
+            <Tooltip title="แก้ไข">
+                <IconButton
+                    onClick={() => setOpen(true)}
+                >
+                    <Edit className='text-emerald-700' />
+                </IconButton>
+            </Tooltip>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}

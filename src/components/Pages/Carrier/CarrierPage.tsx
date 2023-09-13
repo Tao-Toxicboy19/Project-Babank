@@ -1,44 +1,84 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-import {
-  Box,
-  Card,
-  CardContent,
-  CircularProgress,
-  InputAdornment,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
-import { Carrier } from "../../../types/Carrier.type";
-import { TableComponents, TableVirtuoso } from "react-virtuoso";
-import React from "react";
-import { columns } from "./ColumnDataCarrier";
-import SearchIcon from '@mui/icons-material/Search';
-import CarrierEditPage from "./Edit/CarrierEditPage";
-import CarrierInsertPage from "./Insert/CarrierInsertPage";
-import CarrierDeletePage from "./Delete/CarrierDeletePage";
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { TableVirtuoso, TableComponents } from 'react-virtuoso';
+import { Box, Card, CardContent, CircularProgress, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { RootState } from '../../../store/store';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Search from '@mui/icons-material/Search';
+import { Carrier } from '../../../types/Carrier.type';
+import { columns } from './ColumnDataCarrier';
+import CarrierInsertPage from './Insert/CarrierInsertPage';
+import CarrierEditPage from './Edit/CarrierEditPage';
+import CarrierDeletePage from './Delete/CarrierDeletePage';
 
-type Props = {};
 
-export default function CarrierPage({ }: Props) {
+
+function fixedHeaderContent() {
+  return (
+    <TableRow>
+      {columns.map((column) => (
+        <TableCell
+          key={column.dataKey}
+          variant="head"
+          align={column.numeric || false ? 'right' : 'left'}
+          style={{ width: column.width }}
+          sx={{
+            backgroundColor: 'background.paper',
+          }}
+        >
+          {column.label}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+}
+
+function rowContent(_index: number, row: Carrier) {
+  return (
+    <React.Fragment>
+      {columns.map((column) => (
+        <TableCell
+          key={column.dataKey}
+          align={column.numeric || false ? 'right' : 'left'}
+        >
+          {column.dataKey === 'editColumn' ? (
+            <Stack direction='row' className="flex justify-end">
+              <CarrierEditPage id={row.cr_id} result={row} />
+              <CarrierDeletePage id={row.cr_id} result={row.carrier_name} />
+            </Stack>
+          ) : (
+            row[column.dataKey]
+          )}
+        </TableCell>
+      ))}
+    </React.Fragment>
+  );
+}
+
+
+export default function CarrierPage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const carrier = useSelector((state: RootState) => state.carrier.carrier);
-  const loading = useSelector((state: RootState) => state.carrier.loading);
-  const error = useSelector((state: RootState) => state.carrier.error);
+  const carrierReducer = useSelector((state: RootState) => state.carrier);
 
   // search
-  const filteredData = carrier.filter((item) =>
+  const filteredData = (carrierReducer.carrier).filter((item) =>
     item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const rows: Carrier[] = filteredData.map((items) => ({
+    cr_id: items.cr_id,
+    carrier_name: items.carrier_name,
+    ower: items.ower,
+    maxcapacity: items.maxcapacity,
+    burden: items.burden,
+  }));
 
   const VirtuosoTableComponents: TableComponents<Carrier> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
@@ -57,121 +97,70 @@ export default function CarrierPage({ }: Props) {
     )),
   };
 
-  const convertedCarrier: Carrier[] = filteredData.map((items) => ({
-    cr_id: items.cr_id,
-    carrier_name: items.carrier_name,
-    maxcapacity: items.maxcapacity,
-    ower: items.ower,
-    burden: items.burden,
-  }));
-
-  function fixedHeaderContent() {
-    return (
-      <TableRow>
-        {columns.map((column) => (
-          <TableCell
-            key={column.dataKey}
-            variant="head"
-            align={
-              column.dataKey === "carrier_name" || column.dataKey === "ower"
-                ? "center"
-                : column.numeric || false
-                  ? "right"
-                  : "left"
-            }
-            style={{ width: column.width }}
-            sx={{
-              width: column.width,
-              fontSize: "17px", // เพิ่มขนาด font label
-              fontWeight: "normal",
-              backgroundColor: "background.paper",
-              borderBottom: 1
-            }}
-          >
-            {column.label === "longitude" ? "Edit" : column.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    );
-  }
-
-  const rowContent = (_index: number, row: Carrier) => (
-    <React.Fragment>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          align={
-            column.dataKey === "carrier_name" || column.dataKey === "ower"
-              ? "left"
-              : column.numeric || false
-                ? "right"
-                : "left"
-          }
-        >
-          {column.dataKey === "editColumn" ? (
-            <Stack direction='row' spacing={1} className="flex justify-end">
-              <CarrierEditPage id={row.cr_id} result={row} />
-              <CarrierDeletePage id={row.cr_id} result={row.carrier_name} />
-            </Stack>
-          ) : (
-            row[column.dataKey]
-          )}
-        </TableCell>
-      ))}
-    </React.Fragment>
-  );
 
   return (
-    <Box sx={{ marginTop: 2 }}>
-      <Card sx={{ marginY: 1 }}>
-        <CardContent className="flex justify-between">
-          <Stack direction='row' spacing={3}>
-            <Typography className="text-2xl font-bold flex justify-center">เรือสินค้า</Typography>
-            <TextField
-              id="standard-basic"
-              variant="standard"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    Search
-                  </InputAdornment>
-                ),
-              }}
-            />
+    <>
+      <Card className='mt-5 mb-2'>
+        <CardContent>
+          <Stack direction='row' className='flex justify-between'>
+            <Card>
+              <Stack direction='row' spacing={2} className='flex items-center'>
+                <Typography className='text-2xl font-bold'>เรือสินค้า</Typography>
+              </Stack>
+            </Card>
+            <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Tooltip title="ค้นหา">
+                <TextField
+                  id="standard-basic"
+                  variant="standard"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        Search
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Tooltip>
+              <CarrierInsertPage />
+            </Stack>
           </Stack>
-          <CarrierInsertPage />
         </CardContent>
       </Card>
-      {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%"
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : error ? (
-        <Typography>Error: {error}</Typography>
-      ) : (
-        <Paper sx={{ height: 600, width: "100%", marginBottom: 5 }}>
-          <TableVirtuoso
-            data={convertedCarrier}
-            components={VirtuosoTableComponents}
-            fixedHeaderContent={fixedHeaderContent}
-            itemContent={rowContent}
-          />
-        </Paper>
-      )}
-    </Box>
+      {
+        carrierReducer.loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%"
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : carrierReducer.error ? (
+          <Typography>Error: {carrierReducer.error}</Typography>
+        ) : (
+          <>
+            <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
+              <TableVirtuoso
+                data={rows}
+                components={VirtuosoTableComponents}
+                fixedHeaderContent={fixedHeaderContent}
+                itemContent={rowContent}
+              />
+            </Paper>
+          </>
+        )
+      }
+    </>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { btnColor } from '../../../../style/Styles'
 import { Cargo } from '../../../../types/Cargo.type';
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide } from '@mui/material'
+import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,16 +34,6 @@ export default function CargoCraneInsertPage({ }: Props) {
         dispatch(setInsertCargoCrane(values))
         setSubmitting(false);
     };
-
-    // cc_id: '',
-    //     fl_id: '',
-    //     ca_id: '',
-    //     cargo_name: '',
-    //     floating_name: '',
-    //     crane: 0,
-    //     consumption_rate: 0,
-    //     work_rate: 0,
-    //     category: '',
 
     const validateForm = (values: CargoCrane) => {
         let errors: any = {}
@@ -193,14 +183,16 @@ export default function CargoCraneInsertPage({ }: Props) {
 
     return (
         <div>
-            <Fab
-                color="primary"
-                aria-label="add"
-                size='small'
-                className='bg-blue-500 hover:bg-blue-700'
-                onClick={() => setOpen(true)}>
-                <AddIcon />
-            </Fab>
+            <Tooltip title="เพิ่มการโอนสินค้า">
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    size='small'
+                    className='bg-blue-500 hover:bg-blue-700'
+                    onClick={() => setOpen(true)}>
+                    <AddIcon />
+                </Fab>
+            </Tooltip>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
