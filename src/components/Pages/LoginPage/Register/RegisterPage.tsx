@@ -5,7 +5,7 @@ import { TextField } from 'formik-material-ui';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { Register } from '../../../types/User.type';
+import { Register } from '../../../../types/User.type';
 
 
 type Props = {}

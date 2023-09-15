@@ -3,7 +3,7 @@ import { Action, ThunkAction, configureStore, getDefaultMiddleware } from '@redu
 import { logger } from 'redux-logger';
 
 import floatingReducer from './slices/floatingSlice.bak';
-import authReducer from './slices/authSlice';
+import userReducer from './slices/authSlice';
 import orderReducer from './slices/order.slice';
 import cargoReducer from './slices/cargo.slice';
 import cargoCraneReducer from './slices/cargocrane.slice';
@@ -29,7 +29,7 @@ export const store = configureStore({
     cargo: cargoReducer,
     cargoCrane: cargoCraneReducer,
     cargoCraneEdit: cargoCraneEditReducer,
-    auth: authReducer,
+    user: userReducer,
     login: loginReducer,
   },
   // middleware: middleware,

@@ -8,17 +8,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { Box, Card, CardContent, CircularProgress, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { Floating } from '../../../types/FloatingCrane.type';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import CarrierDeletePage from './Delete/DeleteFloatingPage';
-import FloatingEditPage from './Edit/FloatingEditPage';
-import FloatingInsertPage from './Insert/FloatingInsertPage';
 import Search from '@mui/icons-material/Search';
-import Maps from '../../layout/Maps/Maps';
-import { columns } from './ColumnDataFloating';
-import MapPopup from '../../layout/Maps/MapPopup';
+import { CargoCrane } from '../../../types/CargoCrane.type';
+import { columns } from './ColumnDataCargoCrane';
+import CargoCraneInsertPage from './Insert/CargoCraneInsertPage';
+import CargoCraneEditPage from './Edit/CargoCraneEditPage';
+import CargoCraneDeletePage from './Delete/CargoCraneDeletePage';
 
 
 function fixedHeaderContent() {
@@ -41,7 +39,7 @@ function fixedHeaderContent() {
   );
 }
 
-function rowContent(_index: number, row: Floating) {
+function rowContent(_index: number, row: CargoCrane) {
   return (
     <React.Fragment>
       {columns.map((column) => (
@@ -51,11 +49,9 @@ function rowContent(_index: number, row: Floating) {
         >
           {column.dataKey === 'editColumn' ? (
             <Stack direction='row' className="flex justify-end">
-              <FloatingEditPage id={row.fl_id} result={row} />
-              <CarrierDeletePage id={row.fl_id} result={row.floating_name} />
+              <CargoCraneEditPage id={row.cc_id} result={row} />
+              <CargoCraneDeletePage id={row.cc_id} result={row.cargo_name} />
             </Stack>
-          ) : column.dataKey === 'map' ? (
-            <MapPopup result={row} />
           ) : (
             row[column.dataKey]
           )}
@@ -66,26 +62,29 @@ function rowContent(_index: number, row: Floating) {
 }
 
 
-export default function FloatingPage() {
+export default function CargoCranePage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const floatingReducer = useSelector((state: RootState) => state.floating);
+  const cargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
 
   // search
-  const filteredData = (floatingReducer.floating).filter((item) =>
-    item.floating_name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = (cargoCraneReducer.cargoCrane).filter((item) =>
+    item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const rows: Floating[] = filteredData.map((floating) => ({
-    fl_id: floating.fl_id,
-    floating_name: floating.floating_name,
-    NumberOfCranes: floating.NumberOfCranes,
-    latitude: floating.latitude,
-    longitude: floating.longitude,
-    setuptime: floating.setuptime,
-    speed: floating.speed,
+  const rows: CargoCrane[] = filteredData.map((items) => ({
+    cargo_id: items.ca_id,
+    ca_id: items.ca_id,
+    cargo_name: items.cargo_name,
+    category: items.category,
+    cc_id: items.cc_id,
+    consumption_rate: items.consumption_rate,
+    crane: items.crane,
+    fl_id: items.fl_id,
+    floating_name: items.floating_name,
+    work_rate: items.work_rate,
   }));
 
-  const VirtuosoTableComponents: TableComponents<Floating> = {
+  const VirtuosoTableComponents: TableComponents<CargoCrane> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
@@ -105,8 +104,42 @@ export default function FloatingPage() {
 
   return (
     <>
+      <Card className='mt-5 mb-2'>
+        <CardContent>
+          <Stack direction='row' className='flex justify-between'>
+            <Card>
+              <Stack direction='row' spacing={2} className='flex items-center'>
+                <Typography className='text-2xl font-bold'>ข้อมูลระหว่างสินค้าและเครน</Typography>
+              </Stack>
+            </Card>
+            <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Tooltip title="ค้นหา">
+                <TextField
+                  id="standard-basic"
+                  variant="standard"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        Search
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Tooltip>
+              <CargoCraneInsertPage />
+            </Stack>
+          </Stack>
+        </CardContent>
+      </Card>
       {
-        floatingReducer.loading ? (
+        cargoCraneReducer.loading ? (
           <Box
             sx={{
               display: "flex",
@@ -117,37 +150,11 @@ export default function FloatingPage() {
           >
             <CircularProgress />
           </Box>
-        ) : floatingReducer.error ? (
-          <Typography>Error: {floatingReducer.error}</Typography>
+        ) : cargoCraneReducer.error ? (
+          <Typography>Error: {cargoCraneReducer.error}</Typography>
         ) : (
           <>
             <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
-              <Stack direction='row' className='flex justify-between mx-3 py-3 border-b-2'>
-                <Typography className='text-2xl font-bold'>ทุ่น</Typography>
-                <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Tooltip title="ค้นหา">
-                    <TextField
-                      id="standard-basic"
-                      variant="standard"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Search />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            Search
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Tooltip>
-                  <FloatingInsertPage />
-                </Stack>
-              </Stack>
               <TableVirtuoso
                 data={rows}
                 components={VirtuosoTableComponents}
@@ -155,7 +162,6 @@ export default function FloatingPage() {
                 itemContent={rowContent}
               />
             </Paper>
-            <Maps />
           </>
         )
       }

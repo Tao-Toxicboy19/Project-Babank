@@ -2,11 +2,6 @@ import { ColumnFloating } from "../../../types/FloatingCrane.type";
 
 export const columns: ColumnFloating[] = [
     {
-        width: 40,
-        label: '#',
-        dataKey: 'fl_id',
-    },
-    {
         width: 100,
         label: 'ตำแหน่งทุ่น',
         dataKey: 'map',

@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { Login } from '../../../types/User.type';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../store/slices/login.slice';
-import axios from 'axios';
-import { TOKEN } from '../../../Constants';
 
 
 type Props = {}
@@ -19,18 +17,8 @@ export default function LoginPage({ }: Props) {
   const dispatch = useDispatch<any>();
 
   const handleSubmit = async (values: any, { isSubmitting }: any) => {
-    try {
-      const response = await axios.post('http://localhost:5018/api/login', values);
-      const { token } = response.data;
-      localStorage.setItem(TOKEN, response.data.token);
-      // บันทึก Token ใน Local Storage
-      console.log(response.data.token)
-
-      // หลังจากล็อกอินสำเร็จ คุณสามารถนำผู้ใช้ไปยังหน้าหลักหรือทำอย่างอื่นตามต้องการ
-      console.log('ล็อกอินสำเร็จ');
-    } catch (error) {
-      console.error('เกิดข้อผิดพลาดในการล็อกอิน:', error);
-    }
+    dispatch(login(values))
+    isSubmitting(false)
   }
 
   const validationSchema = Yup.object().shape({

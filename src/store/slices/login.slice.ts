@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { LoginResult } from "../../types/authen.type";
-import { OK, server, TOKEN } from "../../Constants";
-import { httpClient } from "../../utlis/httpclient";
+import { server, TOKEN } from "../../Constants";
 import { RootState } from "../store";
 import { Login } from "../../types/User.type";
+import { httpClient } from "../../utlis/httpclient";
+import { setUser } from "./authSlice";
 
 interface LoginState {
     loading: boolean
@@ -36,11 +37,16 @@ const loginSlice = createSlice({
             state.data = null
             state.error = true
             state.loading = false
+        },
+        setLogout(state) {
+            state.data = null
+            state.error = false
+            state.loading = false
         }
     }
 })
 
-export const { setLoginStart, setLoginSuccess, setLoginFailed } = loginSlice.actions
+export const { setLoginStart, setLoginSuccess, setLoginFailed, setLogout } = loginSlice.actions
 export default loginSlice.reducer;
 
 
@@ -48,9 +54,10 @@ export const login = (user: Login): ThunkAction<void, RootState, unknown, any> =
     try {
         dispatch(setLoginStart());
         const result = await httpClient.post<LoginResult>(server.LOGIN_URL, user);
-        if (result.data.token === OK) {
+        if (result.data.token) {
             localStorage.setItem(TOKEN, result.data.token);
             dispatch(setLoginSuccess(result.data));
+            dispatch(setUser(result.data));
             alert('Login successfully');
         } else {
             dispatch(setLoginFailed());
@@ -64,16 +71,16 @@ export const restoreLogin = () => {
     return (dispatch: any) => {
         const token = localStorage.getItem(TOKEN)
         if (token) {
-            dispatch(setLoginSuccess({ token, message: "Successfully" }))
+            dispatch(setLoginSuccess({ message: "Successfully", token }))
         }
     }
 }
 
-
-export const register = async (values: any) => {
-    await axios.post<string>('http://localhost:5018/api/register', values)
+export const loutout = (navigate: any) => {
+    return (dispatch: any) => {
+        localStorage.removeItem(TOKEN)
+        dispatch(setLogout())
+        alert('logout')
+        navigate('/login')
+    }
 }
-
-// export const login = async (values: any) => {
-//     await axios.post('http://localhost:5018/api/login', values)
-// }

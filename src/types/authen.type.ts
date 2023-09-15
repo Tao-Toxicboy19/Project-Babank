@@ -1,4 +1,4 @@
 export interface LoginResult {
-    token: string
-    message: string
+    message: string;
+    token: string;
 }

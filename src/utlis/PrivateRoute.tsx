@@ -1,10 +1,11 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
-type Props = {}
+type PrivateRouteProps = {
+    token: string | null;
+};
 
-export default function PrivateRoute({ }: Props) {
-    let auth = { 'token': false }
+export default function PrivateRoute({ token }: PrivateRouteProps) {
     return (
-        auth.token ? <Outlet /> : <Navigate to='login' />
+        token ? <Outlet /> : <Navigate to='login' />
     )
 }

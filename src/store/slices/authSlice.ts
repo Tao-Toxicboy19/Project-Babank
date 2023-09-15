@@ -1,27 +1,16 @@
-// authSlice.ts
+// userSlice.ts (Redux)
 import { createSlice } from '@reduxjs/toolkit';
 
-interface AuthState {
-  userEmail: string | null;
-}
-
-const initialState: AuthState = {
-  userEmail: null,
-};
-
-const authSlice = createSlice({
-  name: 'auth',
-  initialState,
+const userSlice = createSlice({
+  name: 'user',
+  initialState: null,
   reducers: {
-    setUserEmail: (state, action) => {
-      state.userEmail = action.payload;
+    setUser: (state, action) => {
+      return action.payload; // ให้ค่า state เป็นข้อมูลผู้ใช้ที่ได้จากการล็อกอิน
     },
-    clearUserEmail: (state) => {
-      state.userEmail = null;
-    },
+    clearUser: (state) => null, // เคลียร์ข้อมูลผู้ใช้เมื่อออกจากระบบ
   },
 });
 
-export const { setUserEmail, clearUserEmail } = authSlice.actions;
-
-export default authSlice.reducer;
+export const { setUser, clearUser } = userSlice.actions;
+export default userSlice.reducer;

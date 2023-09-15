@@ -2,19 +2,14 @@ import { ColumnCargoCrane } from "../../../types/CargoCrane.type";
 
 export const columns: ColumnCargoCrane[] = [
     {
-        width: 40,
-        label: '#',
-        dataKey: 'cc_id',
+        width: 80,
+        label: 'ชื่อทุ่น',
+        dataKey: 'floating_name',
     },
     {
         width: 80,
         label: 'ชื่อสินค้า',
         dataKey: 'cargo_name',
-    },
-    {
-        width: 80,
-        label: 'ชื่อทุ่น',
-        dataKey: 'floating_name',
         numeric: true,
     },
     {
