@@ -7,8 +7,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { loutout } from '../../../store/slices/login.slice';
+import GridViewIcon from '@mui/icons-material/GridView';
 import { useDispatch } from 'react-redux';
+import { loutout } from '../../../store/slices/login.slice';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const dispatch = useDispatch<any>();
@@ -55,9 +56,9 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
             <Stack direction='column' spacing={1} sx={{ marginY: 3 }}>
                 <ListItem button component={MyNavLink} to="/home" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
-                        <SupportIcon />
+                        <GridViewIcon />
                     </ListItemIcon>
-                    <ListItemText primary="ทุ่น" />
+                    <ListItemText primary="หน้าแรก" />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/transferstation" activeClassName="Mui-selected" exact>
                     <ListItemIcon>

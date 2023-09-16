@@ -1,15 +1,15 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { DeleteCargoCrane } from '../../../../store/slices/cargocrane.slice';
+// import { useDispatch } from 'react-redux';
+// import { DeleteCargoCrane } from '../../../../store/slices/cargocrane.slice';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 
 export default function CargoCraneDeletePage({ id, result }: any) {
-    const dispatch = useDispatch<any>();
+    // const dispatch = useDispatch<any>();
     const [open, setOpen] = useState(false);
 
     const handleDeleteConfirm = () => {
-        dispatch(DeleteCargoCrane(id))
+        // dispatch(DeleteCargoCrane(id))
     }
 
     return (

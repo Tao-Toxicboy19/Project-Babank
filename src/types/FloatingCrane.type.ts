@@ -26,3 +26,24 @@ export interface ColumnFloating {
   width: number;
   className?: string;
 }
+
+export interface TreeTableNodeProps {
+  FTS_name: string;
+  setuptime_FTS: number;
+  speed: number;
+  lat: number; // เพิ่ม lat และ lng ให้เหมาะสม
+  lng: number;
+  result: {
+    crane_name: string
+    setuptime_crane: number
+  }[];
+}
+
+export interface TreeNodeProps {
+  crane_name: string;
+  setuptime_crane: number
+}
+
+export interface TreeTableProps {
+  data: TreeTableNodeProps[];
+}

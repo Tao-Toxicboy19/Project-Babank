@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
@@ -11,13 +10,9 @@ import PinDropIcon from '@mui/icons-material/PinDrop';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import L, { LatLngExpression } from 'leaflet';
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { floating } from './../../../store/slices/floating.slice';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import L from 'leaflet';
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { Tooltip } from '@mui/material';
 import { Floating } from '../../../types/FloatingCrane.type';
 
 let DefaultIcon = L.icon({

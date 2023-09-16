@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import axios from "axios";
 import { LoginResult } from "../../types/authen.type";
 import { server, TOKEN } from "../../Constants";
 import { RootState } from "../store";
 import { Login } from "../../types/User.type";
 import { httpClient } from "../../utlis/httpclient";
-import { setUser } from "./authSlice";
 
 interface LoginState {
     loading: boolean
@@ -57,7 +55,7 @@ export const login = (user: Login): ThunkAction<void, RootState, unknown, any> =
         if (result.data.token) {
             localStorage.setItem(TOKEN, result.data.token);
             dispatch(setLoginSuccess(result.data));
-            dispatch(setUser(result.data));
+            // dispatch(setUser(result.data));
             alert('Login successfully');
         } else {
             dispatch(setLoginFailed());

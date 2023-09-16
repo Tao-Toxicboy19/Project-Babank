@@ -1,8 +1,7 @@
-import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Carrier, CarrierEditState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
-import { setDeleteCarrier, setUpdateCarrier } from "./carrier.slice";
 
 const initialState: CarrierEditState = {
     carrier: null,

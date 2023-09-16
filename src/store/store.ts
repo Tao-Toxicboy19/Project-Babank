@@ -2,8 +2,6 @@
 import { Action, ThunkAction, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { logger } from 'redux-logger';
 
-import floatingReducer from './slices/floatingSlice.bak';
-import userReducer from './slices/authSlice';
 import orderReducer from './slices/order.slice';
 import cargoReducer from './slices/cargo.slice';
 import cargoCraneReducer from './slices/cargocrane.slice';
@@ -21,7 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const store = configureStore({
   reducer: {
-    floating: floatingReducer,
+    // floating: floatingReducer,
     floatingEdit: floatingEditReducer,
     carrier: carrierReducer,
     carrierEdit: carrierEditReducer,
@@ -29,10 +27,9 @@ export const store = configureStore({
     cargo: cargoReducer,
     cargoCrane: cargoCraneReducer,
     cargoCraneEdit: cargoCraneEditReducer,
-    user: userReducer,
     login: loginReducer,
   },
-  // middleware: middleware,
+  middleware: middleware,
 });
 
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;

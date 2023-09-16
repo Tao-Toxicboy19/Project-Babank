@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { FTSCraneCargo } from '../../../../types/CargoCrane.type'
 import TreeNode from './TreeNode';
-import { Grid } from '@mui/material';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, IconButton, Typography } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-type Props = {}
-
-export default function TreeTableNode({ node }: any) {
+export default function TreeTableNode({ FTS_name, result, }: FTSCraneCargo) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleNode = () => {
@@ -15,45 +14,72 @@ export default function TreeTableNode({ node }: any) {
 
     return (
         <>
-            <Grid container spacing={1} columns={17}>
-                <Grid item xs={2}>
-                    <button onClick={toggleNode}>
-                        {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    </button>
-                    {node.name}
-                </Grid>
-                <Grid item xs={2}>
-                    {node.cargo_name}
-                </Grid>
-                <Grid item xs={3}>
-                    {node.consumption_rate}
+            <Box className='grid grid-cols-6 gap-x-2 border-b-[1px]'>
+                <Typography>
+                    <IconButton onClick={toggleNode}>
+                        {isOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                    </IconButton>
+                    {FTS_name}
+                </Typography>
+                <Box className='col-span-5'>
+                    {isOpen &&
+                        result.map((subNode, index) => (
+                            <TreeNode
+                                key={index}
+                                crane_name={subNode.crane_name}
+                                category={subNode.category}
+                                cargo={subNode.cargo}
+                            />
+                        ))}
+                </Box>
+            </Box>
+
+            {/* <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                spacing={1}
+                columns={12}
+                className='border-b-[1px]'
+            >
+                <Grid item xs={4}>
+                    <Typography>
+                        <IconButton onClick={toggleNode}>
+                            {isOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+                        </IconButton>
+                        {FTS_name}
+                    </Typography>
                 </Grid>
                 <Grid item xs={4}>
-                    {node.work_rate}
+                    <Typography>
+                        {consumption_rate}
+                    </Typography>
                 </Grid>
                 <Grid item xs={4}>
-                    {node.category}
+                    <Typography>
+                        {work_rate}
+                    </Typography>
                 </Grid>
-                <Grid item xs={2}>
-                    {node.category}
+            </Grid> */}
+            {/* {isOpen &&
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={1}
+                    columns={3}
+                    className='border-b-[1px]'
+                >
+                    <Grid item xs={1}>
+                        <Typography sx={{ marginLeft: 5, marginY: 1 }}>ลำดับเครนที่</Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography sx={{ marginLeft: 1 }}>สถานะสินค้า (ขาเข้า/ขาออก)</Typography>
+                    </Grid>
                 </Grid>
-            </Grid>
-            {/* <tr>
-                <td>
-                    <button onClick={toggleNode}>
-                        {isOpen ? 'ปิด' : 'เปิด'}
-                    </button>
-                    {node.name}
-                </td>
-                <td>{node.cargo_name}</td>
-                <td>{node.consumption_rate}</td>
-                <td>{node.work_rate}</td>
-                <td>{node.category}</td>
-            </tr> */}
-            {isOpen &&
-                node.result2.map((subNode: any, index: any) => (
-                    <TreeNode key={index} node={subNode} />
-                ))}
+            } */}
         </>
     );
 }

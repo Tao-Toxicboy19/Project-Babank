@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Crane.otpzlap
           </Typography>
         </Toolbar>
       </AppBar>

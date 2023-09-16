@@ -1,57 +1,29 @@
-import React from 'react'
+import { Box, Card, CardContent, Typography } from '@mui/material';
+import { TreeTableProps } from '../../../../types/CargoCrane.type'
 import TreeTableNode from './TreeTableNode';
-import { Card, CardContent, Grid, Paper, Stack, Typography, styled } from '@mui/material';
 
-type Props = {}
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
-
-export default function TreeTable({ data }: any) {
+export default function TreeTable({ data }: TreeTableProps) {
     return (
         <Card>
             <CardContent>
-                <Grid container spacing={1} columns={17}>
-                    <Grid item xs={2}>
-                        <Item>ชื่อทุ่น</Item>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Item>ชื่อสินค้า</Item>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Item>อัตราการใช้น้ำมัน (ลิตร/ตัน)</Item>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Item>อัตราการขนถ่ายสินค้า (ตัน/ชม.)</Item>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Item>สถานะสินค้า (ขาเข้า/ขาออก)</Item>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Item>แก้ไข</Item>
-                    </Grid>
-                </Grid>
-                {data.map((node: any, index: any) => (
-                    <TreeTableNode key={index} node={node} />
+                <Box
+                    className='border-b-[1px] grid grid-cols-6 gap-x-2'
+                >
+                    {['ชื่อทุ่น', 'เครนลำดับที่', 'สถานะสินค้า (ขาเข้า/ขาออก)', 'ชื่อสินค้า', 'อัตราการขนถ่ายสินค้า (ตัน/ชม.)', 'อัตราการใช้น้ำมัน (ลิตร/ตัน)'].map((item, index) => (
+                        <Box key={index}>
+                            <Typography className='flex justify-center'>{item}</Typography>
+                        </Box>
+                    ))}
+                </Box>
+                {data.map((node, index) => (
+                    <TreeTableNode
+                        key={index}
+                        FTS_name={node.FTS_name}
+                        work_rate={node.work_rate}
+                        consumption_rate={node.consumption_rate}
+                        result={node.result}
+                    />
                 ))}
-                {/* <table>
-                    <thead>
-                        <tr>
-                            <th>ชื่อ</th>
-                            <th>ชื่อสินค้า</th>
-                            <th>อัตราการบริโภค</th>
-                            <th>อัตราการทำงาน</th>
-                            <th>หมวดหมู่</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table> */}
             </CardContent>
         </Card>
     );
