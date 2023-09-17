@@ -85,7 +85,7 @@ export default function LoginPage({ }: Props) {
   return (
     <ThemeProvider theme={defaultTheme}>
 
-      <Container component="main" maxWidth="sm">
+      <Container component="main" maxWidth="md">
         <CssBaseline />
         <Box
           sx={{

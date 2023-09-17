@@ -26,6 +26,8 @@ function fixedHeaderContent() {
           style={{ width: column.width }}
           sx={{
             backgroundColor: 'background.paper',
+            fontWeight: 'Bold',
+            fontSize: 16
           }}
         >
           {column.label}
@@ -50,7 +52,7 @@ function rowContent(_index: number, row: Order) {
             </Stack>
           ) : (
             column.dataKey === 'arrival_time' || column.dataKey === 'deadline_time' ? (
-              row[column.dataKey].toLocaleString() 
+              row[column.dataKey].toLocaleString()
             ) : (
               row[column.dataKey]
             )
@@ -106,40 +108,6 @@ export default function OrderPage() {
 
   return (
     <>
-      <Card className='mt-5 mb-2'>
-        <CardContent>
-          <Stack direction='row' className='flex justify-between'>
-            <Card>
-              <Stack direction='row' spacing={2} className='flex items-center'>
-                <Typography className='text-2xl font-bold'>รายการถ่ายโอนสินค้า</Typography>
-              </Stack>
-            </Card>
-            <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
-              <Tooltip title="ค้นหา">
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        Search
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Tooltip>
-              {/* <CargoCraneInsertPage /> */}
-            </Stack>
-          </Stack>
-        </CardContent>
-      </Card>
       {
         orderReducer.loading ? (
           <Box
@@ -157,6 +125,31 @@ export default function OrderPage() {
         ) : (
           <>
             <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
+              <Stack direction='row' className='flex justify-between my-5'>
+                <Typography className='text-xl font-bold flex justify-center'>รายการถ่ายโอนสินค้า</Typography>
+                <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Tooltip title="ค้นหา">
+                    <TextField
+                      id="standard-basic"
+                      variant="standard"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            Search
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Tooltip>
+                </Stack>
+              </Stack>
               <TableVirtuoso
                 data={rows}
                 components={VirtuosoTableComponents}
