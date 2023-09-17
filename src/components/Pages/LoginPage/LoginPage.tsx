@@ -58,7 +58,7 @@ export default function LoginPage({ }: Props) {
             fullWidth
             variant="outlined"
             sx={{ mt: 3, mb: 2 }}
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/register')}
           >
             Register
           </Button>

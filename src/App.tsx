@@ -10,7 +10,7 @@ import RegisterPage from './components/Pages/LoginPage/Register/RegisterPage';
 import OrderPage from './components/Pages/Order/OrderPage';
 import PrivateRoute from './utlis/PrivateRoute';
 import CargocranePage from './components/Pages/Cargocrane/CargoCranePage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TOKEN } from './Constants';
 import { restoreLogin } from './store/slices/login.slice';
 import LoginPage from './components/Pages/LoginPage/LoginPage';
@@ -20,11 +20,14 @@ import { loadCarrier } from './store/slices/carrier.slice';
 import { floating } from './store/slices/floating.slice';
 import { loadOrder } from './store/slices/order.slice';
 import MovingTablePage from './components/Pages/Summarize/MovingTable';
+import { RootState } from './store/store';
+import PublicRoute from './utlis/PublicRoute';
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer() {
   const dispatch = useDispatch<any>();
+  const loginReducer = useSelector((state: RootState) => state.login);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -52,28 +55,28 @@ function ResponsiveDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      {/* {loginReducer && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
-      {loginReducer && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />} */}
-      <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
-      <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />
+      {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
+      {loginReducer.data && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />}
+      {/* <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
+      <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} /> */}
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Box sx={{ marginTop: 8 }}>
           <Routes>
-            {/* <Route element={<PrivateRoute token={Token} />}> */}
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/cargo" element={<CargoPage />} />
-            {/* <Route path="/" element={<Maps />} /> */}
-            <Route path="/transferstation" element={<FloatingPage />} />
-            <Route path="/carrier" element={<CarrierPage />} />
-            <Route path="/Order" element={<OrderPage />} />
-            <Route path="/cargocrane" element={<CargocranePage />} />
-            <Route path="/summarize" element={< MovingTablePage />} />
-            <Route path="*" element={<Navigate to="/home" />} />
-            {/* </Route> */}
             <Route element={<PrivateRoute token={Token} />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/cargo" element={<CargoPage />} />
+              {/* <Route path="/" element={<Maps />} /> */}
+              <Route path="/transferstation" element={<FloatingPage />} />
+              <Route path="/carrier" element={<CarrierPage />} />
+              <Route path="/Order" element={<OrderPage />} />
+              <Route path="/cargocrane" element={<CargocranePage />} />
+              <Route path="/summarize" element={< MovingTablePage />} />
+              <Route path="*" element={<Navigate to="/home" />} />
+            </Route>
+            <Route element={<PublicRoute token={Token} />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="*" element={<Navigate to="/login" />} />
