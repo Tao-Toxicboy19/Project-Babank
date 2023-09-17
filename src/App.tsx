@@ -19,6 +19,7 @@ import { loadCargo } from './store/slices/cargo.slice';
 import { loadCarrier } from './store/slices/carrier.slice';
 import { floating } from './store/slices/floating.slice';
 import { loadOrder } from './store/slices/order.slice';
+import MovingTablePage from './components/Pages/Summarize/MovingTable';
 
 const drawerWidth = 240;
 
@@ -69,7 +70,7 @@ function ResponsiveDrawer() {
             <Route path="/carrier" element={<CarrierPage />} />
             <Route path="/Order" element={<OrderPage />} />
             <Route path="/cargocrane" element={<CargocranePage />} />
-            {/* <Route path="/summarize" element={< MovingTablePage />} /> */}
+            <Route path="/summarize" element={< MovingTablePage />} />
             <Route path="*" element={<Navigate to="/home" />} />
             {/* </Route> */}
             <Route element={<PrivateRoute token={Token} />}>

@@ -36,15 +36,15 @@ const orderSlice = createSlice({
         state.orders[orderIndex] = action.payload;
       }
     },
-    setDeleteOrder: (state, action: PayloadAction<string>) => {
-      state.orders = state.orders.filter(
-        (orders) => orders.or_id !== action.payload
-      )
-    },
+    // setDeleteOrder: (state, action: PayloadAction<string>) => {
+    //   state.orders = state.orders.filter(
+    //     (orders) => orders.or_id !== action.payload
+    //   )
+    // },
   },
 });
 
-export const { setOrderStart, setOrderSuccess, setOrdersFailure, setInsertOrder, setUpdateOrder, setDeleteOrder } = orderSlice.actions;
+export const { setOrderStart, setOrderSuccess, setOrdersFailure, setInsertOrder, setUpdateOrder } = orderSlice.actions;
 export default orderSlice.reducer;
 
 export const loadOrder = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
@@ -69,13 +69,13 @@ export const addOrder = (formData: FormData, setOpen: any) => {
   };
 };
 
-export const deleteOrder = (id: string) => {
-  return async (dispatch: any) => {
-    try {
-      await httpClient.delete(`${server.ORDER}${id}`)
-      dispatch(setDeleteOrder(id));
-    } catch (error: any) {
-      dispatch(setOrdersFailure(error.message));
-    }
-  };
-};
+// export const deleteOrder = (id: string) => {
+//   return async (dispatch: any) => {
+//     try {
+//       await httpClient.delete(`${server.ORDER}${id}`)
+//       dispatch(setDeleteOrder(id));
+//     } catch (error: any) {
+//       dispatch(setOrdersFailure(error.message));
+//     }
+//   };
+// };

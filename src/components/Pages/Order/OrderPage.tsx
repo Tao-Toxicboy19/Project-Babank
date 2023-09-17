@@ -13,9 +13,7 @@ import { useSelector } from 'react-redux';
 import Search from '@mui/icons-material/Search';
 import { Order } from '../../../types/Order.type';
 import { columns } from './ColumnDataOrder';
-import CargoCraneInsertPage from '../Cargocrane/Insert/CargoCraneInsertPage';
-import OrderEditPage from './Edit/OrderEditPage';
-import OrderDeletePage from './Delete/OrderDeletePage';
+
 
 function fixedHeaderContent() {
   return (
@@ -47,17 +45,22 @@ function rowContent(_index: number, row: Order) {
         >
           {column.dataKey === 'editColumn' ? (
             <Stack direction='row' className="flex justify-end">
-              <OrderEditPage id={row.or_id} result={row} />
-              <OrderDeletePage id={row.or_id} result={row.cargo_name} />
+              {/* <OrderEditPage id={row.or_id} result={row} /> */}
+              {/* <OrderDeletePage id={row.or_id} result={row.cargo_name} /> */}
             </Stack>
           ) : (
-            row[column.dataKey]
+            column.dataKey === 'arrival_time' || column.dataKey === 'deadline_time' ? (
+              row[column.dataKey].toLocaleString() 
+            ) : (
+              row[column.dataKey]
+            )
           )}
         </TableCell>
       ))}
     </React.Fragment>
   );
 }
+
 
 
 export default function OrderPage() {
@@ -72,16 +75,14 @@ export default function OrderPage() {
   const rows: Order[] = filteredData.map((items) => ({
     or_id: items.or_id,
     carrier_name: items.carrier_name,
-    cr_id: items.cr_id,
-    cargo_name: items.cargo_name,
-    ca_id: items.ca_id,
-    load_status: items.load_status,
     category: items.category,
+    cargo_name: items.cargo_name,
+    load: items.load,
+    bulk: items.bulk,
     arrival_time: items.arrival_time,
     deadline_time: items.deadline_time,
     latitude: items.latitude,
     longitude: items.longitude,
-    bulks: items.bulks,
     maxFTS: items.maxFTS,
   }));
 
@@ -134,7 +135,7 @@ export default function OrderPage() {
                   }}
                 />
               </Tooltip>
-              <CargoCraneInsertPage />
+              {/* <CargoCraneInsertPage /> */}
             </Stack>
           </Stack>
         </CardContent>

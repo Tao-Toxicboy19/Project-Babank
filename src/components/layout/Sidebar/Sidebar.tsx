@@ -88,7 +88,13 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary="การถ่ายโอนสินค้า" />
+                    <ListItemText primary="รายการขนถ่ายสินค้า" />
+                </ListItem>
+                <ListItem button component={MyNavLink} to="/summarize" activeClassName="Mui-selected" exact>
+                    <ListItemIcon>
+                        <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="สรุปรายละเอียดต้นทุน" />
                 </ListItem>
             </Stack>
             <Divider />

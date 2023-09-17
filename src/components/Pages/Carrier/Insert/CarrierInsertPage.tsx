@@ -35,7 +35,7 @@ export default function CarrierInsertPage({ }: Props) {
   const validateForm = (values: Carrier) => {
     let errors: any = {}
     if (!values.carrier_name) errors.carrier_name = 'Enter name'
-    if (!values.ower) errors.ower = 'Enter ower'
+    if (!values.holder) errors.holder = 'Enter ower'
     if (values.maxcapacity <= 0) errors.maxcapacity = 'Enter maxcapacity'
     if (values.burden <= 0) errors.burden = 'Enter burden'
     return errors
@@ -97,7 +97,7 @@ export default function CarrierInsertPage({ }: Props) {
   const initialValues: Carrier = {
     cr_id: '',
     carrier_name: '',
-    ower: '',
+    holder: '',
     maxcapacity: 0,
     burden: 0,
   }

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import TreeTable from "./TreeTable/TreeTable";
 import axios from "axios";
 import { FTSCraneCargo } from "../../../types/CargoCrane.type";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Card, CardContent, CircularProgress } from "@mui/material";
+import TreeTable from "./TreeTable copy/TreeTable";
 
 type Props = {}
 
@@ -16,6 +16,7 @@ export default function CargoCranePage({ }: Props) {
       .then((res) => {
         setLoading(false)
         setData(res.data)
+        console.log(res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -24,22 +25,23 @@ export default function CargoCranePage({ }: Props) {
   }, []);
 
   return (
-    <div>
-      {/* ตรวจสอบสถานะการโหลด */}
-      {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%"
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-        <TreeTable data={data} />
-      )}
-    </div>
+    <Card sx={{ minHeight: '90vh' }}>
+      <CardContent>
+        {loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%"
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <TreeTable data={data} />
+        )}
+      </CardContent>
+    </Card >
   );
 }

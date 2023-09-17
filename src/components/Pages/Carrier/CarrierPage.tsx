@@ -75,7 +75,7 @@ export default function CarrierPage() {
   const rows: Carrier[] = filteredData.map((items) => ({
     cr_id: items.cr_id,
     carrier_name: items.carrier_name,
-    ower: items.ower,
+    holder: items.holder,
     maxcapacity: items.maxcapacity,
     burden: items.burden,
   }));

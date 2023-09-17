@@ -2,7 +2,7 @@ export interface Carrier {
     cr_id?: string
     carrier_name: string
     maxcapacity: number
-    ower: string
+    holder: string
     burden: number
 }
 

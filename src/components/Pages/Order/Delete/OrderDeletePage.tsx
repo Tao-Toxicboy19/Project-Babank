@@ -1,15 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteOrder } from '../../../../store/slices/order.slice';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 
 export default function OrderDeletePage({ id, result }: any) {
-    const dispatch = useDispatch<any>();
     const [open, setOpen] = useState(false);
 
     const handleDeleteConfirm = () => {
-        dispatch(deleteOrder(id))
+        // dispatch(deleteOrder(id))
     }
 
     return (

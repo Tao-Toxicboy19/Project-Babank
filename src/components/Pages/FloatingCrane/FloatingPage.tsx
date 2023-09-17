@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import TreeTable from './TreeTable/TreeTable';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress } from '@mui/material';
 import { TreeTableNodeProps } from '../../../types/FloatingCrane.type';
 
 type Props = {}
@@ -21,21 +21,23 @@ export default function CargoCranePage({ }: Props) {
   }, []);
 
   return (
-    <div>
-      {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%"
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-        <TreeTable data={data} />
-      )}
-    </div>
+    <Card sx={{minHeight:'90vh'}}>
+      <CardContent>
+        {loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%"
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <TreeTable data={data} />
+        )}
+      </CardContent>
+    </Card >
   );
 }

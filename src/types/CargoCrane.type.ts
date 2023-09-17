@@ -32,41 +32,80 @@ export interface ColumnCargoCrane {
 
 export interface FTSCraneCargo {
     FTS_name: string;
-    work_rate: number;
-    consumption_rate: number;
     result: {
         crane_name: string;
         category: string;
+        category_v1: {
+            category: string;
+            cargo: {
+                cargo_name: string;
+                work_rate: number;
+                consumption_rate: number;
+            }[];
+        }[];
+    }[];
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+export interface TreeTableNodeProps {
+    FTS_name: string;
+    result: TreeNodeProps[];
+}
+
+export interface TreeNodeProps {
+    crane_name: string;
+    category_v1: {
+        category: string;
         cargo: {
-            cargo_name: string
-            work_rate: number,
-            consumption_rate: number
+            cargo_name: string;
+            work_rate: number;
+            consumption_rate: number;
         }[];
     }[];
 }
 
 export interface TreeTableProps {
-    data: FTSCraneCargo[];
+    data: TreeTableNodeProps[];
+}
+
+
+
+export interface TreeNodeProps {
+    crane_name: string;
+    category_v1: {
+        category: string;
+        cargo: {
+            cargo_name: string;
+            work_rate: number;
+            consumption_rate: number;
+        }[];
+    }[];
+}
+
+export interface TreeTableNodeProps {
+    FTS_name: string;
+    result: TreeNodeProps[];
 }
 
 export interface TreeNodeProps {
     crane_name: string;
-    category: string;
-    cargo: {
-        cargo_name: string
-        work_rate: number,
-        consumption_rate: number
-    }[]; // เพิ่มฟิลด์ cargo
-}
-
-export interface CargoListProps {
-    cargo: {
-        cargo_name: string
-        work_rate: number,
-        consumption_rate: number
+    category_v1: {
+        category: string;
+        cargo: {
+            cargo_name: string;
+            work_rate: number;
+            consumption_rate: number;
+        }[];
     }[];
 }
 
-// export interface CargoListProps {
-//     cargo_name: string
-// }
+export interface CargoItem {
+    cargo_name: string;
+    work_rate: number;
+    consumption_rate: number;
+}
+export interface ListCargoProps {
+    category: string;
+    cargo: CargoItem[];
+}

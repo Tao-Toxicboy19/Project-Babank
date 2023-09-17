@@ -1,9 +1,22 @@
 import { Grid, Typography } from '@mui/material';
 import TreeTableNode from './TreeTableNode';
-import { TreeTableNodeProps } from '../../../../types/FloatingCrane.type';
+
+export interface TreeTableSolution {
+    solution_id: number;
+    FTS_name: string;
+    total_cost: number;
+    total_consumption_cost: number;
+    total_wage_cost: number;
+    penality_cost: number;
+    total_reward: number;
+    result: {
+        crane_name: string;
+    }[];
+}
+
 
 type Props = {
-    data: TreeTableNodeProps[];
+    data: TreeTableSolution[];
 }
 
 export default function TreeTable({ data }: Props) {
@@ -16,27 +29,33 @@ export default function TreeTable({ data }: Props) {
             >
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>
-                        ชื่อทุ่น
+                        ชื่อเครน
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>
-                        ละติจูด
+                        total_cost
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>
-                        ลองจิจูด
+                        total_consumption_cost
                     </Typography>
                 </Grid>
-                <Grid item xs={3} sx={{ marginY: 1 }}>
+                <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>
-                        เวลาเตรียมความพร้อม (นาที)
+                        total_wage_cost
                     </Typography>
                 </Grid>
-                <Grid item xs={3} sx={{ marginY: 1 }}>
+                <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>
-                        ความเร็วการเคลื่อนย้าย (กม./ชม.)
+                        penality_cost
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sx={{ marginY: 1 }}>
+                    <Typography className='font-bold text-md'>
+                        total_reward
+
                     </Typography>
                 </Grid>
             </Grid>
@@ -44,10 +63,11 @@ export default function TreeTable({ data }: Props) {
                 <TreeTableNode
                     key={index}
                     FTS_name={node.FTS_name}
-                    lat={node.lat} // ส่งค่า lat
-                    lng={node.lng} // ส่งค่า lng
-                    setuptime_FTS={node.setuptime_FTS}
-                    speed={node.speed}
+                    total_cost={node.total_cost} // ส่งค่า lat
+                    total_consumption_cost={node.total_consumption_cost} // ส่งค่า lng
+                    total_wage_cost={node.total_wage_cost}
+                    penality_cost={node.penality_cost}
+                    total_reward={node.total_reward}
                     result={node.result}
                 />
             ))}

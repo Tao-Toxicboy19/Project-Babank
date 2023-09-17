@@ -3,11 +3,6 @@ import { ColumnsCarrier } from "../../../types/Carrier.type";
 
 export const columns: ColumnsCarrier[] = [
     {
-        width: 40,
-        label: '#',
-        dataKey: 'cr_id',
-    },
-    {
         width: 150,
         label: 'ชื่อ',
         dataKey: 'carrier_name',
@@ -15,7 +10,7 @@ export const columns: ColumnsCarrier[] = [
     {
         width: 120,
         label: 'ชื่อบริษัท',
-        dataKey: 'ower',
+        dataKey: 'holder',
         numeric: true,
     },
     {
