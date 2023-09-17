@@ -42,7 +42,12 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+<<<<<<< HEAD
       <Container component="main" maxWidth="xs">
+=======
+
+      <Container component="main" maxWidth="md">
+>>>>>>> 26a4cba7ff3f5c521ef0cef2914ab989f832bef1
         <CssBaseline />
         <Card className="">
         <Box
