@@ -1,117 +1,114 @@
-import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Card, CardContent, Stack } from '@mui/material'
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { TextField } from 'formik-material-ui';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { Login } from '../../../types/User.type';
-import { useDispatch } from 'react-redux';
-import { login } from '../../../store/slices/login.slice';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Card } from '@mui/material';
 
+function Copyright(props: any) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
-type Props = {}
-
+// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function LoginPage({ }: Props) {
-  const navigate = useNavigate()
-  const dispatch = useDispatch<any>();
-
-  const handleSubmit = async (values: any, { isSubmitting }: any) => {
-    dispatch(login(values))
-    isSubmitting(false)
-  }
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email('รูปแบบอีเมล์ไม่ถูกต้อง').required('กรุณากรอกอีเมล์'),
-    password: Yup.string().required('กรุณากรอกรหัสผ่าน')
-  });
-
-  const validateForm = (values: Login) => {
-    let errors: any = {}
-    if (!values.email) errors.email = 'กรุณาใส่อีเมล'
-    if (!values.password) errors.password = 'กรุณาใส่รหัสผ่าน'
-    return errors
-  };
-
-
-  const showForm = ({ isSubmitting }: FormikProps<Login>) => {
-    return (
-      <Form className='mt-3 px-5'>
-        <Field
-          component={TextField}
-          name='email'
-          id='email'
-          type='text'
-          label='ชื่อจริง'
-          fullWidth
-        />
-        <Field
-          component={TextField}
-          name='password'
-          id='password'
-          type='password'
-          label='ชื่อจริง'
-          fullWidth
-        />
-        <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={() => navigate('/register')}
-          >
-            Register
-          </Button>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            className='bg-[#1976D2] hover:bg-[#1563BC]'
-            disabled={isSubmitting}
-          >
-            Login
-          </Button>
-        </Stack>
-      </Form>
-    )
-  }
-
-
-  const initialValues: Login = {
-    email: '', password: ''
+export default function SignIn() {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-
-      <Container component="main" maxWidth="sm">
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <Card className="">
         <Box
           sx={{
-            marginTop: 8,
+            margin: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Card>
-            <CardContent>
-              <Typography component="h1" variant="h5">
-                Login
-              </Typography>
-
-              <Formik onSubmit={handleSubmit}
-                validate={validateForm}
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-              >
-                {(props: any) => showForm(props)}
-              </Formik>
-            </CardContent>
-          </Card >
+          <Box>
+            <img src="../../../assets/images/LO1.png"/>
+          </Box>
+          <Typography component="h1" variant="h5">
+            เข้าสู่ระบบ
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Card>
       </Container>
-    </ThemeProvider >
-  )
+    </ThemeProvider>
+  );
 }
