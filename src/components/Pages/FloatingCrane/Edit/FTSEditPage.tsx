@@ -1,11 +1,13 @@
 import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../../../../types/User.type';
 import { FTS } from '../../../../types/FloatingCrane.type';
-import { addFTS } from '../../../../store/slices/FTS.slice';
+import { useEffect } from 'react';
+import { getProductById, updateFTS } from '../../../../store/slices/FTS.edit.slice';
+import { RootState } from '../../../../store/store';
 
 
 type Props = {}
@@ -13,26 +15,19 @@ type Props = {}
 const defaultTheme = createTheme();
 
 export default function FTSEditPage({ }: Props) {
+  const { id } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch<any>();
+  const FTSEditSlice = useSelector((state: RootState) => state.FTSEdit);
+
+  useEffect(() => {
+    dispatch(getProductById(id))
+  }, []);
 
   const handleSubmit = async (values: any, { isSubmitting }: any) => {
-    dispatch(addFTS(values, navigate))
-    alert(JSON.stringify(values))
+    dispatch(updateFTS(values, navigate, id))
     isSubmitting(false)
   }
-
-
-  const validateForm = (values: FTS) => {
-    let errors: any = {}
-    if (!values.FTS_name) errors.FTS_name = 'กรุณากรอกชื่อทุ่น'
-    if (values.lat <= 0) errors.lat = 'กรุณากรอกละติจูด'
-    if (values.lng <= 0) errors.lng = 'กรุณากรอกลองจิจูด'
-    if (values.setuptime_FTS <= 0) errors.setuptime_FTS = 'กรุณากรอกเวลาเตรียมความพร้อม (นาที)'
-    if (values.speed <= 0) errors.speed = 'กรุณากรอกความเร็วการเคลื่อนย้าย (กม./ชม.)'
-    return errors
-  };
-
 
   const showForm = ({ isSubmitting }: FormikProps<Login>) => {
     return (
@@ -127,8 +122,7 @@ export default function FTSEditPage({ }: Props) {
             </Box>
             <Formik
               onSubmit={handleSubmit}
-              validate={validateForm}
-              initialValues={initialValues}
+              initialValues={FTSEditSlice.result ? FTSEditSlice.result : initialValues}
             >
               {(props: any) => showForm(props)}
             </Formik>

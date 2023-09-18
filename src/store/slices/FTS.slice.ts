@@ -1,28 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { RootState } from "../store";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
-
-
-export interface FTSCrane {
-    id: number
-    FTS_name: string;
-    setuptime_FTS: number;
-    speed: number;
-    lat: number;
-    lng: number;
-    result: {
-        crane_name: string
-        setuptime_crane: number
-    }[];
-}
-
-export interface FTSCraneState {
-    FTS: FTSCrane[]
-    loading: boolean
-    error: string | null
-}
+import { FTSCrane, FTSCraneState } from "../../types/FloatingCrane.type";
 
 const initialState: FTSCraneState = {
     FTS: [],
@@ -72,6 +52,7 @@ export const addFTS = (formData: FormData, navigate: any) => {
     return async () => {
         try {
             await httpClient.post(server.FLOATING, formData);
+            alert('Successfully')
             navigate('/transferstation')
         } catch (error) {
             console.error('Error while adding CARRIER:', error);

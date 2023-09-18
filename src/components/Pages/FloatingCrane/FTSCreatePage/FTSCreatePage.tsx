@@ -18,7 +18,6 @@ export default function FTSCreatePage({ }: Props) {
 
   const handleSubmit = async (values: any, { isSubmitting }: any) => {
     dispatch(addFTS(values, navigate))
-    alert(JSON.stringify(values))
     isSubmitting(false)
   }
 
