@@ -6,6 +6,7 @@ import { httpClient } from "../../utlis/httpclient";
 
 
 export interface FTSCrane {
+    id: number
     FTS_name: string;
     setuptime_FTS: number;
     speed: number;

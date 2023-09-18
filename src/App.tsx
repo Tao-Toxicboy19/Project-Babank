@@ -23,6 +23,7 @@ import { RootState } from './store/store';
 import PublicRoute from './utlis/PublicRoute';
 import FTSCreatePage from './components/Pages/FloatingCrane/FTSCreatePage/FTSCreatePage';
 import CraneCreatePage from './components/Pages/FloatingCrane/CraneCreatePage/CraneCreatePage';
+import FTSEditPage from './components/Pages/FloatingCrane/Edit/FTSEditPage';
 
 const drawerWidth = 240;
 
@@ -71,6 +72,7 @@ function ResponsiveDrawer() {
             {/* <Route path="/" element={<Maps />} /> */}
             <Route path="/transferstation" element={<FloatingPage />} />
             <Route path="/transferstation/create" element={<FTSCreatePage />} />
+            <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
             <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
             <Route path="/carrier" element={<CarrierPage />} />
             <Route path="/Order" element={<OrderPage />} />

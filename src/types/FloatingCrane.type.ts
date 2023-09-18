@@ -7,6 +7,7 @@ export interface FTS {
   speed: number;
 }
 export interface TreeTableNodeProps {
+  id: number
   FTS_name: string;
   setuptime_FTS: number;
   speed: number;

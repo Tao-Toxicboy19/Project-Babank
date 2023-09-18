@@ -7,6 +7,7 @@ import { TreeTableNodeProps } from '../../../../types/FloatingCrane.type';
 import { Link } from 'react-router-dom';
 
 const TreeTableNode: React.FC<TreeTableNodeProps> = ({
+    id,
     FTS_name,
     lat,
     lng,
@@ -52,7 +53,9 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Box className='flex justify-end'>
-                        <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
+                        <Button variant="outlined" component={Link} to={`/transferstation/edit/${id}`}>
+                            เพิ่มเครน
+                        </Button>
                     </Box>
                 </Grid>
             </Grid >

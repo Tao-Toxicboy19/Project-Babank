@@ -121,7 +121,7 @@ export default function FTSEditPage({ }: Props) {
           <CardContent>
             <Box className='flex justify-between'>
               <Typography component="h1" variant="h5">
-                เพิ่มทุ่น
+                แก้ไขทุ่น
               </Typography>
               <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
             </Box>

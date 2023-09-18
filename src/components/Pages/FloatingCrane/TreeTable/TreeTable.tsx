@@ -68,6 +68,7 @@ export default function TreeTable({ FTSReducer }: Props) {
             {FTSReducer.map((node, index) => (
                 <TreeTableNode
                     key={index}
+                    id={node.id}
                     FTS_name={node.FTS_name}
                     lat={node.lat} // ส่งค่า lat
                     lng={node.lng} // ส่งค่า lng
