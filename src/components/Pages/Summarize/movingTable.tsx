@@ -26,9 +26,9 @@ export default function MovingTablePage({ }: Props) {
                 <CardContent>
                     <Typography className='text-lg font-bold mb-3'>สรุปรายละเอียดต้นทุนรวม</Typography>
                     <Box className="flex justify-between">
-                        <Typography className="m-2">ต้นนทุนรวม:: {(CraneSolutionSlice.result)?.total_cost} บาท</Typography>
-                        <Typography className="m-2">ค่าแรงงาน:: {(CraneSolutionSlice.result)?.total_wage_cost} บาท</Typography>
-                        <Typography className="m-2">ค่าปรับ:: {(CraneSolutionSlice.result)?.penality_cost} บาท</Typography>
+                        <Typography className="mb-2 mr-4">ต้นนทุนรวม:: {(CraneSolutionSlice.result)?.total_cost} บาท</Typography>
+                        <Typography className="mb-2 mr-4">ค่าแรงงาน:: {(CraneSolutionSlice.result)?.total_wage_cost} บาท</Typography>
+                        <Typography className="mb-2">ค่าปรับ:: {(CraneSolutionSlice.result)?.penality_cost} บาท</Typography>
                     </Box>
                     <Box className='grid grid-cols-2'>
                         <Box>
