@@ -1,4 +1,4 @@
-import { Fab, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Fab, Grid, Tooltip, Typography } from '@mui/material';
 import TreeTableNode from './TreeTableNode';
 import { TreeTableNodeProps } from '../../../../types/FloatingCrane.type';
 import Add from '@mui/icons-material/Add';
@@ -18,18 +18,20 @@ export default function TreeTable({ FTSReducer }: Props) {
                 className='border-b-[1px]'
             >
                 <Grid item xs={12}>
-                    <Tooltip title="เพิ่มทุ่น">
-                        <Link to="/transferstation/create">
-                            <Fab
-                                color="primary"
-                                aria-label="add"
-                                size='small'
-                                className='bg-blue-500 hover:bg-blue-700'
-                            >
-                                <Add />
-                            </Fab>
-                        </Link>
-                    </Tooltip>
+                    <Box className='flex justify-end'>
+                        <Tooltip title="เพิ่มทุ่น">
+                            <Link to="/transferstation/create">
+                                <Fab
+                                    color="primary"
+                                    aria-label="add"
+                                    size='small'
+                                    className='bg-blue-500 hover:bg-blue-700'
+                                >
+                                    <Add />
+                                </Fab>
+                            </Link>
+                        </Tooltip>
+                    </Box>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>

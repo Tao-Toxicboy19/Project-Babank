@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import TreeNode from './TreeNode';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { TreeTableNodeProps } from '../../../../types/FloatingCrane.type';
+import { Link } from 'react-router-dom';
 
 const TreeTableNode: React.FC<TreeTableNodeProps> = ({
     FTS_name,
@@ -36,7 +37,6 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
                             </IconButton>
                         )}
                     </Box>
-
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     {lat}
@@ -49,6 +49,11 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     {speed}
+                </Grid>
+                <Grid item xs={2} sx={{ marginY: 1 }}>
+                    <Box className='flex justify-end'>
+                        <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
+                    </Box>
                 </Grid>
             </Grid >
 

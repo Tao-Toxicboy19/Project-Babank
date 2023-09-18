@@ -12,7 +12,7 @@ type Props = {}
 
 const defaultTheme = createTheme();
 
-export default function FTSCreatePage({ }: Props) {
+export default function FTSEditPage({ }: Props) {
   const navigate = useNavigate()
   const dispatch = useDispatch<any>();
 
