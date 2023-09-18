@@ -1,7 +1,7 @@
 import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../../../../types/User.type';
 import { FTS } from '../../../../types/FloatingCrane.type';
@@ -118,7 +118,6 @@ export default function FTSEditPage({ }: Props) {
               <Typography component="h1" variant="h5">
                 แก้ไขทุ่น
               </Typography>
-              <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
             </Box>
             <Formik
               onSubmit={handleSubmit}

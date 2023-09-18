@@ -59,3 +59,10 @@ export const addFTS = (formData: FormData, navigate: any) => {
         }
     };
 };
+
+export const deleteFTS = (id: any) => {
+    return async (dispatch: any) => {
+        dispatch(setFTSState());
+        await httpClient.delete(`${server.FLOATING}/${id}`);
+    };
+};
