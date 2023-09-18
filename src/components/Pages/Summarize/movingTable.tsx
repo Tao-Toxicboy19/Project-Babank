@@ -21,42 +21,48 @@ export default function MovingTablePage({ }: Props) {
 
     return (
         <>
-            <Card sx={{ maxWidth: 505 }}>
+        <Box className="flex">
+            <Card className="mt-5 flex" sx={{ maxWidth: 870 }}>
                 <CardContent>
                     <Typography className='text-lg font-bold mb-3'>สรุปรายละเอียดต้นทุนรวม</Typography>
                     <Box className="flex justify-between">
-                        <Typography>ต้นนทุนรวม:: {(CraneSolutionSlice.result)?.total_cost} บาท</Typography>
-                        <Typography>ค่าแรงงาน:: {(CraneSolutionSlice.result)?.total_wage_cost} บาท</Typography>
-                        <Typography>ค่าปรับ:: {(CraneSolutionSlice.result)?.penality_cost} บาท</Typography>
+                        <Typography className="m-2">ต้นนทุนรวม:: {(CraneSolutionSlice.result)?.total_cost} บาท</Typography>
+                        <Typography className="m-2">ค่าแรงงาน:: {(CraneSolutionSlice.result)?.total_wage_cost} บาท</Typography>
+                        <Typography className="m-2">ค่าปรับ:: {(CraneSolutionSlice.result)?.penality_cost} บาท</Typography>
                     </Box>
                     <Box className='grid grid-cols-2'>
                         <Box>
-                            <Typography>รายรับจากรางวัล:</Typography>
-                            <Typography>เวลารวมเสร็จหลังกำหนด:</Typography>
-                            <Typography>เวลารวมเสร็จก่อนกำหนด:</Typography>
-                            <Typography>ค่าเชื้อเพลิงรวมขนถ่าย:</Typography>
-                            <Typography>ค่าเชื้อเพลิงรวมเคลื่อยย้าย:</Typography>
-                            <Typography>ระยะรวมทางเคลื่อนย้าย:</Typography>
-                            <Typography>เวลารวมดำเนินการขนถ่าย:</Typography>
-                            <Typography>เวลารวมเตรียมความพร้อม:</Typography>
+                            <Typography className="mb-2">รายรับจากรางวัล:</Typography>
+                            <Typography className="mb-2">เวลารวมเสร็จหลังกำหนด:</Typography>
+                            <Typography className="mb-2">เวลารวมเสร็จก่อนกำหนด:</Typography>
+                            <Typography className="mb-2">ค่าเชื้อเพลิงรวมขนถ่าย:</Typography>
+                            <Typography className="mb-2">ค่าเชื้อเพลิงรวมเคลื่อยย้าย:</Typography>
+                            <Typography className="mb-2">ระยะรวมทางเคลื่อนย้าย:</Typography>
+                            <Typography className="mb-2">เวลารวมดำเนินการขนถ่าย:</Typography>
+                            <Typography className="mb-2">เวลารวมเตรียมความพร้อม:</Typography>
                         </Box>
                         <Box className='flex flex-col'>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_reward} บาท</Typography>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_late_time} บาท</Typography>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_early_time} บาท</Typography>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_operation_consumption_cost} บาท</Typography>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_consumption_cost} บาท</Typography>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_preparation_crane_time} บาท</Typography>
-                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_operation_time} บาท</Typography>
-                            <Typography className='flex justify-end'>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_reward} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_late_time} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_early_time} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_operation_consumption_cost} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_consumption_cost} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_preparation_crane_time} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_operation_time} บาท</Typography>
+                            <Typography className='flex justify-end mb-2'>
                                 {((CraneSolutionSlice.result)?.total_preparation_crane_time || 0) + ((FtsSolutionV2Slice.result)?.total_preparation_FTS_time || 0)} บาท
                             </Typography>
                         </Box>
-                    </Box>
+                    </Box> 
+                    
                 </CardContent>
             </Card >
+            <Box className="w-[450px] ml-5">
+            <FTSsingle/>
+            </Box>
+            </Box>
             <SummarizePage />
-            <FTSsingle />
+            
 
             {/* <RoutesPage /> */}
             {/* <Card sx={{ maxWidth: 505 }}>

@@ -39,7 +39,7 @@ const TreeTableNode: React.FC<any> = ({
                 container
                 spacing={1}
                 columns={12}
-                className='border-b-[1px] bg-blue-100'
+                className='border-b-[1px] bg-blue-100 mt-1 rounded-lg'
             >
                 <Grid item xs={2}>
                     <Box className='flex justify-start items-center'>

@@ -40,7 +40,7 @@ export default function FTSsingle({ }: Props) {
             >
                 {({ errors, touched, isSubmitting }) => (
                     <Form>
-                        <Card sx={{ maxWidth: 505 }}>
+                        <Card className="mt-5" sx={{ maxWidth: 505 }}>
                             <CardContent>
                                 <Stack direction='row' spacing={3}>
                                     <FormControl fullWidth>
@@ -67,7 +67,7 @@ export default function FTSsingle({ }: Props) {
                                         type="submit"
                                         disabled={isSubmitting}
                                     >
-                                        Submit
+                                        ตกลง
                                     </Button>
                                 </Stack>
 

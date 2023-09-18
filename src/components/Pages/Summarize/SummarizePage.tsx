@@ -13,7 +13,7 @@ export default function SummarizePage() {
     }, []);
 
     return (
-        <Card>
+        <Card className="mt-5">
             <CardContent>
                 {FTSsolutionSlice.loading ? (
                     <Box
