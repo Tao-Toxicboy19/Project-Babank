@@ -10,6 +10,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useDispatch } from 'react-redux';
 import { loutout } from '../../../store/slices/login.slice';
+import PollIcon from '@mui/icons-material/Poll';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const dispatch = useDispatch<any>();
@@ -92,7 +93,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/summarize" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
-                        <DashboardIcon />
+                        <PollIcon />
                     </ListItemIcon>
                     <ListItemText primary="สรุปรายละเอียดต้นทุน" />
                 </ListItem>

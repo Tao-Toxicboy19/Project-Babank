@@ -1,26 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { CardContent, Box, Card, CircularProgress, Typography } from '@mui/material';
-import axios from 'axios';
 import TreeTable from './TreeTable/TreeTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadFTSsolution } from '../../../store/slices/FTSsolution.slice';
+import { RootState } from '../../../store/store';
 
 export default function SummarizePage() {
-    const [data, setData] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
-
+    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
+    const dispatch = useDispatch<any>();
     useEffect(() => {
-        setLoading(true)
-        axios.get('http://crane.otpzlab.com:7070/api/cranesolutiontable')
-            .then((res) => {
-                setLoading(false)
-                setData(res.data)
-            })
-            .catch(err => console.log(err))
+        dispatch(loadFTSsolution())
     }, []);
 
     return (
         <Card>
             <CardContent>
-                {loading ? (
+                {FTSsolutionSlice.loading ? (
                     <Box
                         sx={{
                             display: "flex",
@@ -34,7 +29,7 @@ export default function SummarizePage() {
                 ) : (
                     <>
                         <Typography className='text-lg font-bold'>สรุปรายละเอียดต้นทุนของทุ่น</Typography>
-                        <TreeTable data={data} />
+                        <TreeTable data={(FTSsolutionSlice.result)} />
                     </>
                 )}
             </CardContent>

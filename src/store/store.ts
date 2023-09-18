@@ -7,9 +7,13 @@ import cargoReducer from './slices/cargo.slice';
 import cargoCraneReducer from './slices/cargocrane.slice';
 import carrierReducer from './slices/carrier.slice';
 import carrierEditReducer from './slices/carrier.slice';
-import floatingEditReducer from './slices/floating.edit.slice'
 import cargoCraneEditReducer from './slices/cargocrane.edit.slice'
 import loginReducer from './slices/login.slice'
+import FTSCraneSlice from './slices/FTS.slice';
+import FTSCraneCargoSlice from './slices/FTSCraneCargo.slice';
+import FTSsolutionSlice from './slices/FTSsolution.slice';
+import craneSolutionSlice from './slices/craneSolution.slice';
+import FTSsolutionV2Slice from './slices/FTSsolutionV2.slice';
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -19,8 +23,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const store = configureStore({
   reducer: {
+    FTS: FTSCraneSlice,
+    FTSCraneCargo: FTSCraneCargoSlice,
+    FTSsolution: FTSsolutionSlice,
+    craneSolution: craneSolutionSlice,
+    FTSSolutionV2: FTSsolutionV2Slice,
     // floating: floatingReducer,
-    floatingEdit: floatingEditReducer,
     carrier: carrierReducer,
     carrierEdit: carrierEditReducer,
     order: orderReducer,

@@ -125,9 +125,8 @@ export default function OrderPage() {
         ) : (
           <>
             <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
-              <Stack direction='row' className='flex justify-between my-5'>
-                <Typography className='text-xl font-bold flex justify-center'>รายการถ่ายโอนสินค้า</Typography>
-                <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box className='flex justify-between m-5'>
+                <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                   <Tooltip title="ค้นหา">
                     <TextField
                       id="standard-basic"
@@ -149,7 +148,7 @@ export default function OrderPage() {
                     />
                   </Tooltip>
                 </Stack>
-              </Stack>
+              </Box>
               <TableVirtuoso
                 data={rows}
                 components={VirtuosoTableComponents}

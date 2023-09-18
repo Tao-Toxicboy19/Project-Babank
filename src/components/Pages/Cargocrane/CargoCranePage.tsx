@@ -1,33 +1,24 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { FTSCraneCargo } from "../../../types/CargoCrane.type";
+import { useEffect } from "react";
 import { Box, Card, CardContent, CircularProgress } from "@mui/material";
 import TreeTable from "./TreeTable copy/TreeTable";
+import { useDispatch, useSelector } from "react-redux";
+import { loadFTScraneCargo } from "../../../store/slices/FTSCraneCargo.slice";
+import { RootState } from "../../../store/store";
 
 type Props = {}
 
 export default function CargoCranePage({ }: Props) {
-  const [data, setData] = useState<FTSCraneCargo[]>([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<any>();
+  const FTScraneCargoReducer = useSelector((state: RootState) => state.FTSCraneCargo);
 
   useEffect(() => {
-    setLoading(true)
-    axios.get('http://crane.otpzlab.com:7070/api/cargocrane')
-      .then((res) => {
-        setLoading(false)
-        setData(res.data)
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-        setLoading(false)
-      })
+    dispatch(loadFTScraneCargo())
   }, []);
 
   return (
     <Card sx={{ minHeight: '90vh' }}>
       <CardContent>
-        {loading ? (
+        {FTScraneCargoReducer.loading ? (
           <Box
             sx={{
               display: "flex",
@@ -39,7 +30,7 @@ export default function CargoCranePage({ }: Props) {
             <CircularProgress />
           </Box>
         ) : (
-          <TreeTable data={data} />
+          <TreeTable FTScraneCargoReducer={(FTScraneCargoReducer.result)} />
         )}
       </CardContent>
     </Card >

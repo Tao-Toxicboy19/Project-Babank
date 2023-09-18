@@ -29,11 +29,14 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
             >
                 <Grid item xs={2}>
                     <Box className='flex justify-start items-center'>
-                        <IconButton onClick={toggleNode}>
-                            {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        </IconButton>
-                        {FTS_name}
+                        <Typography>{FTS_name}</Typography>
+                        {result && result.some(item => item.crane_name) && (
+                            <IconButton onClick={toggleNode}>
+                                {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                        )}
                     </Box>
+
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     {lat}
@@ -41,13 +44,13 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     {lng}
                 </Grid>
-                <Grid item xs={3} sx={{ marginY: 1 }}>
+                <Grid item xs={2} sx={{ marginY: 1 }}>
                     {setuptime_FTS}
                 </Grid>
-                <Grid item xs={3} sx={{ marginY: 1 }}>
+                <Grid item xs={2} sx={{ marginY: 1 }}>
                     {speed}
                 </Grid>
-            </Grid>
+            </Grid >
 
             {isOpen && <Grid
                 container
@@ -62,8 +65,10 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
                 <Grid item xs={1} >
                     <Typography>เวลาเตรียมความพร้อม (นาที)</Typography>
                 </Grid>
-            </Grid >}
-            {isOpen &&
+            </Grid >
+            }
+            {
+                isOpen &&
                 result.map((subNode, index) => (
                     <TreeNode key={index} crane_name={subNode.crane_name} setuptime_crane={subNode.setuptime_crane} />
                 ))

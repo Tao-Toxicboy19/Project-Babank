@@ -1,54 +1,22 @@
 import SummarizePage from './SummarizePage'
-import { Box, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import RoutesPage from './RoutesPage'
+import { Box, Card, CardContent, Typography } from '@mui/material'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadCraneSolution } from '../../../store/slices/craneSolution.slice'
+import { RootState } from '../../../store/store'
+import { loadFtsSolutionV2 } from '../../../store/slices/FTSsolutionV2.slice'
+import FTSsingle from './FTSsingle/FTSsingle'
 
 type Props = {}
 
-export interface CraneSolution {
-    solution_id: number;
-    total_cost: number;
-    total_consumption_cost: number;
-    total_wage_cost: number;
-    penality_cost: number;
-    total_reward: number;
-    total_late_time: number;
-    total_early_time: number;
-    total_operation_consumption_cost: number;
-    total_operation_time: number;
-    total_preparation_crane_time: number;
-}
-
-export interface FtsSolution {
-    solution_id: number;
-    FTS_id: number;
-    FTS_name: number;
-    total_preparation_FTS_time: number;
-    total_travel_consumption_cost: number;
-    total_travel_distance: number;
-}
-
-
 export default function MovingTablePage({ }: Props) {
-    const [totalData, setTotalData] = useState<CraneSolution>();
-    const [ftssolotion, setFtssolotion] = useState<FtsSolution>();
+    const dispatch = useDispatch<any>();
+    const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution);
+    const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2);
 
     useEffect(() => {
-        axios.get('http://crane.otpzlab.com:7070/api/cranesolution')
-            .then((res) => {
-                setTotalData(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        axios.get('http://crane.otpzlab.com:7070/api/ftssolution')
-            .then((res) => {
-                setFtssolotion(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        dispatch(loadCraneSolution())
+        dispatch(loadFtsSolutionV2())
     }, []);
 
     return (
@@ -57,11 +25,11 @@ export default function MovingTablePage({ }: Props) {
                 <CardContent>
                     <Typography className='text-lg font-bold mb-3'>สรุปรายละเอียดต้นทุนรวม</Typography>
                     <Box className="flex justify-between">
-                        <Typography>ค้นทุนรวม:: {totalData?.total_cost} บาท</Typography>
-                        <Typography>ค่าแรง:: {totalData?.total_wage_cost} บาท</Typography>
-                        <Typography>ค่าทำโทษ:: {totalData?.penality_cost} บาท</Typography>
+                        <Typography>ต้นนทุนรวม:: {(CraneSolutionSlice.result)?.total_cost} บาท</Typography>
+                        <Typography>ค่าแรงงาน:: {(CraneSolutionSlice.result)?.total_wage_cost} บาท</Typography>
+                        <Typography>ค่าปรับ:: {(CraneSolutionSlice.result)?.penality_cost} บาท</Typography>
                     </Box>
-                    <Box className='flex justify-between'>
+                    <Box className='grid grid-cols-2'>
                         <Box>
                             <Typography>รายรับจากรางวัล:</Typography>
                             <Typography>เวลารวมเสร็จหลังกำหนด:</Typography>
@@ -72,40 +40,26 @@ export default function MovingTablePage({ }: Props) {
                             <Typography>เวลารวมดำเนินการขนถ่าย:</Typography>
                             <Typography>เวลารวมเตรียมความพร้อม:</Typography>
                         </Box>
-                        <Box>
-                            <Typography>{totalData?.total_reward} บาท</Typography>
-                            <Typography>{totalData?.total_late_time} บาท</Typography>
-                            <Typography>{totalData?.total_early_time} บาท</Typography>
-                            <Typography>{totalData?.total_operation_consumption_cost} บาท</Typography>
-                            <Typography>{totalData?.total_consumption_cost} บาท</Typography>
-                            <Typography>{totalData?.total_preparation_crane_time} บาท</Typography>
-                            <Typography>{totalData?.total_operation_time} บาท</Typography>
-                            <Typography>
-                                {(totalData?.total_preparation_crane_time || 0) + (ftssolotion?.total_preparation_FTS_time || 0)} บาท
+                        <Box className='flex flex-col'>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_reward} บาท</Typography>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_late_time} บาท</Typography>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_early_time} บาท</Typography>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_operation_consumption_cost} บาท</Typography>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_consumption_cost} บาท</Typography>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_preparation_crane_time} บาท</Typography>
+                            <Typography className='flex justify-end'>{(CraneSolutionSlice.result)?.total_operation_time} บาท</Typography>
+                            <Typography className='flex justify-end'>
+                                {((CraneSolutionSlice.result)?.total_preparation_crane_time || 0) + ((FtsSolutionV2Slice.result)?.total_preparation_FTS_time || 0)} บาท
                             </Typography>
                         </Box>
                     </Box>
                 </CardContent>
             </Card >
             <SummarizePage />
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">ชื่อทุ่น</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    // value={age}
-                    label="Age"
-                // onChange={handleChange}
-                >
-                    <MenuItem value={10}>แก่นตะวัน</MenuItem>
-                    <MenuItem value={20}>ศุภราช</MenuItem>
-                    <MenuItem value={30}>บุหงา</MenuItem>
-                    <MenuItem value={40}>บุหงากรรณิการ์</MenuItem>
-                    <MenuItem value={50}>กรรณิการ์</MenuItem>
-                    <MenuItem value={60}>การะเกด</MenuItem>
-                </Select>
-            </FormControl>
-            <Card sx={{ maxWidth: 505 }}>
+            <FTSsingle />
+
+            {/* <RoutesPage /> */}
+            {/* <Card sx={{ maxWidth: 505 }}>
                 <CardContent>
                     <Typography className='text-lg font-bold mb-3'>สรุปรายละเอียดของทุ่น ศุภราช</Typography>
                     <Box className="flex justify-between">
@@ -138,8 +92,7 @@ export default function MovingTablePage({ }: Props) {
                         </Box>
                     </Box>
                 </CardContent>
-            </Card >
-            <RoutesPage />
+            </Card > */}
         </>
     )
 }

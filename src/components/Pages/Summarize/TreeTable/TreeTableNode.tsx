@@ -50,19 +50,19 @@ const TreeTableNode: React.FC<any> = ({
                     </Box>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    {total_cost + total_cost}
+                    {total_cost}
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    {total_consumption_cost + total_consumption_cost}
+                    {total_consumption_cost}
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    {total_wage_cost + total_wage_cost}
+                    {total_wage_cost}
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    {penality_cost + penality_cost}
+                    {penality_cost}
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    {total_reward + total_reward}
+                    {total_reward}
                 </Grid>
             </Grid>
 

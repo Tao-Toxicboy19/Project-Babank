@@ -31,6 +31,8 @@ function fixedHeaderContent() {
           style={{ width: column.width }}
           sx={{
             backgroundColor: 'background.paper',
+            fontWeight: 'Bold',
+            fontSize: 16
           }}
         >
           {column.label}
@@ -100,40 +102,6 @@ export default function CarrierPage() {
 
   return (
     <>
-      <Card className='mt-5 mb-2'>
-        <CardContent>
-          <Stack direction='row' className='flex justify-between'>
-            <Card>
-              <Stack direction='row' spacing={2} className='flex items-center'>
-                <Typography className='text-2xl font-bold'>เรือสินค้า</Typography>
-              </Stack>
-            </Card>
-            <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
-              <Tooltip title="ค้นหา">
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        Search
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Tooltip>
-              <CarrierInsertPage />
-            </Stack>
-          </Stack>
-        </CardContent>
-      </Card>
       {
         carrierReducer.loading ? (
           <Box
@@ -151,6 +119,31 @@ export default function CarrierPage() {
         ) : (
           <>
             <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
+              <Box className='flex justify-between m-5'>
+                <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
+                  <Tooltip title="ค้นหา">
+                    <TextField
+                      id="standard-basic"
+                      variant="standard"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            Search
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Tooltip>
+                </Stack>
+                <CarrierInsertPage />
+              </Box>
               <TableVirtuoso
                 data={rows}
                 components={VirtuosoTableComponents}

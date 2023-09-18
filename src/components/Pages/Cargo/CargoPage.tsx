@@ -30,6 +30,8 @@ function fixedHeaderContent() {
           style={{ width: column.width }}
           sx={{
             backgroundColor: 'background.paper',
+            fontWeight: 'Bold',
+            fontSize: 16
           }}
         >
           {column.label}
@@ -99,7 +101,7 @@ export default function CargoPage() {
 
   return (
     <>
-      <Card className='mt-5 mb-2'>
+      {/* <Card className='mt-5 mb-2'>
         <CardContent>
           <Stack direction='row' className='flex justify-between'>
             <Card>
@@ -132,7 +134,7 @@ export default function CargoPage() {
             </Stack>
           </Stack>
         </CardContent>
-      </Card>
+      </Card> */}
       {
         cargoReducer.loading ? (
           <Box

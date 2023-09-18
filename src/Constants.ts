@@ -24,8 +24,11 @@ export const server = {
     FLOATING: `floating`,
     CARRIER: `carrier`,
     CARGO: `cargo`,
-    CARGOCRANE:`cargocrane`,
-    ORDER:`order`,
+    CARGOCRANE: `cargocrane`,
+    ORDER: `order`,
+    CRANESOLUTIONTABLE: `cranesolutiontable`,
+    FTSSOLUTION: `ftssolution`,
+    CRANESOLUTION: `cranesolution`
 };
 
 export const YES = "YES";

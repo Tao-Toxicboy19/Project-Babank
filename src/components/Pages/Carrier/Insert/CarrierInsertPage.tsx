@@ -104,7 +104,7 @@ export default function CarrierInsertPage({ }: Props) {
 
   return (
     <div>
-      <Tooltip title="เพิ่มเรือสินค้า">
+      <Tooltip title="เพิ่มเรือสินค้า" className='mt-3'>
         <Fab
           color="primary"
           aria-label="add"

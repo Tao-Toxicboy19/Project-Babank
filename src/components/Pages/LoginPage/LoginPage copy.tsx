@@ -37,7 +37,7 @@ export default function LoginPage({ }: Props) {
   const showForm = ({ isSubmitting }: FormikProps<Login>) => {
     return (
       <Form className='d-flex justify-content-center align-items-center h-100'>
-        
+
         <Field
           component={TextField}
           name='email'
@@ -54,7 +54,7 @@ export default function LoginPage({ }: Props) {
           label='รหัสผ่าน'
           fullWidth
         />
-        
+
         <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
           <Button
             fullWidth
@@ -93,7 +93,8 @@ export default function LoginPage({ }: Props) {
               Login
             </Typography>
 
-            <Formik onSubmit={handleSubmit}
+            <Formik
+              onSubmit={handleSubmit}
               validate={validateForm}
               initialValues={initialValues}
               validationSchema={validationSchema}

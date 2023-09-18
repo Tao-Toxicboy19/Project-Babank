@@ -4,14 +4,20 @@ import TreeTableNode from './TreeTableNode';
 export interface TreeTableSolution {
     solution_id: number;
     FTS_name: string;
+    total_cost_sum: number;
+    total_consumption_cost_sum: number;
+    total_wage_cost_sum: number;
+    penality_cost_sum: number;
+    total_reward_sum: number;
+    result: Result[];
+}
+export interface Result {
+    crane_name: string;
     total_cost: number;
     total_consumption_cost: number;
     total_wage_cost: number;
     penality_cost: number;
     total_reward: number;
-    result: {
-        crane_name: string;
-    }[];
 }
 
 
@@ -63,11 +69,11 @@ export default function TreeTable({ data }: Props) {
                 <TreeTableNode
                     key={index}
                     FTS_name={node.FTS_name}
-                    total_cost={node.total_cost} // ส่งค่า lat
-                    total_consumption_cost={node.total_consumption_cost} // ส่งค่า lng
-                    total_wage_cost={node.total_wage_cost}
-                    penality_cost={node.penality_cost}
-                    total_reward={node.total_reward}
+                    total_cost={node.total_cost_sum} // ส่งค่า lat
+                    total_consumption_cost={node.total_consumption_cost_sum} // ส่งค่า lng
+                    total_wage_cost={node.total_wage_cost_sum}
+                    penality_cost={node.penality_cost_sum}
+                    total_reward={node.total_reward_sum}
                     result={node.result}
                 />
             ))}
