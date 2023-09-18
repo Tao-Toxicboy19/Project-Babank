@@ -6,6 +6,8 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { Register } from '../../../types/User.type';
+import Logo1 from '../../../assets/images/LO1.png' // จากตรงนี้
+import Logo2 from '../../../assets/images/LO2.png' // จากตรงนี้
 
 
 type Props = {}
@@ -143,9 +145,24 @@ export default function RegisterPage({ }: Props) {
         >
           <Card>
             <CardContent>
-              <Typography component="h1" variant="h5">
-                Register
+            <Box
+            sx={{
+              margin: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Box className="flex">
+              {/* เอามาจาก import ด้านบน */}
+              <img src={Logo1} className="w-20, h-20" />
+              <img src={Logo2} className="w-20, h-20" />
+            </Box>
+
+              <Typography className="mt-5" component="h1" variant="h5">
+                สมัครสมาชิค
               </Typography>
+            </Box>
 
               <Formik onSubmit={handleSubmit}
                 validate={validateForm}
