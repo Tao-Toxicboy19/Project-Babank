@@ -1,7 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { server } from "../../Constants";
 import { Crane, CraneState, } from "../../types/crane.type";
-import { httpClient } from "../../utlis/httpclient";
 
 const initialState: CraneState = {
     result: [],
@@ -38,25 +36,3 @@ const CraneSlice = createSlice({
 
 export const { setCraneState, setCraneSuccess, setCraneFailure, setDeleteCrane } = CraneSlice.actions;
 export default CraneSlice.reducer;
-
-// const doGetCrane = async (dispatch: any) => {
-//     try {
-//         const result = await httpClient.get(server.FLOATING);
-//         dispatch(setCraneState(result.data));
-//     } catch (error: any) {
-//         dispatch(setCraneFailure(error.message));
-//     }
-// };
-
-// export const deleteCrane = (id: any, setOpen: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             await httpClient.delete(`${server.CRANE}/${id}`);
-//             dispatch(setDeleteCrane(id));
-//             setOpen(false);
-//             await doGetCrane(dispatch);
-//         } catch (error: any) {
-//             dispatch(setCraneFailure(error.message));
-//         }
-//     };
-// };
