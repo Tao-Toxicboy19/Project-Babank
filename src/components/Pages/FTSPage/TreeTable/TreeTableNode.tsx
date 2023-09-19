@@ -57,7 +57,7 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                         <Button variant="outlined" component={Link} to={`/transferstation/edit/${fts_id}`}>
                             แก้ไข
                         </Button>
-                        <FTSDelete />
+                        <FTSDelete id={fts_id} />
                     </Box>
                 </Grid>
             </Grid >

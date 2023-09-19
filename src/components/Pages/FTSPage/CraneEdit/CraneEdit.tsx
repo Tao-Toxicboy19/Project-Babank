@@ -104,7 +104,7 @@ export default function CraneEdit({ }: Props) {
     }
 
     const initialValues: Crane = {
-        crane_name: '', FTS_id: 0, setuptime_crane: 0,
+        crane_id: 0, crane_name: '', FTS_id: 0, setuptime_crane: 0,
     }
 
     return (

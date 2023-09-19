@@ -13,17 +13,17 @@ const CraneSlice = createSlice({
     name: 'Crane',
     initialState,
     reducers: {
-        setCraneState: (state) => {
+        setCraneEditState: (state) => {
             state.result = null
             state.loading = true
             state.error = null
         },
-        setCraneSuccess: (state, action: PayloadAction<Crane>) => {
+        setCraneEditSuccess: (state, action: PayloadAction<Crane>) => {
             state.result = action.payload
             state.loading = false
             state.error = null
         },
-        setCraneFailure: (state, action: PayloadAction<string>) => {
+        setCraneEditFailure: (state, action: PayloadAction<string>) => {
             state.result = null
             state.error = action.payload
             state.loading = false
@@ -31,9 +31,8 @@ const CraneSlice = createSlice({
     }
 })
 
-export const { setCraneState, setCraneSuccess, setCraneFailure } = CraneSlice.actions
+export const { setCraneEditState, setCraneEditSuccess, setCraneEditFailure } = CraneSlice.actions
 export default CraneSlice.reducer
-
 
 
 export const addCrane = (formData: FormData, navigate: any) => {
@@ -59,14 +58,14 @@ export const updateCrane = (formData: FormData, navigate: any, id: any) => {
 export const getCraneById = (id: any) => {
     return async (dispatch: any) => {
         try {
-            dispatch(setCraneState())
+            dispatch(setCraneEditState())
             const result = await httpClient.get(`${server.CRANE}/${id}`)
-            dispatch(setCraneSuccess(result.data))
+            dispatch(setCraneEditSuccess(result.data))
             console.log(result.data)
         }
         catch (error) {
             alert(JSON.stringify(error))
-            dispatch(setCraneFailure("hello"))
+            dispatch(setCraneEditFailure("hello"))
         }
     }
 }

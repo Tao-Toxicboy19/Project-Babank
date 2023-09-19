@@ -19,8 +19,6 @@ export default function CraneCreatePage({ }: Props) {
 
     const handleSubmit = async (values: any, { isSubmitting }: any) => {
         dispatch(addCrane(values, navigate))
-        alert(JSON.stringify(values))
-        console.log(FTSSlice)
         isSubmitting(false)
     }
 
@@ -90,7 +88,7 @@ export default function CraneCreatePage({ }: Props) {
     }
 
     const initialValues: Crane = {
-        crane_name: '', FTS_id: 0, setuptime_crane: 0,
+        crane_id: 0, crane_name: '', FTS_id: 0, setuptime_crane: 0,
     }
 
     return (
