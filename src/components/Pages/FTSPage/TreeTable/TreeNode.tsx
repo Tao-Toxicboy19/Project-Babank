@@ -23,11 +23,11 @@ export default function TreeNode({ crane_name, setuptime_crane, crane_id }: Resu
             </Grid>
             <Grid item xs={3}>
                 <Box className='flex justify-end'>
-                <Tooltip title="แก้ไข">
-                            <IconButton component={Link} to={`/transferstation/edit/${crane_id}`}>
-                                <LuFileEdit className="text-[#169413]" />
-                            </IconButton>
-                        </Tooltip>
+                    <Tooltip title="แก้ไข">
+                        <IconButton component={Link} to={`/transferstation/edit/${crane_id}`}>
+                            <LuFileEdit className="text-[#169413]" />
+                        </IconButton>
+                    </Tooltip>
                     <CraneDalete id={crane_id} />
                 </Box>
             </Grid>
