@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import TreeNode from './TreeNode';
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom';
 import FTSDelete from '../Delete/FTSDelete';
 import { FTSCrane } from '../../../../types/FloatingCrane.type';
+import { LuFileEdit } from "react-icons/lu";
 
 const TreeTableNode: React.FC<FTSCrane> = ({
     fts_id,
@@ -28,15 +29,19 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 container
                 spacing={1}
                 columns={12}
-                className='border-b-[1px] bg-[#c2dffc] rounded-lg mt-1'
+                className='border-b-[1px] bg-[#f8f8f8] rounded-lg mt-1'
             >
                 <Grid item xs={2}>
                     <Box className='flex justify-start items-center'>
-                        <Typography>{FTS_name}</Typography>
-                        {result && result.some(item => item.crane_name) && (
-                            <IconButton onClick={toggleNode}>
-                                {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                            </IconButton>
+                        {result && result.some(item => item.crane_name) ? (
+                            <>
+                                <Typography>{FTS_name}</Typography>
+                                <IconButton onClick={toggleNode}>
+                                    {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                </IconButton>
+                            </>
+                        ) : (
+                            <Typography className='flex items-center mt-3'>{FTS_name}</Typography>
                         )}
                     </Box>
                 </Grid>
@@ -54,9 +59,11 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Box className='flex justify-end'>
-                        <Button variant="outlined" component={Link} to={`/transferstation/edit/${fts_id}`}>
-                            แก้ไข
-                        </Button>
+                        <Tooltip title="แก้ไข">
+                            <IconButton component={Link} to={`/transferstation/edit/${fts_id}`}>
+                                <LuFileEdit className="text-[#169413]" />
+                            </IconButton>
+                        </Tooltip>
                         <FTSDelete id={fts_id} />
                     </Box>
                 </Grid>

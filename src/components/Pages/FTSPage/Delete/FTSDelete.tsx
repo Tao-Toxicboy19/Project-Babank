@@ -41,18 +41,17 @@ export default function FTSDelete({ id }: Props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                    {"คุณต้องการลบรายการนี้หรือไม่?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
+                        หากคุณลบรายการนี้จะหายไปโดยถาวร
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button onClick={() => setOpen(false)}>ยกเลิก</Button>
                     <Button onClick={handleDeleteConfirm} autoFocus>
-                        Delete
+                        ลบรายการ
                     </Button>
                 </DialogActions>
             </Dialog>

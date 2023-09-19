@@ -7,7 +7,7 @@ import { RootState } from '../../../store/store';
 
 type Props = {}
 
-export default function CargoCranePage({ }: Props) {
+export default function FTSPage({ }: Props) {
   const dispatch = useDispatch<any>();
   const FTSReducer = useSelector((state: RootState) => state.FTS);
 
@@ -16,7 +16,7 @@ export default function CargoCranePage({ }: Props) {
   }, []);
 
   return (
-    <Card sx={{ minHeight: '85vh' }}>
+    <Card sx={{ minHeight: '85vh' }} className="bg-[#FFF] backdrop-blur-xl">
       <CardContent>
         {FTSReducer.loading ? (
           <Box
