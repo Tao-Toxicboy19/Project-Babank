@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Result } from '../../../../types/FloatingCrane.type'
+import CraneDalete from '../CraneDeletePage/CraneDeletePage'
 
 export default function TreeNode({ crane_name, setuptime_crane, crane_id }: Result) {
     return (
@@ -24,7 +25,7 @@ export default function TreeNode({ crane_name, setuptime_crane, crane_id }: Resu
                     <Button variant="outlined" component={Link} to={`/transferstation/crane/edit/${crane_id}`}>
                         แก้ไข {crane_id}
                     </Button>
-                    {/* <FTSDelete /> */}
+                    <CraneDalete id={crane_id} />
                 </Box>
             </Grid>
         </Grid>

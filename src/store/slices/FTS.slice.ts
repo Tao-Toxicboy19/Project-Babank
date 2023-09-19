@@ -32,9 +32,14 @@ const FTSSlice = createSlice({
         setInsertFTS: (state, action: PayloadAction<FTSCrane>) => {
             state.FTS.push(action.payload)
         },
+        setDeleteFTS: (state, action: PayloadAction<any>) => {
+            state.FTS = state.FTS.filter(
+                (FTS) => FTS.fts_id !== action.payload
+            )
+        },
     }
 })
-export const { setFTSState, setFTSSuccess, setFTSFailure, setInsertFTS } = FTSSlice.actions
+export const { setFTSState, setFTSSuccess, setFTSFailure, setInsertFTS, setDeleteFTS } = FTSSlice.actions
 export default FTSSlice.reducer
 
 export const loadFTS = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
@@ -62,7 +67,28 @@ export const addFTS = (formData: FormData, navigate: any) => {
 
 export const deleteFTS = (id: any) => {
     return async (dispatch: any) => {
-        dispatch(setFTSState());
         await httpClient.delete(`${server.FLOATING}/${id}`);
+        dispatch(setDeleteFTS(id))
+    };
+};
+
+const doGetCrane = async (dispatch: any) => {
+    try {
+        const result = await httpClient.get(server.FLOATING);
+        dispatch(setFTSSuccess(result.data));
+    } catch (error: any) {
+        dispatch(setFTSFailure(error.message));
+    }
+};
+
+export const deleteCrane = (id: any, setOpen: any) => {
+    return async (dispatch: any) => {
+        try {
+            await httpClient.delete(`${server.CRANE}/${id}`);
+            setOpen(false);
+            await doGetCrane(dispatch);
+        } catch (error: any) {
+            dispatch(setFTSFailure(error.message));
+        }
     };
 };

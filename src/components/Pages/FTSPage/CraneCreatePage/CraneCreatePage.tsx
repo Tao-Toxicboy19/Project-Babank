@@ -3,35 +3,28 @@ import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { Crane } from '../../../../types/crane.type';
-import { getCraneById, updateCrane } from '../../../../store/slices/crane.edit.slice';
-import { useEffect } from 'react';
+import { addCrane } from '../../../../store/slices/crane.edit.slice';
 
 type Props = {}
 
 const defaultTheme = createTheme();
 
-export default function CraneEdit({ }: Props) {
-    const { id } = useParams()
+export default function CraneCreatePage({ }: Props) {
     const navigate = useNavigate()
     const dispatch = useDispatch<any>();
-    const CraneSlice = useSelector((state: RootState) => state.Crane);
     const FTSSlice = useSelector((state: RootState) => state.FTS);
 
-    useEffect(() => {
-        dispatch(getCraneById(id))
-    }, [dispatch, id]);
-
     const handleSubmit = async (values: any, { isSubmitting }: any) => {
-        dispatch(updateCrane(values, navigate, id))
+        dispatch(addCrane(values, navigate))
         isSubmitting(false)
     }
 
     const showForm = ({ values, isSubmitting, handleChange }: FormikProps<Crane>) => {
         return (
-            <Form>
+            <Form className="w-[750px]">
                 <Field
                     component={TextField}
                     style={{ marginTop: 16 }}
@@ -41,26 +34,17 @@ export default function CraneEdit({ }: Props) {
                     label='ชื่อเครน'
                     fullWidth
                 />
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">ชื่อ</InputLabel>
+                <FormControl
+                    style={{ marginTop: 16 }}
+                    fullWidth
+                >
+                    <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
                     <Field
                         as={Select}
                         name='FTS_id'
-                        label='ชื่อ'
+                        label='จำนวนเครน'
                         value={values.FTS_id}
-                        onChange={(e: any) => {
-                            const selectedFTS = (FTSSlice.FTS).find(
-                                (item) => item.fts_id === e.target.value
-                            );
-                            if (selectedFTS) {
-                                handleChange({
-                                    target: {
-                                        name: 'FTS_id',
-                                        value: selectedFTS.fts_id,
-                                    },
-                                });
-                            }
-                        }}
+                        onChange={handleChange}
                         fullWidth
                     >
                         {(FTSSlice.FTS).map((item: FTS) => (
@@ -104,7 +88,7 @@ export default function CraneEdit({ }: Props) {
     }
 
     const initialValues: Crane = {
-        crane_name: '', FTS_id: 0, setuptime_crane: 0,
+        crane_id: 0, crane_name: '', FTS_id: 0, setuptime_crane: 0,
     }
 
     return (
@@ -114,13 +98,13 @@ export default function CraneEdit({ }: Props) {
                     <CardContent>
                         <Box className='flex justify-between'>
                             <Typography component="h1" variant="h5">
-                                แก้ไขเครน
+                                เพิ่มเครน
                             </Typography>
                             <Button variant="outlined" component={Link} to="/transferstation/create">เพิ่มทุ่น</Button>
                         </Box>
                         <Formik
                             onSubmit={handleSubmit}
-                            initialValues={CraneSlice.result ? CraneSlice.result : initialValues}
+                            initialValues={initialValues}
                         >
                             {(props: any) => showForm(props)}
                         </Formik>

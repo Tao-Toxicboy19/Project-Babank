@@ -1,26 +1,27 @@
 import React from 'react'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { deleteCrane } from '../../../../store/slices/FTS.slice';
 
 
-type Props = {}
+type Props = {
+    id: number
+}
 
-export default function FTSDelete({ }: Props) {
+export default function CraneDalete({ id }: Props) {
     const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch<any>();
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleDeleteConfirm = () => {
+        dispatch(deleteCrane(id, setOpen))
+    }
 
     return (
         <>
             <Tooltip title="ลบ">
                 <IconButton
-                    onClick={handleClickOpen}
+                    onClick={() => setOpen(true)}
                 >
                     <DeleteForeverIcon className='text-red-800' />
 
@@ -28,7 +29,7 @@ export default function FTSDelete({ }: Props) {
             </Tooltip>
             <Dialog
                 open={open}
-                onClose={handleClose}
+                onClose={() => setOpen(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -42,9 +43,9 @@ export default function FTSDelete({ }: Props) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose} autoFocus>
-                        Agree
+                    <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button onClick={handleDeleteConfirm} autoFocus>
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>

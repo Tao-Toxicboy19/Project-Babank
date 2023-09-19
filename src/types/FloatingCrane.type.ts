@@ -8,7 +8,7 @@ export interface FTS {
 }
 
 export interface FTSCrane {
-  fts_id: number;
+  fts_id: any;
   FTS_name: string;
   lat: number;
   lng: number;

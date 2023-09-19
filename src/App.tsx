@@ -5,7 +5,6 @@ import Header from './components/layout/Header/Header';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CargoPage from './components/Pages/Cargo/CargoPage';
 import CarrierPage from './components/Pages/Carrier/CarrierPage';
-import FloatingPage from './components/Pages/FloatingCrane/FloatingPage';
 import RegisterPage from './components/Pages/Register/RegisterPage';
 import OrderPage from './components/Pages/Order/OrderPage';
 import PrivateRoute from './utlis/PrivateRoute';
@@ -20,11 +19,12 @@ import { loadCarrier } from './store/slices/carrier.slice';
 import { loadOrder } from './store/slices/order.slice';
 import { RootState } from './store/store';
 import PublicRoute from './utlis/PublicRoute';
-import FTSCreatePage from './components/Pages/FloatingCrane/FTSCreatePage/FTSCreatePage';
-import CraneCreatePage from './components/Pages/FloatingCrane/CraneCreatePage/CraneCreatePage';
-import FTSEditPage from './components/Pages/FloatingCrane/FTSEdit/FTSEditPage';
+import FloatingPage from './components/Pages/FTSPage/FloatingPage';
+import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCreatePage';
+import CraneEdit from './components/Pages/FTSPage/CraneEdit/CraneEdit';
+import FTSCreatePage from './components/Pages/FTSPage/FTSCreatePage/FTSCreatePage';
+import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
 import MovingTablePage from './components/Pages/Summarize/movingTable';
-import CraneEdit from './components/Pages/FloatingCrane/CraneEdit/CraneEdit';
 
 const drawerWidth = 240;
 
