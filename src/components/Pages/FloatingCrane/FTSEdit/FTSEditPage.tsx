@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../../../../types/User.type';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { useEffect } from 'react';
-import { getProductById, updateFTS } from '../../../../store/slices/FTS.edit.slice';
+import {  getFTSById, updateFTS } from '../../../../store/slices/FTS.edit.slice';
 import { RootState } from '../../../../store/store';
 
 
@@ -21,7 +21,7 @@ export default function FTSEditPage({ }: Props) {
   const FTSEditSlice = useSelector((state: RootState) => state.FTSEdit);
 
   useEffect(() => {
-    dispatch(getProductById(id))
+    dispatch(getFTSById(id))
   }, []);
 
   const handleSubmit = async (values: any, { isSubmitting }: any) => {

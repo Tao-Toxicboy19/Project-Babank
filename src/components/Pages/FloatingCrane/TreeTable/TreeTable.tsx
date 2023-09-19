@@ -1,12 +1,12 @@
 import { Box, Fab, Grid, Tooltip, Typography } from '@mui/material';
 import TreeTableNode from './TreeTableNode';
-import { TreeTableNodeProps } from '../../../../types/FloatingCrane.type';
+import { FTSCrane } from '../../../../types/FloatingCrane.type';
 import Add from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
 
 
 type Props = {
-    FTSReducer: TreeTableNodeProps[];
+    FTSReducer: FTSCrane[];
 }
 
 export default function TreeTable({ FTSReducer }: Props) {
@@ -68,10 +68,10 @@ export default function TreeTable({ FTSReducer }: Props) {
             {FTSReducer.map((node, index) => (
                 <TreeTableNode
                     key={index}
-                    id={node.id}
+                    fts_id={node.fts_id}
                     FTS_name={node.FTS_name}
-                    lat={node.lat} // ส่งค่า lat
-                    lng={node.lng} // ส่งค่า lng
+                    lat={node.lat}
+                    lng={node.lng}
                     setuptime_FTS={node.setuptime_FTS}
                     speed={node.speed}
                     result={node.result}

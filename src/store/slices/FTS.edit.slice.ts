@@ -43,7 +43,7 @@ export const updateFTS = (formData: FormData, navigate: any, id: any) => {
     }
 }
 
-export const getProductById = (id: any) => {
+export const getFTSById = (id: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(setFTSEditStart())

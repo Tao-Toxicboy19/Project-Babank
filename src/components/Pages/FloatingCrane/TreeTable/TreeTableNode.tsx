@@ -3,11 +3,12 @@ import TreeNode from './TreeNode';
 import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { TreeTableNodeProps } from '../../../../types/FloatingCrane.type';
 import { Link } from 'react-router-dom';
+import FTSDelete from '../Delete/FTSDelete';
+import { FTSCrane } from '../../../../types/FloatingCrane.type';
 
-const TreeTableNode: React.FC<TreeTableNodeProps> = ({
-    id,
+const TreeTableNode: React.FC<FTSCrane> = ({
+    fts_id,
     FTS_name,
     lat,
     lng,
@@ -53,10 +54,10 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Box className='flex justify-end'>
-                        <Button variant="outlined" component={Link} to={`/transferstation/edit/${id}`}>
-                            เพิ่มเครน
+                        <Button variant="outlined" component={Link} to={`/transferstation/edit/${fts_id}`}>
+                            แก้ไข
                         </Button>
-                        
+                        <FTSDelete />
                     </Box>
                 </Grid>
             </Grid >
@@ -79,7 +80,7 @@ const TreeTableNode: React.FC<TreeTableNodeProps> = ({
             {
                 isOpen &&
                 result.map((subNode, index) => (
-                    <TreeNode key={index} crane_name={subNode.crane_name} setuptime_crane={subNode.setuptime_crane} />
+                    <TreeNode key={index} crane_name={subNode.crane_name} setuptime_crane={subNode.setuptime_crane} crane_id={subNode.crane_id} />
                 ))
             }
         </>

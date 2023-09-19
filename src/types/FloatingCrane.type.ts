@@ -1,5 +1,5 @@
 export interface FTS {
-  id?: number
+  fts_id?: number
   FTS_name: string;
   lat: number;
   lng: number;
@@ -8,17 +8,21 @@ export interface FTS {
 }
 
 export interface FTSCrane {
-  id: number
+  fts_id: number;
   FTS_name: string;
-  setuptime_FTS: number;
-  speed: number;
   lat: number;
   lng: number;
-  result: {
-    crane_name: string
-    setuptime_crane: number
-  }[];
+  setuptime_FTS: number;
+  speed: number;
+  result: Result[];
 }
+
+export interface Result {
+  crane_id: number;
+  crane_name: string;
+  setuptime_crane: number;
+}
+
 
 export interface FTSEditState {
   result: FTSCrane | null
@@ -30,26 +34,4 @@ export interface FTSCraneState {
   FTS: FTSCrane[]
   loading: boolean
   error: string | null
-}
-
-export interface TreeTableNodeProps {
-  id: number
-  FTS_name: string;
-  setuptime_FTS: number;
-  speed: number;
-  lat: number;
-  lng: number;
-  result: {
-    crane_name: string
-    setuptime_crane: number
-  }[];
-}
-
-export interface TreeNodeProps {
-  crane_name: string;
-  setuptime_crane: number
-}
-
-export interface TreeTableProps {
-  data: TreeTableNodeProps[];
 }

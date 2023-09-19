@@ -28,7 +28,8 @@ export const server = {
     ORDER: `order`,
     CRANESOLUTIONTABLE: `cranesolutiontable`,
     FTSSOLUTION: `ftssolution`,
-    CRANESOLUTION: `cranesolution`
+    CRANESOLUTION: `cranesolution`,
+    CRANE:`crane`
 };
 
 export const YES = "YES";
