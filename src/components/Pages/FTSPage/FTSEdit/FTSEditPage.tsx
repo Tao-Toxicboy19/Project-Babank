@@ -31,7 +31,7 @@ export default function FTSEditPage({ }: Props) {
 
   const showForm = ({ isSubmitting }: FormikProps<Login>) => {
     return (
-      <Form>
+      <Form className="mt-5 w-[750px]">
         <Field
           component={TextField}
           style={{ marginTop: 16 }}
@@ -94,7 +94,7 @@ export default function FTSEditPage({ }: Props) {
             className='bg-[#1976D2] hover:bg-[#1563BC]'
             disabled={isSubmitting}
           >
-            เพิ่มทุ่น
+            บันทึก
           </Button>
         </Stack>
       </Form>

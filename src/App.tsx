@@ -19,12 +19,12 @@ import { loadCarrier } from './store/slices/carrier.slice';
 import { loadOrder } from './store/slices/order.slice';
 import { RootState } from './store/store';
 import PublicRoute from './utlis/PublicRoute';
-import FloatingPage from './components/Pages/FTSPage/FloatingPage';
 import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCreatePage';
 import CraneEdit from './components/Pages/FTSPage/CraneEdit/CraneEdit';
 import FTSCreatePage from './components/Pages/FTSPage/FTSCreatePage/FTSCreatePage';
 import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
 import MovingTablePage from './components/Pages/Summarize/movingTable';
+import FTSPage from './components/Pages/FTSPage/FTSPage';
 
 const drawerWidth = 240;
 
@@ -55,7 +55,7 @@ function ResponsiveDrawer() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }} >
+    <Box sx={{ display: 'flex' }} className=' bg-gradient-to-bl from-[#5FBCFF] to-[#FFF] w-full h-full min-h-screen'>
       <CssBaseline />
       {/* {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
       {loginReducer.data && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />} */}
@@ -71,7 +71,7 @@ function ResponsiveDrawer() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/cargo" element={<CargoPage />} />
             {/* <Route path="/" element={<Maps />} /> */}
-            <Route path="/transferstation" element={<FloatingPage />} />
+            <Route path="/transferstation" element={<FTSPage />} />
             <Route path="/transferstation/create" element={<FTSCreatePage />} />
             <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
             <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
