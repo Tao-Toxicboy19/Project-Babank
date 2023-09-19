@@ -12,13 +12,7 @@ type Props = {
 export default function TreeTable({ FTSReducer }: Props) {
     return (
         <>
-            <Grid
-                container spacing={1}
-                columns={12}
-                className='border-b-[1px]'
-            >
-                <Grid item xs={12}>
-                    <Box className='flex justify-end'>
+            <Box className='flex justify-end'>
                         <Tooltip title="เพิ่มทุ่น">
                             <Link to="/transferstation/create">
                                 <Fab
@@ -32,6 +26,13 @@ export default function TreeTable({ FTSReducer }: Props) {
                             </Link>
                         </Tooltip>
                     </Box>
+            <Grid
+                container spacing={1}
+                columns={12}
+                className='border-b-[1px] bg-[#1976D2] mt-5 text-[#FFF] rounded-lg'
+            >
+                <Grid item xs={12}>
+                    
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
                     <Typography className='font-bold text-md'>
@@ -66,7 +67,7 @@ export default function TreeTable({ FTSReducer }: Props) {
             </Grid>
 
             {FTSReducer.map((node, index) => (
-                <TreeTableNode
+                <TreeTableNode 
                     key={index}
                     fts_id={node.fts_id}
                     FTS_name={node.FTS_name}

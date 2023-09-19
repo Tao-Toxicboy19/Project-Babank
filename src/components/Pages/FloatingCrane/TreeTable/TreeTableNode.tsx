@@ -28,7 +28,7 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 container
                 spacing={1}
                 columns={12}
-                className='border-b-[1px]'
+                className='border-b-[1px] bg-[#c2dffc] rounded-lg mt-1'
             >
                 <Grid item xs={2}>
                     <Box className='flex justify-start items-center'>

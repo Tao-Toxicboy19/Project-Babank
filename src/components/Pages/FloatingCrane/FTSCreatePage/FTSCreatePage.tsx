@@ -35,7 +35,7 @@ export default function FTSCreatePage({ }: Props) {
 
   const showForm = ({ isSubmitting }: FormikProps<Login>) => {
     return (
-      <Form>
+      <Form className="w-[750px]">
         <Field
           component={TextField}
           style={{ marginTop: 16 }}

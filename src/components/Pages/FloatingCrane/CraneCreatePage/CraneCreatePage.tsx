@@ -26,7 +26,7 @@ export default function CraneCreatePage({ }: Props) {
 
     const showForm = ({ values, isSubmitting, handleChange }: FormikProps<Crane>) => {
         return (
-            <Form>
+            <Form className="w-[750px]">
                 <Field
                     component={TextField}
                     style={{ marginTop: 16 }}
