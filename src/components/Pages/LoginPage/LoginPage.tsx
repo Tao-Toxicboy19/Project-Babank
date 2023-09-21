@@ -12,14 +12,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Card } from '@mui/material';
 import Logo1 from '../../../assets/images/LO1.png' // จากตรงนี้
+import Logo2 from '../../../assets/images/LO2.png'
 
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://www.ksu.ac.th/">
+        Kalasin University
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -42,7 +43,7 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="md">
+      <Container component="main" className="w-[750px]">
         <CssBaseline />
         <Card className="">
           <Box
@@ -53,11 +54,12 @@ export default function SignIn() {
               alignItems: 'center',
             }}
           >
-            <Box>
+            <Box className="flex">
               {/* เอามาจาก import ด้านบน */}
-              <img src={Logo1} />
+              <img src={Logo1} className="w-20"/>
+              <img src={Logo2} className="w-20"/>
             </Box>
-            <Typography component="h1" variant="h5">
+            <Typography className="mt-5" component="h1" variant="h5">
               เข้าสู่ระบบ
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -66,7 +68,7 @@ export default function SignIn() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="ชื่อผู้ใช้งาน"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -76,32 +78,33 @@ export default function SignIn() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="รหัสผ่าน"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="จดจำรหัสผ่าน"
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                className="bg-blue-400"
               >
-                Sign In
+                เข้าสู๋ระบบ
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Forgot password?
+                    มีปัญหาในการเข้าสู่ระบบหรือเปล่า?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/register" variant="body2">
+                    {"สร้างบัญชีใหม่"}
                   </Link>
                 </Grid>
               </Grid>

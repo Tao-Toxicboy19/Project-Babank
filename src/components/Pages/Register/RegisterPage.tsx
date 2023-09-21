@@ -104,12 +104,13 @@ export default function RegisterPage({ }: Props) {
         <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
           <Button
             fullWidth
-            variant="outlined"
+            variant="text"
             sx={{ mt: 3, mb: 2 }}
             onClick={() => navigate('/login')}
-          >
-            Login
+            >
+              กลับไปหน้า เข้าสู่ระบบ
           </Button>
+
           <Button
             type="submit"
             fullWidth
@@ -118,7 +119,7 @@ export default function RegisterPage({ }: Props) {
             className='bg-[#1976D2] hover:bg-[#1563BC]'
             disabled={isSubmitting}
           >
-            create account
+            ดำเนินการต่อ
           </Button>
         </Stack>
       </Form>
@@ -145,24 +146,24 @@ export default function RegisterPage({ }: Props) {
         >
           <Card>
             <CardContent>
-            <Box
-            sx={{
-              margin: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Box className="flex">
-              {/* เอามาจาก import ด้านบน */}
-              <img src={Logo1} className="w-20, h-20" />
-              <img src={Logo2} className="w-20, h-20" />
-            </Box>
+              <Box
+                sx={{
+                  margin: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Box className="flex">
+                  {/* เอามาจาก import ด้านบน */}
+                  <img src={Logo1} className="w-20, h-20" />
+                  <img src={Logo2} className="w-20, h-20" />
+                </Box>
 
-              <Typography className="mt-5" component="h1" variant="h5">
-                สมัครสมาชิค
-              </Typography>
-            </Box>
+                <Typography className="mt-5" component="h1" variant="h5">
+                  สร้างบัญชีใหม่
+                </Typography>
+              </Box>
 
               <Formik onSubmit={handleSubmit}
                 validate={validateForm}
