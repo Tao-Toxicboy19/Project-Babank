@@ -118,12 +118,17 @@ export default function FTSCreatePage({ }: Props) {
       <Box className="flex justify-center items-center">
         <Card>
           <CardContent>
-            <Box className='flex justify-between'>
-              <Typography component="h1" variant="h5">
-                เพิ่มทุ่น
-              </Typography>
-              <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
-            </Box>
+            <Stack direction='row' spacing={10} className="flex justify-center">
+              <Box className='flex justify-start'>
+                <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มทุ่น</Button>
+
+                <Typography component="h1" variant="h5">
+                  เพิ่มทุ่น
+                </Typography>
+
+                <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
+              </Box>
+            </Stack>
             <Formik
               onSubmit={handleSubmit}
               validate={validateForm}
