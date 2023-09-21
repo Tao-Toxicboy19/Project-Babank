@@ -14,9 +14,11 @@ import { useSelector } from 'react-redux';
 import Search from '@mui/icons-material/Search';
 import { Cargo } from '../../../types/Cargo.type';
 import { columns } from './ColumnDataCargo';
-import CargoInsertPage from './Insert/CargoInsertPage';
+import CargoInsertPage from './CargoCreatePage/CargoInsertPage';
 import CargoEditPage from './Edit/CargoEditPage';
 import CargoDeletePage from './Delete/CargoDeletePage';
+import CargoCreate from './CargoCreatePage/CargoInsertPage';
+import CargoCreatePage from './CargoCreatePage/CargoInsertPage';
 
 
 function fixedHeaderContent() {
@@ -76,9 +78,6 @@ export default function CargoPage() {
   const rows: Cargo[] = filteredData.map((items) => ({
     cargo_id: items.cargo_id,
     cargo_name: items.cargo_name,
-    category: items.category,
-    consumption_rate: items.consumption_rate,
-    work_rate: items.work_rate,
   }));
 
   const VirtuosoTableComponents: TableComponents<Cargo> = {
@@ -101,40 +100,6 @@ export default function CargoPage() {
 
   return (
     <>
-      {/* <Card className='mt-5 mb-2'>
-        <CardContent>
-          <Stack direction='row' className='flex justify-between'>
-            <Card>
-              <Stack direction='row' spacing={2} className='flex items-center'>
-                <Typography className='text-2xl font-bold'>สินค้า</Typography>
-              </Stack>
-            </Card>
-            <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center' }}>
-              <Tooltip title="ค้นหา">
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        Search
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Tooltip>
-              <CargoInsertPage />
-            </Stack>
-          </Stack>
-        </CardContent>
-      </Card> */}
       {
         cargoReducer.loading ? (
           <Box
@@ -152,6 +117,9 @@ export default function CargoPage() {
         ) : (
           <>
             <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
+              <Box className='flex justify-end pt-3 pr-3'>
+                <CargoCreatePage />
+              </Box>
               <TableVirtuoso
                 data={rows}
                 components={VirtuosoTableComponents}

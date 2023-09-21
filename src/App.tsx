@@ -15,7 +15,6 @@ import { restoreLogin } from './store/slices/login.slice';
 import LoginPage from './components/Pages/LoginPage/LoginPage';
 import HomePage from './components/Pages/Home/HomePage';
 import { loadCargo } from './store/slices/cargo.slice';
-import { loadCarrier } from './store/slices/carrier.slice';
 import { loadOrder } from './store/slices/order.slice';
 import { RootState } from './store/store';
 import PublicRoute from './utlis/PublicRoute';
@@ -25,6 +24,8 @@ import FTSCreatePage from './components/Pages/FTSPage/FTSCreatePage/FTSCreatePag
 import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
 import MovingTablePage from './components/Pages/Summarize/movingTable';
 import FTSPage from './components/Pages/FTSPage/FTSPage';
+import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
+import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 
 const drawerWidth = 240;
 
@@ -35,11 +36,9 @@ function ResponsiveDrawer() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(loadCarrier())
       await dispatch(loadCargo())
       // await dispatch(loadCargoCrane())
       await dispatch(loadOrder())
-      console.log('Hello Guys')
     };
     fetchData();
   }, [dispatch]);
@@ -77,6 +76,8 @@ function ResponsiveDrawer() {
             <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
             <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
             <Route path="/carrier" element={<CarrierPage />} />
+            <Route path="/carrier/create" element={<CarrierCreate />} />
+            <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
             <Route path="/Order" element={<OrderPage />} />
             <Route path="/cargocrane" element={<CargocranePage />} />
             <Route path="/summarize" element={< MovingTablePage />} />

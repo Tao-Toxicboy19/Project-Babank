@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FTSCrane, FTSEditState } from "../../types/FloatingCrane.type";
+import { FTSEditState } from "../../types/FloatingCrane.type";
 import { httpClient } from "../../utlis/httpclient";
 import { server } from "../../Constants";
 
@@ -19,15 +19,16 @@ const FTSEditSlice = createSlice({
             state.error = null
             state.result = null
         },
-        setFTSEditSuccess: (state, action: PayloadAction<FTSCrane>) => {
-            state.result = action.payload
-            state.loading = false
-            state.error = null
+        setFTSEditSuccess: (state, action: PayloadAction<any>) => {
+            state.result = action.payload;
+            state.loading = false;
+            state.error = null;
         },
+
         setFTSEditFailure: (state, action: PayloadAction<string>) => {
-            state.error = action.payload
-            state.loading = false
-            state.result = null
+            state.result = null;
+            state.error = action.payload;
+            state.loading = false;
         },
     }
 })
@@ -48,7 +49,7 @@ export const getFTSById = (id: any) => {
         try {
             dispatch(setFTSEditStart())
             const result = await httpClient.get(`${server.FLOATING}/${id}`)
-            dispatch(setFTSEditSuccess(result.data))
+            await dispatch(setFTSEditSuccess(result.data))
             console.log(result.data)
         }
         catch (error) {

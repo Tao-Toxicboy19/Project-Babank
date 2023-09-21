@@ -7,16 +7,19 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, Card, CardContent, CircularProgress, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress, Fab, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Search from '@mui/icons-material/Search';
 import { Carrier } from '../../../types/Carrier.type';
 import { columns } from './ColumnDataCarrier';
-import CarrierInsertPage from './Insert/CarrierInsertPage';
 import CarrierEditPage from './Edit/CarrierEditPage';
 import CarrierDeletePage from './Delete/CarrierDeletePage';
+import { Link } from 'react-router-dom';
+import Add from '@mui/icons-material/Add';
+import { loadCarrier } from '../../../store/slices/carrier.slice';
+import { LuFileEdit } from 'react-icons/lu';
 
 
 
@@ -52,8 +55,13 @@ function rowContent(_index: number, row: Carrier) {
         >
           {column.dataKey === 'editColumn' ? (
             <Stack direction='row' className="flex justify-end">
-              <CarrierEditPage id={row.cr_id} result={row} />
-              <CarrierDeletePage id={row.cr_id} result={row.carrier_name} />
+              <Tooltip title="แก้ไข">
+                <IconButton component={Link} to={`/carrier/edit/${row.cr_id}`}>
+                  <LuFileEdit className="text-[#169413]" />
+                </IconButton>
+              </Tooltip>
+              <CarrierDeletePage id={row.cr_id} />
+              {/* <CarrierDeletePage id={row.cr_id} result={row.carrier_name} /> */}
             </Stack>
           ) : (
             row[column.dataKey]
@@ -68,11 +76,19 @@ function rowContent(_index: number, row: Carrier) {
 export default function CarrierPage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const carrierReducer = useSelector((state: RootState) => state.carrier);
+  const dispatch = useDispatch<any>();
 
   // search
   const filteredData = (carrierReducer.carrier).filter((item) =>
     item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(loadCarrier())
+    };
+    fetchData();
+  }, [dispatch]);
 
   const rows: Carrier[] = filteredData.map((items) => ({
     cr_id: items.cr_id,
@@ -142,7 +158,18 @@ export default function CarrierPage() {
                     />
                   </Tooltip>
                 </Stack>
-                <CarrierInsertPage />
+                <Tooltip title="เพิ่มทุ่น">
+                  <Link to="/carrier/create">
+                    <Fab
+                      color="primary"
+                      aria-label="add"
+                      size='small'
+                      className='bg-blue-500 hover:bg-blue-700'
+                    >
+                      <Add />
+                    </Fab>
+                  </Link>
+                </Tooltip>
               </Box>
               <TableVirtuoso
                 data={rows}

@@ -65,10 +65,19 @@ export const addFTS = (formData: FormData, navigate: any) => {
     };
 };
 
-export const deleteFTS = (id: any) => {
+export const deleteFTS = (id: any, setOpen: any) => {
     return async (dispatch: any) => {
-        await httpClient.delete(`${server.FLOATING}/${id}`);
-        dispatch(setDeleteFTS(id))
+        try {
+            await httpClient.delete(`${server.FLOATING}/${id}`);
+            dispatch(setDeleteFTS(id));
+        } catch (error: any) {
+            if (error.response && error.response.status === 400) {
+                alert('ไม่สามารถลบข้อมูลได้ เนื่องจากมี Crane ที่ใช้งานอ้างอิงถึง FTS นี้');
+                setOpen(false)
+            } else {
+                console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
+            }
+        }
     };
 };
 

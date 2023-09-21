@@ -1,114 +1,90 @@
-import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
-import { btnColor } from '../../../../style/Styles'
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { TextField } from 'formik-material-ui';
-import { useDispatch } from 'react-redux';
-import Edit from '@mui/icons-material/Edit';
-import { useState } from 'react';
-import { TransitionProps } from '@mui/material/transitions';
-import React from 'react';
-import { setUpdateCarrier } from '../../../../store/slices/carrier.slice';
-import { updateCarrier } from '../../../../store/slices/carrier.edit.slice';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import { server } from '../../../../Constants';
+import { Box, CircularProgress } from '@mui/material';
 import { Carrier } from '../../../../types/Carrier.type';
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+type Props = {};
 
-export default function CarrierEditPage({ id, result }: { id: any; result: any }) {
-    const [open, setOpen] = useState(false);
-    const dispatch = useDispatch<any>();
-    const handleClose = () => setOpen(false);
-    const handleSubmit = (values: any, { setSubmitting }: any) => {
-        dispatch(updateCarrier(id, values, setOpen))
-        dispatch(setUpdateCarrier(values))
-        alert(JSON.stringify(values))
-        setSubmitting(false);
+export default function CraneEditPage({ }: Props) {
+    const [Carrier, setCarrier] = useState<Carrier | null>(null);
+    const { id } = useParams();
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchCarrier = async () => {
+            try {
+                const response = await axios.get(`${server.CARRIER}/${id}`);
+                setCarrier(response.data);
+            } catch (error) {
+                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
+            }
+        };
+        fetchCarrier();
+    }, [id]);
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+
+        setCarrier((prevCarrier: Carrier | null) => ({
+            ...prevCarrier!,
+            [name]: value,
+        }));
     };
 
-    const showForm = ({ isSubmitting }: FormikProps<Carrier>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        try {
+            await axios.put(`${server.CARRIER}/${id}`, Carrier);
+            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+            navigate('/carrier')
+        } catch (error) {
+            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล Crane:', error);
+        }
+    };
+
+    if (!Carrier) {
         return (
-            <Form>
-                <Box className='flex flex-col gap-4 m-3'>
-                    <Field
-                        component={TextField}
-                        name='carrier_name'
-                        type='text'
-                        label='ชื่อ'
-                        fullWidth
-                    />
-                    <Field
-                        component={TextField}
-                        name='ower'
-                        type='text'
-                        label='ชื่อบริษัท'
-                        fullWidth
-                    />
-                    <Field
-                        component={TextField}
-                        name='maxcapacity'
-                        type='number'
-                        label='ความจุสูงสุด (ตัน)'
-                        fullWidth
-                    />
-                    <Field
-                        component={TextField}
-                        name='burden'
-                        type='number'
-                        label='จำนวนระวาง'
-                        fullWidth
-                    />
-                </Box>
-                <Box className="flex justify-end gap-x-3 mt-3 mx-1">
-                    <Button
-                        variant="outlined"
-                        onClick={() => setOpen(false)}
-                    >
-                        Exit
-                    </Button>
-                    <Button
-                        variant="contained"
-                        type="submit"
-                        style={btnColor}
-                        disabled={isSubmitting}
-                    >
-                        Save
-                    </Button>
-                </Box>
-            </Form>
-        )
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                }}
+            >
+                <CircularProgress />
+            </Box>
+        );
     }
+
+    const { carrier_name, maxcapacity, holder, burden } = Carrier;
 
     return (
         <div>
-            <Tooltip title="แก้ไข">
-                <IconButton
-                    onClick={() => setOpen(true)}
-                >
-                    <Edit className='text-emerald-700' />
-                </IconButton>
-            </Tooltip>
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-                maxWidth="lg"
-                fullWidth
-            >
-                <DialogTitle>{"เพิ่มทุ่น"}</DialogTitle>
-                <DialogContent>
-                    <Formik initialValues={result} onSubmit={handleSubmit}>
-                        {(props: any) => showForm(props)}
-                    </Formik>
-                </DialogContent>
-            </Dialog>
+            <h2>Edit Crane: {carrier_name}</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="carrier_name">Crane Name:</label>
+                    <input type="text" id="carrier_name" name="carrier_name" value={carrier_name} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label htmlFor="holder">Setup Time (minutes):</label>
+                    <input type="text" id="holder" name="holder" value={holder} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label htmlFor="maxcapacity">FTS ID:</label>
+                    <input type="number" id="maxcapacity" name="maxcapacity" value={maxcapacity} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label htmlFor="burden">Setup Time (minutes):</label>
+                    <input type="number" id="burden" name="burden" value={burden} onChange={handleInputChange} />
+                </div>
+                <button type="submit">Save</button>
+                <button onClick={() => navigate('/carrier')}>กลับ</button>
+            </form>
         </div>
-    )
+    );
 }

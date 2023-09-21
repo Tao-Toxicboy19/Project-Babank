@@ -33,11 +33,15 @@ const TreeTableNode: React.FC<FTSCrane> = ({
             >
                 <Grid item xs={2}>
                     <Box className='flex justify-start items-center'>
-                        <Typography>{FTS_name}</Typography>
-                        {result && result.some(item => item.crane_name) && (
-                            <IconButton onClick={toggleNode}>
-                                {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                            </IconButton>
+                        {result && result.some(item => item.crane_name) ? (
+                            <>
+                                <Typography>{FTS_name}</Typography>
+                                <IconButton onClick={toggleNode}>
+                                    {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                </IconButton>
+                            </>
+                        ) : (
+                            <Typography className='flex items-center mt-3'>{FTS_name}</Typography>
                         )}
                     </Box>
                 </Grid>

@@ -42,7 +42,7 @@ const cargoSlice = createSlice({
         state.error = null
       }
     },
-    setDeleteCargo: (state, action: PayloadAction<string>) => {
+    setDeleteCargo: (state, action: PayloadAction<any>) => {
       state.cargo = state.cargo.filter(
         (carrier) => carrier.cargo_id !== action.payload
       )

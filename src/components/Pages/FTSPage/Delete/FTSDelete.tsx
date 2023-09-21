@@ -14,7 +14,7 @@ export default function FTSDelete({ id }: Props) {
     const dispatch = useDispatch<any>();
 
     const handleDeleteConfirm = () => {
-        dispatch(deleteFTS(id))
+        dispatch(deleteFTS(id, setOpen))
     }
 
     const handleClickOpen = () => {

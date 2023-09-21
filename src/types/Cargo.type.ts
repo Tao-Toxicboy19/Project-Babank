@@ -1,10 +1,8 @@
 export interface Cargo {
-    cargo_id?: string;
+    cargo_id?: number;
     cargo_name: string;
-    consumption_rate: number;
-    work_rate: number;
-    category: string;
 }
+
 
 export interface CargoState {
     cargo: Cargo[];

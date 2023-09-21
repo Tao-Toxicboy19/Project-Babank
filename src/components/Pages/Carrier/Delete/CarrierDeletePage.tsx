@@ -1,15 +1,16 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteCarrier } from '../../../../store/slices/carrier.slice';
+// import { deleteCarrier } from '../../../../store/slices/carrier.slice';
 import DeleteForever from '@mui/icons-material/DeleteForever';
+import { deleteCarrier } from '../../../../store/slices/carrier.slice';
 
-export default function CarrierDeletePage({ id, result }: any) {
+export default function CarrierDeletePage({ id }: any) {
   const dispatch = useDispatch<any>();
   const [open, setOpen] = useState(false);
 
   const handleDeleteConfirm = () => {
-    dispatch(deleteCarrier(id))
+    dispatch(deleteCarrier(id, setOpen))
   }
 
   return (
@@ -28,7 +29,7 @@ export default function CarrierDeletePage({ id, result }: any) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" className='flex justify-center'>
-          {`ต้องการลบทุ่น ${result} ?`}
+          {`ต้องการลบทุ่น ?`}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" className='flex justify-center'>
