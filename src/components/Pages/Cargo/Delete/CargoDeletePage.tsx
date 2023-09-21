@@ -32,13 +32,13 @@ export default function CargoDeletePage({ id, result }: any) {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className='flex justify-center'>
-                        คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้.{id}
+                        หาคคุณลบ ID: {id} นี้จะไม่สามรถู้คืนได้
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className='flex justify-center'>
-                    <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button onClick={() => setOpen(false)}>ยกเลิก</Button>
                     <Button onClick={handleDeleteConfirm} autoFocus>
-                        Delete
+                        ลบสินค้านี้
                     </Button>
                 </DialogActions>
             </Dialog>

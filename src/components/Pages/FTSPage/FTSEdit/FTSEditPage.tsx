@@ -125,10 +125,11 @@ export default function FTSEditPage({ }: Props) {
             />
 
           </Stack>
-          <Stack direction='row' spacing={1} className="flex justify-end mt-10">
+          <Stack direction='row' spacing={1} className="flex justify-between mt-10">
             <Button
               className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
               variant="contained"
+              fullWidth
               startIcon={<ArrowBackIosIcon />}
               onClick={() => navigate('/transferstation')}>
               กลับ
@@ -137,6 +138,7 @@ export default function FTSEditPage({ }: Props) {
             <Button
               className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
               variant="contained"
+              fullWidth
               startIcon={<SaveIcon />}
               type="submit" >
               บันทึก

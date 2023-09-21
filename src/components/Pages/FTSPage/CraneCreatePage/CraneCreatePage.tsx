@@ -96,11 +96,14 @@ export default function CraneCreatePage({ }: Props) {
             <Box className="flex justify-center items-center">
                 <Card>
                     <CardContent>
-                        <Box className='flex justify-between'>
-                            <Typography component="h1" variant="h5">
-                                เพิ่มเครน
-                            </Typography>
-                            <Button variant="outlined" component={Link} to="/transferstation/create">เพิ่มทุ่น</Button>
+                        <Box className=" w-full flex justify-between gap-x-2">
+                            {/* <Typography className="flex justify-center w-full items-center">
+                  เพิ่มทุ่น
+                </Typography> */}
+                            <Button fullWidth variant="contained" component={Link} to="/transferstation/create" >เพิ่มทุ่น</Button>
+
+                            <Button fullWidth variant="contained" disabled>เพิ่มเครน</Button>
+
                         </Box>
                         <Formik
                             onSubmit={handleSubmit}

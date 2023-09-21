@@ -1,4 +1,4 @@
-import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack } from '@mui/material'
+import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack, ButtonGroup } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Link, useNavigate } from 'react-router-dom';
@@ -118,17 +118,15 @@ export default function FTSCreatePage({ }: Props) {
       <Box className="flex justify-center items-center">
         <Card>
           <CardContent>
-            <Stack direction='row' spacing={10} className="flex justify-center">
-              <Box className='flex justify-start'>
-                <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มทุ่น</Button>
-
-                <Typography component="h1" variant="h5">
+              <Box className=" w-full flex justify-between gap-x-2">
+                {/* <Typography className="flex justify-center w-full items-center">
                   เพิ่มทุ่น
-                </Typography>
+                </Typography> */}
+                <Button fullWidth variant="contained" disabled>เพิ่มทุ่น</Button>
 
-                <Button variant="outlined" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
+                <Button fullWidth variant="contained" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
+
               </Box>
-            </Stack>
             <Formik
               onSubmit={handleSubmit}
               validate={validateForm}

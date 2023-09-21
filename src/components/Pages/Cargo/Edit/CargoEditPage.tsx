@@ -1,4 +1,4 @@
-import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
+import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip, CardContent, Card } from '@mui/material'
 import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -10,6 +10,8 @@ import React from 'react';
 import { Cargo } from '../../../../types/Cargo.type';
 import { setUpdateCargo } from '../../../../store/slices/cargo.slice';
 import { updateCargo } from '../../../../store/slices/cargo.edit.slice';
+import SaveIcon from '@mui/icons-material/Save';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -38,7 +40,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                         component={TextField}
                         name='cargo_name'
                         type='text'
-                        label='ชื่อ'
+                        label='ชื่อสินค้า'
                         fullWidth
                     />
                 </Box>
@@ -46,16 +48,18 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                     <Button
                         variant="outlined"
                         onClick={() => setOpen(false)}
+                        startIcon={<ArrowBackIosIcon />}
                     >
-                        Exit
+                        กลับ
                     </Button>
                     <Button
                         variant="contained"
                         type="submit"
                         style={btnColor}
                         disabled={isSubmitting}
+                        startIcon={<SaveIcon />}
                     >
-                        Save
+                        บันทึก
                     </Button>
                 </Box>
             </Form>
@@ -71,22 +75,23 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                     <Edit className='text-emerald-700' />
                 </IconButton>
             </Tooltip>
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-                maxWidth="lg"
-                fullWidth
-            >
-                <DialogTitle>{"เพิ่มทุ่น"}</DialogTitle>
-                <DialogContent>
-                    <Formik initialValues={result} onSubmit={handleSubmit}>
-                        {(props: any) => showForm(props)}
-                    </Formik>
-                </DialogContent>
-            </Dialog>
+                    <Dialog
+                        open={open}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-describedby="alert-dialog-slide-description"
+                        fullWidth
+                    >
+                        <DialogTitle>{"แก้ไขสินค้า"}</DialogTitle>
+                        <Box className="w-[600px] ">
+                        <DialogContent>
+                            <Formik initialValues={result} onSubmit={handleSubmit}>
+                                {(props: any) => showForm(props)}
+                            </Formik>
+                        </DialogContent>
+                        </Box>
+                    </Dialog>
         </div>
     )
 }
