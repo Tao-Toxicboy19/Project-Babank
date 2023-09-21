@@ -85,7 +85,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                     </ListItemIcon>
                     <ListItemText primary="ข้อมูลสินค้าและเครน" />
                 </ListItem>
-                <ListItem button component={MyNavLink} to="/order" activeClassName="Mui-selected" exact>
+                <ListItem button component={MyNavLink} to="/orders" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>

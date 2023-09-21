@@ -26,6 +26,7 @@ import MovingTablePage from './components/Pages/Summarize/movingTable';
 import FTSPage from './components/Pages/FTSPage/FTSPage';
 import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
+import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
 
 const drawerWidth = 240;
 
@@ -77,8 +78,9 @@ function ResponsiveDrawer() {
             <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
             <Route path="/carrier" element={<CarrierPage />} />
             <Route path="/carrier/create" element={<CarrierCreate />} />
-            <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
-            <Route path="/Order" element={<OrderPage />} />
+            <Route path="/carrier/edit/:id" element={<OrderCreatePage />} />
+            <Route path="/orders" element={<OrderPage />} />
+            <Route path="/orders/create" element={<OrderCreatePage />} />
             <Route path="/cargocrane" element={<CargocranePage />} />
             <Route path="/summarize" element={< MovingTablePage />} />
             <Route path="*" element={<Navigate to="/home" />} />
