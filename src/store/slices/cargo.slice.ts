@@ -75,7 +75,7 @@ export const addCargo = (formData: FormData, setOpen: any) => {
   };
 };
 
-export const deleteCargo = (id: string) => {
+export const deleteCargo = (id: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.delete(`${server.CARGO}/${id}`)
