@@ -1,4 +1,4 @@
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
+import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
 import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -30,7 +30,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
         setSubmitting(false);
     };
 
-    const showForm = ({ values, handleChange, isSubmitting }: FormikProps<Cargo>) => {
+    const showForm = ({ isSubmitting }: FormikProps<Cargo>) => {
         return (
             <Form>
                 <Box className='flex flex-col gap-4 m-3'>
@@ -41,34 +41,6 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                         label='ชื่อ'
                         fullWidth
                     />
-                    <Field
-                        component={TextField}
-                        name='consumption_rate'
-                        type='number'
-                        label='ชื่อบริษัท'
-                        fullWidth
-                    />
-                    <Field
-                        component={TextField}
-                        name='work_rate'
-                        type='number'
-                        label='ความจุสูงสุด (ตัน)'
-                        fullWidth
-                    />
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">จำนวนเครน</InputLabel>
-                        <Field
-                            as={Select}
-                            name='category'
-                            label='จำนวนเครน'
-                            value={values.category}
-                            onChange={handleChange}
-                            fullWidth
-                        >
-                            <MenuItem value='Import'>Import</MenuItem>
-                            <MenuItem value='Export'>Export</MenuItem>
-                        </Field>
-                    </FormControl>
                 </Box>
                 <Box className="flex justify-end gap-x-3 mt-3 mx-1">
                     <Button
