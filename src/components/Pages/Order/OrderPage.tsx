@@ -6,13 +6,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, Card, CardContent, CircularProgress, InputAdornment, Stack, TableCell, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, InputAdornment, Stack, TableCell, TextField, Tooltip, Typography } from '@mui/material';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Search from '@mui/icons-material/Search';
 import { Order } from '../../../types/Order.type';
 import { columns } from './ColumnDataOrder';
+import { Link } from 'react-router-dom';
 
 
 function fixedHeaderContent() {
@@ -148,6 +149,13 @@ export default function OrderPage() {
                     />
                   </Tooltip>
                 </Stack>
+                <Button
+                  variant='outlined'
+                  component={Link}
+                  to="/orders/create"
+                >
+                  Create Order
+                </Button>
               </Box>
               <TableVirtuoso
                 data={rows}
