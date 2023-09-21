@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Form, useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, Stack, TextField } from '@mui/material';
 import { FTS } from '../../../../types/FloatingCrane.type';
+import SaveIcon from '@mui/icons-material/Save';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 type Props = {
 };
@@ -65,32 +67,83 @@ export default function FTSEditPage({ }: Props) {
   const { FTS_name, lat, lng, setuptime_FTS, speed } = FTSData;
 
   return (
-    <div>
-      <h2>Edit FTS: {FTS_name}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="FTS_name">FTS Name:</label>
-          <input type="text" id="FTS_name" name="FTS_name" value={FTS_name} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="lat">Latitude:</label>
-          <input type="number" id="lat" name="lat" value={lat} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="lng">Longitude:</label>
-          <input type="number" id="lng" name="lng" value={lng} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="setuptime_FTS">Setup Time (minutes):</label>
-          <input type="number" id="setuptime_FTS" name="setuptime_FTS" value={setuptime_FTS} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="speed">Speed:</label>
-          <input type="number" id="speed" name="speed" value={speed} onChange={handleInputChange} />
-        </div>
-        <button type="submit">Save</button>
-        <button onClick={() => navigate('/transferstation')}>กลับ</button>
-      </form>
-    </div>
+    <Card className="w-[750px] mx-auto">
+      <CardContent className="m-8">
+        <form onSubmit={handleSubmit}>
+          <Stack direction='column' spacing={1}>
+            <label className="pr-5" htmlFor="FTS_name">ชื่อทุ่น:</label>
+            <TextField
+              variant="outlined"
+              type="text"
+              id="FTS_name"
+              name="FTS_name"
+              value={FTS_name}
+              onChange={handleInputChange}
+              fullWidth
+            />
+
+            <label className="pr-5" htmlFor="lat">ละติจูด:</label>
+            <TextField
+              variant="outlined"
+              type="number" id="lat"
+              name="lat" value={lat}
+              onChange={handleInputChange}
+              fullWidth
+            />
+
+            <label htmlFor="lng">ลองติจูด:</label>
+            <TextField
+              variant="outlined"
+              type="number"
+              id="lng"
+              name="lng"
+              value={lng}
+              onChange={handleInputChange}
+              fullWidth
+            />
+
+            <label className="pr-5" htmlFor="setuptime_FTS">เวลาเตรียมการ (นาที):</label>
+            <TextField
+              variant="outlined"
+              type="number"
+              id="setuptime_FTS"
+              name="setuptime_FTS"
+              value={setuptime_FTS}
+              onChange={handleInputChange}
+              fullWidth
+            />
+
+            <label className="pr-5" htmlFor="speed">ความเร็ว:</label>
+            <TextField
+              variant="outlined"
+              type="number"
+              id="speed"
+              name="speed"
+              value={speed}
+              onChange={handleInputChange}
+              fullWidth
+            />
+
+          </Stack>
+          <Stack direction='row' spacing={1} className="flex justify-end mt-10">
+            <Button
+              className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
+              variant="contained"
+              startIcon={<ArrowBackIosIcon />}
+              onClick={() => navigate('/transferstation')}>
+              กลับ
+            </Button>
+
+            <Button
+              className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
+              variant="contained"
+              startIcon={<SaveIcon />}
+              type="submit" >
+              บันทึก
+            </Button>
+          </Stack>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

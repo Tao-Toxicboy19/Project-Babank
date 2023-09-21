@@ -105,6 +105,7 @@ export default function RegisterPage({ }: Props) {
           <Button
             fullWidth
             variant="text"
+            className="bg-[#FFF]"
             sx={{ mt: 3, mb: 2 }}
             onClick={() => navigate('/login')}
             >
@@ -134,7 +135,7 @@ export default function RegisterPage({ }: Props) {
   return (
     <ThemeProvider theme={defaultTheme}>
 
-      <Container component="main" maxWidth="sm">
+      <Container component="main" className="w-[750px]">
         <CssBaseline />
         <Box
           sx={{

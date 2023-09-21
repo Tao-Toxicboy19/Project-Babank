@@ -52,7 +52,6 @@ export default function SignIn() {
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                required
                 fullWidth
                 id="email"
                 label="ชื่อผู้ใช้งาน"
@@ -62,7 +61,6 @@ export default function SignIn() {
               />
               <TextField
                 margin="normal"
-                required
                 fullWidth
                 name="password"
                 label="รหัสผ่าน"
@@ -85,9 +83,11 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
+                  <Box className="flex">
                   <Link to={"/register"} >
-                    <Typography variant="body2">สร้างบัญชีใหม่</Typography>
+                    <Typography className="flex m-5 text-[#1695F3] font-bold" variant="body2">สร้างบัญชีใหม่</Typography>
                   </Link>
+                  </Box>
                 </Grid>
               </Grid>
             </Box>
