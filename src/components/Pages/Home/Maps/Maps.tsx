@@ -6,46 +6,41 @@ import { RootState } from '../../../../store/store';
 
 export default function Maps() {
     const FTSReducer = useSelector((state: RootState) => state.FTS);
-    const [showInfoWindow, setShowInfoWindow] = useState(false);
-    const [infoWindowPosition, setInfoWindowPosition] = useState<{ lat: number; lng: number } | null>(null);
+    const [selectedMarker, setSelectedMarker] = useState<any>(null);
     const mapStyles: React.CSSProperties = {
         height: '40vh',
         width: '100%'
     };
 
-    const toggleInfoWindow = () => {
-        setShowInfoWindow(!showInfoWindow);
-    };
-
-    const handleMarkerClick = (item: { lat: number; lng: number }) => {
-        setInfoWindowPosition(item);
-        setShowInfoWindow(true);
+    const handleMarkerClick = (marker: any) => {
+        setSelectedMarker(marker);
     };
 
     return (
         <div className="App">
-            <h1>React Google Map ตัวอย่าง</h1>
             <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
                 <GoogleMap
                     mapContainerStyle={mapStyles}
-                    zoom={14}
-                    center={{ lat: 13.186509, lng: 100.813714 }}
+                    zoom={15}
+                    center={{ lat: 13.184509, lng: 100.813714 }}
                 >
                     {FTSReducer.FTS.map((item) => (
-                        <React.Fragment key={`${item.lat}-${item.lng}`}>
-                            <Marker
-                                position={{ lat: item.lat, lng: item.lng }}
-                                onClick={() => handleMarkerClick(item)}
-                            />
-                            {showInfoWindow && infoWindowPosition && (
-                                <InfoWindow position={infoWindowPosition} onCloseClick={toggleInfoWindow}>
-                                    <div>
-                                        <p>{item.FTS_name}</p>
-                                    </div>
-                                </InfoWindow>
-                            )}
-                        </React.Fragment>
+                        <Marker
+                            key={`${item.lat}-${item.lng}`}
+                            position={{ lat: item.lat, lng: item.lng }}
+                            onClick={() => handleMarkerClick(item)}
+                        />
                     ))}
+                    {selectedMarker && (
+                        <InfoWindow
+                            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                            onCloseClick={() => setSelectedMarker(null)}
+                        >
+                            <div>
+                                <h2>{selectedMarker.FTS_name}</h2>
+                            </div>
+                        </InfoWindow>
+                    )}
                 </GoogleMap>
             </LoadScript>
         </div>
