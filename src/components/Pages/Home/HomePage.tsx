@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import MapContainerPage from "./Maps/Maps"
+import Maps from "./Maps/Maps"
 import { useEffect } from "react";
 import { loadFTS } from "../../../store/slices/FTS.slice";
 import { Box, Card, CardContent, Typography } from "@mui/material";
@@ -43,7 +43,9 @@ export default function HomePage({ }: Props) {
             </Card>
             <Card className="max-w-screen-xl">
               <CardContent>
-                <MapContainerPage />
+                {/* Import Maps */}
+                <Maps />
+                {/* Import Maps */}
               </CardContent>
             </Card>
           </Box>
