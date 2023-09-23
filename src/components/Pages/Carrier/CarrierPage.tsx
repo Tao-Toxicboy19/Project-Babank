@@ -10,14 +10,13 @@ import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { Box, CircularProgress, Fab, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Search from '@mui/icons-material/Search';
 import { Carrier } from '../../../types/Carrier.type';
 import { columns } from './ColumnDataCarrier';
 import CarrierDeletePage from './Delete/CarrierDeletePage';
 import { Link } from 'react-router-dom';
 import Add from '@mui/icons-material/Add';
-import { loadCarrier } from '../../../store/slices/carrier.slice';
 import { LuFileEdit } from 'react-icons/lu';
 
 
@@ -75,19 +74,11 @@ function rowContent(_index: number, row: Carrier) {
 export default function CarrierPage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const carrierReducer = useSelector((state: RootState) => state.carrier);
-  const dispatch = useDispatch<any>();
 
   // search
   const filteredData = (carrierReducer.carrier).filter((item) =>
     item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(loadCarrier())
-    };
-    fetchData();
-  }, [dispatch]);
 
   const rows: Carrier[] = filteredData.map((items) => ({
     cr_id: items.cr_id,

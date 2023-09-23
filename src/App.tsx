@@ -13,8 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { restoreLogin } from './store/slices/login.slice';
 import LoginPage from './components/Pages/LoginPage/LoginPage';
 import HomePage from './components/Pages/Home/HomePage';
-import { loadCargo } from './store/slices/cargo.slice';
-import { loadOrder } from './store/slices/order.slice';
 import { RootState } from './store/store';
 import PublicRoute from './utlis/PublicRoute';
 import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCreatePage';
@@ -29,18 +27,10 @@ import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 
 const drawerWidth = 240;
 
-function ResponsiveDrawer() {
+export default function ResponsiveDrawer() {
   const dispatch = useDispatch<any>();
   const loginReducer = useSelector((state: RootState) => state.login);
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(loadCargo())
-      await dispatch(loadOrder())
-    };
-    fetchData();
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(restoreLogin())
@@ -89,5 +79,3 @@ function ResponsiveDrawer() {
     </Box>
   );
 }
-
-export default ResponsiveDrawer;
