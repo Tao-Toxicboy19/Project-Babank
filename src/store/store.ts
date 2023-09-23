@@ -17,6 +17,7 @@ import FTSsolutionV2Slice from './slices/FTSsolutionV2.slice';
 import FTSEditSlice from './slices/FTS.edit.slice';
 import craneSlice from './slices/crane.edit.slice';
 import craneEditSlice from './slices/crane.edit.slice';
+import registerReducer from './slices/register.slice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -42,6 +43,7 @@ export const store = configureStore({
     cargoCrane: cargoCraneReducer,
     cargoCraneEdit: cargoCraneEditReducer,
     login: loginReducer,
+    register: registerReducer,
   },
   middleware: middleware,
 });

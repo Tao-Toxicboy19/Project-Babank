@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { LoginResult } from "../../types/authen.type";
-import { server, TOKEN } from "../../Constants";
+import { server } from "../../Constants";
 import { RootState } from "../store";
-import { Login } from "../../types/User.type";
+import { Login, LoginResult } from "../../types/User.type";
 import { httpClient } from "../../utlis/httpclient";
 
 interface LoginState {
@@ -48,15 +47,16 @@ export const { setLoginStart, setLoginSuccess, setLoginFailed, setLogout } = log
 export default loginSlice.reducer;
 
 
-export const login = (user: Login): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const login = (user: Login, navigate: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setLoginStart());
         const result = await httpClient.post<LoginResult>(server.LOGIN_URL, user);
         if (result.data.token) {
-            localStorage.setItem(TOKEN, result.data.token);
+            localStorage.setItem('token', result.data.token);
             dispatch(setLoginSuccess(result.data));
             // dispatch(setUser(result.data));
             alert('Login successfully');
+            navigate('/transferstation')
         } else {
             dispatch(setLoginFailed());
         }
@@ -67,18 +67,17 @@ export const login = (user: Login): ThunkAction<void, RootState, unknown, any> =
 
 export const restoreLogin = () => {
     return (dispatch: any) => {
-        const token = localStorage.getItem(TOKEN)
+        const token = localStorage.getItem('token')
         if (token) {
             dispatch(setLoginSuccess({ message: "Successfully", token }))
         }
     }
 }
 
-export const loutout = (navigate: any) => {
+export const logout = () => {
     return (dispatch: any) => {
-        localStorage.removeItem(TOKEN)
-        dispatch(setLogout())
-        alert('logout')
-        navigate('/login')
-    }
-}
+        localStorage.removeItem('token');
+        alert('logged out');
+        dispatch(setLogout());
+    };
+};

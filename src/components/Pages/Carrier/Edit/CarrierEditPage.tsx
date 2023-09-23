@@ -7,7 +7,7 @@ import { Carrier } from '../../../../types/Carrier.type';
 
 type Props = {};
 
-export default function CraneEditPage({ }: Props) {
+export default function CarrierEditPage({ }: Props) {
     const [Carrier, setCarrier] = useState<Carrier | null>(null);
     const { id } = useParams();
     const navigate = useNavigate()

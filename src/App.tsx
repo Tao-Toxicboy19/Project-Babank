@@ -10,7 +10,6 @@ import OrderPage from './components/Pages/Order/OrderPage';
 import PrivateRoute from './utlis/PrivateRoute';
 import CargocranePage from './components/Pages/Cargocrane/CargoCranePage';
 import { useDispatch, useSelector } from 'react-redux';
-import { TOKEN } from './Constants';
 import { restoreLogin } from './store/slices/login.slice';
 import LoginPage from './components/Pages/LoginPage/LoginPage';
 import HomePage from './components/Pages/Home/HomePage';
@@ -25,8 +24,8 @@ import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
 import MovingTablePage from './components/Pages/Summarize/movingTable';
 import FTSPage from './components/Pages/FTSPage/FTSPage';
 import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
-import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
+import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 
 const drawerWidth = 240;
 
@@ -38,7 +37,6 @@ function ResponsiveDrawer() {
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(loadCargo())
-      // await dispatch(loadCargoCrane())
       await dispatch(loadOrder())
     };
     fetchData();
@@ -48,8 +46,6 @@ function ResponsiveDrawer() {
     dispatch(restoreLogin())
   }, []);
 
-  const Token = localStorage.getItem(TOKEN);
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -57,39 +53,36 @@ function ResponsiveDrawer() {
   return (
     <Box sx={{ display: 'flex' }} className=' bg-gradient-to-bl from-[#5FBCFF] to-[#FFF] w-full h-full min-h-screen'>
       <CssBaseline />
-      {/* {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
-      {loginReducer.data && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />} */}
-      <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
-      <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />
+      {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
+      {loginReducer.data && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />}
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Box sx={{ marginTop: 8 }}>
           <Routes>
-            {/* <Route element={<PrivateRoute token={Token} />}> */}
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/cargo" element={<CargoPage />} />
-            {/* <Route path="/" element={<Maps />} /> */}
-            <Route path="/transferstation" element={<FTSPage />} />
-            <Route path="/transferstation/create" element={<FTSCreatePage />} />
-            <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
-            <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
-            <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
-            <Route path="/carrier" element={<CarrierPage />} />
-            <Route path="/carrier/create" element={<CarrierCreate />} />
-            <Route path="/carrier/edit/:id" element={<OrderCreatePage />} />
-            <Route path="/orders" element={<OrderPage />} />
-            <Route path="/orders/create" element={<OrderCreatePage />} />
-            <Route path="/cargocrane" element={<CargocranePage />} />
-            <Route path="/summarize" element={< MovingTablePage />} />
-            <Route path="*" element={<Navigate to="/home" />} />
-            {/* </Route> */}
-            {/* <Route element={<PublicRoute token={Token} />}> */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-            {/* </Route> */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/cargo" element={<CargoPage />} />
+              <Route path="/transferstation" element={<FTSPage />} />
+              <Route path="/transferstation/create" element={<FTSCreatePage />} />
+              <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
+              <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
+              <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
+              <Route path="/carrier" element={<CarrierPage />} />
+              <Route path="/carrier/create" element={<CarrierCreate />} />
+              <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
+              <Route path="/orders" element={<OrderPage />} />
+              <Route path="/orders/create" element={<OrderCreatePage />} />
+              <Route path="/cargocrane" element={<CargocranePage />} />
+              <Route path="/summarize" element={< MovingTablePage />} />
+              <Route path="*" element={<Navigate to="/home" />} />
+            </Route>
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+            </Route>
           </Routes>
         </Box>
       </Box>

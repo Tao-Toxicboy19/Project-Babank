@@ -1,11 +1,14 @@
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom'
+import { RootState } from '../store/store';
 
 type PrivateRouteProps = {
-    token: string | null;
 };
 
-export default function PrivateRoute({ token }: PrivateRouteProps) {
+export default function PrivateRoute({ }: PrivateRouteProps) {
+    const loginReducer = useSelector((state: RootState) => state.login);
+
     return (
-        token ? <Outlet /> : <Navigate to='login' />
+        (loginReducer.data) ? <Outlet /> : <Navigate to='login' />
     )
 }

@@ -1,4 +1,4 @@
-import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Grid, Card, CardContent, Stack } from '@mui/material'
+import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Grid, Card, CardContent, Stack, Alert } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 // import { useDispatch } from 'react-redux';
@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { Register } from '../../../types/User.type';
 import Logo1 from '../../../assets/images/LO1.png' // จากตรงนี้
 import Logo2 from '../../../assets/images/LO2.png' // จากตรงนี้
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../../store/slices/register.slice';
+import { RootState } from '../../../store/store';
 
 
 type Props = {}
@@ -16,18 +19,12 @@ const defaultTheme = createTheme();
 
 export default function RegisterPage({ }: Props) {
   const navigate = useNavigate()
-  // const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<any>();
+  const RegisterReducer = useSelector((state: RootState) => state.register);
 
   const handleSubmit = async (values: Register, { isSubmitting }: any) => {
-    try {
-      const response = await axios.post('http://localhost:5018/api/register', values);
-      navigate('/login')
-      console.log(response.data);
-      isSubmitting(false)
-    } catch (error: any) {
-      console.error(error.response.data);
-      // แสดงข้อผิดพลาดที่เกิดขึ้นเช่น อีเมล์ซ้ำกัน
-    }
+    dispatch(register(values, navigate))
+    isSubmitting(false)
   };
 
   const validationSchema = Yup.object().shape({
@@ -101,6 +98,7 @@ export default function RegisterPage({ }: Props) {
             />
           </Grid>
         </Grid>
+        {(RegisterReducer.error) && <Alert severity="error" className='my-3'>อีเมลนี้ถูกใช้ไปแล้ว</Alert>}
         <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
           <Button
             fullWidth
@@ -108,8 +106,8 @@ export default function RegisterPage({ }: Props) {
             className="bg-[#FFF]"
             sx={{ mt: 3, mb: 2 }}
             onClick={() => navigate('/login')}
-            >
-              กลับไปหน้า เข้าสู่ระบบ
+          >
+            กลับไปหน้า เข้าสู่ระบบ
           </Button>
 
           <Button
@@ -120,7 +118,7 @@ export default function RegisterPage({ }: Props) {
             className='bg-[#1976D2] hover:bg-[#1563BC]'
             disabled={isSubmitting}
           >
-            ดำเนินการต่อ
+            สร้างบัญชี
           </Button>
         </Stack>
       </Form>
@@ -166,7 +164,8 @@ export default function RegisterPage({ }: Props) {
                 </Typography>
               </Box>
 
-              <Formik onSubmit={handleSubmit}
+              <Formik
+                onSubmit={handleSubmit}
                 validate={validateForm}
                 initialValues={initialValues}
                 validationSchema={validationSchema}

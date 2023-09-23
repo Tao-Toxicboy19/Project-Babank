@@ -1,4 +1,4 @@
-import { Divider, Drawer, ListItem, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
+import { Divider, Drawer, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import DirectionsBoatFilledIcon from '@mui/icons-material/DirectionsBoatFilled';
 import SupportIcon from '@mui/icons-material/Support';
@@ -6,15 +6,14 @@ import LayersIcon from '@mui/icons-material/Layers';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useDispatch } from 'react-redux';
-import { loutout } from '../../../store/slices/login.slice';
 import PollIcon from '@mui/icons-material/Poll';
+import { logout } from '../../../store/slices/login.slice';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const dispatch = useDispatch<any>();
-    const navigate = useNavigate()
 
     const MyNavLink = React.forwardRef<any, any>((props, ref) => {
         return (
@@ -100,17 +99,16 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
             </Stack>
             <Divider />
             <Stack sx={{ position: 'absolute', bottom: 10, width: '100%' }}>
-                <ListItem button component={MyNavLink} to="/login" activeClassName="Mui-selected" exact>
-                    <ListItemIcon
-                        onClick={() => {
-                            dispatch(loutout(navigate))
-                        }}>
+                <ListItemButton
+                    onClick={() => dispatch(logout())}
+                >
+                    <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>
                     <ListItemText primary="Logout" />
-                </ListItem>
+                </ListItemButton>
             </Stack>
-        </div>
+        </div >
     );
 
     return (
