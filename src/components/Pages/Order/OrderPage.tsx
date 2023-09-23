@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, Button, Card, CardContent, CircularProgress, InputAdornment, Stack, TableCell, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, InputAdornment, Stack, TableCell, TextField, Tooltip, Typography } from '@mui/material';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';

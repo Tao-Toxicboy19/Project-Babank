@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TreeNode from './TreeNode';
-import { Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom';

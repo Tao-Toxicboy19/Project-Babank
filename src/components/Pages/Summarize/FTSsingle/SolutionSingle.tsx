@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 
 type Props = {
     selectedValue: string

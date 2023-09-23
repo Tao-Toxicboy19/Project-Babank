@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 import { btnColor } from '../../../../style/Styles'
-import { Cargo } from '../../../../types/Cargo.type';
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack, Divider } from '@mui/material'
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { TextField } from 'formik-material-ui';
-import { useDispatch } from 'react-redux';
+import { Button, Box, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import axios from 'axios';
 import { server } from '../../../../Constants';
-import { addCargo } from '../../../../store/slices/cargo.slice';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -26,7 +21,6 @@ const Transition = React.forwardRef(function Transition(
 
 export default function CargoCreate({ }: Props) {
     const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch<any>();
     const [cargoNames, setCargoNames] = useState<string[]>([]);
     const [newCargoName, setNewCargoName] = useState<string>('');
 

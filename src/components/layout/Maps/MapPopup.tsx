@@ -13,7 +13,6 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Tooltip } from '@mui/material';
-import { Floating } from '../../../types/FloatingCrane.type';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -31,7 +30,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-export default function MapPopup({ result }: Floating | any) {
+export default function MapPopup({ result }: any) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

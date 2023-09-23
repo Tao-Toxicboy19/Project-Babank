@@ -1,11 +1,8 @@
 import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Login } from '../../../../types/User.type';
-import { FTS } from '../../../../types/FloatingCrane.type';
-import { addFTS } from '../../../../store/slices/FTS.slice';
 import { Carrier } from '../../../../types/Carrier.type';
 import { addCarrier } from '../../../../store/slices/carrier.slice';
 

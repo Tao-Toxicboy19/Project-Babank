@@ -7,17 +7,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, Card, CardContent, CircularProgress, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { RootState } from '../../../store/store';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Search from '@mui/icons-material/Search';
 import { Cargo } from '../../../types/Cargo.type';
 import { columns } from './ColumnDataCargo';
-import CargoInsertPage from './CargoCreatePage/CargoInsertPage';
 import CargoEditPage from './Edit/CargoEditPage';
 import CargoDeletePage from './Delete/CargoDeletePage';
-import CargoCreate from './CargoCreatePage/CargoInsertPage';
 import CargoCreatePage from './CargoCreatePage/CargoInsertPage';
 
 
@@ -67,15 +63,9 @@ function rowContent(_index: number, row: Cargo) {
 
 
 export default function CargoPage() {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const cargoReducer = useSelector((state: RootState) => state.cargo);
 
-  // search
-  const filteredData = (cargoReducer.cargo).filter((item) =>
-    item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const rows: Cargo[] = filteredData.map((items) => ({
+  const rows: Cargo[] = (cargoReducer.cargo).map((items) => ({
     cargo_id: items.cargo_id,
     cargo_name: items.cargo_name,
   }));

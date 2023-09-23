@@ -1,8 +1,6 @@
 import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Grid, Card, CardContent, Stack, Alert } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-// import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { Register } from '../../../types/User.type';
