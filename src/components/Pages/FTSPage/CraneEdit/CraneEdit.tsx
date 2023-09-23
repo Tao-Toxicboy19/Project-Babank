@@ -6,6 +6,9 @@ import { Box, Button, Card, CardContent, CircularProgress, FormControl, InputLab
 import { Crane } from '../../../../types/crane.type';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { RootState } from '../../../../store/store';
+import { useSelector } from 'react-redux';
+import { FTS } from '../../../../types/FloatingCrane.type';
 
 type Props = {};
 
@@ -13,6 +16,8 @@ export default function CraneEditPage({ }: Props) {
     const [craneData, setCraneData] = useState<Crane | null>(null);
     const { id } = useParams();
     const navigate = useNavigate()
+    const FTSSlice = useSelector((state: RootState) => state.FTS);
+
 
     useEffect(() => {
         const fetchCraneData = async () => {
@@ -26,10 +31,19 @@ export default function CraneEditPage({ }: Props) {
         fetchCraneData();
     }, [id]);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSelectChange = (event: any) => {
+        const value = event.target.value as number;
+        setCraneData((prevCraneData: any) => ({
+            ...prevCraneData!,
+            FTS_id: value,
+        }));
+    };
+
+
+    const handleInputChange = (event: any) => {
         const { name, value } = event.target;
 
-        setCraneData((prevCraneData: any ) => ({
+        setCraneData((prevCraneData: any) => ({
             ...prevCraneData!,
             [name]: value,
         }));
@@ -67,24 +81,6 @@ export default function CraneEditPage({ }: Props) {
 
     return (
         <div>
-            {/* <h2>Edit Crane: {crane_name}</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="crane_name">Crane Name:</label>
-                    <input type="text" id="crane_name" name="crane_name" value={crane_name} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label htmlFor="FTS_id">FTS ID:</label>
-                    <input type="number" id="FTS_id" name="FTS_id" value={FTS_id} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label htmlFor="setuptime_crane">Setup Time (minutes):</label>
-                    <input type="number" id="setuptime_crane" name="setuptime_crane" value={setuptime_crane} onChange={handleInputChange} />
-                </div>
-                <button type="submit">Save</button>
-                <button onClick={() => navigate('/transferstation')}>กลับ</button>
-            </form> */}
-
             <Card>
                 <CardContent className="m-8">
                     <form onSubmit={handleSubmit}>
@@ -118,11 +114,13 @@ export default function CraneEditPage({ }: Props) {
                                     id="FTS_id"
                                     value={FTS_id}
                                     label="Age"
-                                    onChange={handleInputChange}
+                                    onChange={handleSelectChange}
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {(FTSSlice.FTS).map((item: FTS) => (
+                                        <MenuItem key={item.fts_id} value={item.fts_id}>
+                                            {item.FTS_name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
 
@@ -158,8 +156,6 @@ export default function CraneEditPage({ }: Props) {
                     </form>
                 </CardContent>
             </Card>
-
-
         </div>
     );
 }

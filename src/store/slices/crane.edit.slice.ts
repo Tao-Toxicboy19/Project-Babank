@@ -9,7 +9,7 @@ const initialState: CraneEditState = {
     error: null
 }
 
-const CraneSlice = createSlice({
+const CraneEditSlice = createSlice({
     name: 'Crane',
     initialState,
     reducers: {
@@ -31,8 +31,8 @@ const CraneSlice = createSlice({
     }
 })
 
-export const { setCraneEditState, setCraneEditSuccess, setCraneEditFailure } = CraneSlice.actions
-export default CraneSlice.reducer
+export const { setCraneEditState, setCraneEditSuccess, setCraneEditFailure } = CraneEditSlice.actions
+export default CraneEditSlice.reducer
 
 
 export const addCrane = (formData: FormData, navigate: any) => {
@@ -47,14 +47,6 @@ export const addCrane = (formData: FormData, navigate: any) => {
     };
 };
 
-export const updateCrane = (formData: FormData, navigate: any, id: any) => {
-    return async () => {
-        await httpClient.put(`${server.CRANE}/${id}`, formData)
-        alert('Successfully')
-        navigate('/transferstation')
-    }
-}
-
 export const getCraneById = (id: any) => {
     return async (dispatch: any) => {
         try {
@@ -67,5 +59,14 @@ export const getCraneById = (id: any) => {
             alert(JSON.stringify(error))
             dispatch(setCraneEditFailure("hello"))
         }
+    }
+}
+
+
+export const updateCrane = (formData: FormData, navigate: any, id: any) => {
+    return async () => {
+        await httpClient.put(`${server.CRANE}/${id}`, formData)
+        alert('Successfully')
+        navigate('/transferstation')
     }
 }

@@ -16,6 +16,7 @@ import craneSolutionSlice from './slices/craneSolution.slice';
 import FTSsolutionV2Slice from './slices/FTSsolutionV2.slice';
 import FTSEditSlice from './slices/FTS.edit.slice';
 import craneSlice from './slices/crane.edit.slice';
+import craneEditSlice from './slices/crane.edit.slice';
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -32,6 +33,7 @@ export const store = configureStore({
     FTSSolutionV2: FTSsolutionV2Slice,
     FTSEdit: FTSEditSlice,
     Crane: craneSlice,
+    CraneEdit: craneEditSlice,
     // floating: floatingReducer,
     carrier: carrierReducer,
     carrierEdit: carrierEditReducer,
