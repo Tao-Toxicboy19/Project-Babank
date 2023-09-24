@@ -16,19 +16,17 @@ export default function TreeNode({ crane_name, category_v1 }: TreeNodeProps) {
     return (
         <>
             <Box
-                className='grid grid-cols-5'
+                className='grid grid-cols-6 bg-amber-300'
             >
-                <Box className='col-span-1 '>
-                    <Typography
-                        className='flex justify-center items-center border-b-[1px]'
-                    >
+                <Box className=''>
+                    <Typography>
                         <IconButton onClick={toggleNode}>
                             {isOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
                         </IconButton>
                         {crane_name}
                     </Typography>
                 </Box>
-                <Box className='col-span-4'>
+                <Box className='col-span-5'>
                     {isOpen && category_v1.map((items, index) => (
                         <CargoList
                             key={index}

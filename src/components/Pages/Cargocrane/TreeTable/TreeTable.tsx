@@ -6,12 +6,12 @@ export default function TreeTable({ FTScraneCargoReducer }: any) {
     return (
         <>
             <Box
-                className='border-b-[1px] grid grid-cols-12 gap-x-2'
+                className='border-b-[1px] grid grid-cols-7 gap-x-2'
             >
-                {['ชื่อทุ่น', 'เครนลำดับที่', 'สถานะสินค้า (ขาเข้า/ขาออก)', 'ชื่อสินค้า', 'อัตราการขนถ่ายสินค้า (ตัน/ชม.)', 'อัตราการใช้น้ำมัน (ลิตร/ตัน)'].map((item, index) => (
+                {['ชื่อทุ่น', 'เครนลำดับที่', 'สถานะสินค้า (ขาเข้า/ขาออก)', 'ชื่อสินค้า', 'อัตราการขนถ่ายสินค้า (ตัน/ชม.)', 'อัตราการใช้น้ำมัน (ลิตร/ตัน)','แก้ไข'].map((item, index) => (
                     <Box
                         key={index}
-                        className='col-span-2'
+                        className='col-span-1'
                     >
                         <Typography
                             className='flex justify-center'

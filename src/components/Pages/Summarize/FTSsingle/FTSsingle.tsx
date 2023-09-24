@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, InputLabel, MenuItem, Select, Button, Card, CardContent, Stack } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Card, CardContent, Stack } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { loadFTSsolution } from '../../../../store/slices/FTSsolution.slice';
 import { RootState } from '../../../../store/store';
-import SolutionSingle from './SolutionSingle'; // นำเข้าคอมโพเนนต์ SolutionSingle ของคุณ
+import SolutionSingle from './SolutionSingle';
+import RoutesLayout from './RoutesLayout/RoutesPage';
 
 type Props = {};
 
@@ -38,7 +39,7 @@ export default function FTSsingle({ }: Props) {
                     setSubmitting(false);
                 }}
             >
-                {({ errors, touched, isSubmitting }) => (
+                {({ errors, touched, setFieldValue }) => (
                     <Form>
                         <Card className="mt-5" sx={{ maxWidth: 505 }}>
                             <CardContent>
@@ -51,6 +52,10 @@ export default function FTSsingle({ }: Props) {
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                             label="Age"
+                                            onChange={(event: any) => {
+                                                setFieldValue("selectedValue", event.target.value);
+                                                setSelectedValue(event.target.value);
+                                            }}
                                         >
                                             {FTSsolutionSlice.result.map((item) => (
                                                 <MenuItem key={item.FTS_name} value={item.FTS_name}>
@@ -62,22 +67,14 @@ export default function FTSsingle({ }: Props) {
                                             <div className="error">{errors.selectedValue}</div>
                                         )}
                                     </FormControl>
-                                    <Button
-                                        variant="outlined"
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                    >
-                                        ตกลง
-                                    </Button>
                                 </Stack>
-
                                 <SolutionSingle selectedValue={selectedValue} findSelectedData={findSelectedData} />
                             </CardContent>
-                        </Card >
+                        </Card>
                     </Form>
                 )}
             </Formik>
+            <RoutesLayout selectedValue={selectedValue} />
         </>
     );
 }
-

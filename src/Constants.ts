@@ -1,13 +1,12 @@
 export const titles = [
-    'ทุ่น',
-    'ลำดับเครน',
-    'กำไร',
-    'รายรับรวม',
-    'ต้นทุนรวม',
-    'รายรับจากการขนถ่ายสินค้า',
-    'รายรับจากรางวัล',
-    'ค่าแรง',
-    'ค่าทำโทษ',
+    'FTS_name',
+    'location_name',
+    'Latitude',
+    'Longtitude',
+    'Arrival Date Time',
+    'Exit Date Time',
+    'operation_time',
+    'travel_here_Distance',
 ]
 
 export const NETWORK_CONNECTION_MESSAGE =
@@ -29,7 +28,7 @@ export const server = {
     CRANESOLUTIONTABLE: `cranesolutiontable`,
     FTSSOLUTION: `ftssolution`,
     CRANESOLUTION: `cranesolution`,
-    CRANE:`crane`
+    CRANE: `crane`
 };
 
 export const YES = "YES";
