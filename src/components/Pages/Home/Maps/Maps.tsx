@@ -21,7 +21,7 @@ export default function Maps() {
             <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
                 <GoogleMap
                     mapContainerStyle={mapStyles}
-                    zoom={15}
+                    zoom={14}
                     center={{ lat: 13.184509, lng: 100.813714 }}
                 >
                     {FTSReducer.FTS.map((item) => (
