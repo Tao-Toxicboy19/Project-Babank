@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import Maps from "./Maps/Maps"
 import { useEffect } from "react";
 import { loadFTS } from "../../../store/slices/FTS.slice";
 import { Box, Card, CardContent, Typography } from "@mui/material";
@@ -11,6 +10,8 @@ import { RootState } from "../../../store/store";
 import { loadCarrier } from "../../../store/slices/carrier.slice";
 import { loadCargo } from "../../../store/slices/cargo.slice";
 import { loadOrder } from "../../../store/slices/order.slice";
+import FTSMaps from "./Maps/FTSMaps";
+import CarrierMaps from "./Maps/CarrierMaps";
 
 
 type Props = {}
@@ -41,19 +42,25 @@ export default function HomePage({ }: Props) {
                 </Typography>
               </CardContent>
             </Card>
-            <Card className="max-w-screen-xl">
-              <CardContent>
-                {/* Import Maps */}
-                <Maps />
-                {/* Import Maps */}
-              </CardContent>
-            </Card>
+
           </Box>
-          <Box className='col-span-4 flex flex-col gap-y-5'>
+          <Box className='col-span-12 grid grid-cols-4 gap-5'>
             <StockCard icon={GiCargoCrane} title="เรือเครน" subtitle={`${(FTSReducer.FTS).length} ลำ`} color="#00a65a" />
             <StockCard icon={GiCargoShip} title="เรือขนสินค้า" subtitle={`${(CarrierReducer.carrier).length} ลำ`} color="#f39c12" />
             <StockCard icon={BsBoxSeam} title="สินค้า" subtitle={`${(CargoReducer.cargo).length} ประเภท`} color="#dd4b39" />
             <StockCard icon={HiOutlineClipboardDocumentList} title="ขนถ่ายสินค้า" subtitle={`${(OrderReducer.orders).length} รายการ`} color="#00c0ef" />
+          </Box>
+          <Box className='col-span-full grid grid-cols-2 gap-5 my-5'>
+            <Card className="">
+              <CardContent>
+                <FTSMaps />
+              </CardContent>
+            </Card>
+            <Card className="">
+              <CardContent>
+                <CarrierMaps />
+              </CardContent>
+            </Card>
           </Box>
         </Box>
       </CardContent>

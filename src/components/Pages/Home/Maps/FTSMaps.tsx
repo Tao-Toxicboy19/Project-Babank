@@ -4,9 +4,16 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 
 
-export default function Maps() {
+export default function FTSMaps() {
     const FTSReducer = useSelector((state: RootState) => state.FTS);
     const [selectedMarker, setSelectedMarker] = useState<any>(null);
+
+    const latitudes = FTSReducer.FTS.map((item) => item.lat);
+    const longitudes = FTSReducer.FTS.map((item) => item.lng);
+
+    const averageLat = latitudes.reduce((sum, current) => sum + current, 0) / latitudes.length;
+    const averageLng = longitudes.reduce((sum, current) => sum + current, 0) / longitudes.length;
+
     const mapStyles: React.CSSProperties = {
         height: '40vh',
         width: '100%'
@@ -22,7 +29,7 @@ export default function Maps() {
                 <GoogleMap
                     mapContainerStyle={mapStyles}
                     zoom={14}
-                    center={{ lat: 13.184509, lng: 100.813714 }}
+                    center={{ lat: averageLat, lng: averageLng }}
                 >
                     {FTSReducer.FTS.map((item) => (
                         <Marker
