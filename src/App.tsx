@@ -25,6 +25,8 @@ import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
 import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 import Loading from './components/layout/Loading/Loading';
+import NotFound from './components/layout/ERR_REPORT/PageNotFound';
+
 
 const drawerWidth = 240;
 
@@ -53,7 +55,7 @@ export default function ResponsiveDrawer() {
         <Box sx={{ marginTop: 8 }}>
           <Routes>
             <Route element={<PrivateRoute />}>
-              <Route path="/home" element={<HomePage />} />
+              <Route path="/home" element={<NotFound />} />
               <Route path="/cargo" element={<CargoPage />} />
               <Route path="/transferstation" element={<FTSPage />} />
               <Route path="/transferstation/create" element={<FTSCreatePage />} />

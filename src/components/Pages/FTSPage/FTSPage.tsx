@@ -4,6 +4,7 @@ import { Box, Card, CardContent, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFTS } from '../../../store/slices/FTS.slice';
 import { RootState } from '../../../store/store';
+import Loading from '../../layout/Loading/Loading';
 
 type Props = {}
 
@@ -19,16 +20,7 @@ export default function FTSPage({ }: Props) {
     <Card sx={{ minHeight: '85vh' }} className="bg-[#FFF] backdrop-blur-xl">
       <CardContent>
         {FTSReducer.loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%"
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          <Loading />
         ) : (
           <TreeTable FTSReducer={(FTSReducer.FTS)} />
         )}
