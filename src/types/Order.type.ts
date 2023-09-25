@@ -17,20 +17,15 @@
 export interface Order {
     or_id: number;
     carrier_name: string;
-    category: Category;
+    category: string;
     cargo_name: string;
     load: number;
     bulk: number;
-    arrival_time: Date;
-    deadline_time: Date;
+    arrival_time: any;
+    deadline_time: any;
     latitude: number;
     longitude: number;
     maxFTS: number;
-}
-
-export enum Category {
-    Export = "export",
-    Import = "import",
 }
 
 

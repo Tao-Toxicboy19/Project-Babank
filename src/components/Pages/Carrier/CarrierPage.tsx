@@ -124,7 +124,7 @@ export default function CarrierPage() {
           <Typography>Error: {carrierReducer.error}</Typography>
         ) : (
           <>
-            <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
+            <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
               <Box className='flex justify-between m-5'>
                 <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                   <Tooltip title="ค้นหา">
@@ -154,7 +154,8 @@ export default function CarrierPage() {
                       color="primary"
                       aria-label="add"
                       size='small'
-                      className='bg-blue-500 hover:bg-blue-700'
+                      className='bg-blue-500 hover:bg-blue-700 mt-5'
+                      
                     >
                       <Add />
                     </Fab>

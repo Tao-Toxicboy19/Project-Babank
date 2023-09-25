@@ -15,6 +15,7 @@ import { columns } from './ColumnDataCargo';
 import CargoEditPage from './Edit/CargoEditPage';
 import CargoDeletePage from './Delete/CargoDeletePage';
 import CargoCreatePage from './CargoCreatePage/CargoInsertPage';
+import Loading from '../../layout/Loading/Loading';
 
 
 function fixedHeaderContent() {
@@ -92,16 +93,7 @@ export default function CargoPage() {
     <>
       {
         cargoReducer.loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%"
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          <Loading />
         ) : cargoReducer.error ? (
           <Typography>Error: {cargoReducer.error}</Typography>
         ) : (

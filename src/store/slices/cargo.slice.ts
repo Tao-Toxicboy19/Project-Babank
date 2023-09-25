@@ -57,7 +57,9 @@ export const loadCargo = (): ThunkAction<void, RootState, unknown, any> => async
   try {
     dispatch(setCargoStart())
     const result = await httpClient.get(server.CARGO)
-    dispatch(setCargoSuccess(result.data))
+    setTimeout(() => {
+      dispatch(setCargoSuccess(result.data))
+    }, 1500);
   }
   catch (error) {
     dispatch(setCargoFailure("Failed to fetch CARGO data"))

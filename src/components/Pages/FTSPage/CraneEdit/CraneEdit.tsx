@@ -81,39 +81,29 @@ export default function CraneEditPage({ }: Props) {
 
     return (
         <div>
-            <Card>
-                <CardContent className="m-8">
+            <Card className="max-w-[720px] mx-auto">
+                <CardContent className="m-4">
                     <form onSubmit={handleSubmit}>
-                        <Stack direction='column' spacing={1}>
-                            <label className="pr-5" htmlFor="FTS_name">ชื่อทุ่น:</label>
-                            <TextField
-                                variant="outlined"
-                                type="text"
-                                id="crane_name"
-                                name="crane_name"
-                                value={crane_name}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-
-                            <label className="pr-5" htmlFor="lat">เลือกทุ่น</label>
-                            <TextField
-                                variant="outlined"
-                                type="number"
-                                id="FTS_id"
-                                name="FTS_id"
-                                value={FTS_id}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-
+                        <Stack direction='column' spacing={3}>
+                            <Box>
+                                <label className="pr-5" htmlFor="FTS_name">ชื่อเครน:</label>
+                                <TextField
+                                    variant="outlined"
+                                    type="text"
+                                    id="crane_name"
+                                    name="crane_name"
+                                    value={crane_name}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Box>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                                <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="FTS_id"
                                     value={FTS_id}
-                                    label="Age"
+                                    label="เลือกทุ่น"
                                     onChange={handleSelectChange}
                                 >
                                     {(FTSSlice.FTS).map((item: FTS) => (
@@ -123,22 +113,23 @@ export default function CraneEditPage({ }: Props) {
                                     ))}
                                 </Select>
                             </FormControl>
-
-                            <label htmlFor="lng">ลองติจูด:</label>
-                            <TextField
-                                variant="outlined"
-                                type="number"
-                                id="setuptime_crane"
-                                name="setuptime_crane"
-                                value={setuptime_crane}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-
+                            <Box>
+                                <label htmlFor="lng">เวลาเตรียมการ:</label>
+                                <TextField
+                                    variant="outlined"
+                                    type="number"
+                                    id="setuptime_crane"
+                                    name="setuptime_crane"
+                                    value={setuptime_crane}
+                                    onChange={handleInputChange}
+                                    fullWidth
+                                />
+                            </Box>
                         </Stack>
-                        <Stack direction='row' spacing={1} className="flex justify-end mt-10">
+                        <Stack direction='row' spacing={1} className='mt-5'>
                             <Button
                                 className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
+                                fullWidth
                                 variant="contained"
                                 startIcon={<ArrowBackIosIcon />}
                                 onClick={() => navigate('/transferstation')}>
@@ -147,6 +138,7 @@ export default function CraneEditPage({ }: Props) {
 
                             <Button
                                 className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
+                                fullWidth
                                 variant="contained"
                                 startIcon={<SaveIcon />}
                                 type="submit" >
@@ -156,6 +148,6 @@ export default function CraneEditPage({ }: Props) {
                     </form>
                 </CardContent>
             </Card>
-        </div>
+        </div >
     );
 }

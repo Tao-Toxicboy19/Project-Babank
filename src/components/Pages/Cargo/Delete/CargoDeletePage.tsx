@@ -28,7 +28,7 @@ export default function CargoDeletePage({ id, result }: any) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title" className='flex justify-center'>
-                    {`ต้องการลบทุ่น ${result} ?`}
+                    {`ต้องการลบ ${result} หรือไม่?`}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className='flex justify-center'>

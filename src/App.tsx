@@ -24,6 +24,7 @@ import FTSPage from './components/Pages/FTSPage/FTSPage';
 import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
 import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
+import Loading from './components/layout/Loading/Loading';
 
 const drawerWidth = 240;
 

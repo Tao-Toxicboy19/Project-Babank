@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { btnColor } from '../../../../style/Styles'
-import { Button, Box, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack } from '@mui/material'
+import { Button, Box, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack, Typography, TextField } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import axios from 'axios';
 import { server } from '../../../../Constants';
@@ -63,59 +63,64 @@ export default function CargoCreate({ }: Props) {
 
     const showForm = () => {
         return (
-            <div>
+            <>
                 <Box className="mt-[-15px] text-lg text-bold">
                     <h2>เพิ่มข้อมูลสินค้า</h2>
                 </Box>
-                <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="ชื่อสินค้า"
-                            value={newCargoName}
-                            onChange={(e) => setNewCargoName(e.target.value)}
-                        />
+                <Box className="flex justify-between mt-5">
+                <TextField
+                    variant="outlined"
+                    type="text"
+                    label="ชื่อสินค้า"
+                    fullWidth
+                    value={newCargoName}
+                    onChange={(e) => setNewCargoName(e.target.value)}
+                />
 
-                        {/* <TextField
-                            variant="outlined"
-                            type="text"
-                            id="newCargoName"
-                            className="ชื่อสินค้า"
-                            value={newCargoName}
-                            fullWidth
-                            onChange={(e) => setNewCargoName(e.target.value)}
-                        /> */}
+                <Button
+                    variant="contained"
+                    type="submit"
+                    startIcon={<AddIcon />}
+                    className='bg-sky-600 hover:bg-sky-800 mx-5 my-3 h-full'
+                    onClick={handleAddCargo}
+                >
+                    เพิ่ม
+                </Button>
+                </Box>
 
-                        <Button
-                            variant="contained"
-                            type="submit"
-                            style={btnColor}
-                            startIcon={<AddIcon />}
-                            onClick={handleAddCargo}>เพิ่ม</Button>
-                    </div>
-                </Stack>
-                <Stack direction='row' spacing={2} className='flex justify-between mt-5'>
-                    <ul>
-                        {cargoNames.map((cargoName, index) => (
-                            <li key={index}>
+                <Box className="m-5">
+                    <Typography>
+                        รายการสินค้าทั้งหมด
+                    </Typography>
+                </Box>
+                <Box className="w-full">
+                    {cargoNames.map((cargoName, index) => (
+                        <Box key={index} className="flex justify-between">
+                            <Typography className='flex items-center' variant='h6'>
                                 {cargoName}
-                                <Button
-                                    variant="contained"
-                                    type="submit"
-                                    startIcon={<DeleteForeverIcon />}
-                                    className="mx-5 my-3 bg-red-800 hover:bg-red-950"
-                                    onClick={() => handleRemoveCargo(index)}>ลบ</Button>
-                            </li>
-                        ))}
-                    </ul>
-                </Stack>
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                startIcon={<DeleteForeverIcon />}
+                                className="mx-5 my-3 bg-red-800 hover:bg-red-950 flex"
+                                onClick={() => handleRemoveCargo(index)}>
+                                ลบ
+                            </Button>
+                        </Box>
+                    ))}
+                </Box>
+
                 <Button
                     variant="contained"
                     type="submit"
                     startIcon={<DoneIcon />}
-                    className="bg-emerald-600 hover:bg-green-800"
-                    onClick={handleSubmit}>บันทึกข้อมูล</Button>
-            </div>
+                    className="bg-emerald-600 hover:bg-green-800 mt-5"
+                    fullWidth
+                    onClick={handleSubmit}>บันทึกข้อมูล
+                </Button>
+
+            </>
         )
     }
 
@@ -141,7 +146,7 @@ export default function CargoCreate({ }: Props) {
             >
                 <DialogTitle>{"เพิ่มสินค้า"}</DialogTitle>
                 <Card>
-                    <CardContent className="w-[500px] rounded-lg">
+                    <CardContent className="">
                         <DialogContent>
                             {showForm()}
                         </DialogContent>
