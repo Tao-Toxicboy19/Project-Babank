@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, CircularProgress, Fab, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Fab, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -147,7 +147,7 @@ export default function CarrierPage() {
                       aria-label="add"
                       size='small'
                       className='bg-blue-500 hover:bg-blue-700 mt-5'
-                      
+
                     >
                       <Add />
                     </Fab>

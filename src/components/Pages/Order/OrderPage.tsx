@@ -87,6 +87,8 @@ export default function OrderPage() {
     latitude: items.latitude,
     longitude: items.longitude,
     maxFTS: items.maxFTS,
+    penalty_rate: items.penalty_rate,
+    reward_rate: items.reward_rate,
   }));
 
   const VirtuosoTableComponents: TableComponents<Order> = {

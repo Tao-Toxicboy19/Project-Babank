@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CardContent, Box, Card, CircularProgress, Typography } from '@mui/material';
+import { CardContent, Card, Typography } from '@mui/material';
 import TreeTable from './TreeTable/TreeTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFTSsolution } from '../../../store/slices/FTSsolution.slice';

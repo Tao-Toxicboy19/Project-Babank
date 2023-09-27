@@ -10,10 +10,9 @@ import { RootState } from "../../../store/store";
 import { loadCarrier } from "../../../store/slices/carrier.slice";
 import { loadCargo } from "../../../store/slices/cargo.slice";
 import { loadOrder } from "../../../store/slices/order.slice";
-import FTSMaps from "./Maps/FTSMaps";
 import CarrierMaps from "./Maps/CarrierMaps";
 import Loading from "../../layout/Loading/Loading";
-import { Bar } from "react-chartjs-2";
+import FTSMaps from "./Maps/FTSMaps";
 
 
 type Props = {}
@@ -60,7 +59,7 @@ export default function HomePage({ }: Props) {
                   <Box className='col-span-full grid grid-cols-2 gap-5 my-5'>
                     <Card className="">
                       <CardContent>
-                        {/* <FTSMaps /> */}
+                        <FTSMaps />
                       </CardContent>
                     </Card>
                     <Card className="">

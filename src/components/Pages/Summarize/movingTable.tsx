@@ -6,7 +6,6 @@ import { loadCraneSolution } from '../../../store/slices/craneSolution.slice'
 import { RootState } from '../../../store/store'
 import { loadFtsSolutionV2 } from '../../../store/slices/FTSsolutionV2.slice'
 import FTSsingle from './FTSsingle/FTSsingle'
-import { Charts } from './Chart/Chart'
 import { labels } from '../../../Constants'
 // import Chart from './Chart/Chart'
 
@@ -57,7 +56,7 @@ export default function MovingTablePage({ }: Props) {
                     </CardContent>
                 </Card >
                 <Box className='w-96 bg-white mx-5'>
-                    <Charts />
+                    {/* <Charts /> */}
                 </Box>
             </Box>
             <SummarizePage />

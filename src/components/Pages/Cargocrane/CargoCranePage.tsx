@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Card, CardContent, CircularProgress } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import TreeTable from "./TreeTable/TreeTable";
 import { useDispatch, useSelector } from "react-redux";
 import { loadFTScraneCargo } from "../../../store/slices/FTSCraneCargo.slice";

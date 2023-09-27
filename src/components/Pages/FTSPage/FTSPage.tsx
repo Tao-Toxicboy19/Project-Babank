@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import TreeTable from './TreeTable/TreeTable';
-import { Box, Card, CardContent, CircularProgress } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFTS } from '../../../store/slices/FTS.slice';
 import { RootState } from '../../../store/store';

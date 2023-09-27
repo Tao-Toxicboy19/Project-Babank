@@ -23,7 +23,8 @@ export default function CargoCraneCreate({ }: Props) {
     }, []);
 
     const handleSubmit = (values: any, { setSubmitting }: any) => {
-        dispatch(addCargoCrane(values, naviagte))
+        // dispatch(addCargoCrane(values, naviagte))
+        alert(JSON.stringify(values))
         setSubmitting(false)
     }
 
@@ -64,7 +65,6 @@ export default function CargoCraneCreate({ }: Props) {
                     onChange={handleChange}
                     fullWidth
                 >
-
                     {(CargoReducer.cargo).map((items) => (
                         <MenuItem key={items.cargo_id} value={items.cargo_id}>
                             {items.cargo_name}

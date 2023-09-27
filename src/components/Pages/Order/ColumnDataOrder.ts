@@ -29,7 +29,7 @@ export const columns: ColumnOrder[] = [
         label: 'จำนวนระวาง',
         dataKey: 'bulk',
         numeric: true,
-    }, 
+    },
     {
         width: 120,
         label: 'วัน-เวลา มาถึง',
@@ -61,9 +61,21 @@ export const columns: ColumnOrder[] = [
         numeric: true,
     },
     {
-        width: 80,
-        label: "แก้ไข",
-        dataKey: "editColumn",
+        width: 120,
+        label: 'ค่าปรับ (บาท)',
+        dataKey: 'penalty_rate',
         numeric: true,
     },
+    {   
+        width: 120,
+        label: 'รางวัล (บาท)',
+        dataKey: 'reward_rate',
+        numeric: true,
+    },
+    // {
+    //     width: 80,
+    //     label: "แก้ไข",
+    //     dataKey: "editColumn",
+    //     numeric: true,
+    // },
 ]

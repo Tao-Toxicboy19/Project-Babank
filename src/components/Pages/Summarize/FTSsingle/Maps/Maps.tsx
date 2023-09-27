@@ -22,8 +22,8 @@ export default function Maps({ selectedValue }: any) {
             <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
                 <GoogleMap
                     mapContainerStyle={mapStyles}
-                    zoom={15}
-                    center={{ lat: 13.187009, lng: 100.810662 }}
+                    zoom={13}
+                    center={{ lat: 13.177009, lng: 100.840662 }}
                 >
                     {(datav2).map((item) => (
                         <Marker

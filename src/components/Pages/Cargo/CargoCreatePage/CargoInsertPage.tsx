@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { btnColor } from '../../../../style/Styles'
-import { Button, Box, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack, Typography, TextField } from '@mui/material'
+import { Button, Box, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Typography, TextField } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import axios from 'axios';
 import { server } from '../../../../Constants';
@@ -68,24 +67,24 @@ export default function CargoCreate({ }: Props) {
                     <h2>เพิ่มข้อมูลสินค้า</h2>
                 </Box>
                 <Box className="flex justify-between mt-5">
-                <TextField
-                    variant="outlined"
-                    type="text"
-                    label="ชื่อสินค้า"
-                    fullWidth
-                    value={newCargoName}
-                    onChange={(e) => setNewCargoName(e.target.value)}
-                />
+                    <TextField
+                        variant="outlined"
+                        type="text"
+                        label="ชื่อสินค้า"
+                        fullWidth
+                        value={newCargoName}
+                        onChange={(e) => setNewCargoName(e.target.value)}
+                    />
 
-                <Button
-                    variant="contained"
-                    type="submit"
-                    startIcon={<AddIcon />}
-                    className='bg-sky-600 hover:bg-sky-800 mx-5 my-3 h-full'
-                    onClick={handleAddCargo}
-                >
-                    เพิ่ม
-                </Button>
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        startIcon={<AddIcon />}
+                        className='bg-sky-600 hover:bg-sky-800 mx-5 my-3 h-full'
+                        onClick={handleAddCargo}
+                    >
+                        เพิ่ม
+                    </Button>
                 </Box>
 
                 <Box className="m-5">

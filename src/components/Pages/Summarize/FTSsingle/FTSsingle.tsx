@@ -75,7 +75,7 @@ export default function FTSsingle({ }: Props) {
                     </Form>
                 )}
             </Formik>
-            {/* <Maps selectedValue={selectedValue} /> */}
+            <Maps selectedValue={selectedValue} />
             <RoutesLayout selectedValue={selectedValue} />
         </>
     );

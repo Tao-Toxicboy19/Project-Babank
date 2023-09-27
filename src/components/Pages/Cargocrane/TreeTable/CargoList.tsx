@@ -2,13 +2,9 @@ import { useState } from "react";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
-import { setIsEditing } from "../../../../store/slices/editingSlice";
 
 export default function CargoList({ status, setStatus, category, cargo, FTS_id }: any) {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch<any>();
 
   const toggleNode = () => {
     setIsOpen(!isOpen);
@@ -47,21 +43,21 @@ export default function CargoList({ status, setStatus, category, cargo, FTS_id }
                   <input
                     type="text"
                     value={item.cargo_name}
-                    onChange={(e) => {
+                    onChange={() => {
                       // ทำตราบใดที่คุณต้องการอัปเดตค่าของ item.cargo_name
                     }}
                   />
                   <input
                     type="text"
                     value={item.work_rate}
-                    onChange={(e) => {
+                    onChange={() => {
                       // ทำตราบใดที่คุณต้องการอัปเดตค่าของ item.cargo_name
                     }}
                   />
                   <input
                     type="text"
                     value={item.consumption_rate}
-                    onChange={(e) => {
+                    onChange={() => {
                       // ทำตราบใดที่คุณต้องการอัปเดตค่าของ item.cargo_name
                     }}
                   />
