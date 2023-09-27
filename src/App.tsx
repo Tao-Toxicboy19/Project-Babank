@@ -25,6 +25,11 @@ import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
 import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 import Loading from './components/layout/Loading/Loading';
+import NotFound from './components/layout/ERR_REPORT/PageNotFound';
+import CargoCraneCreate from './components/Pages/Cargocrane/Insert/CargoCraneCreate';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const drawerWidth = 240;
 
