@@ -3,6 +3,8 @@ import { server } from "../../Constants";
 import { RootState } from "../store";
 import { Login, LoginResult } from "../../types/User.type";
 import { httpClient } from "../../utlis/httpclient";
+import { toast } from 'react-toastify';
+
 
 interface LoginState {
     loading: boolean
@@ -54,9 +56,11 @@ export const login = (user: Login, navigate: any): ThunkAction<void, RootState, 
         if (result.data.token) {
             localStorage.setItem('token', result.data.token);
             dispatch(setLoginSuccess(result.data));
-            // dispatch(setUser(result.data));
-            alert('Login successfully');
-            navigate('/transferstation')
+            // toast.success('successfully')
+            // setTimeout(() => {
+            // }, 1000);
+            // alert('Login successfully');
+            navigate('/')
         } else {
             dispatch(setLoginFailed());
         }
@@ -77,7 +81,8 @@ export const restoreLogin = () => {
 export const logout = () => {
     return (dispatch: any) => {
         localStorage.removeItem('token');
-        alert('logged out');
+        // alert('logged out');
+        toast.success('logged out')
         dispatch(setLogout());
     };
 };

@@ -5,26 +5,6 @@ type Props = {
     findSelectedData: any
 }
 
-export interface Solution {
-    solution_id: number;
-    FTS_name: string;
-    total_cost_sum: number;
-    total_consumption_cost_sum: number;
-    total_wage_cost_sum: number;
-    penality_cost_sum: number;
-    total_reward_sum: number;
-    result: Result[];
-}
-
-export interface Result {
-    crane_name: string;
-    total_cost: number;
-    total_consumption_cost: number;
-    total_wage_cost: number;
-    penality_cost: number;
-    total_reward: number;
-}
-
 export default function SolutionSingle({ findSelectedData }: Props) {
     return (
         <>

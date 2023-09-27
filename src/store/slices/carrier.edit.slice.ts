@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Carrier, CarrierEditState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
+import { toast } from "react-toastify";
 
 const initialState: CarrierEditState = {
     carrier: null,
@@ -42,7 +43,7 @@ export const updateCarrier = (id: any, formData: FormData, setOpen: any) => {
             dispatch(setCarrierSuccess(result.data));
             setOpen(false)
         } catch (error) {
-            alert(JSON.stringify(error));
+            toast.success(JSON.stringify(error));
             dispatch(setCarrierFailure('Failed to update floating data'));
         }
     };

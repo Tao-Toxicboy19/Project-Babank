@@ -3,6 +3,7 @@ import { RootState } from "../store";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
 import { FTSCrane, FTSCraneState } from "../../types/FloatingCrane.type";
+import { toast } from "react-toastify";
 
 const initialState: FTSCraneState = {
     FTS: [],
@@ -57,7 +58,7 @@ export const addFTS = (formData: FormData, navigate: any) => {
     return async () => {
         try {
             await httpClient.post(server.FLOATING, formData);
-            alert('Successfully')
+            toast.success('Successfully')
             navigate('/transferstation')
         } catch (error) {
             console.error('Error while adding CARRIER:', error);
@@ -72,7 +73,7 @@ export const deleteFTS = (id: any, setOpen: any) => {
             dispatch(setDeleteFTS(id));
         } catch (error: any) {
             if (error.response && error.response.status === 400) {
-                alert('ไม่สามารถลบข้อมูลได้ เนื่องจากมี Crane ที่ใช้งานอ้างอิงถึง FTS นี้');
+                toast.success('ไม่สามารถลบข้อมูลได้ เนื่องจากมี Crane ที่ใช้งานอ้างอิงถึง FTS นี้');
                 setOpen(false)
             } else {
                 console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);

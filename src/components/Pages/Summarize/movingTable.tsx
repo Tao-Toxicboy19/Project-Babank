@@ -6,6 +6,9 @@ import { loadCraneSolution } from '../../../store/slices/craneSolution.slice'
 import { RootState } from '../../../store/store'
 import { loadFtsSolutionV2 } from '../../../store/slices/FTSsolutionV2.slice'
 import FTSsingle from './FTSsingle/FTSsingle'
+import { Charts } from './Chart/Chart'
+import { labels } from '../../../Constants'
+// import Chart from './Chart/Chart'
 
 type Props = {}
 
@@ -21,6 +24,7 @@ export default function MovingTablePage({ }: Props) {
 
     return (
         <>
+            {/* <Chart /> */}
             <Box className="flex">
                 <Card className="mt-5 flex" sx={{ maxWidth: 870 }}>
                     <CardContent>
@@ -32,14 +36,9 @@ export default function MovingTablePage({ }: Props) {
                         </Box>
                         <Box className='grid grid-cols-2'>
                             <Box>
-                                <Typography className="mb-2">รายรับจากรางวัล:</Typography>
-                                <Typography className="mb-2">เวลารวมเสร็จหลังกำหนด:</Typography>
-                                <Typography className="mb-2">เวลารวมเสร็จก่อนกำหนด:</Typography>
-                                <Typography className="mb-2">ค่าเชื้อเพลิงรวมขนถ่าย:</Typography>
-                                <Typography className="mb-2">ค่าเชื้อเพลิงรวมเคลื่อยย้าย:</Typography>
-                                <Typography className="mb-2">ระยะรวมทางเคลื่อนย้าย:</Typography>
-                                <Typography className="mb-2">เวลารวมดำเนินการขนถ่าย:</Typography>
-                                <Typography className="mb-2">เวลารวมเตรียมความพร้อม:</Typography>
+                                {labels.map((items, index) => (
+                                    <Typography key={index} className="mb-2">{items}:</Typography>
+                                ))}
                             </Box>
                             <Box className='flex flex-col'>
                                 <Typography className='flex justify-end mb-2'>{(CraneSolutionSlice.result)?.total_reward} บาท</Typography>
@@ -57,6 +56,9 @@ export default function MovingTablePage({ }: Props) {
 
                     </CardContent>
                 </Card >
+                <Box className='w-96 bg-white mx-5'>
+                    <Charts />
+                </Box>
             </Box>
             <SummarizePage />
             <FTSsingle />

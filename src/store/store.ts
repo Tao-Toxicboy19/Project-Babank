@@ -15,9 +15,10 @@ import FTSsolutionSlice from './slices/FTSsolution.slice';
 import craneSolutionSlice from './slices/craneSolution.slice';
 import FTSsolutionV2Slice from './slices/FTSsolutionV2.slice';
 import FTSEditSlice from './slices/FTS.edit.slice';
-import craneSlice from './slices/crane.edit.slice';
+import craneSlice from './slices/crane.slice';
 import craneEditSlice from './slices/crane.edit.slice';
 import registerReducer from './slices/register.slice'
+import SolutionscheduleSlice from './slices/sollution_schedule.slice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -35,6 +36,7 @@ export const store = configureStore({
     FTSEdit: FTSEditSlice,
     Crane: craneSlice,
     CraneEdit: craneEditSlice,
+    Solutionschedule: SolutionscheduleSlice,
     // floating: floatingReducer,
     carrier: carrierReducer,
     carrierEdit: carrierEditReducer,

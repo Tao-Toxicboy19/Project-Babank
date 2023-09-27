@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../utlis/httpclient"
 import { server } from "../../Constants"
 import { CargoCrane, CargoCraneEditState } from "../../types/CargoCrane.type"
+import { toast } from "react-toastify"
 
 const initialState: CargoCraneEditState = {
   result: null,
@@ -42,7 +43,7 @@ export const updateCargoCrane = (id: any, formData: FormData, setOpen: any) => {
       dispatch(setCargoCraneEditSuccess(result.data));
       setOpen(false)
     } catch (error) {
-      alert(JSON.stringify(error));
+      toast.success(JSON.stringify(error));
       dispatch(setCargoCraneEditFailure('Failed to update floating data'));
     }
   };

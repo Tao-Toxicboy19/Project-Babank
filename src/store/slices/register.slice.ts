@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { httpClient } from "../../utlis/httpclient";
 import { server } from "../../Constants";
 import { Register } from "../../types/User.type";
+import { toast } from "react-toastify";
 
 interface RegisterState {
     loading: boolean;
@@ -44,7 +45,7 @@ export const register = (values: Register, navigate: any) => {
             dispatch(registerStart());
             const result = await httpClient.post(server.REGISTER_URL, values);
             if (result.data && result.data.message === 'สร้างผู้ใช้เรียบร้อยแล้ว') {
-                alert('Register Successfully');
+                toast.success('Register Successfully');
                 navigate('/login');
                 dispatch(registerSuccess(result.data));
             } else {

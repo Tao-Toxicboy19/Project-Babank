@@ -7,6 +7,7 @@ import { loadFTSsolution } from '../../../../store/slices/FTSsolution.slice';
 import { RootState } from '../../../../store/store';
 import SolutionSingle from './SolutionSingle';
 import RoutesLayout from './RoutesLayout/RoutesPage';
+import Maps from './Maps/Maps';
 
 type Props = {};
 
@@ -74,6 +75,7 @@ export default function FTSsingle({ }: Props) {
                     </Form>
                 )}
             </Formik>
+            {/* <Maps selectedValue={selectedValue} /> */}
             <RoutesLayout selectedValue={selectedValue} />
         </>
     );

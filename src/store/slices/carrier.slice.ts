@@ -3,6 +3,7 @@ import { Carrier, carrierState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
 import { RootState } from "../store";
+import { toast } from "react-toastify";
 
 const initialState: carrierState = {
     carrier: [],
@@ -64,7 +65,7 @@ export const addCarrier = (formData: FormData, navigate: any) => {
     return async () => {
         try {
             await httpClient.post(server.CARRIER, formData);
-            alert('Successfully')
+            toast.success('Successfully')
             navigate('/carrier')
         } catch (error) {
             console.error('Error while adding CARRIER:', error);

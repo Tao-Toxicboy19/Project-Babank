@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { server } from "../../Constants";
 import { Crane, CraneEditState, } from "../../types/crane.type";
 import { httpClient } from "../../utlis/httpclient";
+import { toast } from "react-toastify";
 
 const initialState: CraneEditState = {
     result: null,
@@ -39,7 +40,7 @@ export const addCrane = (formData: FormData, navigate: any) => {
     return async () => {
         try {
             await httpClient.post(server.CRANE, formData);
-            alert('Successfully')
+            toast.success('Successfully')
             navigate('/transferstation')
         } catch (error) {
             console.error('Error while adding CARRIER:', error);
@@ -66,7 +67,7 @@ export const getCraneById = (id: any) => {
 export const updateCrane = (formData: FormData, navigate: any, id: any) => {
     return async () => {
         await httpClient.put(`${server.CRANE}/${id}`, formData)
-        alert('Successfully')
+        toast.success('Successfully')
         navigate('/transferstation')
     }
 }

@@ -6,23 +6,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { titles } from '../../../../../Constants';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Solution_schedule } from '../../../../../types/Solution_schedule.type';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadSolution } from '../../../../../store/slices/sollution_schedule.slice';
+import { RootState } from '../../../../../store/store';
 
 export default function RoutesLayout({ selectedValue }: any) {
-    const [data, setData] = useState<Solution_schedule[]>([]);
+    const dispatch = useDispatch<any>();
+    const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
 
     useEffect(() => {
-        const fetch = async () => {
-            try {
-                const result = await axios.get('http://crane.otpzlab.com:7070/api/solution_schedule')
-                setData(result.data)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetch()
+        dispatch(loadSolution())
     }, []);
 
     return (
@@ -39,7 +33,7 @@ export default function RoutesLayout({ selectedValue }: any) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data
+                        {(SolutionscheduleReducer.solution_schedule)
                             .filter((items) => items.FTS_name === selectedValue)
                             .map((items, index) => (
                                 <TableRow

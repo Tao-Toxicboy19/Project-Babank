@@ -1,13 +1,10 @@
 export interface CargoCrane {
-    cc_id: string
-    fl_id: string
-    ca_id: string
-    cargo_name: string
-    floating_name: string
-    crane: number;
-    consumption_rate: number
-    work_rate: number
-    category: string
+    crane_id: number;
+    cargo_id: number;
+    FTS_id: number;
+    consumption_rate: number;
+    work_rate: number;
+    category: string;
 }
 
 export interface CargoCraneEditState {
@@ -44,6 +41,12 @@ export interface FTSCraneCargo {
             }[];
         }[];
     }[];
+}
+
+export interface FTScraneCargoState {
+    result: FTSCraneCargo[]
+    loading: boolean
+    error: string | null
 }
 
 ////////////////////////////////////////////////////////////////////////////

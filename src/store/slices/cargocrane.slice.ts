@@ -4,27 +4,8 @@ import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { server } from '../../Constants';
 import { httpClient } from '../../utlis/httpclient';
 import { RootState } from '../store';
-
-export interface FTSCraneCargo {
-  FTS_name: string;
-  work_rate: number;
-  consumption_rate: number;
-  result: {
-    crane_name: string;
-    category: string;
-    cargo: {
-      cargo_name: string
-      work_rate: number,
-      consumption_rate: number
-    }[];
-  }[];
-}
-
-export interface CargoCraneState {
-  cargoCrane: FTSCraneCargo[];
-  loading: boolean
-  error: string | null
-}
+import { toast } from 'react-toastify';
+import { CargoCraneState, FTSCraneCargo } from '../../types/CargoCrane.type';
 
 const initialState: CargoCraneState = {
   cargoCrane: [],
@@ -79,12 +60,12 @@ export const loadCargoCrane = (): ThunkAction<void, RootState, unknown, any> => 
   }
 }
 
-export const addCargoCrane = (formData: FormData, setOpen: any) => {
+export const addCargoCrane = (formData: FormData, naviagte: any) => {
   return async () => {
     try {
       await httpClient.post(server.CARGOCRANE, formData);
-      alert(JSON.stringify(formData))
-      setOpen(false)
+      toast.success('successfully')
+      naviagte('/cargocrane')
     } catch (error) {
       console.error('Error while adding CARRIER:', error);
     }

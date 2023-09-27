@@ -24,7 +24,9 @@ import FTSPage from './components/Pages/FTSPage/FTSPage';
 import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
 import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
-import Loading from './components/layout/Loading/Loading';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CargoCraneCreate from './components/Pages/Cargocrane/Insert/CargoCraneCreate';
 
 const drawerWidth = 240;
 
@@ -44,6 +46,7 @@ export default function ResponsiveDrawer() {
   return (
     <Box sx={{ display: 'flex' }} className=' bg-gradient-to-bl from-[#5FBCFF] to-[#FFF] w-full h-full min-h-screen'>
       <CssBaseline />
+      <ToastContainer />
       {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
       {loginReducer.data && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />}
       <Box
@@ -66,6 +69,7 @@ export default function ResponsiveDrawer() {
               <Route path="/orders" element={<OrderPage />} />
               <Route path="/orders/create" element={<OrderCreatePage />} />
               <Route path="/cargocrane" element={<CargocranePage />} />
+              <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
               <Route path="/summarize" element={< MovingTablePage />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
