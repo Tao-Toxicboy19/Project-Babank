@@ -51,11 +51,6 @@ export interface FTScraneCargoState {
 
 ////////////////////////////////////////////////////////////////////////////
 
-export interface TreeTableNodeProps {
-    FTS_name: string;
-    result: TreeNodeProps[];
-}
-
 export interface TreeNodeProps {
     crane_name: string;
     category_v1: {
@@ -87,6 +82,7 @@ export interface TreeNodeProps {
 }
 
 export interface TreeTableNodeProps {
+    FTS_id: number
     FTS_name: string;
     result: TreeNodeProps[];
 }

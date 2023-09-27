@@ -19,6 +19,7 @@ import craneSlice from './slices/crane.slice';
 import craneEditSlice from './slices/crane.edit.slice';
 import registerReducer from './slices/register.slice'
 import SolutionscheduleSlice from './slices/sollution_schedule.slice'
+import editingSlice from './slices/editingSlice';
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -37,7 +38,7 @@ export const store = configureStore({
     Crane: craneSlice,
     CraneEdit: craneEditSlice,
     Solutionschedule: SolutionscheduleSlice,
-    // floating: floatingReducer,
+    editing: editingSlice,
     carrier: carrierReducer,
     carrierEdit: carrierEditReducer,
     order: orderReducer,

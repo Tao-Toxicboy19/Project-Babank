@@ -59,7 +59,7 @@ export default function ResponsiveDrawer() {
         <Box sx={{ marginTop: 8 }}>
           <Routes>
             <Route element={<PrivateRoute />}>
-              <Route path="/home" element={<NotFound />} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="/cargo" element={<CargoPage />} />
               <Route path="/transferstation" element={<FTSPage />} />
               <Route path="/transferstation/create" element={<FTSCreatePage />} />

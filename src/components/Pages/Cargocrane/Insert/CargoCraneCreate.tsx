@@ -6,7 +6,6 @@ import { RootState } from "../../../../store/store";
 import { loadCrane } from "../../../../store/slices/crane.slice";
 import { useEffect } from "react";
 import { TextField } from "formik-material-ui";
-import axios from "axios";
 import { addCargoCrane } from "../../../../store/slices/cargocrane.slice";
 import { useNavigate } from "react-router-dom";
 
@@ -25,12 +24,6 @@ export default function CargoCraneCreate({ }: Props) {
 
     const handleSubmit = (values: any, { setSubmitting }: any) => {
         dispatch(addCargoCrane(values, naviagte))
-        // axios.post('http://crane.otpzlab.com:7070/api/cargocrane', values)
-        //     .then(res => {
-        //         console.log(res.data)
-        //         console.log(values)
-        //     })
-        //     .catch(err => console.log(err))
         setSubmitting(false)
     }
 
