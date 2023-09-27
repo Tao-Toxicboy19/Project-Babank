@@ -18,6 +18,7 @@ import CarrierDeletePage from './Delete/CarrierDeletePage';
 import { Link } from 'react-router-dom';
 import Add from '@mui/icons-material/Add';
 import { LuFileEdit } from 'react-icons/lu';
+import Loading from '../../layout/Loading/Loading';
 
 
 
@@ -110,16 +111,7 @@ export default function CarrierPage() {
     <>
       {
         carrierReducer.loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%"
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          <Loading />
         ) : carrierReducer.error ? (
           <Typography>Error: {carrierReducer.error}</Typography>
         ) : (

@@ -4,6 +4,7 @@ import TreeTable from './TreeTable/TreeTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFTSsolution } from '../../../store/slices/FTSsolution.slice';
 import { RootState } from '../../../store/store';
+import Loading from '../../layout/Loading/Loading';
 
 export default function SummarizePage() {
     const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
@@ -16,16 +17,7 @@ export default function SummarizePage() {
         <Card className="mt-5">
             <CardContent>
                 {FTSsolutionSlice.loading ? (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "100%"
-                        }}
-                    >
-                        <CircularProgress />
-                    </Box>
+                    <Loading />
                 ) : (
                     <>
                         <Typography className='text-lg font-bold'>สรุปรายละเอียดต้นทุนของทุ่น</Typography>

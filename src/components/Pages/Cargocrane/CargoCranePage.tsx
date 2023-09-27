@@ -4,6 +4,7 @@ import TreeTable from "./TreeTable/TreeTable";
 import { useDispatch, useSelector } from "react-redux";
 import { loadFTScraneCargo } from "../../../store/slices/FTSCraneCargo.slice";
 import { RootState } from "../../../store/store";
+import Loading from "../../layout/Loading/Loading";
 
 type Props = {}
 
@@ -19,16 +20,7 @@ export default function CargoCranePage({ }: Props) {
     <Card sx={{ minHeight: '90vh' }}>
       <CardContent>
         {FTScraneCargoReducer.loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%"
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          <Loading />
         ) : (
           <TreeTable FTScraneCargoReducer={(FTScraneCargoReducer.result)} />
         )}
