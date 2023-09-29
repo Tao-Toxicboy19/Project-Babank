@@ -35,15 +35,27 @@ const cargocraneEditSlice = createSlice({
 export const { setCargoCraneEditStart, setCargoCraneEditSuccess, setCargoCraneEditFailure } = cargocraneEditSlice.actions
 export default cargocraneEditSlice.reducer
 
-export const updateCargoCrane = (id: any, formData: FormData, setOpen: any) => {
+export const updateCargoCrane = (id: any, formData: FormData) => {
   return async (dispatch: any) => {
     try {
       dispatch(setCargoCraneEditStart());
       const result = await httpClient.put(`${server.CARGOCRANE}/${id}`, formData);
       dispatch(setCargoCraneEditSuccess(result.data));
-      setOpen(false)
     } catch (error) {
       toast.success(JSON.stringify(error));
+      dispatch(setCargoCraneEditFailure('Failed to update floating data'));
+    }
+  };
+};
+
+export const getProductById = (id: any) => {
+  return async (dispatch: any) => {
+    try {
+      dispatch(setCargoCraneEditStart());
+      let result = await httpClient.get(`${server.CARGOCRANE}/${id}`);
+      dispatch(setCargoCraneEditSuccess(result.data));
+    } catch (error) {
+      alert(JSON.stringify(error));
       dispatch(setCargoCraneEditFailure('Failed to update floating data'));
     }
   };

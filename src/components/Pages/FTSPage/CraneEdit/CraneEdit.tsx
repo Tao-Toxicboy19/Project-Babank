@@ -9,6 +9,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../types/FloatingCrane.type';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -54,7 +55,7 @@ export default function CraneEditPage({ }: Props) {
 
         try {
             await axios.put(`${server.CRANE}/${id}`, craneData);
-            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+            toast.success('แก้ไขเครนรรีนยร้อย');
             navigate('/transferstation')
         } catch (error) {
             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล Crane:', error);

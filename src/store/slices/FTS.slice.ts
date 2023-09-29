@@ -71,6 +71,7 @@ export const deleteFTS = (id: any, setOpen: any) => {
         try {
             await httpClient.delete(`${server.FLOATING}/${id}`);
             dispatch(setDeleteFTS(id));
+            toast.success('ลบทุ่นเรียบร้อย');
         } catch (error: any) {
             if (error.response && error.response.status === 400) {
                 toast.success('ไม่สามารถลบข้อมูลได้ เนื่องจากมี Crane ที่ใช้งานอ้างอิงถึง FTS นี้');
@@ -96,6 +97,7 @@ export const deleteCrane = (id: any, setOpen: any) => {
         try {
             await httpClient.delete(`${server.CRANE}/${id}`);
             setOpen(false);
+            toast.success('ลบทุ่นเรียบร้อย');
             await doGetCrane(dispatch);
         } catch (error: any) {
             dispatch(setFTSFailure(error.message));

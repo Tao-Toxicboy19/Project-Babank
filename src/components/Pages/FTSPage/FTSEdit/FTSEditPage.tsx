@@ -6,6 +6,7 @@ import { Box, Button, Card, CardContent, CircularProgress, Stack, TextField } fr
 import { FTS } from '../../../../types/FloatingCrane.type';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { toast } from 'react-toastify';
 
 type Props = {
 };
@@ -30,7 +31,6 @@ export default function FTSEditPage({ }: Props) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    // ตัวอย่างการอัปเดต state
     setFTSData((prevFTSData: any) => ({
       ...prevFTSData,
       [name]: value,
@@ -42,7 +42,7 @@ export default function FTSEditPage({ }: Props) {
 
     try {
       await axios.put(`${server.FLOATING}/${id}`, FTSData);
-      alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+      toast.success('แก้ไขทุ่นเรียบร้อย');
       navigate('/transferstation')
     } catch (error) {
       console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล FTS:', error);
@@ -85,8 +85,10 @@ export default function FTSEditPage({ }: Props) {
             <label className="pr-5" htmlFor="lat">ละติจูด:</label>
             <TextField
               variant="outlined"
-              type="number" id="lat"
-              name="lat" value={lat}
+              type="number"
+              id="lat"
+              name="lat"
+              value={lat}
               onChange={handleInputChange}
               fullWidth
             />

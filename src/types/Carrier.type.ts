@@ -1,10 +1,11 @@
 export interface Carrier {
-    cr_id?: number
-    carrier_name: string
-    maxcapacity: number
-    holder: string
-    burden: number
+    cr_id: number;
+    carrier_name: string;
+    holder: string;
+    maxcapacity: number;
+    burden: number;
 }
+
 
 export interface CarrierEditState {
     carrier: Carrier | null

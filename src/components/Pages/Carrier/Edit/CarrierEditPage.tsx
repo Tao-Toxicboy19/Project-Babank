@@ -2,120 +2,117 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Box, Button, Card, CardContent, CircularProgress, Stack, TextField } from '@mui/material';
-import { Carrier } from '../../../../types/Carrier.type';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Carrier } from '../../../../types/Carrier.type';
+import { CardContent, Stack, Button, TextField, Card } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { updateCarrier } from '../../../../store/slices/carrier.edit.slice';
 
 type Props = {};
 
 export default function CarrierEditPage({ }: Props) {
-    const [Carrier, setCarrier] = useState<Carrier | null>(null);
-    const { id } = useParams();
+    const [CarrierData, setCarrierData] = useState<Carrier | null>(null);
+    const { id } = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch<any>();
 
     useEffect(() => {
-        const fetchCarrier = async () => {
+        const fetchFTSData = async () => {
             try {
                 const response = await axios.get(`${server.CARRIER}/${id}`);
-                setCarrier(response.data);
+                setCarrierData(response.data);
             } catch (error) {
-                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
+                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล FTS:', error);
             }
         };
-        fetchCarrier();
-    }, [id]);
+        fetchFTSData();
+    }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
 
-        setCarrier((prevCarrier: Carrier | null) => ({
-            ...prevCarrier!,
+        setCarrierData((prevFTSData: any) => ({
+            ...prevFTSData,
             [name]: value,
         }));
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        try {
-            await axios.put(`${server.CARRIER}/${id}`, Carrier);
-            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
-            navigate('/carrier')
-        } catch (error) {
-            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล Crane:', error);
-        }
+        dispatch(updateCarrier(id, CarrierData, navigate))
     };
 
-    if (!Carrier) {
-        return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100%',
-                }}
-            >
-                <CircularProgress />
-            </Box>
-        );
-    }
-
-    const { carrier_name, maxcapacity, holder, burden } = Carrier;
-
     return (
-        <Card className='m-5 max-w-[750px] mx-auto'>
-            <CardContent>
-                <Box className="m-5">
-                    <h2>แก้ไขเรือ: {carrier_name}</h2>
-                </Box>
-
+        <Card className="w-[750px] mx-auto">
+            <CardContent className="m-8">
                 <form onSubmit={handleSubmit}>
+                    <Stack direction='column' spacing={1}>
+                        <label className="pr-5" htmlFor="carrier_name">ชื่อเรือ:</label>
+                        <TextField
+                            variant="outlined"
+                            type="text"
+                            id="carrier_name"
+                            name="carrier_name"
+                            value={CarrierData?.carrier_name}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
 
-                    <Stack direction='column' spacing={1} >
-                        <label htmlFor="carrier_name">ชื่อเรือ:</label>
-                        <TextField variant="outlined" type="text" id="carrier_name" name="carrier_name" value={carrier_name} onChange={handleInputChange} />
+                        <label className="pr-5" htmlFor="holder">ชื่อบริษัท:</label>
+                        <TextField
+                            variant="outlined"
+                            type="text"
+                            id="holder"
+                            name="holder"
+                            value={CarrierData?.holder}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
 
-                        <label htmlFor="holder">เวลาเตรียมการ (minutes):</label>
-                        <TextField variant="outlined" type="text" id="holder" name="holder" value={holder} onChange={handleInputChange} />
+                        <label htmlFor="maxcapacity">ความจุสูงสุด (ตัน):</label>
+                        <TextField
+                            variant="outlined"
+                            type="number"
+                            id="maxcapacity"
+                            name="maxcapacity"
+                            value={CarrierData?.maxcapacity}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
 
-                        <label htmlFor="maxcapacity">ความจุสูงสุด:</label>
-                        <TextField variant="outlined" type="number" id="maxcapacity" name="maxcapacity" value={maxcapacity} onChange={handleInputChange} />
-
-                        <label htmlFor="burden">เวลาเตรียมการ (นาที):</label>
-                        <TextField variant="outlined" type="number" id="burden" name="burden" value={burden} onChange={handleInputChange} />
-
+                        <label className="pr-5" htmlFor="burden">จำนวนระวาง:</label>
+                        <TextField
+                            variant="outlined"
+                            type="number"
+                            id="burden"
+                            name="burden"
+                            value={CarrierData?.burden}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
                     </Stack>
-
-                    <Stack direction='row' spacing={1} className="flex mx-auto justify-between max-w-[720px] mt-5">
+                    <Stack direction='row' spacing={1} className="flex justify-between mt-10">
                         <Button
-                            onClick={() => navigate('/carrier')}
+                            className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
                             variant="contained"
                             fullWidth
-                            className='bg-red-500 hover:bg-red-800'
                             startIcon={<ArrowBackIosIcon />}
-                        >
+                            onClick={() => navigate('/transferstation')}>
                             กลับ
                         </Button>
 
                         <Button
-                            type="submit"
+                            className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
                             variant="contained"
                             fullWidth
-                            className='bg-emerald-600 hover:bg-emerald-800'
                             startIcon={<SaveIcon />}
-                        >
+                            type="submit" >
                             บันทึก
                         </Button>
-
                     </Stack>
-
                 </form>
-
             </CardContent>
-
         </Card>
-
     );
 }

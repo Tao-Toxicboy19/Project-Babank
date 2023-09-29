@@ -1,12 +1,3 @@
-export interface CargoCrane {
-    crane_id: number;
-    cargo_id: number;
-    FTS_id: number;
-    consumption_rate: number;
-    work_rate: number;
-    category: string;
-}
-
 export interface CargoCraneEditState {
     result: CargoCrane | null
     loading: boolean
@@ -41,12 +32,6 @@ export interface FTSCraneCargo {
             }[];
         }[];
     }[];
-}
-
-export interface FTScraneCargoState {
-    result: FTSCraneCargo[]
-    loading: boolean
-    error: string | null
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -107,4 +92,87 @@ export interface CargoItem {
 export interface ListCargoProps {
     category: string;
     cargo: CargoItem[];
+}
+
+///////////////////////////////////////////////////////////////
+
+
+export interface CargoCrane {
+    cargo_crane_id: number
+    crane_id: number;
+    cargo_id: number;
+    FTS_id: number;
+    consumption_rate: number;
+    work_rate: number;
+    category: string;
+    crane?: Crane;
+    fts?: Fts;
+    cargo?: Cargo;
+}
+
+export interface craneCargoState {
+    result: CargoCrane[]
+    loading: boolean
+    error: string | null
+}
+
+export interface Cargo {
+    cargo_id: number;
+    cargo_name: string;
+}
+
+export interface Crane {
+    id: number;
+    crane_name: string;
+    FTS_id: number;
+    setuptime_crane: number;
+}
+
+export interface Fts {
+    id: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
+    setuptime_FTS: number;
+    speed: number;
+}
+
+//////////////////////////////////////////////
+export interface Carrier {
+    cargo_crane_id: number;
+    crane_id: number;
+    cargo_id: number;
+    FTS_id: number;
+    consumption_rate: number;
+    work_rate: number;
+    category: Category;
+    crane: Crane;
+    fts: Fts;
+    cargo: Cargo;
+}
+
+export interface Cargo {
+    cargo_id: number;
+    cargo_name: string;
+}
+
+export enum Category {
+    Export = "export",
+    Import = "import",
+}
+
+export interface Crane {
+    id: number;
+    crane_name: string;
+    FTS_id: number;
+    setuptime_crane: number;
+}
+
+export interface Fts {
+    id: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
+    setuptime_FTS: number;
+    speed: number;
 }

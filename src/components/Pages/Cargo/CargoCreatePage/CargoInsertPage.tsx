@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import { Formik, Form, Field, ErrorMessage, FormikProps } from 'formik';
+import React from 'react';
+import { useState } from 'react';
+import * as Yup from 'yup';
 import { Button, Box, Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Typography, TextField } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import axios from 'axios';
@@ -18,109 +21,48 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CargoCreate({ }: Props) {
-    const [open, setOpen] = React.useState(false);
-    const [cargoNames, setCargoNames] = useState<string[]>([]);
-    const [newCargoName, setNewCargoName] = useState<string>('');
+export default function CargoInsertPage({ }: Props) {
+    const [cargoCount, setCargoCount] = useState(1);
+    const [open, setOpen] = useState(false);
 
-    const handleClose = () => setOpen(false);
-    // const handleSubmit = (values: any, { setSubmitting }: any) => {
-    //     dispatch(addCargo(values, setOpen))
-    //     dispatch(setInsertCargo(values))
-    //     alert(JSON.stringify(values))
-    //     setSubmitting(false);
-    // };
-
-    const handleAddCargo = () => {
-        if (newCargoName.trim() !== '') {
-            setCargoNames([...cargoNames, newCargoName]);
-            setNewCargoName('');
-        }
+    const initialValues = {
+        cargo_names: Array.from({ length: cargoCount }, (_) => ''),
     };
 
-    const handleRemoveCargo = (index: number) => {
-        const updatedCargoNames = [...cargoNames];
-        updatedCargoNames.splice(index, 1);
-        setCargoNames(updatedCargoNames);
+    const validationSchema = Yup.object({
+        cargo_names: Yup.array()
+            .of(Yup.string().required('กรุณากรอกชื่อ Cargo'))
+            .min(1, 'คุณต้องกรอกอย่างน้อย 1 รายการ Cargo'),
+    });
+
+    const handleSubmit = (values: any, { setSubmitting }: any) => {
+        alert(JSON.stringify(values));
     };
 
-    const handleSubmit = async () => {
-        try {
-            // dispatch(addCargo(cargoNames,))
-            // ส่งข้อมูลสินค้าไปยัง API
-            await axios.post(`${server.CARGO}`, { cargo_names: cargoNames });
-
-            // เมื่อสำเร็จในการโพสต์ข้อมูล
-            alert('เพิ่มข้อมูลสินค้าสำเร็จ');
-            setCargoNames([]);
-            setNewCargoName('');
-        } catch (error) {
-            console.error('เกิดข้อผิดพลาดในการโพสต์ข้อมูลสินค้า:', error);
-            alert('เกิดข้อผิดพลาดในการโพสต์ข้อมูลสินค้า');
-        }
+    const addCargoField = () => {
+        setCargoCount((prevCount) => prevCount + 1);
     };
 
-    const showForm = () => {
+    const showForm = ({ isSubmitting }: FormikProps<any>) => {
         return (
-            <>
-                <Box className="mt-[-15px] text-lg text-bold">
-                    <h2>เพิ่มข้อมูลสินค้า</h2>
-                </Box>
-                <Box className="flex justify-between mt-5">
-                    <TextField
-                        variant="outlined"
-                        type="text"
-                        label="ชื่อสินค้า"
-                        fullWidth
-                        value={newCargoName}
-                        onChange={(e) => setNewCargoName(e.target.value)}
-                    />
-
-                    <Button
-                        variant="contained"
-                        type="submit"
-                        startIcon={<AddIcon />}
-                        className='bg-sky-600 hover:bg-sky-800 mx-5 my-3 h-full'
-                        onClick={handleAddCargo}
-                    >
-                        เพิ่ม
-                    </Button>
-                </Box>
-
-                <Box className="m-5">
-                    <Typography>
-                        รายการสินค้าทั้งหมด
-                    </Typography>
-                </Box>
-                <Box className="w-full">
-                    {cargoNames.map((cargoName, index) => (
-                        <Box key={index} className="flex justify-between">
-                            <Typography className='flex items-center' variant='h6'>
-                                {cargoName}
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                type="submit"
-                                startIcon={<DeleteForeverIcon />}
-                                className="mx-5 my-3 bg-red-800 hover:bg-red-950 flex"
-                                onClick={() => handleRemoveCargo(index)}>
-                                ลบ
-                            </Button>
-                        </Box>
+            <Form>
+                {cargoCount > 0 &&
+                    Array.from({ length: cargoCount }, (_, index) => (
+                        <Field
+                            key={index}
+                            name={`cargo_names[${index}]`}
+                            type="text"
+                            placeholder="กรอกชื่อ Cargo"
+                        />
                     ))}
-                </Box>
-
-                <Button
-                    variant="contained"
-                    type="submit"
-                    startIcon={<DoneIcon />}
-                    className="bg-emerald-600 hover:bg-green-800 mt-5"
-                    fullWidth
-                    onClick={handleSubmit}>บันทึกข้อมูล
-                </Button>
-
-            </>
-        )
+                <button type="button" onClick={addCargoField}>
+                    เพิ่มรายการ Cargo
+                </button>
+                <button type="submit" disabled={isSubmitting}>
+                    บันทึก
+                </button>
+            </Form>
+        );
     }
 
     return (
@@ -139,7 +81,7 @@ export default function CargoCreate({ }: Props) {
                 open={open}
                 TransitionComponent={Transition}
                 keepMounted
-                onClose={handleClose}
+                onClose={() => setOpen(false)}
                 aria-describedby="alert-dialog-slide-description"
                 fullWidth
             >
@@ -147,11 +89,17 @@ export default function CargoCreate({ }: Props) {
                 <Card>
                     <CardContent className="">
                         <DialogContent>
-                            {showForm()}
+                            <Formik
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
+                                {props => showForm(props)}
+                            </Formik>
                         </DialogContent>
                     </CardContent>
                 </Card>
             </Dialog>
         </div>
-    )
-}
+    );
+};

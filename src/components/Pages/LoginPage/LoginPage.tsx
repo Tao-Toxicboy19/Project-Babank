@@ -91,8 +91,8 @@ export default function LoginPage({ }: Props) {
             <Typography className="mt-5" component="h1" variant="h5">
               เข้าสู่ระบบ
             </Typography>
-            <Formik onSubmit={(values, { }) => {
-              dispactch(login(values, navigate))
+            <Formik onSubmit={(values, { setSubmitting }: any) => {
+              dispactch(login(values, navigate, setSubmitting))
             }}
               initialValues={initialValues}>
               {props => showFormV2(props)}

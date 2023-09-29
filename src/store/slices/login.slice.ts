@@ -49,25 +49,22 @@ export const { setLoginStart, setLoginSuccess, setLoginFailed, setLogout } = log
 export default loginSlice.reducer;
 
 
-export const login = (user: Login, navigate: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const login = (user: Login, navigate: any, setSubmitting: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setLoginStart());
         const result = await httpClient.post<LoginResult>(server.LOGIN_URL, user);
         if (result.data.token) {
             localStorage.setItem('token', result.data.token);
             dispatch(setLoginSuccess(result.data));
-            // toast.success('successfully')
-            // setTimeout(() => {
-            // }, 1000);
-            // alert('Login successfully');
             navigate('/')
-        } else {
-            dispatch(setLoginFailed());
         }
     } catch (error) {
+        setSubmitting(false);
+        toast.warn('ไม่พบผู้ใช้งาน');
         dispatch(setLoginFailed());
     }
 };
+
 
 export const restoreLogin = () => {
     return (dispatch: any) => {

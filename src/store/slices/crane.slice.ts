@@ -31,7 +31,7 @@ const CraneSlice = createSlice({
         },
         setDeleteCrane: (state, action: PayloadAction<any>) => {
             state.result = state.result.filter(
-                (result) => result.crane_id !== action.payload
+                (result) => result.id !== action.payload
             )
         },
     }
@@ -43,7 +43,8 @@ export default CraneSlice.reducer;
 export const loadCrane = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setCraneState())
-        const result = await httpClient.get(server.CRANE)
+        const result = await httpClient.get('http://crane.otpzlab.com:7070/api/crane')
+        console.log(result.data)
         dispatch(setCraneSuccess(result.data))
     }
     catch (error) {

@@ -1,14 +1,13 @@
 // cargoCraneSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-// import { CargoCrane } from '../../types/CargoCrane.type'; // ปรับเป็นที่อยู่ของ CargoCrane interface ของคุณ
 import { server } from '../../Constants';
 import { httpClient } from '../../utlis/httpclient';
 import { RootState } from '../store';
 import { toast } from 'react-toastify';
-import { CargoCraneState, FTSCraneCargo } from '../../types/CargoCrane.type';
+import { CargoCrane, craneCargoState } from '../../types/CargoCrane.type';
 
-const initialState: CargoCraneState = {
-  cargoCrane: [],
+const initialState: craneCargoState = {
+  result: [],
   loading: false,
   error: null,
 };
@@ -21,28 +20,17 @@ const cargoCraneSlice = createSlice({
       state.loading = true
       state.error = null
     },
-    setCargoCraneSuccess: (state, action: PayloadAction<FTSCraneCargo[]>) => {
-      state.cargoCrane = action.payload
+    setCargoCraneSuccess: (state, action: PayloadAction<CargoCrane[]>) => {
+      state.result = action.payload
       state.loading = false
     },
     setCargoCraneFailure: (state, action: PayloadAction<string>) => {
       state.error = action.payload
       state.loading = false
     },
-    setInsertCargoCrane: (state, action: PayloadAction<FTSCraneCargo>) => {
-      state.cargoCrane.push(action.payload);
+    setInsertCargoCrane: (state, action: PayloadAction<CargoCrane>) => {
+      state.result.push(action.payload);
     },
-    // setUpdateCargoCrane: (state, action: PayloadAction<FTSCraneCargo>) => {
-    //   const CargoCraneIndex = state.cargoCrane.findIndex(c => c.cc_id === action.payload.cc_id);
-    //   if (CargoCraneIndex !== -1) {
-    //     state.cargoCrane[CargoCraneIndex] = action.payload;
-    //   }
-    // },
-    // setDeleteCargoCrane: (state, action: PayloadAction<string>) => {
-    //   state.cargoCrane = state.cargoCrane.filter(
-    //     (cargoCrane) => cargoCrane.cc_id !== action.payload
-    //   );
-    // },
   },
 });
 
@@ -60,25 +48,28 @@ export const loadCargoCrane = (): ThunkAction<void, RootState, unknown, any> => 
   }
 }
 
+const doGetCargoCrane = () => {
+  return async (dispatch: any) => {
+    try {
+      const result = await httpClient.get(server.CARGOCRANE);
+      dispatch(setCargoCraneSuccess(result.data));
+    } catch (error: any) {
+      dispatch(setCargoCraneFailure(error.message));
+    }
+  }
+};
+
 export const addCargoCrane = (formData: FormData, naviagte: any) => {
-  return async () => {
+  return async (dispatch: any) => {
     try {
       await httpClient.post(server.CARGOCRANE, formData);
       toast.success('successfully')
+      await dispatch(doGetCargoCrane())
       naviagte('/cargocrane')
     } catch (error) {
+      toast.warn('มีสินค้าแล้ว')
+      naviagte('/cargocrane')
       console.error('Error while adding CARRIER:', error);
     }
   };
 };
-
-// export const DeleteCargoCrane = (id: string) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.delete(`${server.CARGOCRANE}/${id}`)
-//       dispatch(setDeleteCargoCrane(id));
-//     } catch (error: any) {
-//       dispatch(setCargoCraneFailure(error.message));
-//     }
-//   };
-// };

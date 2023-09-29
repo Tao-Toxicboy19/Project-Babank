@@ -27,6 +27,7 @@ import CarrierEditPage from './components/Pages/Carrier/Edit/CarrierEditPage';
 import CargoCraneCreate from './components/Pages/Cargocrane/Insert/CargoCraneCreate';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CargoCraneEditPageV2 from './components/Pages/Cargocrane/Edit/CargoCraneEditPageV2';
 
 
 const drawerWidth = 240;
@@ -71,6 +72,7 @@ export default function ResponsiveDrawer() {
               <Route path="/orders/create" element={<OrderCreatePage />} />
               <Route path="/cargocrane" element={<CargocranePage />} />
               <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
+              <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
               <Route path="/summarize" element={< MovingTablePage />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>

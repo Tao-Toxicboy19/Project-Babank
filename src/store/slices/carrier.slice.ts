@@ -62,10 +62,11 @@ export const loadCarrier = (): ThunkAction<void, RootState, unknown, any> => asy
 }
 
 export const addCarrier = (formData: FormData, navigate: any) => {
-    return async () => {
+    return async (dispatch: any) => {
         try {
             await httpClient.post(server.CARRIER, formData);
             toast.success('Successfully')
+            await dispatch(loadCarrier())
             navigate('/carrier')
         } catch (error) {
             console.error('Error while adding CARRIER:', error);
@@ -73,7 +74,7 @@ export const addCarrier = (formData: FormData, navigate: any) => {
     };
 };
 
-const doGetCarrier = async (dispatch: any) => {
+export const doGetCarrier = async (dispatch: any) => {
     try {
         const result = await httpClient.get(server.CARRIER);
         dispatch(setCarrierSuccess(result.data));
@@ -86,6 +87,7 @@ export const deleteCarrier = (id: any, setOpen: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.delete(`${server.CARRIER}/${id}`);
+            toast.success('ลบเรียบร้อย')
             setOpen(false);
             await doGetCarrier(dispatch);
         } catch (error: any) {

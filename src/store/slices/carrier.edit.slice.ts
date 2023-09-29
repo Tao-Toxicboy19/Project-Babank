@@ -3,6 +3,7 @@ import { Carrier, CarrierEditState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
 import { toast } from "react-toastify";
+import { doGetCarrier } from "./carrier.slice";
 
 const initialState: CarrierEditState = {
     carrier: null,
@@ -35,16 +36,19 @@ const carrierEditSlice = createSlice({
 export const { setCarrierStart, setCarrierSuccess, setCarrierFailure } = carrierEditSlice.actions
 export default carrierEditSlice.reducer
 
-export const updateCarrier = (id: any, formData: FormData, setOpen: any) => {
+export const updateCarrier = (id: any, formData: any, navigate: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(setCarrierStart());
             const result = await httpClient.put(`${server.CARRIER}/${id}`, formData);
             dispatch(setCarrierSuccess(result.data));
-            setOpen(false)
+            await doGetCarrier(dispatch);
+            toast.success('แก้ไขเรียบร้อย')
+            navigate('/carrier');
         } catch (error) {
             toast.success(JSON.stringify(error));
             dispatch(setCarrierFailure('Failed to update floating data'));
         }
     };
 };
+

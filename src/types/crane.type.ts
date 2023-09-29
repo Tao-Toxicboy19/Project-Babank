@@ -1,5 +1,5 @@
 export interface Crane {
-    crane_id: any
+    id: number
     crane_name: string;
     FTS_id: number;
     setuptime_crane: number;

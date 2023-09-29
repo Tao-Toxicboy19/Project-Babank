@@ -13,6 +13,7 @@ import { loadOrder } from "../../../store/slices/order.slice";
 import CarrierMaps from "./Maps/CarrierMaps";
 import Loading from "../../layout/Loading/Loading";
 import FTSMaps from "./Maps/FTSMaps";
+import { loadCrane } from "../../../store/slices/crane.slice";
 
 
 type Props = {}
@@ -29,6 +30,7 @@ export default function HomePage({ }: Props) {
     dispatch(loadCarrier())
     dispatch(loadCargo())
     dispatch(loadOrder())
+    dispatch(loadCrane())
   }, []);
 
   return (

@@ -1,49 +1,54 @@
-import { Field, Form, Formik, FormikProps } from "formik"
-import { CargoCrane } from "../../../../types/CargoCrane.type"
-import { Button, MenuItem, Select } from "@mui/material"
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
-import { loadCrane } from "../../../../store/slices/crane.slice";
-import { useEffect } from "react";
-import { TextField } from "formik-material-ui";
-import { addCargoCrane } from "../../../../store/slices/cargocrane.slice";
-import { useNavigate } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage, FormikProps } from 'formik';
+import * as Yup from 'yup';
+import { CargoCrane } from '../../../../types/CargoCrane.type';
+import { Button, MenuItem, Select } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
+import { TextField } from 'formik-material-ui';
+import { Link, useNavigate } from 'react-router-dom';
+import { addCargoCrane } from '../../../../store/slices/cargocrane.slice';
 
 type Props = {}
 
+
 export default function CargoCraneCreate({ }: Props) {
     const FTSReducer = useSelector((state: RootState) => state.FTS);
-    const CargoReducer = useSelector((state: RootState) => state.cargo);
     const CraneReducer = useSelector((state: RootState) => state.Crane);
+    const CargoReducer = useSelector((state: RootState) => state.cargo);
     const dispatch = useDispatch<any>();
-    const naviagte = useNavigate();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        dispatch(loadCrane())
-    }, []);
+    const initialValues: any = {
+        crane_id: 0,
+        cargo_id: 0,
+        FTS_id: 0,
+        consumption_rate: 0,
+        work_rate: 0,
+        category: '',
+    };
 
-    const handleSubmit = (values: any, { setSubmitting }: any) => {
-        // dispatch(addCargoCrane(values, naviagte))
-        alert(JSON.stringify(values))
-        setSubmitting(false)
-    }
+    const validationSchema = Yup.object({
+        crane_id: Yup.number().required('กรุณากรอก Crane ID'),
+        cargo_id: Yup.number().required('กรุณากรอก Cargo ID'),
+        FTS_id: Yup.number().required('กรุณากรอก FTS ID'),
+        consumption_rate: Yup.number().required('กรุณากรอก Consumption Rate'),
+        work_rate: Yup.number().required('กรุณากรอก Work Rate'),
+        category: Yup.string().required('กรุณากรอก Category'),
+    });
 
-    const showForm = ({ values, handleChange }: FormikProps<CargoCrane>) => {
+    const handleSubmit = async (values: any, { setSubmitting }: any) => {
+        try {
+            alert(JSON.stringify(values));
+            dispatch(addCargoCrane(values, navigate))
+            setSubmitting(false);
+        } catch (error) {
+            console.error('เกิดข้อผิดพลาดในการสร้างรายการ Cargo Crane:', error);
+        }
+    };
+
+    const showForm = ({ isSubmitting, handleChange, values }: FormikProps<CargoCrane>) => {
         return (
             <Form>
-                <Field
-                    as={Select}
-                    name='crane_id'
-                    value={values.crane_id}
-                    onChange={handleChange}
-                    fullWidth
-                >
-                    {(CraneReducer.result).map((items: any) => (
-                        <MenuItem key={items.id} value={items.id}>
-                            {items.crane_name}
-                        </MenuItem>
-                    ))}
-                </Field>
                 <Field
                     as={Select}
                     name='FTS_id'
@@ -58,6 +63,32 @@ export default function CargoCraneCreate({ }: Props) {
                         </MenuItem>
                     ))}
                 </Field>
+                <ErrorMessage name="FTS_id" component="div" />
+                <Field
+                    as={Select}
+                    name='crane_id'
+                    value={values.crane_id}
+                    onChange={handleChange}
+                    fullWidth
+                >
+                    {(CraneReducer.result).map((items: any) => (
+                        <MenuItem key={items.id} value={items.id}>
+                            {items.crane_name}
+                        </MenuItem>
+                    ))}
+                </Field>
+                <ErrorMessage name="crane_id" component="div" />
+                <Field
+                    as={Select}
+                    name='category'
+                    value={values.category}
+                    onChange={handleChange}
+                    fullWidth
+                >
+                    <MenuItem value='Import'>Import</MenuItem>
+                    <MenuItem value='Export'>Export</MenuItem>
+                </Field>
+                <ErrorMessage name="category" component="div" />
                 <Field
                     as={Select}
                     name='cargo_id'
@@ -71,47 +102,43 @@ export default function CargoCraneCreate({ }: Props) {
                         </MenuItem>
                     ))}
                 </Field>
-                <Field
-                    as={Select}
-                    name='category'
-                    value={values.category}
-                    onChange={handleChange}
-                    fullWidth
-                >
-                    <MenuItem value='Import'>Import</MenuItem>
-                    <MenuItem value='Export'>Export</MenuItem>
-                </Field>
+                <ErrorMessage name="cargo_id" component="div" />
                 <Field
                     component={TextField}
-                    name='consumption_rate'
-                    type='number'
+                    type="number"
+                    name="consumption_rate"
                     fullWidth
                 />
+                <ErrorMessage name="consumption_rate" component="div" />
                 <Field
                     component={TextField}
-                    name='work_rate'
-                    type='work_rate'
+                    type="number"
+                    name="work_rate"
                     fullWidth
                 />
-                <Button type="submit" variant="outlined">
-                    Submit
+                <ErrorMessage name="work_rate" component="div" />
+                <Button
+                    type="submit"
+                    disabled={isSubmitting}>
+                    Create
                 </Button>
-            </Form >
+                <Button component={Link} to={'/cargocrane'}>
+                    กลับ
+                </Button>
+            </Form>
         )
     }
 
-    const initialValues: CargoCrane = {
-        crane_id: 0,
-        cargo_id: 0,
-        FTS_id: 0,
-        consumption_rate: 0,
-        work_rate: 0,
-        category: '',
-    }
-
     return (
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-            {(props: any) => showForm(props)}
-        </Formik>
-    )
-}
+        <div>
+            <h2>สร้างรายการ Cargo Crane</h2>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+            >
+                {(props: any) => showForm(props)}
+            </Formik>
+        </div>
+    );
+};
