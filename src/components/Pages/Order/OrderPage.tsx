@@ -48,7 +48,6 @@ export default function OrderPage({ }: Props) {
               ))}
             </TableCell>
             <TableCell align="center">{items.maxFTS}</TableCell>
-
             <TableCell align="center">{items.penalty_rate}</TableCell>
             <TableCell align="center">{items.reward_rate}</TableCell>
             <TableCell align="right">
@@ -77,7 +76,7 @@ export default function OrderPage({ }: Props) {
 
   return (
     <>
-      <TableContainer component={Paper} className='mt-5'>
+      <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
         <Box className="justify-between flex">
           <Box className="flex items-center">
             <Typography className="text-xl" variant="h1">

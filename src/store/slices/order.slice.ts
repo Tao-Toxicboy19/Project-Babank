@@ -1,9 +1,10 @@
 // orderSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { Order, OrderState } from '../../types/Order.type';
+import { Orders, OrderState } from '../../types/Order.type';
 import { server } from '../../Constants';
 import { httpClient } from '../../utlis/httpclient';
 import { RootState } from '../store';
+import { toast } from 'react-toastify';
 
 const initialState: OrderState = {
   orders: [],
@@ -19,7 +20,7 @@ const orderSlice = createSlice({
       state.loading = true
       state.error = null
     },
-    setOrderSuccess: (state, action: PayloadAction<Order[]>) => {
+    setOrderSuccess: (state, action: PayloadAction<Orders[]>) => {
       state.orders = action.payload
       state.loading = false
     },
@@ -27,10 +28,10 @@ const orderSlice = createSlice({
       state.loading = false
       state.error = action.payload
     },
-    setInsertOrder: (state, action: PayloadAction<Order>) => {
+    setInsertOrder: (state, action: PayloadAction<Orders>) => {
       state.orders.push(action.payload)
     },
-    setUpdateOrder: (state, action: PayloadAction<Order>) => {
+    setUpdateOrder: (state, action: PayloadAction<Orders>) => {
       const orderIndex = state.orders.findIndex(order => order.or_id === action.payload.or_id);
       if (orderIndex !== -1) {
         state.orders[orderIndex] = action.payload;
@@ -53,11 +54,13 @@ export const loadOrder = (): ThunkAction<void, RootState, unknown, any> => async
   }
 }
 
-export const addOrder = (formData: FormData, setOpen: any) => {
-  return async () => {
+export const addOrder = (formData: FormData, navigate: any) => {
+  return async (dispatch: any) => {
     try {
       await httpClient.post(server.ORDER, formData);
-      setOpen(false)
+      toast.success('เพิ่มออเดอร์')
+      await dispatch(loadOrder())
+      navigate('/orders')
     } catch (error) {
       console.error('Error while adding CARRIER:', error);
     }
