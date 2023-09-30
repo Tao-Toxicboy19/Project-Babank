@@ -6,6 +6,7 @@ import { TextField } from 'formik-material-ui';
 import { Link, useNavigate } from 'react-router-dom';
 import { Orders } from '../../../../types/Order.type';
 import { addOrder } from '../../../../store/slices/order.slice';
+import * as Yup from 'yup';
 
 type Props = {}
 
@@ -47,6 +48,25 @@ export default function CargoCraneCreate({ }: Props) {
   const dispatch = useDispatch<any>();
   const navigate = useNavigate()
 
+  const validationSchema = Yup.object().shape({
+    cr_id: Yup.number().required('กรุณาเลือกทุ่น'),
+    cargo_order: Yup.array().of(
+      Yup.object().shape({
+        cargo_id: Yup.number().required('กรุณาเลือกสินค้า'),
+        order_id: Yup.number().required('กรุณากรอก order_id'),
+        load: Yup.number().required('กรุณากรอกปริมาณสินค้า'),
+        bulk: Yup.number().required('กรุณากรอกจำนวนระวาง'),
+      })
+    ),
+    category: Yup.string().required('กรุณาเลือกสถานะสินค้า'),
+    maxFTS: Yup.number().required('กรุณากรอกจำนวนทุ่นเข้าสูงสุด'),
+    arrival_time: Yup.string().required('กรุณาเลือกวัน-เวลามาถึง'),
+    deadline_time: Yup.string().required('กรุณาเลือกวัน-เวลาสิ้นสุด'),
+    latitude: Yup.number().required('กรุณากรอกละติจูด'),
+    longitude: Yup.number().required('กรุณากรอกลองจิจูด'),
+    penalty_rate: Yup.number().required('กรุณากรอกค่าปรับ'),
+    reward_rate: Yup.number().required('กรุณากรอกรางวัล'),
+  });
 
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     const formattedValues = {
@@ -292,6 +312,7 @@ export default function CargoCraneCreate({ }: Props) {
     <Card sx={{ maxWidth: 950, marginX: 'auto' }}>
       <CardContent>
         <Formik
+          validationSchema={validationSchema}
           initialValues={initialValues}
           onSubmit={handleSubmit}
         >
