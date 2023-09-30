@@ -36,11 +36,6 @@ const orderSlice = createSlice({
         state.orders[orderIndex] = action.payload;
       }
     },
-    // setDeleteOrder: (state, action: PayloadAction<string>) => {
-    //   state.orders = state.orders.filter(
-    //     (orders) => orders.or_id !== action.payload
-    //   )
-    // },
   },
 });
 

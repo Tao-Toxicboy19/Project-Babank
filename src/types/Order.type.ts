@@ -1,10 +1,19 @@
+export interface OrderEditState {
+    result: Order | null
+    loading: boolean
+    error: null | string
+}
+
+export interface OrderState {
+    orders: Order[];
+    loading: boolean
+    error: string | null
+}
+
 export interface Order {
     or_id: number;
-    carrier_name: string;
+    cr_id: number;
     category: Category;
-    cargo_name: string;
-    load: number;
-    bulk: number;
     arrival_time: string;
     deadline_time: string;
     latitude: number;
@@ -12,31 +21,32 @@ export interface Order {
     maxFTS: number;
     penalty_rate: number;
     reward_rate: number;
+    carrier: CarrierClass;
+    cargo_order: CargoOrder[];
+}
+
+export interface CargoOrder {
+    order_id: number;
+    cargo_id: number;
+    load: number;
+    bulk: number;
+    cargo: Cargo;
+}
+
+export interface Cargo {
+    cargo_id: number;
+    cargo_name: string;
+}
+
+export interface CarrierClass {
+    cr_id: number;
+    carrier_name: string;
+    holder: string;
+    maxcapacity: number;
+    burden: number;
 }
 
 export enum Category {
     Export = "export",
     Import = "import",
-}
-
-
-
-export interface OrderEditState {
-    result: Order | null
-    loading: boolean
-    error: null | string
-}
-
-export interface ColumnOrder {
-    dataKey: keyof Order | "editColumn";
-    label: string;
-    numeric?: boolean;
-    width: number;
-    className?: string;
-}
-
-export interface OrderState {
-    orders: Order[];
-    loading: boolean
-    error: string | null
 }

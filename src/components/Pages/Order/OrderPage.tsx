@@ -1,174 +1,99 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, Button, CircularProgress, InputAdornment, Stack, TableCell, TextField, Tooltip, Typography } from '@mui/material';
-import { RootState } from '../../../store/store';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Search from '@mui/icons-material/Search';
-import { Order } from '../../../types/Order.type';
-import { columns } from './ColumnDataOrder';
-import { Link } from 'react-router-dom';
+import { Box, Button, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
+import { TitleOrder } from "../../../Constants"
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import AddIcon from "@mui/icons-material/Add";
+import { Link } from "react-router-dom";
 
-
-function fixedHeaderContent() {
-  return (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          variant="head"
-          align={column.numeric || false ? 'right' : 'left'}
-          style={{ width: column.width }}
-          sx={{
-            backgroundColor: 'background.paper',
-            fontWeight: 'Bold',
-            fontSize: 16
-          }}
-        >
-          {column.label}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
-
-function rowContent(_index: number, row: Order) {
-  return (
-    <React.Fragment>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          align={column.numeric || false ? 'right' : 'left'}
-        >
-          {column.dataKey === 'editColumn' ? (
-            <Stack direction='row' className="flex justify-end">
-              {/* <OrderEditPage id={row.or_id} result={row} /> */}
-              {/* <OrderDeletePage id={row.or_id} result={row.cargo_name} /> */}
-            </Stack>
-          ) : (
-            column.dataKey === 'arrival_time' || column.dataKey === 'deadline_time' ? (
-              row[column.dataKey].toLocaleString()
-            ) : (
-              row[column.dataKey]
-            )
-          )}
-        </TableCell>
-      ))}
-    </React.Fragment>
-  );
-}
+type Props = {}
 
 
 
-export default function OrderPage() {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const orderReducer = useSelector((state: RootState) => state.order);
+export default function OrderPage({ }: Props) {
+  const OrderReducer = useSelector((state: RootState) => state.order);
 
-  // search
-  const filteredData = (orderReducer.orders).filter((item) =>
-    item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const showTbody = () => {
+    return (
+      <TableBody>
+        {(OrderReducer.orders).map((items) => (
+          <TableRow
+            key={items.or_id}
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell align="left">{items.carrier.carrier_name}</TableCell>
+            {items.cargo_order.map((cargo) => (
+              <TableCell align="center" key={cargo.order_id}>{cargo.cargo.cargo_name}</TableCell>
+            ))}
+            <TableCell align="center">{items.category}</TableCell>
+            {items.cargo_order.map((cargo) => (
+              <TableCell align="center" key={cargo.order_id}>{cargo.load}</TableCell>
+            ))}
+            <TableCell align="right">{items.arrival_time}</TableCell>
+            <TableCell align="right">{items.deadline_time}</TableCell>
+            {items.cargo_order.map((cargo) => (
+              <TableCell align="center" key={cargo.order_id}>{cargo.bulk}</TableCell>
+            ))}
+            <TableCell align="right">{items.latitude}</TableCell>
+            <TableCell align="right">{items.longitude}</TableCell>
+            <TableCell align="center">{items.maxFTS}</TableCell>
+            <TableCell align="center">{items.penalty_rate}</TableCell>
+            <TableCell align="center">{items.reward_rate}</TableCell>
+            <TableCell align="right">
+              <Box className='flex flex-row justify-end'>
+                <Button>แก้ไข</Button>
+                <Button>ลบ</Button>
+              </Box>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    )
+  }
 
-  const rows: Order[] = filteredData.map((items) => ({
-    or_id: items.or_id,
-    carrier_name: items.carrier_name,
-    category: items.category,
-    cargo_name: items.cargo_name,
-    load: items.load,
-    bulk: items.bulk,
-    arrival_time: items.arrival_time,
-    deadline_time: items.deadline_time,
-    latitude: items.latitude,
-    longitude: items.longitude,
-    maxFTS: items.maxFTS,
-    penalty_rate: items.penalty_rate,
-    reward_rate: items.reward_rate,
-  }));
-
-  const VirtuosoTableComponents: TableComponents<Order> = {
-    Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
-      <TableContainer component={Paper} {...props} ref={ref} />
-    )),
-    Table: (props) => (
-      <Table
-        {...props}
-        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-      />
-    ),
-    TableHead,
-    TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
-    TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
-      <TableBody {...props} ref={ref} />
-    )),
-  };
-
+  const showThead = () => {
+    return (
+      <TableRow>
+        {TitleOrder.map((title) => (
+          <TableCell key={title} align={title === 'ชื่อเรือ' ? 'left' : 'center'}>
+            {title}
+          </TableCell>
+        ))}
+      </TableRow>
+    )
+  }
 
   return (
     <>
-      {
-        orderReducer.loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%"
-            }}
-          >
-            <CircularProgress />
+      <TableContainer component={Paper} className='mt-5'>
+        <Box className="justify-between flex">
+          <Box className="flex items-center">
+            <Typography className="text-xl" variant="h1">
+              รายการขนถ่ายสินค้า
+            </Typography>
           </Box>
-        ) : orderReducer.error ? (
-          <Typography>Error: {orderReducer.error}</Typography>
-        ) : (
-          <>
-            <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1 }}>
-              <Box className='flex justify-between m-5'>
-                <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
-                  <Tooltip title="ค้นหา">
-                    <TextField
-                      id="standard-basic"
-                      variant="standard"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Search />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            Search
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Tooltip>
-                </Stack>
-                <Button
-                  variant='outlined'
-                  component={Link}
-                  to="/orders/create"
-                >
-                  Create Order
-                </Button>
-              </Box>
-              <TableVirtuoso
-                data={rows}
-                components={VirtuosoTableComponents}
-                fixedHeaderContent={fixedHeaderContent}
-                itemContent={rowContent}
-              />
-            </Paper>
-          </>
-        )
-      }
+
+          <Box className='flex justify-end'>
+            <Tooltip title="เพิ่มออเดอร์">
+              <Fab
+                component={Link}
+                to={'/orders/create'}
+                color="primary"
+                aria-label="add"
+                size='small'
+                className='bg-blue-500 hover:bg-blue-700'
+              >
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+          </Box>
+        </Box>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead className='bg-blue-200 w-full'>
+            {showThead()}
+          </TableHead>
+          {showTbody()}
+        </Table>
+      </TableContainer>
     </>
-  );
+  )
 }

@@ -43,7 +43,7 @@ export default CraneSlice.reducer;
 export const loadCrane = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setCraneState())
-        const result = await httpClient.get('http://crane.otpzlab.com:7070/api/crane')
+        const result = await httpClient.get(server.CRANE)
         console.log(result.data)
         dispatch(setCraneSuccess(result.data))
     }
