@@ -9,6 +9,7 @@ import { loadCrane } from '../../../store/slices/crane.slice';
 import { loadCargo } from '../../../store/slices/cargo.slice';
 import { loadCargoCrane } from '../../../store/slices/cargocrane.slice';
 import { RootState } from '../../../store/store';
+import CargoCraneDeletePage from './Delete/CargoCraneDeletePage';
 
 type Props = {}
 
@@ -79,7 +80,7 @@ export default function App({ }: Props) {
                   <td>{items[0].work_rate}</td>
                   <td>
                     <Button component={Link} to={`/cargocrane/edit/${items[0].cargo_crane_id}`}>แก้ไข{items[0].cargo_crane_id} </Button>
-                    <button>ลบ</button>
+                    <CargoCraneDeletePage id={items[0].cargo_crane_id} />
                   </td>
                 </tr>
                 {
@@ -94,7 +95,7 @@ export default function App({ }: Props) {
                       <td>{item.work_rate}</td>
                       <td>
                         <Button component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>แก้ไข{item.cargo_crane_id} </Button>
-                        <button>ลบ</button>
+                        <CargoCraneDeletePage id={item.cargo_crane_id} />
                       </td>
                     </tr>
                   ))

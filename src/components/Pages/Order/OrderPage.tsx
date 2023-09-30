@@ -21,21 +21,34 @@ export default function OrderPage({ }: Props) {
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell align="left">{items.carrier.carrier_name}</TableCell>
-            {items.cargo_order.map((cargo) => (
-              <TableCell align="center" key={cargo.order_id}>{cargo.cargo.cargo_name}</TableCell>
-            ))}
+
+            <TableCell align="center">
+              {items.cargo_order.map((cargo) => (
+                <>
+                  <Typography className='flex justify-center'>
+                    {cargo.cargo.cargo_name}
+                  </Typography>
+                </>
+              ))}
+            </TableCell>
+            <TableCell>
+              {items.cargo_order.map((cargo) => (
+                <Typography align="center" key={cargo.order_id}>{cargo.load}</Typography>
+              ))}
+            </TableCell>
             <TableCell align="center">{items.category}</TableCell>
-            {items.cargo_order.map((cargo) => (
-              <TableCell align="center" key={cargo.order_id}>{cargo.load}</TableCell>
-            ))}
             <TableCell align="right">{items.arrival_time}</TableCell>
             <TableCell align="right">{items.deadline_time}</TableCell>
-            {items.cargo_order.map((cargo) => (
-              <TableCell align="center" key={cargo.order_id}>{cargo.bulk}</TableCell>
-            ))}
             <TableCell align="right">{items.latitude}</TableCell>
             <TableCell align="right">{items.longitude}</TableCell>
+
+            <TableCell>
+              {items.cargo_order.map((cargo) => (
+                <Typography align="center" key={cargo.order_id}>{cargo.bulk}</Typography>
+              ))}
+            </TableCell>
             <TableCell align="center">{items.maxFTS}</TableCell>
+
             <TableCell align="center">{items.penalty_rate}</TableCell>
             <TableCell align="center">{items.reward_rate}</TableCell>
             <TableCell align="right">
@@ -93,7 +106,7 @@ export default function OrderPage({ }: Props) {
           </TableHead>
           {showTbody()}
         </Table>
-      </TableContainer>
+      </TableContainer >
     </>
   )
 }

@@ -1,15 +1,15 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { DeleteCargoCrane } from '../../../../store/slices/cargocrane.slice';
 import DeleteForever from '@mui/icons-material/DeleteForever';
+import { useDispatch } from 'react-redux';
+import { DeleteCargoCrane } from '../../../../store/slices/cargocrane.slice';
 
-export default function CargoCraneDeletePage({ id, result }: any) {
-    // const dispatch = useDispatch<any>();
+export default function CargoCraneDeletePage({ id }: any) {
+    const dispatch = useDispatch<any>();
     const [open, setOpen] = useState(false);
 
     const handleDeleteConfirm = () => {
-        // dispatch(DeleteCargoCrane(id))
+        dispatch(DeleteCargoCrane(id, setOpen))
     }
 
     return (
@@ -28,7 +28,7 @@ export default function CargoCraneDeletePage({ id, result }: any) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title" className='flex justify-center'>
-                    {`ต้องการลบทุ่น ${result} ?`}
+                    {/* {`ต้องการลบทุ่น ${result} ?`} */}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className='flex justify-center'>

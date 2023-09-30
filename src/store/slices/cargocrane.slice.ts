@@ -59,6 +59,19 @@ const doGetCargoCrane = () => {
   }
 };
 
+export const DeleteCargoCrane = (id: any, setOpen: any) => async (dispatch: any) => {
+  try {
+    await httpClient.delete(`${server.CARGOCRANE}/${id}`)
+    await dispatch(doGetCargoCrane())
+    setOpen(false);
+    toast.success("ลบเรียบร้อย");
+  } catch (error) {
+    dispatch(setCargoCraneFailure('error deleting cargo'));
+
+  }
+}
+
+
 export const addCargoCrane = (formData: FormData, naviagte: any) => {
   return async (dispatch: any) => {
     try {
