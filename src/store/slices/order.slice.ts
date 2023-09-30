@@ -4,7 +4,6 @@ import { Orders, OrderState } from '../../types/Order.type';
 import { server } from '../../Constants';
 import { httpClient } from '../../utlis/httpclient';
 import { RootState } from '../store';
-import { toast } from 'react-toastify';
 
 const initialState: OrderState = {
   orders: [],
@@ -58,9 +57,8 @@ export const addOrder = (formData: FormData, navigate: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.post(server.ORDER, formData);
-      toast.success('เพิ่มออเดอร์')
       await dispatch(loadOrder())
-      navigate('/orders')
+      navigate('/orders/create/cargo')
     } catch (error) {
       console.error('Error while adding CARRIER:', error);
     }

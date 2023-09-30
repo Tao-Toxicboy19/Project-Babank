@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 type Props = {}
 
 
-
 export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
 

@@ -56,7 +56,8 @@ export const server = {
     FTSSOLUTION: `ftssolution`,
     CRANESOLUTION: `cranesolution`,
     CRANE: `crane`,
-    SOLUTIONSCHEDULE: `solution_schedule`
+    SOLUTIONSCHEDULE: `solution_schedule`,
+    CARGOORDER_URL:`cargoorder`
 };
 
 export const YES = "YES";

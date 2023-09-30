@@ -1,4 +1,4 @@
-import { Formik, Form, Field, FormikProps, FieldArray } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import { Box, Button, Card, CardContent, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 
 type Props = {}
 
-const initialValues: Orders = {
+const initialValues: any = {
   or_id: 0,
   cr_id: 0,
   category: '',
@@ -21,29 +21,9 @@ const initialValues: Orders = {
   maxFTS: 0,
   penalty_rate: 0,
   reward_rate: 0,
-  carrier: {
-    cr_id: 0,
-    carrier_name: '',
-    holder: '',
-    maxcapacity: 0,
-    burden: 0,
-  },
-  cargo_order: [
-    {
-      order_id: 0,
-      cargo_id: 0,
-      load: 0,
-      bulk: 0,
-      cargo: {
-        cargo_id: 0,
-        cargo_name: '',
-      },
-    },
-  ],
 };
 
 export default function CargoCraneCreate({ }: Props) {
-  const CargoReducer = useSelector((state: RootState) => state.cargo);
   const CarrierReducer = useSelector((state: RootState) => state.carrier);
   const dispatch = useDispatch<any>();
   const navigate = useNavigate()
@@ -68,7 +48,7 @@ export default function CargoCraneCreate({ }: Props) {
     reward_rate: Yup.number().required('กรุณากรอกรางวัล'),
   });
 
-  const handleSubmit = async (values: any, { setSubmitting }: any) => {
+  const handleSubmit = async (values: any, { isSubmitting }: any) => {
     const formattedValues = {
       ...values,
       arrival_time: new Date(values.arrival_time).toISOString(),
@@ -78,7 +58,7 @@ export default function CargoCraneCreate({ }: Props) {
     };
     try {
       dispatch(addOrder(formattedValues, navigate))
-      setSubmitting(false);
+      isSubmitting(false);
     } catch (error) {
       console.error('เกิดข้อผิดพลาดในการสร้างรายการ Cargo Crane:', error);
     }
@@ -104,94 +84,6 @@ export default function CargoCraneCreate({ }: Props) {
               ))}
             </Field>
           </Box>
-          <Box className=''>
-            <FieldArray
-              name="cargo_order"
-              render={arrayHelpers => (
-                <Box className="m-5">
-                  {values.cargo_order.map((cargo, index) => (
-                    <Box key={cargo.order_id}>
-
-                      <Stack spacing={2} direction='column'>
-                        <Box>
-                          <InputLabel id="order_id">เลือกสินค้า</InputLabel>
-                          <Field
-                            as={Select}
-                            name={`cargo_order[${index}].cargo_id`}
-                            onChange={handleChange}
-                            fullWidth
-                          >
-                            {(CargoReducer.cargo).map((items) => (
-                              <MenuItem key={items.cargo_id} value={items.cargo_id}>
-                                {items.cargo_name}
-                              </MenuItem>
-                            ))}
-                          </Field>
-                        </Box>
-                        <Box>
-                          <InputLabel id="order_id">order_id</InputLabel>
-                          <Field
-                            component={TextField}
-                            type="number"
-                            name={`cargo_order[${index}].order_id`}
-                            fullWidth
-                          />
-                        </Box>
-
-                        <Stack spacing={2} direction='row'>
-                          <Box className='w-full'>
-                            <InputLabel id="order_id">ปริมาณสินค้า (ตัน)</InputLabel>
-                            <Field
-                              component={TextField}
-                              type="number"
-                              name={`cargo_order[${index}].load`}
-                              fullWidth
-                            />
-                          </Box>
-                          <Box className='w-full'>
-                            <InputLabel id="order_id">จำนวนระวาง</InputLabel>
-                            <Field
-                              component={TextField}
-                              type="number"
-                              name={`cargo_order[${index}].bulk`}
-                              fullWidth
-                            />
-                          </Box>
-                        </Stack>
-                      </Stack>
-                      <Stack spacing={2} direction='row' className='flex justify-end my-3'>
-                        <Button
-                          variant="outlined"
-                          type="button"
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
-                          ลบสินค้า
-                        </Button>
-                        <Button
-                          variant="contained"
-                          type="button"
-                          className='bg-[#1976D2] hover:bg-[#1563BC]'
-                          onClick={() => arrayHelpers.push({
-                            cargo_id: 0,
-                            load: 0,
-                            bulk: 0,
-                            cargo: {
-                              cargo_id: 0,
-                              cargo_name: '',
-                            },
-                          })}
-                        >
-                          เพิ่มสินค้า
-                        </Button>
-                      </Stack>
-                    </Box>
-                  ))}
-
-                </Box>
-              )}
-            />
-          </Box>
-
           <Stack spacing={2} direction='row' >
             <Box className='w-full'>
               <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
@@ -300,7 +192,7 @@ export default function CargoCraneCreate({ }: Props) {
               className='bg-[#1976D2] hover:bg-[#1563BC]'
               disabled={isSubmitting}
             >
-              เพิ่มทุ่น
+              เพิ่มสินค้า
             </Button>
           </Stack>
         </Stack>
@@ -309,7 +201,7 @@ export default function CargoCraneCreate({ }: Props) {
   }
 
   return (
-    <Card sx={{ maxWidth: 950, marginX: 'auto' }}>
+    <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
       <CardContent>
         <Formik
           validationSchema={validationSchema}
