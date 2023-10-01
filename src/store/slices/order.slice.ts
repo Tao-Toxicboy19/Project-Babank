@@ -53,10 +53,10 @@ export const loadOrder = (): ThunkAction<void, RootState, unknown, any> => async
   }
 }
 
-export const addOrder = (formData: FormData, navigate: any) => {
+export const addOrder = (formattedValues: any, navigate: any) => {
   return async (dispatch: any) => {
     try {
-      await httpClient.post(server.ORDER, formData);
+      await httpClient.post(server.ORDER, formattedValues);
       await dispatch(loadOrder())
       navigate('/orders/create/cargo')
     } catch (error) {

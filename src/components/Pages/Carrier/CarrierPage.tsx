@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
-import { Box, Fab, IconButton, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Fab, IconButton, InputAdornment, Stack, TextField, Tooltip } from '@mui/material';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import Add from '@mui/icons-material/Add';
 import { LuFileEdit } from 'react-icons/lu';
 import Loading from '../../layout/Loading/Loading';
+import NotFound from '../../layout/ERR_REPORT/PageNotFound';
 
 
 
@@ -60,7 +61,6 @@ function rowContent(_index: number, row: Carrier) {
                 </IconButton>
               </Tooltip>
               <CarrierDeletePage id={row.cr_id} />
-              {/* <CarrierDeletePage id={row.cr_id} result={row.carrier_name} /> */}
             </Stack>
           ) : (
             row[column.dataKey]
@@ -113,11 +113,11 @@ export default function CarrierPage() {
         carrierReducer.loading ? (
           <Loading />
         ) : carrierReducer.error ? (
-          <Typography>Error: {carrierReducer.error}</Typography>
+          <NotFound />
         ) : (
           <>
-            <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
-              <Box className='flex justify-between m-5'>
+            <Paper sx={{ height: '82.5vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
+              <Box className='flex justify-between mx-5'>
                 <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                   <Tooltip title="ค้นหา">
                     <TextField
@@ -146,7 +146,7 @@ export default function CarrierPage() {
                       color="primary"
                       aria-label="add"
                       size='small'
-                      className='bg-blue-500 hover:bg-blue-700 mt-5'
+                      className='bg-blue-500 hover:bg-blue-700 my-4'
 
                     >
                       <Add />

@@ -3,6 +3,7 @@ import { server } from "../../Constants";
 import { httpClient } from "../../utlis/httpclient";
 import { RootState } from "../store";
 import { Cargo, CargoState } from "../../types/Cargo.type";
+import { toast } from "react-toastify";
 
 const initialState: CargoState = {
   cargo: [],
@@ -29,11 +30,10 @@ const cargoSlice = createSlice({
       state.loading = false
       state.cargo = []
     },
-    setInsertCargo: (state, action: PayloadAction<Cargo>) => {
-      state.cargo.push(action.payload)
-      state.loading = false
-      state.error = null
+    setInsertCargo: (state, action: PayloadAction<any>) => {
+      state.cargo.push(...action.payload);
     },
+
     setUpdateCargo: (state, action: PayloadAction<Cargo>) => {
       const carrierIndex = state.cargo.findIndex(cargo => cargo.cargo_id === action.payload.cargo_id);
       if (carrierIndex !== -1) {
@@ -57,19 +57,20 @@ export const loadCargo = (): ThunkAction<void, RootState, unknown, any> => async
   try {
     dispatch(setCargoStart())
     const result = await httpClient.get(server.CARGO)
-    setTimeout(() => {
-      dispatch(setCargoSuccess(result.data))
-    }, 1500);
+    dispatch(setCargoSuccess(result.data))
   }
   catch (error) {
     dispatch(setCargoFailure("Failed to fetch CARGO data"))
   }
 }
 
-export const addCargo = (formData: FormData, setOpen: any) => {
-  return async () => {
+export const addCargo = (values: any, setOpen: any) => {
+  return async (dispatch: any) => {
     try {
-      await httpClient.post(server.CARGO, formData);
+      await httpClient.post(server.CARGO, values);
+      const result = await httpClient.get(server.CARGO)
+      dispatch(setCargoSuccess(result.data))
+      toast.success('เพิ่มสินค้าเรียบร้อย')
       setOpen(false)
     } catch (error) {
       console.error('Error while adding CARRIER:', error);

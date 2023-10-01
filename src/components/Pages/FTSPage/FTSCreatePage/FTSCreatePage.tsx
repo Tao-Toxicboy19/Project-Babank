@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Login } from '../../../../types/User.type';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { addFTS } from '../../../../store/slices/FTS.slice';
+import { useState } from 'react';
 
 
 type Props = {}
@@ -15,12 +16,17 @@ const defaultTheme = createTheme();
 export default function FTSCreatePage({ }: Props) {
   const navigate = useNavigate()
   const dispatch = useDispatch<any>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (values: any, { isSubmitting }: any) => {
-    dispatch(addFTS(values, navigate))
-    isSubmitting(false)
-  }
-
+  const handleSubmit = async (values: any) => {
+    setIsSubmitting(true);
+    try {
+      await dispatch(addFTS(values, navigate))
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
+    }
+  };
 
   const validateForm = (values: FTS) => {
     let errors: any = {}
@@ -33,7 +39,7 @@ export default function FTSCreatePage({ }: Props) {
   };
 
 
-  const showForm = ({ isSubmitting }: FormikProps<Login>) => {
+  const showForm = ({ }: FormikProps<Login>) => {
     return (
       <Form className="w-[750px]">
         <Field
@@ -119,9 +125,7 @@ export default function FTSCreatePage({ }: Props) {
         <Card>
           <CardContent>
             <Box className=" w-full flex justify-between gap-x-2">
-              {/* <Typography className="flex justify-center w-full items-center">
-                  เพิ่มทุ่น
-                </Typography> */}
+
               <Button fullWidth variant="contained" disabled>เพิ่มทุ่น</Button>
 
               <Button fullWidth variant="contained" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>

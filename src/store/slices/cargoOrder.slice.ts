@@ -60,3 +60,24 @@ export const cargoOrder = (values: any, navigate: any): ThunkAction<void, RootSt
         dispatch(setcargoOrderFailure("error"));
     }
 };
+
+
+export const updateCargoOrder = (id: any, values: any, navigate: any, setIsSubmitting: any) => {
+    return async (dispatch: any) => {
+        try {
+            setIsSubmitting(true);
+            dispatch(setcargoOrderStart());
+            const result = await httpClient.put(`${server.CARGOORDER_URL}/${id}`, values);
+            dispatch(setcargoOrderSuccess(result.data));
+            navigate('/orders/cargo/edit')
+            console.log(result.data)
+        } catch (error) {
+            alert(JSON.stringify(error));
+            dispatch(setcargoOrderFailure('Failed to update floating data'));
+        } finally {
+            setTimeout(() => {
+                setIsSubmitting(false);
+            }, 2000);
+        }
+    };
+};

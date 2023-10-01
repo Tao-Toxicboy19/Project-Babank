@@ -17,7 +17,7 @@ export default function FTSPage({ }: Props) {
   }, []);
 
   return (
-    <Card sx={{ minHeight: '85vh' }} className="bg-[#FFF] backdrop-blur-xl">
+    <Card sx={{ minHeight: '90vh' }} className="bg-[#FFF] backdrop-blur-xl">
       <CardContent>
         {FTSReducer.loading ? (
           <Loading />

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Carrier } from '../../../../types/Carrier.type';
 import { addCarrier } from '../../../../store/slices/carrier.slice';
+import { useState } from 'react';
 
 
 type Props = {}
@@ -14,11 +15,18 @@ const defaultTheme = createTheme();
 export default function CarrierCreatePage({ }: Props) {
   const navigate = useNavigate()
   const dispatch = useDispatch<any>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (values: any, { isSubmitting }: any) => {
-    dispatch(addCarrier(values, navigate))
-    isSubmitting(false)
-  }
+
+  const handleSubmit = async (values: any) => {
+    setIsSubmitting(true);
+    try {
+      await dispatch(addCarrier(values, navigate));
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
+    }
+  };
 
   const validateForm = (values: Carrier) => {
     let errors: any = {}
@@ -30,7 +38,7 @@ export default function CarrierCreatePage({ }: Props) {
   };
 
 
-  const showForm = ({ isSubmitting }: FormikProps<Carrier>) => {
+  const showForm = ({ }: FormikProps<Carrier>) => {
     return (
       <Form className="w-[750px]">
         <Field

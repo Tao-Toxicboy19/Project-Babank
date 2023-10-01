@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { Crane } from '../../../../types/crane.type';
 import { addCrane } from '../../../../store/slices/crane.edit.slice';
+import { useState } from 'react';
 
 type Props = {}
 
@@ -16,13 +17,19 @@ export default function CraneCreatePage({ }: Props) {
     const navigate = useNavigate()
     const dispatch = useDispatch<any>();
     const FTSSlice = useSelector((state: RootState) => state.FTS);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = async (values: any, { isSubmitting }: any) => {
-        dispatch(addCrane(values, navigate))
-        isSubmitting(false)
-    }
+    const handleSubmit = async (values: any) => {
+        setIsSubmitting(true);
+        try {
+            await dispatch(addCrane(values, navigate))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false);
+        }
+    };
 
-    const showForm = ({ values, isSubmitting, handleChange }: FormikProps<Crane>) => {
+    const showForm = ({ values, handleChange }: FormikProps<Crane>) => {
         return (
             <Form className="w-[750px]">
                 <Field
@@ -87,7 +94,7 @@ export default function CraneCreatePage({ }: Props) {
         )
     }
 
-    const initialValues: Crane = {
+    const initialValues: any = {
         crane_id: 0, crane_name: '', FTS_id: 0, setuptime_crane: 0,
     }
 
@@ -97,9 +104,6 @@ export default function CraneCreatePage({ }: Props) {
                 <Card>
                     <CardContent>
                         <Box className=" w-full flex justify-between gap-x-2">
-                            {/* <Typography className="flex justify-center w-full items-center">
-                  เพิ่มทุ่น
-                </Typography> */}
                             <Button fullWidth variant="contained" component={Link} to="/transferstation/create" >เพิ่มทุ่น</Button>
 
                             <Button fullWidth variant="contained" disabled>เพิ่มเครน</Button>

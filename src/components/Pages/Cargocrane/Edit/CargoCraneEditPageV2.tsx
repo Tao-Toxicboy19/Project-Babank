@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
 import { Box, Button, Card, CardContent, CircularProgress, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
@@ -12,12 +11,12 @@ import { FTS } from '../../../../types/FloatingCrane.type';
 import { toast } from 'react-toastify';
 import { CargoCrane } from '../../../../types/CargoCrane.type';
 import { Cargo } from '../../../../types/Cargo.type';
+import { httpClient } from '../../../../utlis/httpclient';
 
 type Props = {};
 
 export default function CraneEditPage({ }: Props) {
     const [Cargocrane, setsetCargocrane] = useState<CargoCrane | null>(null)
-
     const { id } = useParams();
     const navigate = useNavigate()
     const FTSReducer = useSelector((state: RootState) => state.FTS);
@@ -27,9 +26,8 @@ export default function CraneEditPage({ }: Props) {
     useEffect(() => {
         const fetchCraneData = async () => {
             try {
-                const response = await axios.get(`${server.CARGOCRANE}/${id}`);
+                const response = await httpClient.get(`${server.CARGOCRANE}/${id}`);
                 setsetCargocrane(response.data);
-                console.log(response.data)
             } catch (error) {
                 console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
             }
@@ -75,7 +73,7 @@ export default function CraneEditPage({ }: Props) {
         event.preventDefault();
 
         try {
-            await axios.put(`${server.CARGOCRANE}/${id}`, Cargocrane);
+            await httpClient.put(`${server.CARGOCRANE}/${id}`, Cargocrane);
             console.log(Cargocrane)
             toast.success('แก้ไขเครนรรีนยร้อย');
             navigate('/cargocrane')

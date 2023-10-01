@@ -51,7 +51,12 @@ export default function OrderPage({ }: Props) {
             <TableCell align="center">{items.reward_rate}</TableCell>
             <TableCell align="right">
               <Box className='flex flex-row justify-end'>
-                <Button>แก้ไข</Button>
+                <Button
+                  component={Link}
+                  to={`/orders/edit/${items.or_id}`}
+                >
+                  แก้ไข
+                </Button>
                 <Button>ลบ</Button>
               </Box>
             </TableCell>

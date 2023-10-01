@@ -4,12 +4,9 @@ import CargoList from './CargoList';
 import { Box, IconButton, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
 
-export default function TreeNode({ status, setStatus, crane_name, category_v1, FTS_id }: any) {
+export default function TreeNode({ crane_name, category_v1, FTS_id }: any) {
     const [isOpen, setIsOpen] = useState(false);
-    const StatusReducer = useSelector((state: RootState) => state.status);
 
     const toggleNode = () => {
         setIsOpen(!isOpen);

@@ -21,19 +21,19 @@ export default function TreeTable({ FTSReducer }: Props) {
 
                 <Box className='flex justify-end'>
                     <Tooltip title="เพิ่มทุ่น">
-                        <Link to="/transferstation/create">
-                            <Fab
-                                color="primary"
-                                aria-label="add"
-                                size='small'
-                                className='bg-blue-500 hover:bg-blue-700'
-                            >
-                                <Add />
-                            </Fab>
-                        </Link>
+                        <Fab
+                            component={Link}
+                            to="/transferstation/create"
+                            color="primary"
+                            aria-label="add"
+                            size='small'
+                            className='bg-blue-500 hover:bg-blue-700'
+                        >
+                            <Add />
+                        </Fab>
                     </Tooltip>
                 </Box>
-            </Box>
+            </Box >
             <Grid
                 container spacing={1}
                 columns={12}
@@ -71,18 +71,20 @@ export default function TreeTable({ FTSReducer }: Props) {
                 </Grid>
             </Grid>
 
-            {FTSReducer.map((node, index) => (
-                <TreeTableNode
-                    key={index}
-                    fts_id={node.fts_id}
-                    FTS_name={node.FTS_name}
-                    lat={node.lat}
-                    lng={node.lng}
-                    setuptime_FTS={node.setuptime_FTS}
-                    speed={node.speed}
-                    result={node.result}
-                />
-            ))}
+            {
+                FTSReducer.map((node, index) => (
+                    <TreeTableNode
+                        key={index}
+                        fts_id={node.fts_id}
+                        FTS_name={node.FTS_name}
+                        lat={node.lat}
+                        lng={node.lng}
+                        setuptime_FTS={node.setuptime_FTS}
+                        speed={node.speed}
+                        result={node.result}
+                    />
+                ))
+            }
         </>
     );
 }

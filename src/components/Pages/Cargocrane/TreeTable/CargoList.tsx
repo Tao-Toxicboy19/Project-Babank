@@ -3,7 +3,7 @@ import { Box, Button, IconButton, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-export default function CargoList({ status, setStatus, category, cargo, FTS_id }: any) {
+export default function CargoList({ category, cargo }: any) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNode = () => {

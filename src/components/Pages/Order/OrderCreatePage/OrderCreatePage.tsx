@@ -57,6 +57,7 @@ export default function CargoCraneCreate({ }: Props) {
       longitude: parseFloat(values.longitude),
     };
     try {
+      console.log(formattedValues);
       dispatch(addOrder(formattedValues, navigate))
       isSubmitting(false);
     } catch (error) {
@@ -185,6 +186,7 @@ export default function CargoCraneCreate({ }: Props) {
               กลับ
             </Button>
             <Button
+              // component={Link} to={'/orders/create/cargo'}
               type="submit"
               fullWidth
               variant="contained"

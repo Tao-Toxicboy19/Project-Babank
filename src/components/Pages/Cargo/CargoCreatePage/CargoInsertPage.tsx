@@ -2,12 +2,11 @@ import { Formik, Form, Field, FormikProps } from 'formik';
 import React from 'react';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Typography, TextField } from '@mui/material'
+import { Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, TextField, Stack, Button } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
-import { server } from '../../../../Constants';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import DoneIcon from '@mui/icons-material/Done';
+import { addCargo } from '../../../../store/slices/cargo.slice';
+import { useDispatch } from 'react-redux';
 
 type Props = {}
 
@@ -21,6 +20,8 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function CargoInsertPage({ }: Props) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const dispatch = useDispatch<any>();
     const [cargoCount, setCargoCount] = useState(1);
     const [open, setOpen] = useState(false);
 
@@ -34,32 +35,79 @@ export default function CargoInsertPage({ }: Props) {
             .min(1, 'คุณต้องกรอกอย่างน้อย 1 รายการ Cargo'),
     });
 
-    const handleSubmit = (values: any, { setSubmitting }: any) => {
-        alert(JSON.stringify(values));
+    const handleSubmit = async (values: any) => {
+        setIsSubmitting(true);
+        try {
+            await dispatch(addCargo(values, setOpen))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false);
+        }
     };
+
 
     const addCargoField = () => {
         setCargoCount((prevCount) => prevCount + 1);
     };
 
-    const showForm = ({ isSubmitting }: FormikProps<any>) => {
+    const addCargoFieldV2 = () => {
+        setCargoCount((prevCount) => prevCount - 1);
+    };
+
+    const showForm = ({ }: FormikProps<any>) => {
         return (
             <Form>
-                {cargoCount > 0 &&
-                    Array.from({ length: cargoCount }, (_, index) => (
-                        <Field
-                            key={index}
-                            name={`cargo_names[${index}]`}
-                            type="text"
-                            placeholder="กรอกชื่อ Cargo"
-                        />
-                    ))}
-                <button type="button" onClick={addCargoField}>
-                    เพิ่มรายการ Cargo
-                </button>
-                <button type="submit" disabled={isSubmitting}>
-                    บันทึก
-                </button>
+                <Stack spacing={2} direction='column'>
+                    {cargoCount > 0 &&
+                        Array.from({ length: cargoCount }, (_, index) => (
+                            <Field
+                                key={index}
+                                id='maxcapacity'
+                                label='ชื่อสินค้า'
+                                component={TextField}
+                                name={`cargo_names[${index}]`}
+                                type="text"
+                                fullWidth
+                            />
+                        ))}
+                    <Stack spacing={2} direction='row' className='justify-between'>
+                        <Stack spacing={2} direction='row'>
+                            <Button
+                                variant="contained"
+                                type="button"
+                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                onClick={addCargoField}
+                            >
+                                เพิ่มสินค้า
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                type="button"
+                                onClick={addCargoFieldV2}
+                            >
+                                ลบสินค้า
+                            </Button>
+                        </Stack>
+                        <Stack spacing={2} direction='row' >
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                onClick={() => setOpen(false)}
+                            >
+                                ปิด
+                            </Button>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                type="submit"
+                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                disabled={isSubmitting}
+                            >
+                                บันทึก
+                            </Button>
+                        </Stack>
+                    </Stack>
+                </Stack>
             </Form>
         );
     }
@@ -71,7 +119,7 @@ export default function CargoInsertPage({ }: Props) {
                     color="primary"
                     aria-label="add"
                     size='small'
-                    className='bg-blue-500 hover:bg-blue-700'
+                    className='bg-blue-500 hover:bg-blue-700 my-4'
                     onClick={() => setOpen(true)}>
                     <AddIcon />
                 </Fab>
@@ -84,7 +132,7 @@ export default function CargoInsertPage({ }: Props) {
                 aria-describedby="alert-dialog-slide-description"
                 fullWidth
             >
-                <DialogTitle>{"เพิ่มสินค้า"}</DialogTitle>
+                <DialogTitle className='flex justify-center'>{"เพิ่มสินค้า"}</DialogTitle>
                 <Card>
                     <CardContent className="">
                         <DialogContent>

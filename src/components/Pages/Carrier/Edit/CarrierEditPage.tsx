@@ -16,6 +16,7 @@ export default function CarrierEditPage({ }: Props) {
     const { id } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch<any>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const fetchFTSData = async () => {
@@ -40,7 +41,13 @@ export default function CarrierEditPage({ }: Props) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(updateCarrier(id, CarrierData, navigate))
+        try {
+            await dispatch(updateCarrier(id, CarrierData, navigate))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false);
+        }
+        setIsSubmitting(true);
     };
 
     return (
@@ -107,7 +114,9 @@ export default function CarrierEditPage({ }: Props) {
                             variant="contained"
                             fullWidth
                             startIcon={<SaveIcon />}
-                            type="submit" >
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
                             บันทึก
                         </Button>
                     </Stack>

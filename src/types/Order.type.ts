@@ -45,3 +45,16 @@ export interface Carrier {
     maxcapacity: number;
     burden: number;
 }
+
+
+export interface CargoItem {
+    cargo_id: number;
+    load: number;
+    bulk: number;
+}
+
+export interface CargoItem {
+    cargo_id: number;
+    load: number;
+    bulk: number;
+}

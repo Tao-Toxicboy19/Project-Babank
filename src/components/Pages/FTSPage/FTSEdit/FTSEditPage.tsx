@@ -15,6 +15,7 @@ export default function FTSEditPage({ }: Props) {
   const [FTSData, setFTSData] = useState<FTS | null>(null);
   const { id } = useParams()
   const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchFTSData = async () => {
@@ -39,13 +40,16 @@ export default function FTSEditPage({ }: Props) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
     try {
       await axios.put(`${server.FLOATING}/${id}`, FTSData);
+      setIsSubmitting(false);
       toast.success('แก้ไขทุ่นเรียบร้อย');
       navigate('/transferstation')
     } catch (error) {
       console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล FTS:', error);
+      setIsSubmitting(false);
     }
   };
 
@@ -142,7 +146,9 @@ export default function FTSEditPage({ }: Props) {
               variant="contained"
               fullWidth
               startIcon={<SaveIcon />}
-              type="submit" >
+              type="submit"
+              disabled={isSubmitting}
+            >
               บันทึก
             </Button>
           </Stack>

@@ -10,6 +10,7 @@ import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { toast } from 'react-toastify';
+import { httpClient } from '../../../../utlis/httpclient';
 
 type Props = {};
 
@@ -18,7 +19,7 @@ export default function CraneEditPage({ }: Props) {
     const { id } = useParams();
     const navigate = useNavigate()
     const FTSSlice = useSelector((state: RootState) => state.FTS);
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const fetchCraneData = async () => {
@@ -52,13 +53,16 @@ export default function CraneEditPage({ }: Props) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setIsSubmitting(true);
 
         try {
-            await axios.put(`${server.CRANE}/${id}`, craneData);
+            await httpClient.put(`${server.CRANE}/${id}`, craneData);
+            setIsSubmitting(false);
             toast.success('แก้ไขเครนรรีนยร้อย');
             navigate('/transferstation')
         } catch (error) {
             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล Crane:', error);
+            setIsSubmitting(false);
         }
     };
 
@@ -142,7 +146,9 @@ export default function CraneEditPage({ }: Props) {
                                 fullWidth
                                 variant="contained"
                                 startIcon={<SaveIcon />}
-                                type="submit" >
+                                type="submit"
+                                disabled={isSubmitting}
+                            >
                                 บันทึก
                             </Button>
                         </Stack>

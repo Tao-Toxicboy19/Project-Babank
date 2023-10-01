@@ -4,12 +4,9 @@ import { TreeTableNodeProps } from '../../../../types/CargoCrane.type';
 import { Box, IconButton, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
 
 export default function TreeTableNode({ FTS_name, FTS_id, result }: TreeTableNodeProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const StatusReducer = useSelector((state: RootState) => state.status);
 
 
     const toggleNode = () => {

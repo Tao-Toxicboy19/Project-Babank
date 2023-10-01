@@ -73,8 +73,11 @@ export const deleteFTS = (id: any, setOpen: any) => {
             dispatch(setDeleteFTS(id));
             toast.success('ลบทุ่นเรียบร้อย');
         } catch (error: any) {
-            if (error.response && error.response.status === 400) {
-                toast.success('ไม่สามารถลบข้อมูลได้ เนื่องจากมี Crane ที่ใช้งานอ้างอิงถึง FTS นี้');
+            if (error.response && error.response.status === 500) {
+                toast.warn(`
+                ไม่สามารถลบข้อมูลได้ เนื่องจากมี 
+                ข้อมูลอยู่ที่ ข้อมูลสินค้าและเครน
+                `);
                 setOpen(false)
             } else {
                 console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
@@ -100,7 +103,16 @@ export const deleteCrane = (id: any, setOpen: any) => {
             toast.success('ลบทุ่นเรียบร้อย');
             await doGetCrane(dispatch);
         } catch (error: any) {
-            dispatch(setFTSFailure(error.message));
+            if (error.response && error.response.status === 500) {
+                toast.warn(`
+                ไม่สามารถลบข้อมูลได้ เนื่องจากมี 
+                ข้อมูลอยู่ที่ ข้อมูลสินค้าและเครน
+                `);
+                setOpen(false)
+            } else {
+                console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
+                dispatch(setFTSFailure(error.message));
+            }
         }
     };
 };

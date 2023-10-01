@@ -13,10 +13,10 @@ const StockCard = (props: StockCardProp) => {
         <Card>
             <Grid container style={{ minHeight: 70 }}>
                 <Grid item sx={{ flexGrow: 1, height: 100, padding: 1 }}>
-                    <Typography variant="h4" color="textPrimary">
+                    <Typography variant="h5" color="textPrimary">
                         {props.title}
                     </Typography>
-                    <Typography variant="h5" color="textSecondary">
+                    <Typography variant="h6" color="textSecondary">
                         {props.subtitle}
                     </Typography>
                 </Grid>
@@ -29,10 +29,10 @@ const StockCard = (props: StockCardProp) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        minWidth: 70,
+                        minWidth: 60,
                     }}
                 >
-                    <props.icon className='text-6xl' />
+                    <props.icon className='text-5xl' />
                 </Grid>
             </Grid>
         </Card>

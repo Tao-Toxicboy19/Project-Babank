@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Button, Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RootState } from '../../../../../store/store';
 import { Cargo } from '../../../../../types/Cargo.type';
-import { Link, useNavigate } from 'react-router-dom';
 import { server } from '../../../../../Constants';
-import { cargoOrder } from '../../../../../store/slices/cargoOrder.slice';
+import { updateOrder } from '../../../../../store/slices/order.edit.slice';
+import { CargoItem, Orders } from '../../../../../types/Order.type';
+import { httpClient } from '../../../../../utlis/httpclient';
 
-interface CargoItem {
-    cargo_id: number;
-    load: number;
-    bulk: number;
-}
 
-const CargoOrderForm: React.FC = () => {
-    const [order_id, setOrderId] = useState<number>(0);
-    const dispatch = useDispatch<any>();
+const CargoEditPage: React.FC = () => {
+    const { id } = useParams()
+    const dispatch = useDispatch<any>()
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate()
     const [cargo, setCargo] = useState<CargoItem[]>([
         { cargo_id: 0, load: 0, bulk: 0 },
@@ -24,15 +21,18 @@ const CargoOrderForm: React.FC = () => {
     const CargoReducer = useSelector((state: RootState) => state.cargo);
 
     useEffect(() => {
-        axios.get(server.CARGOORDER_URL)
-            .then((res) => {
-                setOrderId(res.data.lastCargoOrderId);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        console.log(order_id + 'xxxxxx')
-    }, []);
+        const fetchCraneData = async () => {
+            try {
+                const response = await httpClient.get<Orders>(`${server.ORDER}/${id}`);
+                setCargo(response.data.cargo_order)
+            } catch (error) {
+                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
+            }
+        };
+        fetchCraneData();
+    }, [id]);
+
+
 
     const handleAddCargo = () => {
         setCargo([...cargo, { cargo_id: 0, load: 0, bulk: 0 }]);
@@ -62,11 +62,13 @@ const CargoOrderForm: React.FC = () => {
                 bulk: item.bulk,
             }));
 
+            const idNumber = Number(id);
             const values = {
-                order_id,
+                order_id: idNumber,
                 cargo: cargoData,
             };
-            dispatch(cargoOrder(values, navigate))
+            setIsSubmitting(true);
+            dispatch(updateOrder(id, values, navigate, setIsSubmitting))
         } catch (error) {
             console.error(error);
         }
@@ -141,9 +143,7 @@ const CargoOrderForm: React.FC = () => {
                                     เพิ่มสินค้า
                                 </Button>
                                 <Button
-                                    onClick={
-                                        () => handleRemoveCargo(index)
-                                    }
+                                    onClick={() => handleRemoveCargo(index)}
                                     variant="outlined"
                                 >
                                     ลบสินค้า
@@ -152,9 +152,8 @@ const CargoOrderForm: React.FC = () => {
                             <Stack spacing={2} direction='row'>
                                 <Button
                                     variant="outlined"
-                                    onClick={handleSubmit}
                                     component={Link}
-                                    to={'/orders/create'}
+                                    to={'/orders/create'} // เปลี่ยนเส้นทางไปยังหน้าที่คุณต้องการ
                                 >
                                     กลับ
                                 </Button>
@@ -162,6 +161,7 @@ const CargoOrderForm: React.FC = () => {
                                     variant="contained"
                                     className='bg-[#1976d2] hover:bg-[#1563bc]'
                                     onClick={handleSubmit}
+                                    disabled={isSubmitting}
                                 >
                                     บันทึก
                                 </Button>
@@ -174,4 +174,4 @@ const CargoOrderForm: React.FC = () => {
     );
 };
 
-export default CargoOrderForm;
+export default CargoEditPage;

@@ -91,7 +91,15 @@ export const deleteCarrier = (id: any, setOpen: any) => {
             setOpen(false);
             await doGetCarrier(dispatch);
         } catch (error: any) {
-            dispatch(setCarrierFailure(error.message));
+            if (error.response && error.response.status === 500) {
+                toast.warn(`
+                ไม่สามารถลบข้อมูลได้ เนื่องจากมี 
+                ข้อมูลอยู่ที่ ออเดอร์
+            `);
+                setOpen(false)
+            } else {
+                dispatch(setCarrierFailure(error.message));
+            }
         }
     };
 };

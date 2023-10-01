@@ -3,7 +3,6 @@ import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch } from 'react-redux';
-import Edit from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
@@ -12,6 +11,7 @@ import { setUpdateCargo } from '../../../../store/slices/cargo.slice';
 import { updateCargo } from '../../../../store/slices/cargo.edit.slice';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { LuFileEdit } from 'react-icons/lu';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -72,26 +72,26 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                 <IconButton
                     onClick={() => setOpen(true)}
                 >
-                    <Edit className='text-emerald-700' />
+                    <LuFileEdit className="text-[#169413]" />
                 </IconButton>
             </Tooltip>
-                    <Dialog
-                        open={open}
-                        TransitionComponent={Transition}
-                        keepMounted
-                        onClose={handleClose}
-                        aria-describedby="alert-dialog-slide-description"
-                        fullWidth
-                    >
-                        <DialogTitle>{"แก้ไขสินค้า"}</DialogTitle>
-                        <Box className="w-[600px] ">
-                        <DialogContent>
-                            <Formik initialValues={result} onSubmit={handleSubmit}>
-                                {(props: any) => showForm(props)}
-                            </Formik>
-                        </DialogContent>
-                        </Box>
-                    </Dialog>
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+                fullWidth
+            >
+                <DialogTitle>{"แก้ไขสินค้า"}</DialogTitle>
+                <Box className="w-[600px] ">
+                    <DialogContent>
+                        <Formik initialValues={result} onSubmit={handleSubmit}>
+                            {(props: any) => showForm(props)}
+                        </Formik>
+                    </DialogContent>
+                </Box>
+            </Dialog>
         </div>
     )
 }
