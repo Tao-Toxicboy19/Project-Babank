@@ -1,9 +1,11 @@
-import { Box, Button, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
+import { Box, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import { TitleOrder } from "../../../Constants"
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
+import OrderDeletePage from "./Delete/OrderDeletePage";
+import { LuFileEdit } from "react-icons/lu";
 
 type Props = {}
 
@@ -51,13 +53,12 @@ export default function OrderPage({ }: Props) {
             <TableCell align="center">{items.reward_rate}</TableCell>
             <TableCell align="right">
               <Box className='flex flex-row justify-end'>
-                <Button
-                  component={Link}
-                  to={`/orders/edit/${items.or_id}`}
-                >
-                  แก้ไข
-                </Button>
-                <Button>ลบ</Button>
+                <Tooltip title="แก้ไข">
+                  <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
+                    <LuFileEdit className="text-[#169413]" />
+                  </IconButton>
+                </Tooltip>
+                <OrderDeletePage id={items.or_id} />
               </Box>
             </TableCell>
           </TableRow>
@@ -70,7 +71,15 @@ export default function OrderPage({ }: Props) {
     return (
       <TableRow>
         {TitleOrder.map((title) => (
-          <TableCell key={title} align={title === 'ชื่อเรือ' ? 'left' : 'center'}>
+          <TableCell
+            key={title}
+            align={title === 'ชื่อเรือ' ? 'left' : 'center'}
+            sx={{
+              backgroundColor: 'background.paper',
+              fontWeight: 'Bold',
+              fontSize: 16
+            }}
+          >
             {title}
           </TableCell>
         ))}
@@ -79,37 +88,35 @@ export default function OrderPage({ }: Props) {
   }
 
   return (
-    <>
-      <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
-        <Box className="justify-between flex">
-          <Box className="flex items-center">
-            <Typography className="text-xl" variant="h1">
-              รายการขนถ่ายสินค้า
-            </Typography>
-          </Box>
-
-          <Box className='flex justify-end'>
-            <Tooltip title="เพิ่มออเดอร์">
-              <Fab
-                component={Link}
-                to={'/orders/create'}
-                color="primary"
-                aria-label="add"
-                size='small'
-                className='bg-blue-500 hover:bg-blue-700'
-              >
-                <AddIcon />
-              </Fab>
-            </Tooltip>
-          </Box>
+    <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
+      <Box className="justify-between flex">
+        <Box className="flex items-center">
+          <Typography className="text-xl" variant="h1">
+            รายการขนถ่ายสินค้า
+          </Typography>
         </Box>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead className='bg-blue-200 w-full'>
-            {showThead()}
-          </TableHead>
-          {showTbody()}
-        </Table>
-      </TableContainer >
-    </>
+
+        <Box className='flex justify-end'>
+          <Tooltip title="เพิ่มออเดอร์">
+            <Fab
+              component={Link}
+              to={'/orders/create'}
+              color="primary"
+              aria-label="add"
+              size='small'
+              className='bg-blue-500 hover:bg-blue-700'
+            >
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Box>
+      </Box>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead className='bg-blue-200 w-full'>
+          {showThead()}
+        </TableHead>
+        {showTbody()}
+      </Table>
+    </TableContainer >
   )
 }

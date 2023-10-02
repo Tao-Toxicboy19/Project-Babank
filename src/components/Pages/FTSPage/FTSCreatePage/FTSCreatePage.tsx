@@ -2,11 +2,14 @@ import { Button, Box, ThemeProvider, createTheme, Card, CardContent, Stack } fro
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../../../../types/User.type';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { addFTS } from '../../../../store/slices/FTS.slice';
 import { useState } from 'react';
+import { RootState } from '../../../../store/store';
+import NotFound from '../../../layout/ERR_REPORT/PageNotFound';
+import Loading from '../../../layout/Loading/Loading';
 
 
 type Props = {}
@@ -17,6 +20,7 @@ export default function FTSCreatePage({ }: Props) {
   const navigate = useNavigate()
   const dispatch = useDispatch<any>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const FTSReduer = useSelector((state: RootState) => state.FTS);
 
   const handleSubmit = async (values: any) => {
     setIsSubmitting(true);
@@ -120,27 +124,35 @@ export default function FTSCreatePage({ }: Props) {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box className="flex justify-center items-center">
-        <Card>
-          <CardContent>
-            <Box className=" w-full flex justify-between gap-x-2">
+    <>
+      {FTSReduer.loading ? (
+        <Loading />
+      ) : FTSReduer.error ? (
+        <NotFound />
+      ) :
+        (
+          <ThemeProvider theme={defaultTheme}>
+            <Box className="flex justify-center items-center">
+              <Card>
+                <CardContent>
+                  <Box className=" w-full flex justify-between gap-x-2">
+                    <Button fullWidth variant="contained" disabled>เพิ่มทุ่น</Button >
+                    <Button fullWidth variant="contained" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
+                  </Box >
+                  <Formik
+                    onSubmit={handleSubmit}
+                    validate={validateForm}
+                    initialValues={initialValues}
+                  >
+                    {(props: any) => showForm(props)}
+                  </Formik>
+                </CardContent >
+              </Card >
+            </Box >
+          </ThemeProvider >
+        )
 
-              <Button fullWidth variant="contained" disabled>เพิ่มทุ่น</Button>
-
-              <Button fullWidth variant="contained" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
-
-            </Box>
-            <Formik
-              onSubmit={handleSubmit}
-              validate={validateForm}
-              initialValues={initialValues}
-            >
-              {(props: any) => showForm(props)}
-            </Formik>
-          </CardContent>
-        </Card>
-      </Box>
-    </ThemeProvider >
+      }
+    </>
   )
 }

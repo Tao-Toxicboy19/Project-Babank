@@ -36,6 +36,16 @@ export const TitleOrder = [
     'แก้ไข้'
 ]
 
+export const TitleCargoCrane = [
+    'ชื่อทุ่น',
+    'ลำดับเครนที่',
+    'ชื่อสินค้า',
+    'สถานะสินค้า (ขาเข้า/ขาออก)',
+    'อัตราการขนถ่ายสินค้า (ตัน/ชม.)',
+    'อัตราการใช้น้ำมัน (ลิตร/ตัน)',
+    'แก้ไข'
+]
+
 export const NETWORK_CONNECTION_MESSAGE =
     "Cannot connect to server, Please try again.";
 
@@ -57,7 +67,7 @@ export const server = {
     CRANESOLUTION: `cranesolution`,
     CRANE: `crane`,
     SOLUTIONSCHEDULE: `solution_schedule`,
-    CARGOORDER_URL:`cargoorder`
+    CARGOORDER_URL: `cargoorder`
 };
 
 export const YES = "YES";

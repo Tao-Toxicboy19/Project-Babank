@@ -41,7 +41,7 @@ export const updateOrder = (id: any, values: any, navigate: any, setIsSubmitting
       dispatch(setOrderEditStart());
       const result = await httpClient.put(`${server.ORDER}/${id}`, values);
       dispatch(setOrderEditSuccess(result.data));
-      navigate('/orders/cargo/edit')
+      navigate(`/orders/cargo/edit/${id}`)
     } catch (error) {
       alert(JSON.stringify(error));
       dispatch(setOrderEditFailure('Failed to update floating data'));

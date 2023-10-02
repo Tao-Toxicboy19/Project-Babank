@@ -5,16 +5,18 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RootState } from '../../../../../store/store';
 import { Cargo } from '../../../../../types/Cargo.type';
 import { server } from '../../../../../Constants';
-import { updateOrder } from '../../../../../store/slices/order.edit.slice';
 import { CargoItem, Orders } from '../../../../../types/Order.type';
 import { httpClient } from '../../../../../utlis/httpclient';
+import { updateCargoOrder } from '../../../../../store/slices/cargoOrder.slice';
+import Loading from '../../../../layout/Loading/Loading';
 
 
 const CargoEditPage: React.FC = () => {
     const { id } = useParams()
     const dispatch = useDispatch<any>()
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const navigate = useNavigate()
+    const [loading, setloading] = useState<boolean>(false);
     const [cargo, setCargo] = useState<CargoItem[]>([
         { cargo_id: 0, load: 0, bulk: 0 },
     ]);
@@ -23,10 +25,12 @@ const CargoEditPage: React.FC = () => {
     useEffect(() => {
         const fetchCraneData = async () => {
             try {
+                setloading(true)
                 const response = await httpClient.get<Orders>(`${server.ORDER}/${id}`);
                 setCargo(response.data.cargo_order)
+                setloading(false)
             } catch (error) {
-                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
+                setloading(false)
             }
         };
         fetchCraneData();
@@ -68,7 +72,8 @@ const CargoEditPage: React.FC = () => {
                 cargo: cargoData,
             };
             setIsSubmitting(true);
-            dispatch(updateOrder(id, values, navigate, setIsSubmitting))
+            console.log(values)
+            dispatch(updateCargoOrder(id, values, navigate, setIsSubmitting))
         } catch (error) {
             console.error(error);
         }
@@ -84,93 +89,101 @@ const CargoEditPage: React.FC = () => {
     };
 
     return (
-        <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
-            <CardContent>
-                {cargo.map((item, index) => (
-                    <Stack key={index} spacing={2} direction='column'>
-                        <Typography
-                            variant='h6'
-                            component='h1'
-                            className='flex justify-center'
-                        >
-                            สินค้าที่ {index + 1}
-                        </Typography>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="FTS_id"
-                                value={item.cargo_id}
-                                label="เลือกทุ่น"
-                                onChange={(e) => handleSelectChange(e, index)}
-                            >
-                                {(CargoReducer.cargo).map((cargoItem: Cargo) => (
-                                    <MenuItem key={cargoItem.cargo_id} value={cargoItem.cargo_id}>
-                                        {cargoItem.cargo_name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <TextField
-                            fullWidth
-                            id="load"
-                            label="Load:"
-                            variant="outlined"
-                            type="number"
-                            value={item.load}
-                            onChange={(e) =>
-                                handleCargoChange(index, 'load', Number(e.target.value))
-                            }
-                        />
-                        <TextField
-                            fullWidth
-                            id="bulk"
-                            label="Bulk:"
-                            variant="outlined"
-                            type="number"
-                            value={item.bulk}
-                            onChange={(e) =>
-                                handleCargoChange(index, 'bulk', Number(e.target.value))
-                            }
-                        />
-                        <Stack spacing={2} direction='row' className='justify-between'>
-                            <Stack spacing={2} direction='row'>
-                                <Button
-                                    variant="contained"
-                                    onClick={handleAddCargo}
-                                    className='bg-[#1976d2] hover:bg-[#1563bc]'
-                                >
-                                    เพิ่มสินค้า
-                                </Button>
-                                <Button
-                                    onClick={() => handleRemoveCargo(index)}
-                                    variant="outlined"
-                                >
-                                    ลบสินค้า
-                                </Button>
-                            </Stack>
-                            <Stack spacing={2} direction='row'>
-                                <Button
-                                    variant="outlined"
-                                    component={Link}
-                                    to={'/orders/create'} // เปลี่ยนเส้นทางไปยังหน้าที่คุณต้องการ
-                                >
-                                    กลับ
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    className='bg-[#1976d2] hover:bg-[#1563bc]'
-                                    onClick={handleSubmit}
-                                    disabled={isSubmitting}
-                                >
-                                    บันทึก
-                                </Button>
-                            </Stack>
-                        </Stack>
-                    </Stack>
-                ))}
-            </CardContent>
-        </Card>
+        <>
+            {
+                loading ? (
+                    <Loading />
+                ) : (
+                    <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
+                        <CardContent>
+                            {cargo.map((item, index) => (
+                                <Stack key={index} spacing={2} direction='column'>
+                                    <Typography
+                                        variant='h6'
+                                        component='h1'
+                                        className='flex justify-center'
+                                    >
+                                        สินค้าที่ {index + 1}
+                                    </Typography>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="FTS_id"
+                                            value={item.cargo_id}
+                                            label="เลือกทุ่น"
+                                            onChange={(e) => handleSelectChange(e, index)}
+                                        >
+                                            {(CargoReducer.cargo).map((cargoItem: Cargo) => (
+                                                <MenuItem key={cargoItem.cargo_id} value={cargoItem.cargo_id}>
+                                                    {cargoItem.cargo_name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <TextField
+                                        fullWidth
+                                        id="load"
+                                        label="Load:"
+                                        variant="outlined"
+                                        type="number"
+                                        value={item.load}
+                                        onChange={(e) =>
+                                            handleCargoChange(index, 'load', Number(e.target.value))
+                                        }
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        id="bulk"
+                                        label="Bulk:"
+                                        variant="outlined"
+                                        type="number"
+                                        value={item.bulk}
+                                        onChange={(e) =>
+                                            handleCargoChange(index, 'bulk', Number(e.target.value))
+                                        }
+                                    />
+                                    <Stack spacing={2} direction='row' className='justify-between'>
+                                        <Stack spacing={2} direction='row'>
+                                            <Button
+                                                variant="contained"
+                                                onClick={handleAddCargo}
+                                                className='bg-[#1976d2] hover:bg-[#1563bc]'
+                                            >
+                                                เพิ่มสินค้า
+                                            </Button>
+                                            <Button
+                                                onClick={() => handleRemoveCargo(index)}
+                                                variant="outlined"
+                                            >
+                                                ลบสินค้า
+                                            </Button>
+                                        </Stack>
+                                        <Stack spacing={2} direction='row'>
+                                            <Button
+                                                variant="outlined"
+                                                component={Link}
+                                                to={'/orders'}
+                                            >
+                                                กลับ
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                className='bg-[#1976d2] hover:bg-[#1563bc]'
+                                                onClick={handleSubmit}
+                                                disabled={isSubmitting}
+                                            >
+                                                บันทึก
+                                            </Button>
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
+                            ))}
+                        </CardContent>
+                    </Card>
+                )
+            }
+        </>
     );
 };
 

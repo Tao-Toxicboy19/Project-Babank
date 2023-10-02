@@ -26,13 +26,20 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch<any>();
     const handleClose = () => setOpen(false);
-    const handleSubmit = (values: any, { setSubmitting }: any) => {
-        dispatch(updateCargo(id, values, setOpen))
-        dispatch(setUpdateCargo(values))
-        setSubmitting(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = (values: any) => {
+        try {
+            dispatch(updateCargo(id, values, setOpen))
+            dispatch(setUpdateCargo(values))
+        } catch (error) {
+            setIsSubmitting(false);
+        }
     };
 
-    const showForm = ({ isSubmitting }: FormikProps<Cargo>) => {
+
+
+    const showForm = ({ }: FormikProps<Cargo>) => {
         return (
             <Form>
                 <Box className='flex flex-col gap-4 m-3'>

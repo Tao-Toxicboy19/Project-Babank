@@ -48,16 +48,23 @@ const cargoOrderSlice = createSlice({
 export const { setcargoOrderStart, setcargoOrderSuccess, setcargoOrderFailure } = cargoOrderSlice.actions
 export default cargoOrderSlice.reducer
 
-export const cargoOrder = (values: any, navigate: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const addCargoOrder = (values: any, navigate: any, setIsSubmitting: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setcargoOrderStart());
         const result = await httpClient.post<CargordersState>(server.CARGOORDER_URL, values);
         dispatch(setcargoOrderSuccess(result.data));
         await dispatch(loadOrder())
+        setIsSubmitting(false)
         toast.success('เพิ่มออเดอร์เรียบร้อย');
         navigate('/orders')
-    } catch (error) {
-        dispatch(setcargoOrderFailure("error"));
+    } catch (error: any) {
+        if (error.response && error.response.status === 500) {
+            await toast.warn('สินค้าซ้ำกัน')
+            setIsSubmitting(false)
+        } else {
+            console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
+            dispatch(setcargoOrderFailure("error"));
+        }
     }
 };
 
@@ -69,15 +76,18 @@ export const updateCargoOrder = (id: any, values: any, navigate: any, setIsSubmi
             dispatch(setcargoOrderStart());
             const result = await httpClient.put(`${server.CARGOORDER_URL}/${id}`, values);
             dispatch(setcargoOrderSuccess(result.data));
-            navigate('/orders/cargo/edit')
+            toast.success('แก้ไข้เรียบร้อย')
+            await dispatch(loadOrder())
+            navigate('/orders')
             console.log(result.data)
-        } catch (error) {
-            alert(JSON.stringify(error));
-            dispatch(setcargoOrderFailure('Failed to update floating data'));
-        } finally {
-            setTimeout(() => {
+        } catch (error: any) {
+            if (error.response && error.response.status === 500) {
+                toast.warn('สินค้าซ้ำกัน')
                 setIsSubmitting(false);
-            }, 2000);
+            } else {
+                console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
+                dispatch(setcargoOrderFailure('Failed to update floating data'));
+            }
         }
     };
 };

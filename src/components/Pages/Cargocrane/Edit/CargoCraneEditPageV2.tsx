@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Box, Button, Card, CardContent, CircularProgress, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { Box, Button, Card, CardContent, FormControl, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { Crane } from '../../../../types/crane.type';
-import SaveIcon from '@mui/icons-material/Save';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../types/FloatingCrane.type';
@@ -12,6 +10,7 @@ import { toast } from 'react-toastify';
 import { CargoCrane } from '../../../../types/CargoCrane.type';
 import { Cargo } from '../../../../types/Cargo.type';
 import { httpClient } from '../../../../utlis/httpclient';
+import Loading from '../../../layout/Loading/Loading';
 
 type Props = {};
 
@@ -22,11 +21,13 @@ export default function CraneEditPage({ }: Props) {
     const FTSReducer = useSelector((state: RootState) => state.FTS);
     const CraneReducer = useSelector((state: RootState) => state.Crane);
     const CargoReducer = useSelector((state: RootState) => state.cargo);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const fetchCraneData = async () => {
             try {
                 const response = await httpClient.get(`${server.CARGOCRANE}/${id}`);
+                console.log(response.data)
                 setsetCargocrane(response.data);
             } catch (error) {
                 console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
@@ -59,59 +60,59 @@ export default function CraneEditPage({ }: Props) {
         }));
     };
 
+    const handleSelectChangeCategory = (event: any) => {
+        const value = event.target.value as number;
+        setsetCargocrane((prevCraneData: any) => ({
+            ...prevCraneData!,
+            category: value,
+        }));
+    };
 
     const handleInputChange = (event: any) => {
         const { name, value } = event.target;
+        const numericValue = parseFloat(value);
 
         setsetCargocrane((prevCraneData: any) => ({
             ...prevCraneData!,
-            [name]: value,
+            [name]: numericValue,
         }));
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setIsSubmitting(true);
 
         try {
-            await httpClient.put(`${server.CARGOCRANE}/${id}`, Cargocrane);
             console.log(Cargocrane)
+            await httpClient.put(`${server.CARGOCRANE}/${id}`, Cargocrane);
+            setIsSubmitting(false);
             toast.success('แก้ไขเครนรรีนยร้อย');
             navigate('/cargocrane')
         } catch (error) {
+            setIsSubmitting(false);
             console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล Crane:', error);
         }
     };
 
-
     if (!Cargocrane) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100%',
-                }}
-            >
-                <CircularProgress />
-            </Box>
+            <Loading />
         );
     }
 
     const { crane_id, cargo_id, FTS_id, consumption_rate, work_rate, category, } = Cargocrane
     return (
-        <div>
-            <Card className="max-w-[720px] mx-auto">
-                <CardContent className="m-4">
-                    <form onSubmit={handleSubmit}>
-                        <Stack direction='column' spacing={3}>
+        <Card className="max-w-[720px] mx-auto">
+            <CardContent className="m-4">
+                <form onSubmit={handleSubmit}>
+                    <Stack direction='column' spacing={2}>
+                        <Box>
+                            <label htmlFor="work_rate">เลือกทุ่น:</label>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="FTS_id"
                                     value={FTS_id}
-                                    label="เลือกทุ่น"
                                     onChange={handleSelectChangeFTS}
                                 >
                                     {(FTSReducer.FTS).map((item: FTS) => (
@@ -121,13 +122,14 @@ export default function CraneEditPage({ }: Props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                        </Box>
+                        <Box>
+                            <label htmlFor="work_rate">เลือกเครน:</label>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="FTS_id"
+                                    labelId="crane_id"
+                                    id="crane_id"
                                     value={crane_id}
-                                    label="เลือกทุ่น"
                                     onChange={handleSelectChangeCrane}
                                 >
                                     {(CraneReducer.result).map((item: Crane) => (
@@ -137,13 +139,14 @@ export default function CraneEditPage({ }: Props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                        </Box>
+                        <Box>
+                            <label htmlFor="work_rate">ชื่อสินค้า:</label>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="FTS_id"
+                                    labelId="cargo_id"
+                                    id="cargo_id"
                                     value={cargo_id}
-                                    label="เลือกทุ่น"
                                     onChange={handleSelectChangeCargo}
                                 >
                                     {(CargoReducer.cargo).map((item: Cargo) => (
@@ -153,66 +156,69 @@ export default function CraneEditPage({ }: Props) {
                                     ))}
                                 </Select>
                             </FormControl>
+                        </Box>
+                        <Box>
+                            <label htmlFor="work_rate">สถานะสินค้า (ขาเข้า/ขาออก):</label>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">จำนวนเครน</InputLabel>
                                 <Select
                                     name='category'
-                                    label='จำนวนเครน'
                                     value={category}
-                                    onChange={handleInputChange}
+                                    onChange={handleSelectChangeCategory}
                                     fullWidth
                                 >
-                                    <MenuItem value='Import'>Import</MenuItem>
+                                    <MenuItem value='import'>Import</MenuItem>
                                     <MenuItem value='Export'>Export</MenuItem>
                                 </Select>
                             </FormControl>
-                            <Box>
-                                <label className="pr-5" htmlFor="consumption_rate">ชื่อเครน:</label>
-                                <TextField
-                                    variant="outlined"
-                                    type="text"
-                                    id="consumption_rate"
-                                    name="consumption_rate"
-                                    value={consumption_rate}
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Box>
-                            <Box>
-                                <label htmlFor="work_rate">เวลาเตรียมการ:</label>
-                                <TextField
-                                    variant="outlined"
-                                    type="number"
-                                    id="work_rate"
-                                    name="work_rate"
-                                    value={work_rate}
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Box>
-                        </Stack>
-                        <Stack direction='row' spacing={1} className='mt-5'>
-                            <Button
-                                className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
+                        </Box>
+                        <Box>
+                            <label className="pr-5" htmlFor="consumption_rate">ชื่อเครน:</label>
+                            <TextField
+                                variant="outlined"
+                                type="number"
+                                id="consumption_rate"
+                                name="consumption_rate"
+                                value={consumption_rate}
+                                onChange={handleInputChange}
                                 fullWidth
-                                variant="contained"
-                                startIcon={<ArrowBackIosIcon />}
-                                onClick={() => navigate('/cargocrane')}>
+                            />
+                        </Box>
+                        <Box>
+                            <label htmlFor="work_rate">เวลาเตรียมการ:</label>
+                            <TextField
+                                variant="outlined"
+                                type="number"
+                                id="work_rate"
+                                name="work_rate"
+                                value={work_rate}
+                                onChange={handleInputChange}
+                                fullWidth
+                            />
+                        </Box>
+                        <Stack spacing={2} direction='row'>
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                sx={{ mt: 3, mb: 2 }}
+                                component={Link}
+                                to={'/cargocrane'}
+                            >
                                 กลับ
                             </Button>
-
                             <Button
-                                className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
+                                type="submit"
                                 fullWidth
                                 variant="contained"
-                                startIcon={<SaveIcon />}
-                                type="submit" >
-                                บันทึก
+                                sx={{ mt: 3, mb: 2 }}
+                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                disabled={isSubmitting}
+                            >
+                                เพิ่มสินค้า
                             </Button>
                         </Stack>
-                    </form>
-                </CardContent>
-            </Card>
-        </div >
+                    </Stack>
+                </form>
+            </CardContent>
+        </Card>
     );
 }

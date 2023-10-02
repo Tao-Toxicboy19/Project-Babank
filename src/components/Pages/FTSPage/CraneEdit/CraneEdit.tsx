@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Box, Button, Card, CardContent, CircularProgress, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { Crane } from '../../../../types/crane.type';
-import SaveIcon from '@mui/icons-material/Save';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { toast } from 'react-toastify';
 import { httpClient } from '../../../../utlis/httpclient';
+import Loading from '../../../layout/Loading/Loading';
 
 type Props = {};
 
@@ -69,16 +68,7 @@ export default function CraneEditPage({ }: Props) {
 
     if (!craneData) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100%',
-                }}
-            >
-                <CircularProgress />
-            </Box>
+            <Loading />
         );
     }
 
@@ -131,22 +121,21 @@ export default function CraneEditPage({ }: Props) {
                                 />
                             </Box>
                         </Stack>
-                        <Stack direction='row' spacing={1} className='mt-5'>
+                        <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
                             <Button
-                                className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
                                 fullWidth
-                                variant="contained"
-                                startIcon={<ArrowBackIosIcon />}
-                                onClick={() => navigate('/transferstation')}>
+                                variant="outlined"
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={() => navigate('/transferstation')}
+                            >
                                 กลับ
                             </Button>
-
                             <Button
-                                className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
+                                type="submit"
                                 fullWidth
                                 variant="contained"
-                                startIcon={<SaveIcon />}
-                                type="submit"
+                                sx={{ mt: 3, mb: 2 }}
+                                className='bg-[#1976D2] hover:bg-[#1563BC]'
                                 disabled={isSubmitting}
                             >
                                 บันทึก

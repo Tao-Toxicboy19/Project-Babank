@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, FormControl, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../store/store';
 import { Cargo } from '../../../../../types/Cargo.type';
 import { Link, useNavigate } from 'react-router-dom';
 import { server } from '../../../../../Constants';
-import { cargoOrder } from '../../../../../store/slices/cargoOrder.slice';
-
-interface CargoItem {
-    cargo_id: number;
-    load: number;
-    bulk: number;
-}
+import { addCargoOrder } from '../../../../../store/slices/cargoOrder.slice';
+import { CargoItem } from '../../../../../types/Order.type';
 
 const CargoOrderForm: React.FC = () => {
     const [order_id, setOrderId] = useState<number>(0);
@@ -21,6 +16,7 @@ const CargoOrderForm: React.FC = () => {
     const [cargo, setCargo] = useState<CargoItem[]>([
         { cargo_id: 0, load: 0, bulk: 0 },
     ]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const CargoReducer = useSelector((state: RootState) => state.cargo);
 
     useEffect(() => {
@@ -31,7 +27,6 @@ const CargoOrderForm: React.FC = () => {
             .catch((err) => {
                 console.log(err);
             });
-        console.log(order_id + 'xxxxxx')
     }, []);
 
     const handleAddCargo = () => {
@@ -66,7 +61,8 @@ const CargoOrderForm: React.FC = () => {
                 order_id,
                 cargo: cargoData,
             };
-            dispatch(cargoOrder(values, navigate))
+            setIsSubmitting(true);
+            dispatch(addCargoOrder(values, navigate, setIsSubmitting))
         } catch (error) {
             console.error(error);
         }
@@ -94,12 +90,11 @@ const CargoOrderForm: React.FC = () => {
                             สินค้าที่ {index + 1}
                         </Typography>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
+                            <label htmlFor="cargo_id">เลือกสินค้า:</label>
                             <Select
                                 labelId="demo-simple-select-label"
-                                id="FTS_id"
+                                id="cargo_id"
                                 value={item.cargo_id}
-                                label="เลือกทุ่น"
                                 onChange={(e) => handleSelectChange(e, index)}
                             >
                                 {(CargoReducer.cargo).map((cargoItem: Cargo) => (
@@ -109,28 +104,32 @@ const CargoOrderForm: React.FC = () => {
                                 ))}
                             </Select>
                         </FormControl>
-                        <TextField
-                            fullWidth
-                            id="load"
-                            label="Load:"
-                            variant="outlined"
-                            type="number"
-                            value={item.load}
-                            onChange={(e) =>
-                                handleCargoChange(index, 'load', Number(e.target.value))
-                            }
-                        />
-                        <TextField
-                            fullWidth
-                            id="bulk"
-                            label="Bulk:"
-                            variant="outlined"
-                            type="number"
-                            value={item.bulk}
-                            onChange={(e) =>
-                                handleCargoChange(index, 'bulk', Number(e.target.value))
-                            }
-                        />
+                        <Box>
+                            <label htmlFor="cargo_id">ปริมาณสินค้า (ตัน):</label>
+                            <TextField
+                                fullWidth
+                                id="load"
+                                variant="outlined"
+                                type="number"
+                                value={item.load}
+                                onChange={(e) =>
+                                    handleCargoChange(index, 'load', Number(e.target.value))
+                                }
+                            />
+                        </Box>
+                        <Box>
+                            <label htmlFor="cargo_id">จำนวนระวาง:</label>
+                            <TextField
+                                fullWidth
+                                id="bulk"
+                                variant="outlined"
+                                type="number"
+                                value={item.bulk}
+                                onChange={(e) =>
+                                    handleCargoChange(index, 'bulk', Number(e.target.value))
+                                }
+                            />
+                        </Box>
                         <Stack spacing={2} direction='row' className='justify-between'>
                             <Stack spacing={2} direction='row'>
                                 <Button
@@ -162,6 +161,7 @@ const CargoOrderForm: React.FC = () => {
                                     variant="contained"
                                     className='bg-[#1976d2] hover:bg-[#1563bc]'
                                     onClick={handleSubmit}
+                                    disabled={isSubmitting}
                                 >
                                     บันทึก
                                 </Button>

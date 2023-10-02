@@ -4,6 +4,7 @@ import { Orders, OrderState } from '../../types/Order.type';
 import { server } from '../../Constants';
 import { httpClient } from '../../utlis/httpclient';
 import { RootState } from '../store';
+import { toast } from 'react-toastify';
 
 const initialState: OrderState = {
   orders: [],
@@ -65,13 +66,15 @@ export const addOrder = (formattedValues: any, navigate: any) => {
   };
 };
 
-// export const deleteOrder = (id: string) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.delete(`${server.ORDER}${id}`)
-//       dispatch(setDeleteOrder(id));
-//     } catch (error: any) {
-//       dispatch(setOrdersFailure(error.message));
-//     }
-//   };
-// };
+export const deleteOrder = (id: any, setOpen: any) => {
+  return async (dispatch: any) => {
+    try {
+      await httpClient.delete(`${server.ORDER}/${id}`)
+      await dispatch(loadOrder())
+      toast.success('ลบเรียบร้อย')
+      setOpen(false)
+    } catch (error: any) {
+      dispatch(setOrdersFailure(error.message));
+    }
+  };
+};

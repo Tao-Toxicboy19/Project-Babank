@@ -8,6 +8,7 @@ import { RootState } from '../../../../store/store';
 import { Carrier } from '../../../../types/Carrier.type';
 import { Orders } from '../../../../types/Order.type';
 import { updateOrder } from '../../../../store/slices/order.edit.slice';
+import Loading from '../../../layout/Loading/Loading';
 
 type Props = {}
 
@@ -16,16 +17,19 @@ export default function OrderEditPageV2({ }: Props) {
     const CarrierReducer = useSelector((state: RootState) => state.carrier);
     const [order, setOrder] = useState<Orders | null>(null)
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch<any>();
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCraneData = async () => {
             try {
+                setLoading(true);
                 const response = await httpClient.get(`${server.ORDER}/${id}`);
-                console.log(response.data)
                 setOrder(response.data)
+                setLoading(false)
             } catch (error) {
+                setLoading(false)
                 console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
             }
         };
@@ -35,6 +39,7 @@ export default function OrderEditPageV2({ }: Props) {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setIsSubmitting(true);
+        console.log(order)
         dispatch(updateOrder(id, order, navigate, setIsSubmitting));
     };
 
@@ -56,10 +61,11 @@ export default function OrderEditPageV2({ }: Props) {
 
     const handleInputChange = (event: any) => {
         const { name, value } = event.target;
+        const numericValue = parseFloat(value);
 
         setOrder((prevCraneData: any) => ({
             ...prevCraneData!,
-            [name]: value,
+            [name]: numericValue,
         }));
     };
 
@@ -102,13 +108,13 @@ export default function OrderEditPageV2({ }: Props) {
                             <InputLabel id="cr_id">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
                             <FormControl fullWidth>
                                 <Select
-                                    labelId="category"
-                                    id="category"
+                                    name='category'
                                     value={order?.category}
                                     onChange={handleSelectChangeCategory}
+                                    fullWidth
                                 >
-                                    <MenuItem value="Import">import</MenuItem>
-                                    <MenuItem value="Export">export</MenuItem>
+                                    <MenuItem value='Import'>Import</MenuItem>
+                                    <MenuItem value='Export'>Export</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -207,16 +213,14 @@ export default function OrderEditPageV2({ }: Props) {
                             กลับ
                         </Button>
                         <Button
-                            component={Link}
-                            to={`/orders/cargo/edit/${order.or_id}`}
-                            // type="submit"
+                            type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                             className='bg-[#1976D2] hover:bg-[#1563BC]'
                             disabled={isSubmitting}
                         >
-                            เพิ่มสินค้า
+                            บันทึก
                         </Button>
                     </Stack>
                 </Stack>
@@ -225,12 +229,17 @@ export default function OrderEditPageV2({ }: Props) {
     }
 
     return (
-        <>
-            <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
-                <CardContent>
-                    {showForm()}
-                </CardContent>
-            </Card>
+        <>{
+            loading ? (
+                <Loading />
+            ) : (
+                <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
+                    <CardContent>
+                        {showForm()}
+                    </CardContent>
+                </Card>
+            )
+        }
         </>
     )
 }

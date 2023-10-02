@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CargoCrane } from '../../../types/CargoCrane.type';
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Fab, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFTS } from '../../../store/slices/FTS.slice';
@@ -10,6 +10,13 @@ import { loadCargo } from '../../../store/slices/cargo.slice';
 import { loadCargoCrane } from '../../../store/slices/cargocrane.slice';
 import { RootState } from '../../../store/store';
 import CargoCraneDeletePage from './Delete/CargoCraneDeletePage';
+import AddIcon from '@mui/icons-material/Add';
+import { TitleCargoCrane } from '../../../Constants';
+import { LuFileEdit } from 'react-icons/lu';
+import Search from '@mui/icons-material/Search';
+import Loading from '../../layout/Loading/Loading';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 type Props = {}
 
@@ -17,7 +24,11 @@ export default function App({ }: Props) {
   const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
   const dispatch = useDispatch<any>();
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
 
+  const filteredData = (CargoCraneReducer.result).filter((item) =>
+    item.fts!.FTS_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   useEffect(() => {
     dispatch(loadFTS())
     dispatch(loadCarrier())
@@ -29,7 +40,7 @@ export default function App({ }: Props) {
   // สร้างออบเจกต์ Map เพื่อรวมชื่อซ้ำ
   const nameGroups = new Map<string, CargoCrane[]>();
 
-  (CargoCraneReducer.result).forEach((item) => {
+  (filteredData).forEach((item) => {
     const name = item.fts!.FTS_name;
     if (nameGroups.has(name!)) {
       // ถ้ามีชื่ออยู่แล้วใน Map ให้เพิ่มข้อมูลเข้าไป
@@ -49,62 +60,135 @@ export default function App({ }: Props) {
     setOpenGroups(new Set(openGroups));
   };
 
+  const showThead = () => {
+    return (
+      <TableRow>
+        {TitleCargoCrane.map((title) => (
+          <TableCell
+            key={title}
+            align={title === 'ชื่อเรือ' ? 'left' : 'center'}
+            sx={{
+              backgroundColor: 'background.paper',
+              fontWeight: 'Bold',
+              fontSize: 16
+            }}
+          >
+            {title}
+          </TableCell>
+        ))}
+      </TableRow>
+    )
+  }
+
+
+  const showTbody = () => {
+    return (
+      <TableBody>
+        {Array.from(nameGroups.entries()).map(([name, items]) => (
+          <React.Fragment key={name}>
+            <TableRow>
+              <TableCell>
+                {name}
+                {items.length > 1 && (
+                  <button onClick={() => toggleGroup(name)}>
+                    {openGroups.has(name) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                  </button>
+                )}
+              </TableCell>
+              <TableCell align="center">{items[0].crane!.crane_name}</TableCell>
+              <TableCell align="center">{items[0].cargo!.cargo_name}</TableCell>
+              <TableCell align="center">{items[0].category}</TableCell>
+              <TableCell align="center">{items[0].consumption_rate}</TableCell>
+              <TableCell align="center">{items[0].work_rate}</TableCell>
+              <TableCell align="center">
+                <Tooltip title="แก้ไข">
+                  <IconButton component={Link} to={`/cargocrane/edit/${items[0].cargo_crane_id}`}>
+                    <LuFileEdit className="text-[#169413]" />
+                  </IconButton>
+                </Tooltip>
+                <CargoCraneDeletePage id={items[0].cargo_crane_id} />
+              </TableCell>
+            </TableRow>
+            {openGroups.has(name) &&
+              items.slice(1).map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">{item.crane!.crane_name}</TableCell>
+                  <TableCell align="center">{item.cargo!.cargo_name}</TableCell>
+                  <TableCell align="center">{item.category}</TableCell>
+                  <TableCell align="center">{item.consumption_rate}</TableCell>
+                  <TableCell align="center">{item.work_rate}</TableCell>
+                  <TableCell align="center">
+                    <Tooltip title="แก้ไข">
+                      <IconButton component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>
+                        <LuFileEdit className="text-[#169413]" />
+                      </IconButton>
+                    </Tooltip>
+                    <CargoCraneDeletePage id={item.cargo_crane_id} />
+                  </TableCell>
+                </TableRow>
+              ))}
+          </React.Fragment>
+        ))}
+      </TableBody>
+    );
+  };
+
   return (
     <>
-      <Paper sx={{ height: '70vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
-        <Box className='flex justify-end mx-5'>
-          <Button component={Link} to={`/cargocrane/create`} className='my-3'>เพิ่ม</Button>
-        </Box>
-        <table className="table-fixed w-full">
-          <thead>
-            <tr>
-              {['ชื่อทุ่น', 'ลำดับเครนที่', 'สถานะสินค้า (ขาเข้า/ขาออก)', 'ชื่อสินค้า', 'อัตราการขนถ่ายสินค้า (ตัน/ชม.)', 'อัตราการใช้น้ำมัน (ลิตร/ตัน)', 'แก้ไข'].map((items) => (
-                <th key={items}>{items}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from(nameGroups.entries()).map(([name, items]) => (
-              <React.Fragment key={name}>
-                <tr>
-                  <td>
-                    <button onClick={() => toggleGroup(name)}>
-                      {openGroups.has(name) ? 'ปิด' : 'เปิด'}
-                    </button>
-                    {name}
-                  </td>
-                  <td>{items[0].crane!.crane_name}</td>
-                  <td>{items[0].cargo!.cargo_name}</td>
-                  <td>{items[0].category}</td>
-                  <td>{items[0].consumption_rate}</td>
-                  <td>{items[0].work_rate}</td>
-                  <td>
-                    <Button component={Link} to={`/cargocrane/edit/${items[0].cargo_crane_id}`}>แก้ไข{items[0].cargo_crane_id} </Button>
-                    <CargoCraneDeletePage id={items[0].cargo_crane_id} />
-                  </td>
-                </tr>
-                {
-                  openGroups.has(name) &&
-                  items.slice(1).map((item, index) => (
-                    <tr key={index}>
-                      <td></td>
-                      <td>{item.crane!.crane_name}</td>
-                      <td>{item.cargo!.cargo_name}</td>
-                      <td>{item.category}</td>
-                      <td>{item.consumption_rate}</td>
-                      <td>{item.work_rate}</td>
-                      <td>
-                        <Button component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>แก้ไข{item.cargo_crane_id} </Button>
-                        <CargoCraneDeletePage id={item.cargo_crane_id} />
-                      </td>
-                    </tr>
-                  ))
-                }
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table >
-      </Paper>
+      {CargoCraneReducer.loading ? (
+        <Loading />
+      )
+        : (
+          <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
+            <Box className="justify-between flex mx-5">
+              <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
+                <Tooltip title="ค้นหา">
+                  <TextField
+                    id="standard-basic"
+                    variant="standard"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          Search
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Tooltip>
+              </Stack>
+
+              <Box className='flex justify-end'>
+                <Tooltip title="เพิ่มทุ่น">
+                  <Fab
+                    component={Link}
+                    to="/cargocrane/create"
+                    color="primary"
+                    aria-label="add"
+                    size='small'
+                    className='bg-blue-500 hover:bg-blue-700 my-4'
+                  >
+                    <AddIcon />
+                  </Fab>
+                </Tooltip>
+              </Box>
+            </Box >
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                {showThead()}
+              </TableHead>
+              {showTbody()}
+            </Table>
+          </TableContainer >
+        )
+      }
     </>
   );
 }

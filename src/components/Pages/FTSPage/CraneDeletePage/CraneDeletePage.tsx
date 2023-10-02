@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -12,9 +12,17 @@ type Props = {
 export default function CraneDalete({ id }: Props) {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch<any>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleDeleteConfirm = () => {
-        dispatch(deleteCrane(id, setOpen))
+
+    const handleDeleteConfirm = async () => {
+        setIsSubmitting(true);
+        try {
+            await dispatch(deleteCrane(id, setOpen))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false)
+        }
     }
 
     return (
@@ -32,20 +40,34 @@ export default function CraneDalete({ id }: Props) {
                 onClose={() => setOpen(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                maxWidth="sm"
+                fullWidth
             >
-                <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                <DialogTitle id="alert-dialog-title" className='flex justify-center'>
+                    {"ต้องการลบเรือหรือไม่?"}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
+                    <DialogContentText id="alert-dialog-description" className='flex justify-center'>
+                        คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Close</Button>
-                    <Button onClick={handleDeleteConfirm} autoFocus>
-                        Delete
+                <DialogActions className='flex justify-center gap-x-3'>
+                    <Button
+                        sx={{ minWidth: 150 }}
+                        variant="outlined"
+                        onClick={() => setOpen(false)}
+                    >
+                        ยกเลิก
+                    </Button>
+                    <Button
+                        sx={{ minWidth: 150 }}
+                        variant="contained"
+                        className='bg-[#1976D2] hover:bg-[#1563BC]'
+                        onClick={handleDeleteConfirm}
+                        disabled={isSubmitting}
+                        autoFocus
+                    >
+                        ลบ
                     </Button>
                 </DialogActions>
             </Dialog>

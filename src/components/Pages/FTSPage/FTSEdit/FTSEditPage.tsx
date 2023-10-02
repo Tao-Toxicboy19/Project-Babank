@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Box, Button, Card, CardContent, CircularProgress, Stack, TextField } from '@mui/material';
+import { Button, Card, CardContent, Stack, TextField } from '@mui/material';
 import { FTS } from '../../../../types/FloatingCrane.type';
-import SaveIcon from '@mui/icons-material/Save';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { toast } from 'react-toastify';
+import Loading from '../../../layout/Loading/Loading';
 
 type Props = {
 };
@@ -55,16 +54,7 @@ export default function FTSEditPage({ }: Props) {
 
   if (!FTSData) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%"
-        }}
-      >
-        <CircularProgress />
-      </Box>
+      <Loading />
     );
   }
 
@@ -131,22 +121,21 @@ export default function FTSEditPage({ }: Props) {
             />
 
           </Stack>
-          <Stack direction='row' spacing={1} className="flex justify-between mt-10">
+          <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
             <Button
-              className="bg-red-400 rounded-lg py-2 px-6 hover:bg-red-800"
-              variant="contained"
               fullWidth
-              startIcon={<ArrowBackIosIcon />}
-              onClick={() => navigate('/transferstation')}>
+              variant="outlined"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={() => navigate('/transferstation')}
+            >
               กลับ
             </Button>
-
             <Button
-              className="bg-green-500 rounded-lg py-2 px-6 hover:bg-green-900"
-              variant="contained"
-              fullWidth
-              startIcon={<SaveIcon />}
               type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              className='bg-[#1976D2] hover:bg-[#1563BC]'
               disabled={isSubmitting}
             >
               บันทึก

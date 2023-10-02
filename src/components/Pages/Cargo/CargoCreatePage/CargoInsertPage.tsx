@@ -2,11 +2,12 @@ import { Formik, Form, Field, FormikProps } from 'formik';
 import React from 'react';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, TextField, Stack, Button } from '@mui/material'
+import { Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack, Button } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import AddIcon from '@mui/icons-material/Add';
 import { addCargo } from '../../../../store/slices/cargo.slice';
 import { useDispatch } from 'react-redux';
+import { TextField } from 'formik-material-ui';
 
 type Props = {}
 
@@ -20,10 +21,10 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function CargoInsertPage({ }: Props) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch<any>();
     const [cargoCount, setCargoCount] = useState(1);
     const [open, setOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const initialValues = {
         cargo_names: Array.from({ length: cargoCount }, (_) => ''),
@@ -45,11 +46,9 @@ export default function CargoInsertPage({ }: Props) {
         }
     };
 
-
     const addCargoField = () => {
         setCargoCount((prevCount) => prevCount + 1);
     };
-
     const addCargoFieldV2 = () => {
         setCargoCount((prevCount) => prevCount - 1);
     };

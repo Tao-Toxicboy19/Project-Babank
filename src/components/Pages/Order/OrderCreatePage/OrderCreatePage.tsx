@@ -1,5 +1,5 @@
 import { Formik, Form, Field, FormikProps } from 'formik';
-import { Box, Button, Card, CardContent, InputLabel, MenuItem, Select, Stack } from '@mui/material';
+import { Box, Button, Card, CardContent, MenuItem, Select, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { TextField } from 'formik-material-ui';
@@ -70,7 +70,7 @@ export default function CargoCraneCreate({ }: Props) {
       <Form>
         <Stack spacing={2} direction='column'>
           <Box>
-            <InputLabel id="cr_id">เลือกทุ่น</InputLabel>
+            <label htmlFor="cr_id">เลือกเรือ:</label>
             <Field
               as={Select}
               name='cr_id'
@@ -87,7 +87,7 @@ export default function CargoCraneCreate({ }: Props) {
           </Box>
           <Stack spacing={2} direction='row' >
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+              <label htmlFor="category">สถานะสินค้า (ขาเข้า/ขาออก):</label>
               <Field
                 as={Select}
                 name='category'
@@ -100,7 +100,7 @@ export default function CargoCraneCreate({ }: Props) {
               </Field>
             </Box>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">จำนวนทุ่นเข้าสูงสุด</InputLabel>
+              <label htmlFor="maxFTS">จำนวนทุ่นเข้าสูงสุด:</label>
               <Field
                 component={TextField}
                 type="number"
@@ -112,7 +112,7 @@ export default function CargoCraneCreate({ }: Props) {
           </Stack>
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">วัน-เวลา มาถึง</InputLabel>
+              <label htmlFor="arrival_time">วัน-เวลา มาถึง:</label>
               <Field
                 component={TextField}
                 name='arrival_time'
@@ -121,7 +121,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">วัน-เวลา สิ้นสุด</InputLabel>
+              <label htmlFor="deadline_time">วัน-เวลา สิ้นสุด:</label>
               <Field
                 component={TextField}
                 name='deadline_time'
@@ -132,7 +132,7 @@ export default function CargoCraneCreate({ }: Props) {
           </Stack>
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">ละติจูด</InputLabel>
+              <label htmlFor="latitude">ละติจูด:</label>
               <Field
                 component={TextField}
                 name="latitude"
@@ -141,7 +141,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">ลองจิจูด</InputLabel>
+              <label htmlFor="longitude">ลองจิจูด:</label>
               <Field
                 component={TextField}
                 type="number"
@@ -154,7 +154,7 @@ export default function CargoCraneCreate({ }: Props) {
 
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">ค่าปรับ (บาท)</InputLabel>
+              <label htmlFor="longitude">ค่าปรับ (บาท):</label>
               <Field
                 component={TextField}
                 type="number"
@@ -164,7 +164,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <InputLabel id="demo-simple-select-label">รางวัล (บาท)</InputLabel>
+              <label htmlFor="longitude">รางวัล (บาท):</label>
               <Field
                 component={TextField}
                 type="number"

@@ -68,12 +68,11 @@ export default function CargoPage() {
   const cargoReducer = useSelector((state: RootState) => state.cargo);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
-  // const filteredData = (cargoReducer.cargo).filter((item) =>
-  //   item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  const filteredData = (cargoReducer.cargo).filter((item) =>
+    item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-
-  const rows: Cargo[] = (cargoReducer.cargo).map((items) => ({
+  const rows: Cargo[] = (filteredData).map((items) => ({
     cargo_id: items.cargo_id,
     cargo_name: items.cargo_name,
   }));
@@ -107,7 +106,7 @@ export default function CargoPage() {
           <Typography>Error: {cargoReducer.error}</Typography>
         ) : (
           <>
-            <Paper sx={{ height: '85vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
+            <Paper sx={{ height: '82.5vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
               <Box className='flex justify-between mx-5'>
                 <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                   <Tooltip title="ค้นหา">

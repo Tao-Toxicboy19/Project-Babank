@@ -1,12 +1,13 @@
-import { Formik, Form, Field, ErrorMessage, FormikProps } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { CargoCrane } from '../../../../types/CargoCrane.type';
-import { Button, MenuItem, Select } from '@mui/material';
+import { Box, Button, Card, CardContent, MenuItem, Select, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { TextField } from 'formik-material-ui';
 import { Link, useNavigate } from 'react-router-dom';
 import { addCargoCrane } from '../../../../store/slices/cargocrane.slice';
+import { useState } from 'react';
 
 type Props = {}
 
@@ -17,6 +18,8 @@ export default function CargoCraneCreate({ }: Props) {
     const CargoReducer = useSelector((state: RootState) => state.cargo);
     const dispatch = useDispatch<any>();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const initialValues: any = {
         crane_id: 0,
@@ -36,109 +39,137 @@ export default function CargoCraneCreate({ }: Props) {
         category: Yup.string().required('กรุณากรอก Category'),
     });
 
-    const handleSubmit = async (values: any, { setSubmitting }: any) => {
+    const handleSubmit = async (values: any) => {
+        setIsSubmitting(true);
         try {
-            alert(JSON.stringify(values));
-            dispatch(addCargoCrane(values, navigate))
-            setSubmitting(false);
+            await dispatch(addCargoCrane(values, navigate))
+            setIsSubmitting(false);
         } catch (error) {
-            console.error('เกิดข้อผิดพลาดในการสร้างรายการ Cargo Crane:', error);
+            setIsSubmitting(false)
         }
     };
 
-    const showForm = ({ isSubmitting, handleChange, values }: FormikProps<CargoCrane>) => {
+    const showForm = ({ handleChange, values }: FormikProps<CargoCrane>) => {
         return (
             <Form>
-                <Field
-                    as={Select}
-                    name='FTS_id'
-                    value={values.FTS_id}
-                    onChange={handleChange}
-                    fullWidth
-                >
+                <Stack spacing={2}>
+                    <Box>
+                        <label htmlFor="FTS_id">เลือกทุ่น:</label>
+                        <Field
+                            as={Select}
+                            name='FTS_id'
+                            value={values.FTS_id}
+                            onChange={handleChange}
+                            fullWidth
+                        >
 
-                    {(FTSReducer.FTS).map((items) => (
-                        <MenuItem key={items.fts_id} value={items.fts_id}>
-                            {items.FTS_name}
-                        </MenuItem>
-                    ))}
-                </Field>
-                <ErrorMessage name="FTS_id" component="div" />
-                <Field
-                    as={Select}
-                    name='crane_id'
-                    value={values.crane_id}
-                    onChange={handleChange}
-                    fullWidth
-                >
-                    {(CraneReducer.result).map((items: any) => (
-                        <MenuItem key={items.id} value={items.id}>
-                            {items.crane_name}
-                        </MenuItem>
-                    ))}
-                </Field>
-                <ErrorMessage name="crane_id" component="div" />
-                <Field
-                    as={Select}
-                    name='category'
-                    value={values.category}
-                    onChange={handleChange}
-                    fullWidth
-                >
-                    <MenuItem value='Import'>Import</MenuItem>
-                    <MenuItem value='Export'>Export</MenuItem>
-                </Field>
-                <ErrorMessage name="category" component="div" />
-                <Field
-                    as={Select}
-                    name='cargo_id'
-                    value={values.cargo_id}
-                    onChange={handleChange}
-                    fullWidth
-                >
-                    {(CargoReducer.cargo).map((items) => (
-                        <MenuItem key={items.cargo_id} value={items.cargo_id}>
-                            {items.cargo_name}
-                        </MenuItem>
-                    ))}
-                </Field>
-                <ErrorMessage name="cargo_id" component="div" />
-                <Field
-                    component={TextField}
-                    type="number"
-                    name="consumption_rate"
-                    fullWidth
-                />
-                <ErrorMessage name="consumption_rate" component="div" />
-                <Field
-                    component={TextField}
-                    type="number"
-                    name="work_rate"
-                    fullWidth
-                />
-                <ErrorMessage name="work_rate" component="div" />
-                <Button
-                    type="submit"
-                    disabled={isSubmitting}>
-                    Create
-                </Button>
-                <Button component={Link} to={'/cargocrane'}>
-                    กลับ
-                </Button>
+                            {(FTSReducer.FTS).map((items) => (
+                                <MenuItem key={items.fts_id} value={items.fts_id}>
+                                    {items.FTS_name}
+                                </MenuItem>
+                            ))}
+                        </Field>
+                    </Box>
+                    <Box>
+                        <label htmlFor="crane_id">เลือกเครน:</label>
+                        <Field
+                            as={Select}
+                            name='crane_id'
+                            value={values.crane_id}
+                            onChange={handleChange}
+                            fullWidth
+                        >
+                            {(CraneReducer.result).map((items: any) => (
+                                <MenuItem key={items.id} value={items.id}>
+                                    {items.crane_name}
+                                </MenuItem>
+                            ))}
+                        </Field>
+                    </Box>
+                    <Box>
+                        <label htmlFor="category">เลือกสินค้า:</label>
+                        <Field
+                            as={Select}
+                            name='cargo_id'
+                            value={values.cargo_id}
+                            onChange={handleChange}
+                            fullWidth
+                        >
+                            {(CargoReducer.cargo).map((items) => (
+                                <MenuItem key={items.cargo_id} value={items.cargo_id}>
+                                    {items.cargo_name}
+                                </MenuItem>
+                            ))}
+                        </Field>
+                    </Box>
+                    <Box>
+                        <label htmlFor="category">สถานะสินค้า (ขาเข้า/ขาออก):</label>
+                        <Field
+                            as={Select}
+                            name='category'
+                            value={values.category}
+                            onChange={handleChange}
+                            fullWidth
+                        >
+                            <MenuItem value='Import'>Import</MenuItem>
+                            <MenuItem value='Export'>Export</MenuItem>
+                        </Field>
+                    </Box>
+                    <Box>
+                        <label htmlFor="category">อัตราการขนถ่ายสินค้า (ตัน/ชม.):</label>
+                        <Field
+                            component={TextField}
+                            type="number"
+                            name="consumption_rate"
+                            fullWidth
+                        />
+                    </Box>
+                    <Box>
+                        <label htmlFor="category">อัตราการใช้น้ำมัน (ลิตร/ตัน):</label>
+                        <Field
+                            component={TextField}
+                            type="number"
+                            name="work_rate"
+                            fullWidth
+                        />
+                    </Box>
+                    <Stack spacing={2} direction='row'>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            sx={{ mt: 3, mb: 2 }}
+                            component={Link}
+                            to={'/cargocrane'}
+                        >
+                            กลับ
+                        </Button>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            className='bg-[#1976D2] hover:bg-[#1563BC]'
+                            disabled={isSubmitting}
+                        >
+                            เพิ่มสินค้า
+                        </Button>
+                    </Stack>
+                </Stack>
             </Form>
         )
     }
 
     return (
-        <div>
-            <h2>สร้างรายการ Cargo Crane</h2>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-            >
-                {(props: any) => showForm(props)}
-            </Formik>
-        </div>
+        <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
+            <CardContent>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {(props: any) => showForm(props)}
+                </Formik>
+            </CardContent>
+        </Card>
     );
 };

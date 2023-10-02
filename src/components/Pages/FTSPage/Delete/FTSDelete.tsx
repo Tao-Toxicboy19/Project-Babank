@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -12,9 +12,16 @@ type Props = {
 export default function FTSDelete({ id }: Props) {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch<any>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleDeleteConfirm = () => {
-        dispatch(deleteFTS(id, setOpen))
+    const handleDeleteConfirm = async () => {
+        setIsSubmitting(true);
+        try {
+            await dispatch(deleteFTS(id, setOpen))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false)
+        }
     }
 
     const handleClickOpen = () => {
@@ -39,19 +46,34 @@ export default function FTSDelete({ id }: Props) {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                maxWidth="sm"
+                fullWidth
             >
-                <DialogTitle id="alert-dialog-title">
-                    {"คุณต้องการลบรายการนี้หรือไม่?"}
+                <DialogTitle id="alert-dialog-title" className='flex justify-center'>
+                    {"ต้องการลบเรือหรือไม่?"}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        หากคุณลบรายการนี้จะหายไปโดยถาวร
+                    <DialogContentText id="alert-dialog-description" className='flex justify-center'>
+                        คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpen(false)}>ยกเลิก</Button>
-                    <Button onClick={handleDeleteConfirm} autoFocus>
-                        ลบรายการ
+                <DialogActions className='flex justify-center gap-x-3'>
+                    <Button
+                        sx={{ minWidth: 150 }}
+                        variant="outlined"
+                        onClick={() => setOpen(false)}
+                    >
+                        ยกเลิก
+                    </Button>
+                    <Button
+                        sx={{ minWidth: 150 }}
+                        variant="contained"
+                        className='bg-[#1976D2] hover:bg-[#1563BC]'
+                        onClick={handleDeleteConfirm}
+                        disabled={isSubmitting}
+                        autoFocus
+                    >
+                        ลบ
                     </Button>
                 </DialogActions>
             </Dialog>

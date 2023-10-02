@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { httpClient } from "../../utlis/httpclient";
 import { Cargo, CargoEditState } from "../../types/Cargo.type";
 import { server } from "../../Constants";
+import { toast } from "react-toastify";
 
 const initialState: CargoEditState = {
   cargo: null,
@@ -40,6 +41,7 @@ export const updateCargo = (id: any, formData: FormData, setOpen: any) => {
       dispatch(setCargoStart());
       const result = await httpClient.put(`${server.CARGO}/${id}`, formData);
       dispatch(setCargoSuccess(result.data));
+      toast.success('แก้ไข้เรียบร้อย')
       setOpen(false)
     } catch (error) {
       alert(JSON.stringify(error));

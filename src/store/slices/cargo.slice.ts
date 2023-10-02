@@ -78,13 +78,22 @@ export const addCargo = (values: any, setOpen: any) => {
   };
 };
 
-export const deleteCargo = (id: any) => {
+export const deleteCargo = (id: any, setOpen: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.delete(`${server.CARGO}/${id}`)
+      toast.success('ลบเรียบร้อย')
       dispatch(setDeleteCargo(id));
     } catch (error: any) {
-      dispatch(setCargoFailure(error.message));
+      if (error.response && error.response.status === 500) {
+        toast.warn(`
+        ไม่สามารถลบข้อมูลได้ เนื่องจากมี 
+        ข้อมูลอยู่ที่ ออเดอร์
+        `);
+        setOpen(false)
+      } else {
+        dispatch(setCargoFailure(error.message));
+      }
     }
   };
 };
