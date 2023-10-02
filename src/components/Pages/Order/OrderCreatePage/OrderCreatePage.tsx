@@ -186,7 +186,6 @@ export default function CargoCraneCreate({ }: Props) {
               กลับ
             </Button>
             <Button
-              // component={Link} to={'/orders/create/cargo'}
               type="submit"
               fullWidth
               variant="contained"

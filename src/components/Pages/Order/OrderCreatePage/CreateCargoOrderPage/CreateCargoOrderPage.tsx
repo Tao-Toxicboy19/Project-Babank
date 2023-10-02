@@ -130,45 +130,46 @@ const CargoOrderForm: React.FC = () => {
                                 }
                             />
                         </Box>
-                        <Stack spacing={2} direction='row' className='justify-between'>
-                            <Stack spacing={2} direction='row'>
-                                <Button
-                                    variant="contained"
-                                    onClick={handleAddCargo}
-                                    className='bg-[#1976d2] hover:bg-[#1563bc]'
-                                >
-                                    เพิ่มสินค้า
-                                </Button>
-                                <Button
-                                    onClick={
-                                        () => handleRemoveCargo(index)
-                                    }
-                                    variant="outlined"
-                                >
-                                    ลบสินค้า
-                                </Button>
-                            </Stack>
-                            <Stack spacing={2} direction='row'>
-                                <Button
-                                    variant="outlined"
-                                    onClick={handleSubmit}
-                                    component={Link}
-                                    to={'/orders/create'}
-                                >
-                                    กลับ
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    className='bg-[#1976d2] hover:bg-[#1563bc]'
-                                    onClick={handleSubmit}
-                                    disabled={isSubmitting}
-                                >
-                                    บันทึก
-                                </Button>
-                            </Stack>
+                        <Stack spacing={2} direction='row'>
+
+                            <Button
+                                onClick={
+                                    () => handleRemoveCargo(index)
+                                }
+                                variant="outlined"
+                            >
+                                ลบสินค้า
+                            </Button>
                         </Stack>
                     </Stack>
                 ))}
+                <Stack spacing={2} direction='row' className='flex justify-between mt-[16px]'>
+                    <Button
+                        variant="contained"
+                        onClick={handleAddCargo}
+                        className='bg-[#1976d2] hover:bg-[#1563bc]'
+                    >
+                        เพิ่มจำนวนสินค้า
+                    </Button>
+                    <Stack spacing={2} direction='row'>
+                        <Button
+                            variant="outlined"
+                            onClick={handleSubmit}
+                            component={Link}
+                            to={'/orders/create'}
+                        >
+                            กลับ
+                        </Button>
+                        <Button
+                            variant="contained"
+                            className='bg-[#1976d2] hover:bg-[#1563bc]'
+                            onClick={handleSubmit}
+                            disabled={isSubmitting}
+                        >
+                            เพิ่มสินค้า
+                        </Button>
+                    </Stack>
+                </Stack>
             </CardContent>
         </Card>
     );
