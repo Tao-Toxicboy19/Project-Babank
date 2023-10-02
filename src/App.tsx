@@ -12,7 +12,6 @@ import CargocranePage from './components/Pages/Cargocrane/CargoCranePage';
 import { useDispatch, useSelector } from 'react-redux';
 import { restoreLogin } from './store/slices/login.slice';
 import LoginPage from './components/Pages/LoginPage/LoginPage';
-import HomePage from './components/Pages/Home/HomePage';
 import { RootState } from './store/store';
 import PublicRoute from './utlis/PublicRoute';
 import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCreatePage';
@@ -31,6 +30,7 @@ import CargoCraneEditPageV2 from './components/Pages/Cargocrane/Edit/CargoCraneE
 import CreateCargoOrderPage from './components/Pages/Order/OrderCreatePage/CreateCargoOrderPage/CreateCargoOrderPage';
 import OrderEditPageV2 from './components/Pages/Order/Edit/OrderEditPageV2';
 import CargoEditPage from './components/Pages/Order/Edit/CargoEditPage/CargoEditPage';
+import HomePage from './components/Pages/Home/HomePage';
 
 
 const drawerWidth = 240;

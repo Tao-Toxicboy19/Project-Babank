@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadFTS } from "../../../store/slices/FTS.slice";
 import { Box, Card, CardContent } from "@mui/material";
-import StockCard from "../../layout/Card/Card";
+import StockCard from "../../layout/StockCard/StockCard";
 import { GiCargoShip, GiCargoCrane } from "react-icons/gi"
 import { BsBoxSeam } from "react-icons/bs";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
@@ -78,12 +78,12 @@ export default function HomePage({ }: Props) {
                   <Box className='col-span-full grid grid-cols-2 gap-5 my-5'>
                     <Card className="">
                       <CardContent>
-                        <FTSMaps />
+                        {/* <FTSMaps /> */}
                       </CardContent>
                     </Card>
                     <Card className="">
                       <CardContent>
-                        <CarrierMaps />
+                        {/* <CarrierMaps /> */}
                       </CardContent>
                     </Card>
                   </Box>
@@ -92,8 +92,7 @@ export default function HomePage({ }: Props) {
             </Card >
           )
       }
-
     </>
-
   )
 }
+
