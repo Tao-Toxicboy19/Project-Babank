@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import OrderDeletePage from "./Delete/OrderDeletePage";
+import OrderDeletePage from "./OrderDelete/OrderDeletePage";
 import { LuFileEdit } from "react-icons/lu";
 import React from "react";
 import Search from "@mui/icons-material/Search";

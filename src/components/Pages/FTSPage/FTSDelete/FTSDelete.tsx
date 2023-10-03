@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { DeleteCargoCrane } from '../../../../store/slices/cargocrane.slice';
+import { deleteFTS } from '../../../../store/slices/FTS.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 
-export default function CargoCraneDeletePage({ id }: any) {
+
+type Props = {
+    id: number
+}
+
+export default function FTSDelete({ id }: Props) {
+    const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch<any>();
-    const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleDeleteConfirm = async () => {
         setIsSubmitting(true);
         try {
-            await dispatch(DeleteCargoCrane(id, setOpen))
+            await dispatch(deleteFTS(id, setOpen))
             setIsSubmitting(false);
         } catch (error) {
             setIsSubmitting(false)

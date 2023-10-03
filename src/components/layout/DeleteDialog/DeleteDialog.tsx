@@ -1,56 +1,34 @@
-import React, { useState } from 'react'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { deleteFTS } from '../../../../store/slices/FTS.slice';
-
+import DeleteForever from '@mui/icons-material/DeleteForever'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material'
 
 type Props = {
-    id: number
+    open: boolean
+    handleClickOpen: () => void
+    handleClose: () => void
+    handleDeleteConfirm: () => void
+    isSubmitting: boolean
 }
 
-export default function FTSDelete({ id }: Props) {
-    const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch<any>();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const handleDeleteConfirm = async () => {
-        setIsSubmitting(true);
-        try {
-            await dispatch(deleteFTS(id, setOpen))
-            setIsSubmitting(false);
-        } catch (error) {
-            setIsSubmitting(false)
-        }
-    }
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
+export default function DeleteDialog(props: Props) {
     return (
         <>
             <Tooltip title="ลบ">
                 <IconButton
-                    onClick={handleClickOpen}
+                    onClick={props.handleClickOpen}
                 >
-                    <DeleteForeverIcon className='text-red-800' />
+                    <DeleteForever className='text-red-800' />
                 </IconButton>
             </Tooltip>
             <Dialog
-                open={open}
-                onClose={handleClose}
+                open={props.open}
+                onClose={props.handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 maxWidth="sm"
                 fullWidth
             >
                 <DialogTitle id="alert-dialog-title" className='flex justify-center'>
-                    {"ต้องการลบเรือหรือไม่?"}
+                    {`ต้องการลบสินค้าหรือไม่?`}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className='flex justify-center'>
@@ -61,7 +39,7 @@ export default function FTSDelete({ id }: Props) {
                     <Button
                         sx={{ minWidth: 150 }}
                         variant="outlined"
-                        onClick={() => setOpen(false)}
+                        onClick={props.handleClose}
                     >
                         ยกเลิก
                     </Button>
@@ -69,8 +47,8 @@ export default function FTSDelete({ id }: Props) {
                         sx={{ minWidth: 150 }}
                         variant="contained"
                         className='bg-[#1976D2] hover:bg-[#1563BC]'
-                        onClick={handleDeleteConfirm}
-                        disabled={isSubmitting}
+                        onClick={props.handleDeleteConfirm}
+                        disabled={props.isSubmitting}
                         autoFocus
                     >
                         ลบ

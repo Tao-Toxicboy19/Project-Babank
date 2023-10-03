@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { deleteCrane } from '../../../../store/slices/FTS.slice';
+import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 
 
 type Props = {
@@ -25,52 +24,21 @@ export default function CraneDalete({ id }: Props) {
         }
     }
 
-    return (
-        <>
-            <Tooltip title="ลบ">
-                <IconButton
-                    onClick={() => setOpen(true)}
-                >
-                    <DeleteForeverIcon className='text-red-800' />
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-                </IconButton>
-            </Tooltip>
-            <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-                maxWidth="sm"
-                fullWidth
-            >
-                <DialogTitle id="alert-dialog-title" className='flex justify-center'>
-                    {"ต้องการลบเรือหรือไม่?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className='flex justify-center'>
-                        คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions className='flex justify-center gap-x-3'>
-                    <Button
-                        sx={{ minWidth: 150 }}
-                        variant="outlined"
-                        onClick={() => setOpen(false)}
-                    >
-                        ยกเลิก
-                    </Button>
-                    <Button
-                        sx={{ minWidth: 150 }}
-                        variant="contained"
-                        className='bg-[#1976D2] hover:bg-[#1563BC]'
-                        onClick={handleDeleteConfirm}
-                        disabled={isSubmitting}
-                        autoFocus
-                    >
-                        ลบ
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <DeleteDialog
+            open={open}
+            handleClickOpen={handleClickOpen}
+            handleClose={handleClose}
+            handleDeleteConfirm={handleDeleteConfirm}
+            isSubmitting={isSubmitting}
+        />
     )
 }

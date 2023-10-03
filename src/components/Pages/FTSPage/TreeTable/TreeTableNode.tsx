@@ -4,7 +4,7 @@ import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom';
-import FTSDelete from '../Delete/FTSDelete';
+import FTSDelete from '../FTSDelete/FTSDelete';
 import { FTSCrane } from '../../../../types/FloatingCrane.type';
 import { LuFileEdit } from "react-icons/lu";
 
