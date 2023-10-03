@@ -4,20 +4,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TreeNode from './TreeNode';
 
-export interface TreeTableSolution {
-    solution_id: number;
-    FTS_name: string;
-    total_cost: number;
-    total_consumption_cost: number;
-    total_wage_cost: number;
-    penality_cost: number;
-    total_reward: number;
-    result: {
-        crane_name: string;
-    }[];
-}
-
-
 const TreeTableNode: React.FC<any> = ({
     FTS_name,
     total_cost,
@@ -39,7 +25,7 @@ const TreeTableNode: React.FC<any> = ({
                 container
                 spacing={1}
                 columns={12}
-                className='border-b-[1px] bg-blue-100 mt-1 rounded-lg'
+                className='border-b-[1px] bg-[#c4fff9]/25 mt-1 rounded-lg'
             >
                 <Grid item xs={2}>
                     <Box className='flex justify-start items-center'>

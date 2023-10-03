@@ -2,27 +2,12 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { server } from "../../Constants";
+import { FTS_Solution, FTS_SolutionState } from "../../types/FTS_solution.type";
 
-export interface FtsSolution {
-    solution_id: number;
-    FTS_id: number;
-    FTS_name: number;
-    total_preparation_FTS_time: number;
-    total_travel_consumption_cost: number;
-    total_travel_distance: number;
-}
-
-export interface FtsSolutionState {
-    result: FtsSolution
-    loading: boolean
-    error: string | null
-}
-
-const initialState: FtsSolutionState = {
+const initialState: FTS_SolutionState = {
     result: {
         solution_id: 0,
         FTS_id: 0,
-        FTS_name: 0,
         total_preparation_FTS_time: 0,
         total_travel_consumption_cost: 0,
         total_travel_distance: 0,
@@ -39,7 +24,6 @@ const FtsSolutionV2Slice = createSlice({
             state.result = {
                 solution_id: 0,
                 FTS_id: 0,
-                FTS_name: 0,
                 total_preparation_FTS_time: 0,
                 total_travel_consumption_cost: 0,
                 total_travel_distance: 0,
@@ -47,7 +31,7 @@ const FtsSolutionV2Slice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        setCraneSolutionSuccess: (state, action: PayloadAction<FtsSolution>) => {
+        setCraneSolutionSuccess: (state, action: PayloadAction<FTS_Solution>) => {
             state.result = action.payload;
             state.loading = false;
             state.error = null;
@@ -56,7 +40,6 @@ const FtsSolutionV2Slice = createSlice({
             state.result = {
                 solution_id: 0,
                 FTS_id: 0,
-                FTS_name: 0,
                 total_preparation_FTS_time: 0,
                 total_travel_consumption_cost: 0,
                 total_travel_distance: 0,
@@ -75,7 +58,6 @@ export const loadFtsSolutionV2 = (): ThunkAction<void, RootState, unknown, any> 
         dispatch(setCraneSolutionState())
         const result = await axios.get(server.FTSSOLUTION)
         dispatch(setCraneSolutionSuccess(result.data))
-        console.log(result.data)
     }
     catch (error) {
         dispatch(setCraneSolutionFailure("Failed to fetch floating data"))

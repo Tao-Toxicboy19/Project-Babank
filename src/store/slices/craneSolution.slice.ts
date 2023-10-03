@@ -2,11 +2,12 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { server } from "../../Constants";
-import { CraneSolution, CraneSolutionState } from "../../types/craneSolution.type";
+import { Crane_Solution, Crane_SolutionState } from "../../types/craneSolution.type";
 
-const initialState: CraneSolutionState = {
+const initialState: Crane_SolutionState = {
     result: {
         solution_id: 0,
+        FTS_id: 0,
         total_cost: 0,
         total_consumption_cost: 0,
         total_wage_cost: 0,
@@ -16,7 +17,7 @@ const initialState: CraneSolutionState = {
         total_early_time: 0,
         total_operation_consumption_cost: 0,
         total_operation_time: 0,
-        total_preparation_crane_time: 0
+        total_preparation_crane_time: 0,
     },
     loading: false,
     error: null
@@ -29,6 +30,7 @@ const CraneSolutionSlice = createSlice({
         setCraneSolutionState: (state) => {
             state.result = {
                 solution_id: 0,
+                FTS_id: 0,
                 total_cost: 0,
                 total_consumption_cost: 0,
                 total_wage_cost: 0,
@@ -38,12 +40,12 @@ const CraneSolutionSlice = createSlice({
                 total_early_time: 0,
                 total_operation_consumption_cost: 0,
                 total_operation_time: 0,
-                total_preparation_crane_time: 0
+                total_preparation_crane_time: 0,
             };
             state.loading = true;
             state.error = null;
         },
-        setCraneSolutionSuccess: (state, action: PayloadAction<CraneSolution>) => {
+        setCraneSolutionSuccess: (state, action: PayloadAction<Crane_Solution>) => {
             state.result = action.payload;
             state.loading = false;
             state.error = null;
@@ -51,6 +53,7 @@ const CraneSolutionSlice = createSlice({
         setCraneSolutionFailure: (state, action: PayloadAction<string>) => {
             state.result = {
                 solution_id: 0,
+                FTS_id: 0,
                 total_cost: 0,
                 total_consumption_cost: 0,
                 total_wage_cost: 0,
@@ -60,7 +63,7 @@ const CraneSolutionSlice = createSlice({
                 total_early_time: 0,
                 total_operation_consumption_cost: 0,
                 total_operation_time: 0,
-                total_preparation_crane_time: 0
+                total_preparation_crane_time: 0,
             };
             state.error = action.payload;
             state.loading = false;

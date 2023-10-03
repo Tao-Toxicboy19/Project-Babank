@@ -1,14 +1,12 @@
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box, Card } from '@mui/material';
+import { Box } from '@mui/material';
 
 export default function Loading() {
     return (
         <>
-            <Card className='h-[90vh] flex justify-center items-center'>
-                <Box className="xm-auto flex max-w-xl max-h-xl">
-                    <CircularProgress disableShrink />
-                </Box>
-            </Card>
+            <Box className="flex justify-center min-h-[70vh]">
+                <CircularProgress disableShrink />
+            </Box>
         </>
     )
 }

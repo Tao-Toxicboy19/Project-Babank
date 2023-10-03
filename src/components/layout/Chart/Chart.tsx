@@ -8,9 +8,9 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { labels } from '../../../../Constants';
+import { labels } from '../../../Constants';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
+import { RootState } from '../../../store/store';
 
 
 ChartJS.register(

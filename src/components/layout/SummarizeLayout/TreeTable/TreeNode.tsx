@@ -7,7 +7,7 @@ interface TreeNodeProps {
     total_wage_cost: number
     penality_cost: number
     total_reward: number
-}``
+}
 
 export default function TreeNode({
     crane_name,
@@ -27,24 +27,11 @@ export default function TreeNode({
             sx={{ marginY: 2 }}
             className='border-b-[1px]'
         >
-            <Grid item xs={1} sx={{ marginY: 1 }}>
-                <Typography sx={{marginLeft:5}}>{crane_name}</Typography>
-            </Grid>
-            <Grid item xs={1} sx={{ marginY: 1 }}>
-                {total_cost}
-            </Grid>
-            <Grid item xs={1} sx={{ marginY: 1 }}>
-                {total_consumption_cost}
-            </Grid>
-            <Grid item xs={1} sx={{ marginY: 1 }}>
-                {total_wage_cost}
-            </Grid>
-            <Grid item xs={1} sx={{ marginY: 1 }}>
-                {penality_cost}
-            </Grid>
-            <Grid item xs={1} sx={{ marginY: 1 }}>
-                {total_reward}
-            </Grid>
+            {[crane_name, total_cost, total_consumption_cost, total_wage_cost, penality_cost, total_reward].map((items) => (
+                <Grid key={items} item xs={1} sx={{ marginY: 1 }}>
+                    <Typography>{items}</Typography>
+                </Grid>
+            ))}
         </Grid>
     )
 }

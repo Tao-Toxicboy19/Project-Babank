@@ -1,5 +1,6 @@
-export interface CraneSolution {
+export interface Crane_Solution {
     solution_id: number;
+    FTS_id: number;
     total_cost: number;
     total_consumption_cost: number;
     total_wage_cost: number;
@@ -12,8 +13,8 @@ export interface CraneSolution {
     total_preparation_crane_time: number;
 }
 
-export interface CraneSolutionState {
-    result: CraneSolution
+export interface Crane_SolutionState {
+    result: Crane_Solution
     loading: boolean
     error: string | null
 }

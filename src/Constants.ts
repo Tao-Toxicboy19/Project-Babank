@@ -46,6 +46,15 @@ export const TitleCargoCrane = [
     'แก้ไข'
 ]
 
+export const titleTreeTable = [
+    'ชื่อเครน',
+    'รายจ่าย',
+    'ค่าเชื้อเพลิง',
+    'ค่าเเรง',
+    'ค่าปรับล่าช้า',
+    'รางวัลรวม',
+]
+
 export const NETWORK_CONNECTION_MESSAGE =
     "Cannot connect to server, Please try again.";
 

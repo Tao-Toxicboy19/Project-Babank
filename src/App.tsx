@@ -18,7 +18,7 @@ import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCre
 import CraneEdit from './components/Pages/FTSPage/CraneEdit/CraneEdit';
 import FTSCreatePage from './components/Pages/FTSPage/FTSCreatePage/FTSCreatePage';
 import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
-import MovingTablePage from './components/Pages/Summarize/movingTable';
+import MovingTablePage from './components/Pages/Summarize/MovingTable';
 import FTSPage from './components/Pages/FTSPage/FTSPage';
 import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
