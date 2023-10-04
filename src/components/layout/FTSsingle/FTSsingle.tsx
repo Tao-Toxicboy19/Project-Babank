@@ -8,7 +8,9 @@ import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
 import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
-import { Card } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
+import DetailMenu from '../DetailMenu/DetailMenu';
+import BarCharts from '../BarCharts/BarCharts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -57,7 +59,7 @@ export default function FTSsingle() {
     return (
         <>
             <Box className='grid grid-cols-9 h-[80vh]'>
-                <Card className='h-full'>
+                <Card className='h-[85%]'>
                     <Tabs
                         orientation="vertical"
                         variant="scrollable"
@@ -75,46 +77,54 @@ export default function FTSsingle() {
                 </Card>
                 <Box className='col-span-8'>
                     <TabPanel value={value} index={value}>
-                        {FTSsolutionSlice[value] && (
-                            <Box className='grid grid-cols-5 gap-x-5'>
-                                <SummarizaCard
-                                    title={'ต้นรวมทุน'}
-                                    price={FTSsolutionSlice[value].penality_cost_sum}
-                                    icon={CurrencyBitcoinIcon}
-                                    unit={'บาท'}
-                                    color='bg-[#00a6fb]/50'
-                                />
-                                <SummarizaCard
-                                    title={'ค่าเชื้อเพลิงรวม'}
-                                    price={FTSsolutionSlice[value].penality_cost_sum}
-                                    icon={CurrencyBitcoinIcon}
-                                    unit={'บาท'}
-                                    color='bg-[#00a6fb]/50'
-                                />
-                                <SummarizaCard
-                                    title={'ค่าแรง'}
-                                    price={FTSsolutionSlice[value].penality_cost_sum}
-                                    icon={CurrencyBitcoinIcon}
-                                    unit={'บาท'}
-                                    color='bg-[#00a6fb]/50'
-                                />
-                                <SummarizaCard
-                                    title={'ค่าปรับล่าช้า'}
-                                    price={FTSsolutionSlice[value].penality_cost_sum}
-                                    icon={CurrencyBitcoinIcon}
-                                    unit={'บาท'}
-                                    color='bg-[#00a6fb]/50'
-                                />
-                                <SummarizaCard
-                                    title={'รางวัล'}
-                                    price={FTSsolutionSlice[value].penality_cost_sum}
-                                    icon={CurrencyBitcoinIcon}
-                                    unit={'บาท'}
-                                    color='bg-[#00a6fb]/50'
-                                />
-                            </Box>
-                        )}
-                        
+                        <Box className="grid grid-cols-12 gap-5">
+                            {FTSsolutionSlice[value] && (
+                                <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
+                                    <SummarizaCard
+                                        title={'ต้นรวมทุน'}
+                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        icon={CurrencyBitcoinIcon}
+                                        unit={'บาท'}
+                                        color='bg-[#00a6fb]/50'
+                                    />
+                                    <SummarizaCard
+                                        title={'ค่าเชื้อเพลิงรวม'}
+                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        icon={CurrencyBitcoinIcon}
+                                        unit={'บาท'}
+                                        color='bg-[#00a6fb]/50'
+                                    />
+                                    <SummarizaCard
+                                        title={'ค่าแรง'}
+                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        icon={CurrencyBitcoinIcon}
+                                        unit={'บาท'}
+                                        color='bg-[#00a6fb]/50'
+                                    />
+                                    <SummarizaCard
+                                        title={'ค่าปรับล่าช้า'}
+                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        icon={CurrencyBitcoinIcon}
+                                        unit={'บาท'}
+                                        color='bg-[#00a6fb]/50'
+                                    />
+                                    <SummarizaCard
+                                        title={'รางวัล'}
+                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        icon={CurrencyBitcoinIcon}
+                                        unit={'บาท'}
+                                        color='bg-[#00a6fb]/50'
+                                    />
+                                </Box>
+                            )}
+                            <Card className="max-w-[350px] col-span-3">
+                                <DetailMenu />
+                            </Card>
+                            <Card className="col-span-9">
+                                    <BarCharts />
+                            </Card>
+                        </Box>
+
                     </TabPanel>
                 </Box >
             </Box>
