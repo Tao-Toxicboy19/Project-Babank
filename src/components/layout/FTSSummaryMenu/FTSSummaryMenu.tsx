@@ -4,8 +4,10 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Card } from '@mui/material';
-import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
-import FTSsingle from './FTSsingle/FTSsingle';
+import FTSTimeList from '../FTSTimeList/FTSTimeList';
+import FTSFuelList from '../FTSFuelList/FTSFuelList';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -40,7 +42,8 @@ function a11yProps(index: number) {
     };
 }
 
-export default function MovingTable() {
+export default function FTSSummaryMenu() {
+    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -48,29 +51,24 @@ export default function MovingTable() {
         setValue(newValue);
     };
 
+    console.log(FTSsolutionSlice)
+
     return (
-        <Card className='bg-[#ffffff]/75 max-h-[95vh]'>
+        <Card className='bg-[#ffffff]/75 max-h-[85vh]'>
             <Box sx={{ width: '100%' }}>
-                <Box
-                    sx={{ borderBottom: 1, borderColor: 'divider' }}
-                    className='flex'
-                >
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="สรุป" {...a11yProps(0)} />
-                        <Tab label="ทุ่น" {...a11yProps(1)} />
-                        <Tab label="เส้นทาง" {...a11yProps(2)} />
+                        <Tab label="ระยะเวลา" {...a11yProps(0)} />
+                        <Tab label="เชื้อเพลิง" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <SummarizeLayout />
+                    <FTSTimeList />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    <FTSsingle />
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}>
-                    Item Three
+                    <FTSFuelList />
                 </CustomTabPanel>
             </Box>
-        </Card>
+        </Card >
     );
 }

@@ -4,7 +4,7 @@ import { RootState } from '../../../store/store';
 
 type Props = {}
 
-export default function TimeList({ }: Props) {
+export default function FTSTimeList({ }: Props) {
     const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution.result);
     const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2.result);
 
@@ -23,9 +23,9 @@ export default function TimeList({ }: Props) {
                 unit='นาที'
             />
             <ListMenu
-                title='รวมระยะทางเคลื่อนย้าย'
+                title='ระยะรวมทางเคลื่อนย้าย'
                 price={result}
-                unit='กิโลเมตร'
+                unit='ไมล์ทะเล'
             />
             <ListMenu
                 title='รวมเวลาดำเนินการขนย้าย'

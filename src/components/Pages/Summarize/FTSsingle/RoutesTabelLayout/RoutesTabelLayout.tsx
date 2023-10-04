@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadSolution } from '../../../../../store/slices/sollution_schedule.slice';
 import { RootState } from '../../../../../store/store';
 
-export default function RoutesLayout({ selectedValue }: any) {
+export default function RoutesTabelLayout({ selectedValue }: any) {
     const dispatch = useDispatch<any>();
     const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
 

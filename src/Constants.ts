@@ -1,12 +1,12 @@
 export const titles = [
-    'FTS_name',
+    'ชื่อทุ่น',
     'location_name',
-    'Latitude',
-    'Longtitude',
-    'Arrival Date Time',
-    'Exit Date Time',
-    'operation_time',
-    'travel_here_Distance',
+    'ละติจูด',
+    'ลองจิจูด',
+    'วัน-เวลา มาถึง',
+    'วัน-เวลา สิ้นสุด',
+    'เวลาเตรียมความพร้อม',
+    'ระยะทางเคลื่อนย้าย',
 ]
 
 export const labels = [
@@ -78,9 +78,3 @@ export const server = {
     SOLUTIONSCHEDULE: `solution_schedule`,
     CARGOORDER_URL: `cargoorder`
 };
-
-export const YES = "YES";
-export const NO = "NO";
-export const OK = "ok";
-export const NOK = "nok";
-export const TOKEN = "TOKEN";

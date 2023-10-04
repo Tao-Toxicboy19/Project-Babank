@@ -35,19 +35,19 @@ const TreeTableNode: React.FC<any> = ({
                         {FTS_name}
                     </Box>
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
                     {total_cost}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
                     {total_consumption_cost}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
                     {total_wage_cost}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
                     {penality_cost}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
                     {total_reward}
                 </Grid>
             </Grid>

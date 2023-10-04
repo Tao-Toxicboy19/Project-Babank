@@ -28,9 +28,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CargoCraneEditPageV2 from './components/Pages/Cargocrane/Edit/CargoCraneEditPageV2';
 import CreateCargoOrderPage from './components/Pages/Order/OrderCreatePage/CreateCargoOrderPage/CreateCargoOrderPage';
-import OrderEditPageV2 from './components/Pages/Order/Edit/OrderEditPageV2';
-import CargoEditPage from './components/Pages/Order/Edit/CargoEditPage/CargoEditPage';
 import HomePage from './components/Pages/Home/HomePage';
+import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2';
+import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
 
 
 const drawerWidth = 240;

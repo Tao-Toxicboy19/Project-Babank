@@ -71,7 +71,7 @@ export default function SummarizeLayout() {
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
-                                    title={'ค่าเเรง'}
+                                    title={'ค่าแรง'}
                                     price={(CraneSolutionSlice.result)?.total_wage_cost}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
