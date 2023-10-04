@@ -33,6 +33,9 @@ export default function CarrierDeletePage({ id }: any) {
       handleClose={handleClose}
       handleDeleteConfirm={handleDeleteConfirm}
       isSubmitting={isSubmitting}
+      maxWidth={'sm'}
+      titles={'ต้องการลบสินค้าหรือไม่?'}
+      description={'คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !'}
     />
   )
 }

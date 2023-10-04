@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Card } from '@mui/material';
 import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
-import FTSsingle from './FTSsingle/FTSsingle';
+import RouteLayout from '../../layout/RouteLayout/RouteLayout';
+import FTSsingle from '../../layout/FTSsingle/FTSsingle';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -40,7 +41,7 @@ function a11yProps(index: number) {
     };
 }
 
-export default function MovingTable() {
+export default function SummarizePage() {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -49,7 +50,7 @@ export default function MovingTable() {
     };
 
     return (
-        <Card className='bg-[#ffffff]/75 max-h-[95vh]'>
+        <Card className='bg-[#ffffff]/75 h-[80vh]'>
             <Box sx={{ width: '100%' }}>
                 <Box
                     sx={{ borderBottom: 1, borderColor: 'divider' }}
@@ -68,7 +69,7 @@ export default function MovingTable() {
                     <FTSsingle />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
-                    Item Three
+                    <RouteLayout />
                 </CustomTabPanel>
             </Box>
         </Card>

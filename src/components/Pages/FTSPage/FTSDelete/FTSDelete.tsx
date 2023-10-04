@@ -38,6 +38,9 @@ export default function FTSDelete({ id }: Props) {
             handleClose={handleClose}
             handleDeleteConfirm={handleDeleteConfirm}
             isSubmitting={isSubmitting}
+            maxWidth={'sm'}
+            titles={'ต้องการลบสินค้าหรือไม่?'}
+            description={'คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !'}
         />
     )
 }

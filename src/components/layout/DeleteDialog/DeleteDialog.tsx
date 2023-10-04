@@ -7,6 +7,9 @@ type Props = {
     handleClose: () => void
     handleDeleteConfirm: () => void
     isSubmitting: boolean
+    maxWidth: any
+    titles: string
+    description: string
 }
 
 export default function DeleteDialog(props: Props) {
@@ -24,15 +27,15 @@ export default function DeleteDialog(props: Props) {
                 onClose={props.handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                maxWidth="sm"
+                maxWidth={props.maxWidth}
                 fullWidth
             >
                 <DialogTitle id="alert-dialog-title" className='flex justify-center'>
-                    {`ต้องการลบสินค้าหรือไม่?`}
+                    {props.titles}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className='flex justify-center'>
-                        คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !
+                        {props.description}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className='flex justify-center gap-x-3'>

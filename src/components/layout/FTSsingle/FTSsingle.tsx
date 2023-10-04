@@ -4,10 +4,11 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
-import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import RoutesTabelLayout from './RoutesTabelLayout/RoutesTabelLayout';
+import { RootState } from '../../../store/store';
+import SummarizaCard from '../SummarizaCard/SummarizaCard';
+import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
+import { Card } from '@mui/material';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -55,23 +56,24 @@ export default function FTSsingle() {
 
     return (
         <>
-            <Box className='grid grid-cols-9 min-h-[70vh]'>
-                <Tabs
-                    orientation="vertical"
-                    variant="scrollable"
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="Vertical tabs example"
-                >
-                    {FTSsolutionSlice.map((items) => (
-                        <Tab
-                            label={`${items.FTS_name}`}
-                            {...a11yProps(0)}
-                        />
-                    ))}
-                </Tabs>
-
-                <Box className='col-span-8 mt-[-2rem]'>
+            <Box className='grid grid-cols-9 h-[80vh]'>
+                <Card className='h-full'>
+                    <Tabs
+                        orientation="vertical"
+                        variant="scrollable"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="Vertical tabs example"
+                    >
+                        {FTSsolutionSlice.map((items) => (
+                            <Tab
+                                label={`${items.FTS_name}`}
+                                {...a11yProps(0)}
+                            />
+                        ))}
+                    </Tabs>
+                </Card>
+                <Box className='col-span-8'>
                     <TabPanel value={value} index={value}>
                         {FTSsolutionSlice[value] && (
                             <Box className='grid grid-cols-5 gap-x-5'>
@@ -112,7 +114,7 @@ export default function FTSsingle() {
                                 />
                             </Box>
                         )}
-                        <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice} value={value} />
+                        
                     </TabPanel>
                 </Box >
             </Box>

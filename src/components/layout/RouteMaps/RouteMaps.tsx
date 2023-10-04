@@ -1,20 +1,20 @@
 import { LoadScript, GoogleMap, Marker, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../store/store";
+import { RootState } from "../../../store/store";
 
-export default function Maps({ selectedValue }: any) {
+export default function RouteMaps({ FTSsolutionSlice, value }: any) {
     const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
 
 
     const datav2 = SolutionscheduleReducer.solution_schedule
-        .filter((items) => items.FTS_name === selectedValue)
+        .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.FTS_name)
         .map((item) => ({
             lat: item.lat,
             lng: item.lng,
         }));
 
     const mapStyles: React.CSSProperties = {
-        height: '40vh',
+        height: '75vh',
         width: '100%'
     };
 

@@ -18,7 +18,6 @@ import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCre
 import CraneEdit from './components/Pages/FTSPage/CraneEdit/CraneEdit';
 import FTSCreatePage from './components/Pages/FTSPage/FTSCreatePage/FTSCreatePage';
 import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
-import MovingTablePage from './components/Pages/Summarize/MovingTable';
 import FTSPage from './components/Pages/FTSPage/FTSPage';
 import CarrierCreate from './components/Pages/Carrier/Insert/CarrierCreate';
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
@@ -31,6 +30,7 @@ import CreateCargoOrderPage from './components/Pages/Order/OrderCreatePage/Creat
 import HomePage from './components/Pages/Home/HomePage';
 import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2';
 import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
+import SummarizePage from './components/Pages/SummarizePage/SummarizePage';
 
 
 const drawerWidth = 240;
@@ -79,7 +79,7 @@ export default function ResponsiveDrawer() {
               <Route path="/cargocrane" element={<CargocranePage />} />
               <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
               <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
-              <Route path="/summarize" element={< MovingTablePage />} />
+              <Route path="/summarize" element={< SummarizePage />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
             <Route element={<PublicRoute />}>
