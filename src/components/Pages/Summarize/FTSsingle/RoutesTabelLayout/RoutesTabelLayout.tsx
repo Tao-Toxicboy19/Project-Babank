@@ -6,18 +6,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { titles } from '../../../../../Constants';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadSolution } from '../../../../../store/slices/sollution_schedule.slice';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../store/store';
 
-export default function RoutesTabelLayout({ selectedValue }: any) {
-    const dispatch = useDispatch<any>();
-    const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
+export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
+    const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule.solution_schedule);
 
-    useEffect(() => {
-        dispatch(loadSolution())
-    }, []);
 
     return (
         <>
@@ -26,21 +20,20 @@ export default function RoutesTabelLayout({ selectedValue }: any) {
                     <TableHead className='bg-blue-200'>
                         <TableRow>
                             {titles.map((title) => (
-                                <TableCell key={title} align={title === 'FTS' ? 'left' : 'right'}>
+                                <TableCell key={title} align={title === 'ชื่อทุ่น' ? 'left' : 'right'}>
                                     {title}
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {(SolutionscheduleReducer.solution_schedule)
-                            .filter((items) => items.FTS_name === selectedValue)
+                        {(SolutionscheduleReducer)
+                            .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.FTS_name)
                             .map((items, index) => (
                                 <TableRow
                                     key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell align="right">{items.FTS_name}</TableCell>
+                                    <TableCell align="left" className='w-[100px]'>{items.FTS_name}</TableCell>
                                     <TableCell align="right">
                                         {items.carrier_name ? items.carrier_name : 'จุดเริ่มต้น'}
                                     </TableCell>
@@ -53,7 +46,6 @@ export default function RoutesTabelLayout({ selectedValue }: any) {
                                 </TableRow>
                             ))}
                     </TableBody>
-
                 </Table>
             </TableContainer>
         </>

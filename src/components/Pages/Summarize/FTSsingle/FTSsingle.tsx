@@ -5,10 +5,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { titles } from '../../../../Constants';
 import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import RoutesTabelLayout from './RoutesTabelLayout/RoutesTabelLayout';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -46,7 +45,6 @@ function a11yProps(index: number) {
 export default function FTSsingle() {
     const [value, setValue] = React.useState(0);
     const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution.result);
-    const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule.solution_schedule);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
@@ -114,39 +112,7 @@ export default function FTSsingle() {
                                 />
                             </Box>
                         )}
-                        <TableContainer component={Paper} className='mt-5'>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead className='bg-blue-200'>
-                                    <TableRow>
-                                        {titles.map((title) => (
-                                            <TableCell key={title} align={title === 'ชื่อทุ่น' ? 'left' : 'right'}>
-                                                {title}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {(SolutionscheduleReducer)
-                                        .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.FTS_name)
-                                        .map((items, index) => (
-                                            <TableRow
-                                                key={index}
-                                            >
-                                                <TableCell align="left" className='w-[100px]'>{items.FTS_name}</TableCell>
-                                                <TableCell align="right">
-                                                    {items.carrier_name ? items.carrier_name : 'จุดเริ่มต้น'}
-                                                </TableCell>
-                                                <TableCell align="right">{items.lat}</TableCell>
-                                                <TableCell align="right">{items.lng}</TableCell>
-                                                <TableCell align="right">{items.arrivaltime}</TableCell>
-                                                <TableCell align="right">{items.exittime}</TableCell>
-                                                <TableCell align="right">{items.operation_time}</TableCell>
-                                                <TableCell align="right">{items.travel_Distance}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice} value={value} />
                     </TabPanel>
                 </Box >
             </Box>
