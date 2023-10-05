@@ -1,6 +1,5 @@
 
 import { BarChart } from '@mui/x-charts/BarChart';
-import { labels } from '../../../Constants';
 
 export default function BarCharts() {
   return (
@@ -12,10 +11,10 @@ export default function BarCharts() {
             'ต้นทุน',
             'รวมค่าเชื้อเพลิง',
             'ค่าแรง',
+            'ค่าเชื้อเพลิงขนถ่าย',
             'ค่าปรับ',
             'รางวัล',
-            'ค่าเชื้อเพลิงรวมขนถ่าย',
-            'ค่าเชื้อเพลิงรวมเคลื่อยย้าย',
+            'ค่าเชื้อเพลิงเคลื่อยย้าย',
           ],
           scaleType: 'band',
         },
@@ -25,7 +24,7 @@ export default function BarCharts() {
           data: [2, 5,  3, 7 ,8 ,9 , 5],
         },
       ]}
-      width={1100}
+      width={750}
       height={380}
     />
   );

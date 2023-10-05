@@ -50,7 +50,7 @@ export default function SummarizePage() {
     };
 
     return (
-        <Card className='bg-[#ffffff]/75 h-[80vh]'>
+        <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
             <Box sx={{ width: '100%' }}>
                 <Box
                     sx={{ borderBottom: 1, borderColor: 'divider' }}

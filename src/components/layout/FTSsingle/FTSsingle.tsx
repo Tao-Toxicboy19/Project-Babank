@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
-import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
-import { Card, CardContent } from '@mui/material';
+import { Card } from '@mui/material';
 import DetailMenu from '../DetailMenu/DetailMenu';
 import BarCharts from '../BarCharts/BarCharts';
 
@@ -58,8 +57,8 @@ export default function FTSsingle() {
 
     return (
         <>
-            <Box className='grid grid-cols-9 h-[80vh]'>
-                <Card className='h-[85%]'>
+            <Box className='grid grid-cols-9'>
+                <Card className='h-[100%]'>
                     <Tabs
                         orientation="vertical"
                         variant="scrollable"
@@ -121,7 +120,7 @@ export default function FTSsingle() {
                                 <DetailMenu />
                             </Card>
                             <Card className="col-span-9">
-                                    <BarCharts />
+                                <BarCharts />
                             </Card>
                         </Box>
 

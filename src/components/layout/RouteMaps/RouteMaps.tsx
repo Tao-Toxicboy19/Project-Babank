@@ -14,7 +14,7 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
         }));
 
     const mapStyles: React.CSSProperties = {
-        height: '75vh',
+        height: '50vh',
         width: '100%'
     };
 

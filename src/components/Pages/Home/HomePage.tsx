@@ -10,9 +10,7 @@ import { RootState } from "../../../store/store";
 import { loadCarrier } from "../../../store/slices/carrier.slice";
 import { loadCargo } from "../../../store/slices/cargo.slice";
 import { loadOrder } from "../../../store/slices/order.slice";
-import CarrierMaps from "./Maps/CarrierMaps";
 import Loading from "../../layout/Loading/Loading";
-import FTSMaps from "./Maps/FTSMaps";
 import { loadCrane } from "../../../store/slices/crane.slice";
 
 

@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
-import { Button, Card } from '@mui/material';
-import MapsModal from '../MapsModal/MapsModal';
+import { Card } from '@mui/material';
+import RouteMaps from '../RouteMaps/RouteMaps';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -45,7 +45,6 @@ function a11yProps(index: number) {
 export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
     const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution.result);
-    const [open, setOpen] = React.useState(false);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
@@ -53,19 +52,9 @@ export default function RouteLayout() {
         console.log(FTSsolutionSlice[newValue]?.FTS_name);
     };
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-
-
     return (
-        <Box className='grid grid-cols-9 h-[80vh]'>
-            <Card className='h-[85%]'>
+        <Box className='grid grid-cols-9'>
+            <Card className='h-[100%]'>
                 <Tabs
                     orientation="vertical"
                     variant="scrollable"
@@ -83,28 +72,18 @@ export default function RouteLayout() {
                 </Tabs>
             </Card>
             <Box className='col-span-8'>
-                <TabPanel value={value} index={value}>
-                    <Box
-                        className='flex justify-end mt-[-2rem]'
-                    >
-                        <Button
-                            onClick={handleClickOpen}
-                            variant='outlined'
-                        >
-                            ดูเส้นทาง
-                        </Button>
+                <TabPanel value={value} index={value}> {/* ใช้ flex เพื่อให้ส่วนนี้เลื่อนขึ้นลงได้ */}
+                    <Box className='flex flex-col gap-y-5'>
+                        <Box className='flex-grow mt-[-3rem]'> {/* ใช้ flex-grow เพื่อให้ส่วนนี้ขยายตามพื้นที่ที่เหลือ */}
+                            <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice} value={value} />
+                        </Box>
+                        <Box> {/* ส่วนนี้อยู่ด้านล่าง จะตรงนี้เลื่อนขึ้นลง */}
+                            <RouteMaps FTSsolutionSlice={FTSsolutionSlice} value={value} />
+                        </Box>
                     </Box>
-                    <MapsModal
-                        open={open}
-                        handleClose={handleClose}
-                        FTSsolutionSlice={FTSsolutionSlice}
-                        value={value}
-                    />
-                    {/* Table */}
-                    <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice} value={value} />
-                    {/* Table */}
                 </TabPanel>
             </Box>
         </Box>
+
     );
 }
