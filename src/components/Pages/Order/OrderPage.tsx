@@ -149,7 +149,16 @@ export default function OrderPage({ }: Props) {
         </Box>
       </Box >
       <hr />
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table
+        aria-label="simple table"
+        sx={{
+          borderCollapse: "collapse",
+          "& td, & th": {
+            padding: "8px",
+            borderBottom: "1px solid #ddd",
+          },
+        }}
+      >
         <TableHead className='bg-blue-200 w-full'>
           {showThead()}
         </TableHead>

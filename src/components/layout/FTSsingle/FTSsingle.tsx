@@ -1,13 +1,12 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
-import { Card } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import DetailMenu from '../DetailMenu/DetailMenu';
 import BarCharts from '../BarCharts/BarCharts';
 
@@ -76,7 +75,21 @@ export default function FTSsingle() {
                 </Card>
                 <Box className='col-span-8'>
                     <TabPanel value={value} index={value}>
-                        <Box className="grid grid-cols-12 gap-5">
+                        <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
+                            <Typography
+                                className='col-span-12 flex justify-center border-b-[1px] border-gray-300'
+                                component='h1'
+                                sx={{
+                                    fontSize: 22,
+                                    fontFamily: "monospace",
+                                    fontWeight: 700,
+                                    letterSpacing: ".1rem",
+                                    color: "inherit",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                {FTSsolutionSlice[value]?.FTS_name}
+                            </Typography>
                             {FTSsolutionSlice[value] && (
                                 <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
                                     <SummarizaCard
@@ -123,7 +136,6 @@ export default function FTSsingle() {
                                 <BarCharts />
                             </Card>
                         </Box>
-
                     </TabPanel>
                 </Box >
             </Box>

@@ -87,20 +87,49 @@ export default function App({ }: Props) {
         {Array.from(nameGroups.entries()).map(([name, items]) => (
           <React.Fragment key={name}>
             <TableRow>
-              <TableCell>
-                {name}
+              <TableCell className='w-[150px]'>
                 {items.length > 1 && (
                   <button onClick={() => toggleGroup(name)}>
                     {openGroups.has(name) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                   </button>
                 )}
+                {name}
               </TableCell>
-              <TableCell align="center">{items[0].crane!.crane_name}</TableCell>
-              <TableCell align="center">{items[0].cargo!.cargo_name}</TableCell>
-              <TableCell align="center">{items[0].category}</TableCell>
-              <TableCell align="center">{items[0].consumption_rate}</TableCell>
-              <TableCell align="center">{items[0].work_rate}</TableCell>
-              <TableCell align="center">
+              <TableCell
+                align="center"
+                className='w-[150px]'
+              >
+                {items[0].crane!.crane_name}
+              </TableCell>
+              <TableCell
+                align="center"
+                className='w-[200px]'
+              >
+                {items[0].cargo!.cargo_name}
+              </TableCell>
+              <TableCell
+                align="center"
+                className='w-[120px]'
+              >
+                {items[0].category}
+              </TableCell>
+              <TableCell
+                align="center"
+                className='w-[120px]'
+              >
+                {items[0].consumption_rate}
+              </TableCell>
+              <TableCell
+                align="center"
+                className='w-[120px]'
+              >
+                {items[0].work_rate}
+              </TableCell>
+              <TableCell
+                align="center"
+                className='w-[120px]
+                '
+              >
                 <Tooltip title="แก้ไข">
                   <IconButton component={Link} to={`/cargocrane/edit/${items[0].cargo_crane_id}`}>
                     <LuFileEdit className="text-[#169413]" />
@@ -194,7 +223,16 @@ export default function App({ }: Props) {
               </Box>
             </Box >
             <hr />
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table
+              aria-label="simple table"
+              sx={{
+                borderCollapse: "collapse",
+                "& td, & th": {
+                  padding: "8px",
+                  borderBottom: "1px solid #ddd",
+                },
+              }}
+            >
               <TableHead>
                 {showThead()}
               </TableHead>

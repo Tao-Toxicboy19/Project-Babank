@@ -73,8 +73,22 @@ export default function RouteLayout() {
             </Card>
             <Box className='col-span-8'>
                 <TabPanel value={value} index={value}> {/* ใช้ flex เพื่อให้ส่วนนี้เลื่อนขึ้นลงได้ */}
-                    <Box className='flex flex-col gap-y-5'>
-                        <Box className='flex-grow mt-[-3rem]'> {/* ใช้ flex-grow เพื่อให้ส่วนนี้ขยายตามพื้นที่ที่เหลือ */}
+                    <Box className='flex flex-col gap-y-3 mt-[-2rem]'>
+                        <Typography
+                            className='col-span-12 flex justify-center border-b-[1px] border-gray-300'
+                            component='h1'
+                            sx={{
+                                fontSize: 22,
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".1rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            {FTSsolutionSlice[value]?.FTS_name}
+                        </Typography>
+                        <Box className='flex-grow mt-[-1rem]'> {/* ใช้ flex-grow เพื่อให้ส่วนนี้ขยายตามพื้นที่ที่เหลือ */}
                             <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice} value={value} />
                         </Box>
                         <Box> {/* ส่วนนี้อยู่ด้านล่าง จะตรงนี้เลื่อนขึ้นลง */}

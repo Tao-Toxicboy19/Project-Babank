@@ -27,7 +27,10 @@ function fixedHeaderContent() {
           key={column.dataKey}
           variant="head"
           align={column.numeric || false ? 'right' : 'left'}
-          style={{ width: column.width }}
+          style={{
+            width: column.width,
+            padding: '10px',
+          }}
           sx={{
             backgroundColor: 'background.paper',
             fontWeight: 'Bold',
@@ -48,6 +51,7 @@ function rowContent(_index: number, row: Cargo) {
         <TableCell
           key={column.dataKey}
           align={column.numeric || false ? 'right' : 'left'}
+          className='py-[8px]'
         >
           {column.dataKey === 'editColumn' ? (
             <Stack direction='row' className="flex justify-end">
