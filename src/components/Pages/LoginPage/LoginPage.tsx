@@ -1,10 +1,10 @@
-import { Button, Box, Typography, TextField, Card, Grid, createTheme, ThemeProvider } from "@mui/material";
+import { Button, Box, Typography, TextField, Card, createTheme, ThemeProvider } from "@mui/material";
 import { FormikProps, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Login } from "../../../types/User.type";
 import Logo1 from '../../../assets/images/logo/logo1.png'
-import Logo2 from '../../../assets/images/logo/logo2.jpg'
+import Logo2 from '../../../assets/images/logo/logo2.png'
 import Logo3 from '../../../assets/images/logo/logo3.png'
 import { login } from "../../../store/slices/login.slice";
 
@@ -23,7 +23,6 @@ export default function LoginPage({ }: Props) {
       <TextField
         variant='outlined'
         margin='normal'
-        required
         fullWidth
         id='email'
         label='email'
@@ -35,10 +34,9 @@ export default function LoginPage({ }: Props) {
       <TextField
         variant='outlined'
         margin='normal'
-        required
         fullWidth
         id='password'
-        label='Password:'
+        label='Password'
         type='password'
         onChange={handleChange}
         value={values.password}
@@ -48,12 +46,12 @@ export default function LoginPage({ }: Props) {
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-        className="bg-blue-400"
+        className='bg-[#1976D2] hover:bg-[#1563BC]'
         disabled={isSubmitting}
       >
         เข้าสู๋ระบบ
       </Button>
-      <Grid container>
+      {/* <Grid container>
         <Grid item xs>
           <Box className="flex">
             <Typography
@@ -66,7 +64,7 @@ export default function LoginPage({ }: Props) {
             </Typography>
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
     </form>
   )
 
@@ -74,28 +72,27 @@ export default function LoginPage({ }: Props) {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Card>
+      <Card className="max-w-[750px] flex mx-auto">
         <Box
-          sx={{
-            margin: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+          className='flex flex-col justify-center mx-auto mb-5'
         >
-          <Box className='flex gap-x-5'>
-            <Box>
-              <img src={Logo1} className="w-[200px] h-auto object-cover" />
+          <Box className='flex justify-center gap-x-5'>
+            <Box className='flex items-center'>
+              <img src={Logo1} className="w-[150px] h-auto object-cover" />
             </Box>
-            <Box>
+            <Box className='flex items-center'>
               <img src={Logo2} className="w-[200px] h-auto object-cover" />
             </Box>
-            <Box>
+            <Box className='flex items-center'>
               <img src={Logo3} className="w-[200px] h-auto object-cover" />
             </Box>
           </Box>
-          <Typography className="mt-5" component="h1" variant="h5">
-            เข้าสู่ระบบ
+          <Typography
+            className="flex justify-center"
+            component="h1"
+            variant="h5"
+          >
+            โครงการบริหารจัดการทุ่นเเละเรือขนส่ง
           </Typography>
           <Formik onSubmit={(values, { setSubmitting }: any) => {
             dispactch(login(values, navigate, setSubmitting))
