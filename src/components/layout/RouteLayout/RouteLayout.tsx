@@ -64,7 +64,8 @@ export default function RouteLayout() {
                 >
                     {FTSsolutionSlice.map((items, index) => (
                         <Tab
-                            className={value === index ? 'bg-[#caf0f8]/25' : 'text-gray-600'} // เปลี่ยนสีของ font ตามเงื่อนไขที่คุณต้องการ
+                            // className='font-kanit'
+                            className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
                             label={`${items.FTS_name}`}
                             {...a11yProps(index)}
                         />
@@ -75,7 +76,7 @@ export default function RouteLayout() {
                 <TabPanel value={value} index={value}> {/* ใช้ flex เพื่อให้ส่วนนี้เลื่อนขึ้นลงได้ */}
                     <Box className='flex flex-col gap-y-3 mt-[-2rem]'>
                         <Typography
-                            className='col-span-12 flex justify-center border-b-[1px] border-gray-300'
+                            className='col-span-12 flex justify-center border-b-[1px] border-gray-300 font-kanit'
                             component='h1'
                             sx={{
                                 fontSize: 22,

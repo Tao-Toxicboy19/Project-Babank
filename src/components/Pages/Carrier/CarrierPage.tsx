@@ -32,6 +32,7 @@ function fixedHeaderContent() {
           variant="head"
           align={column.numeric || false ? 'right' : 'left'}
           style={{ width: column.width }}
+          className='font-kanit'
           sx={{
             backgroundColor: 'background.paper',
             fontWeight: 'Bold',
@@ -52,7 +53,7 @@ function rowContent(_index: number, row: Carrier) {
         <TableCell
           key={column.dataKey}
           align={column.numeric || false ? 'right' : 'left'}
-          className='py-[8px]'
+          className='py-[8px] font-kanit'
         >
           {column.dataKey === 'editColumn' ? (
             <Stack direction='row' className="flex justify-end">
@@ -122,6 +123,7 @@ export default function CarrierPage() {
                 <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                   <Typography
                     component='h1'
+                    className='font-kanit'
                     sx={{
                       fontSize: 22,
                       fontFamily: "monospace",

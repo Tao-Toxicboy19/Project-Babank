@@ -29,14 +29,14 @@ const StockCard = (props: StockCardProp) => {
                     <Typography
                         variant='h5'
                         component='h4'
-                        className='flex justify-start font-semibold'
+                        className='flex justify-start font-semibold font-kanit'
                     >
                         {props.title}
                     </Typography>
                     <Typography
                         variant='h6'
                         component='h3'
-                        className='flex items-end'
+                        className='flex items-end font-kanit'
                     >
                         {props.subtitle}
                     </Typography>

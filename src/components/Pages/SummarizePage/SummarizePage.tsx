@@ -57,9 +57,9 @@ export default function SummarizePage() {
                     className='flex'
                 >
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="สรุป" {...a11yProps(0)} />
-                        <Tab label="ทุ่น" {...a11yProps(1)} />
-                        <Tab label="เส้นทาง" {...a11yProps(2)} />
+                        <Tab label="สรุป" className="font-kanit" {...a11yProps(0)} />
+                        <Tab label="ทุ่น" className="font-kanit" {...a11yProps(1)} />
+                        <Tab label="เส้นทาง" className="font-kanit" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

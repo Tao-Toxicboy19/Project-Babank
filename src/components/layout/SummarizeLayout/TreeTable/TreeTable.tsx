@@ -37,7 +37,7 @@ export default function TreeTable({ data }: Props) {
                 {titleTreeTable.map((items) => (
                     <Grid key={items} item xs={2} >
                         <Typography
-                            className='flex justify-center mb-2 font-bold text-md text-[#333]'
+                            className='flex justify-center mb-2 font-bold text-md text-[#333] font-kanit'
                         >
                             {items}
                         </Typography>

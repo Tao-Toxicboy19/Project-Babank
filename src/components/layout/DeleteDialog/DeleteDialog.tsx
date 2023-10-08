@@ -30,11 +30,11 @@ export default function DeleteDialog(props: Props) {
                 maxWidth={props.maxWidth}
                 fullWidth
             >
-                <DialogTitle id="alert-dialog-title" className='flex justify-center'>
+                <DialogTitle id="alert-dialog-title" className='flex justify-center font-kanit'>
                     {props.titles}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description" className='flex justify-center'>
+                    <DialogContentText id="alert-dialog-description" className='flex justify-center font-kanit'>
                         {props.description}
                     </DialogContentText>
                 </DialogContent>
@@ -43,13 +43,14 @@ export default function DeleteDialog(props: Props) {
                         sx={{ minWidth: 150 }}
                         variant="outlined"
                         onClick={props.handleClose}
+                        className='font-kanit'
                     >
                         ยกเลิก
                     </Button>
                     <Button
                         sx={{ minWidth: 150 }}
                         variant="contained"
-                        className='bg-[#1976D2] hover:bg-[#1563BC]'
+                        className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                         onClick={props.handleDeleteConfirm}
                         disabled={props.isSubmitting}
                         autoFocus

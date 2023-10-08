@@ -21,7 +21,7 @@ export default function BarCharts() {
       ]}
       series={[
         {
-          data: [2, 5,  3, 7 ,8 ,9 , 5],
+          data: [2, 5, 3, 7, 8, 9, 5],
         },
       ]}
       width={750}

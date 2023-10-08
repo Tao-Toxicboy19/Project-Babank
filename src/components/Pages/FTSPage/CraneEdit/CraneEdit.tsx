@@ -81,10 +81,11 @@ export default function CraneEditPage({ }: Props) {
                     <form onSubmit={handleSubmit}>
                         <Stack direction='column' spacing={3}>
                             <Box>
-                                <label className="pr-5" htmlFor="FTS_name">ชื่อเครน:</label>
+                                <label className="pr-5 font-kanit" htmlFor="FTS_name">ชื่อเครน:</label>
                                 <TextField
                                     variant="outlined"
                                     type="text"
+                                    className='font-kanit'
                                     id="crane_name"
                                     name="crane_name"
                                     value={crane_name}
@@ -93,11 +94,12 @@ export default function CraneEditPage({ }: Props) {
                                 />
                             </Box>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
+                                <InputLabel id="demo-simple-select-label" className='font-kanit'>เลือกทุ่น</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="FTS_id"
                                     value={FTS_id}
+                                    className='font-kanit'
                                     label="เลือกทุ่น"
                                     onChange={handleSelectChange}
                                 >
@@ -109,11 +111,12 @@ export default function CraneEditPage({ }: Props) {
                                 </Select>
                             </FormControl>
                             <Box>
-                                <label htmlFor="lng">เวลาเตรียมการ:</label>
+                                <label htmlFor="lng" className='font-kanit'>เวลาเตรียมการ:</label>
                                 <TextField
                                     variant="outlined"
                                     type="number"
                                     id="setuptime_crane"
+                                    className='font-kanit'
                                     name="setuptime_crane"
                                     value={setuptime_crane}
                                     onChange={handleInputChange}
@@ -127,6 +130,7 @@ export default function CraneEditPage({ }: Props) {
                                 variant="outlined"
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={() => navigate('/transferstation')}
+                                className='font-kanit'
                             >
                                 กลับ
                             </Button>
@@ -135,7 +139,7 @@ export default function CraneEditPage({ }: Props) {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                                 disabled={isSubmitting}
                             >
                                 บันทึก

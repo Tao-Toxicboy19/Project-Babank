@@ -65,8 +65,9 @@ export default function FTSsingle() {
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
                     >
-                        {FTSsolutionSlice.map((items) => (
+                        {FTSsolutionSlice.map((items,index) => (
                             <Tab
+                                className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
                                 label={`${items.FTS_name}`}
                                 {...a11yProps(0)}
                             />
@@ -77,7 +78,7 @@ export default function FTSsingle() {
                     <TabPanel value={value} index={value}>
                         <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
                             <Typography
-                                className='col-span-12 flex justify-center border-b-[1px] border-gray-300'
+                                className='col-span-12 flex justify-center border-b-[1px] border-gray-300 font-kanit'
                                 component='h1'
                                 sx={{
                                     fontSize: 22,
@@ -88,6 +89,7 @@ export default function FTSsingle() {
                                     textDecoration: "none",
                                 }}
                             >
+                                {/* className='font-kanit' */}
                                 {FTSsolutionSlice[value]?.FTS_name}
                             </Typography>
                             {FTSsolutionSlice[value] && (

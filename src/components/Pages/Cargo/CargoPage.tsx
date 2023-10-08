@@ -27,6 +27,7 @@ function fixedHeaderContent() {
           key={column.dataKey}
           variant="head"
           align={column.numeric || false ? 'right' : 'left'}
+          className='font-kanit'
           style={{
             width: column.width,
             padding: '10px',
@@ -51,7 +52,7 @@ function rowContent(_index: number, row: Cargo) {
         <TableCell
           key={column.dataKey}
           align={column.numeric || false ? 'right' : 'left'}
-          className='py-[8px]'
+          className='py-[8px] font-kanit'
         >
           {column.dataKey === 'editColumn' ? (
             <Stack direction='row' className="flex justify-end">
@@ -114,6 +115,7 @@ export default function CargoPage() {
               <Box className='flex justify-between mx-5'>
                 <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                   <Typography
+                    className='font-kanit'
                     component='h1'
                     sx={{
                       fontSize: 22,

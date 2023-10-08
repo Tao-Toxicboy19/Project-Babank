@@ -44,6 +44,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
             <Form>
                 <Box className='flex flex-col gap-4 m-3'>
                     <Field
+                        className='font-kanit'
                         component={TextField}
                         name='cargo_name'
                         type='text'
@@ -56,6 +57,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                         variant="outlined"
                         onClick={() => setOpen(false)}
                         startIcon={<ArrowBackIosIcon />}
+                        className='font-kanit'
                     >
                         กลับ
                     </Button>
@@ -65,6 +67,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                         style={btnColor}
                         disabled={isSubmitting}
                         startIcon={<SaveIcon />}
+                        className='font-kanit'
                     >
                         บันทึก
                     </Button>

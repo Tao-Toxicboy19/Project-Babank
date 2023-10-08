@@ -29,7 +29,7 @@ export default function TreeNode({
         >
             {[crane_name, total_cost, total_consumption_cost, total_wage_cost, penality_cost, total_reward].map((items) => (
                 <Grid className='flex justify-center items-center' key={items} item xs={1} sx={{ marginY: 1 }}>
-                    <Typography>{items}</Typography>
+                    <Typography className='font-kanit'>{items}</Typography>
                 </Grid>
             ))}
         </Grid>

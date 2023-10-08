@@ -3,6 +3,7 @@ import { Box, Grid, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TreeNode from './TreeNode';
+import { Typography } from '@mui/material';
 
 const TreeTableNode: React.FC<any> = ({
     FTS_name,
@@ -32,22 +33,22 @@ const TreeTableNode: React.FC<any> = ({
                         <IconButton onClick={toggleNode}>
                             {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
-                        {FTS_name}
+                        <Typography className='font-kanit'>{FTS_name}</Typography>
                     </Box>
                 </Grid>
-                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center font-kanit' item xs={2} sx={{ marginY: 1 }}>
                     {total_cost}
                 </Grid>
-                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center font-kanit' item xs={2} sx={{ marginY: 1 }}>
                     {total_consumption_cost}
                 </Grid>
-                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center font-kanit' item xs={2} sx={{ marginY: 1 }}>
                     {total_wage_cost}
                 </Grid>
-                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center font-kanit' item xs={2} sx={{ marginY: 1 }}>
                     {penality_cost}
                 </Grid>
-                <Grid className='flex justify-center items-center' item xs={2} sx={{ marginY: 1 }}>
+                <Grid className='flex justify-center items-center font-kanit' item xs={2} sx={{ marginY: 1 }}>
                     {total_reward}
                 </Grid>
             </Grid>

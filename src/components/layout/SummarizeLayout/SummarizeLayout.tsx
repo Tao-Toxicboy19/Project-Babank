@@ -43,7 +43,7 @@ export default function SummarizeLayout() {
                                     <Typography
                                         variant='h5'
                                         component='h1'
-                                        className='flex justify-center items-center text-[#435B71] mt-14 border-b-2 border-neutral-400'
+                                        className='font-kanit flex justify-center items-center text-[#435B71] mt-14 border-b-2 border-neutral-400'
                                         sx={{
                                             fontSize: 22,
                                             fontFamily: "monospace",

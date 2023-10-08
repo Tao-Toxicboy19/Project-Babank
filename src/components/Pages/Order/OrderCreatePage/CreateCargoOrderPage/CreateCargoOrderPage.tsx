@@ -85,12 +85,12 @@ const CargoOrderForm: React.FC = () => {
                         <Typography
                             variant='h6'
                             component='h1'
-                            className='flex justify-center'
+                            className='flex justify-center font-kanit'
                         >
                             สินค้าที่ {index + 1}
                         </Typography>
                         <FormControl fullWidth>
-                            <label htmlFor="cargo_id">เลือกสินค้า:</label>
+                            <label htmlFor="cargo_id" className='font-kanit'>เลือกสินค้า:</label>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="cargo_id"
@@ -98,14 +98,14 @@ const CargoOrderForm: React.FC = () => {
                                 onChange={(e) => handleSelectChange(e, index)}
                             >
                                 {(CargoReducer.cargo).map((cargoItem: Cargo) => (
-                                    <MenuItem key={cargoItem.cargo_id} value={cargoItem.cargo_id}>
+                                    <MenuItem className='font-kanit' key={cargoItem.cargo_id} value={cargoItem.cargo_id}>
                                         {cargoItem.cargo_name}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
                         <Box>
-                            <label htmlFor="cargo_id">ปริมาณสินค้า (ตัน):</label>
+                            <label htmlFor="cargo_id" className='font-kanit'>ปริมาณสินค้า (ตัน):</label>
                             <TextField
                                 fullWidth
                                 id="load"
@@ -118,7 +118,7 @@ const CargoOrderForm: React.FC = () => {
                             />
                         </Box>
                         <Box>
-                            <label htmlFor="cargo_id">จำนวนระวาง:</label>
+                            <label htmlFor="cargo_id" className='font-kanit'>จำนวนระวาง:</label>
                             <TextField
                                 fullWidth
                                 id="bulk"
@@ -133,6 +133,7 @@ const CargoOrderForm: React.FC = () => {
                         <Stack spacing={2} direction='row'>
 
                             <Button
+                                className='font-kanit'
                                 onClick={
                                     () => handleRemoveCargo(index)
                                 }
@@ -143,7 +144,7 @@ const CargoOrderForm: React.FC = () => {
                         </Stack>
                     </Stack>
                 ))}
-                <Stack spacing={2} direction='row' className='flex justify-between mt-[16px]'>
+                <Stack spacing={2} direction='row' className='flex justify-between mt-[16px] font-kanit'>
                     <Button
                         variant="contained"
                         onClick={handleAddCargo}
@@ -157,12 +158,13 @@ const CargoOrderForm: React.FC = () => {
                             onClick={handleSubmit}
                             component={Link}
                             to={'/orders/create'}
+                            className='font-kanit'
                         >
                             กลับ
                         </Button>
                         <Button
                             variant="contained"
-                            className='bg-[#1976d2] hover:bg-[#1563bc]'
+                            className='bg-[#1976d2] hover:bg-[#1563bc] font-kanit'
                             onClick={handleSubmit}
                             disabled={isSubmitting}
                         >

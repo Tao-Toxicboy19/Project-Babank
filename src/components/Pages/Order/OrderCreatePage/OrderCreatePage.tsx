@@ -57,7 +57,6 @@ export default function CargoCraneCreate({ }: Props) {
       longitude: parseFloat(values.longitude),
     };
     try {
-      console.log(formattedValues);
       dispatch(addOrder(formattedValues, navigate))
       isSubmitting(false);
     } catch (error) {
@@ -70,7 +69,7 @@ export default function CargoCraneCreate({ }: Props) {
       <Form>
         <Stack spacing={2} direction='column'>
           <Box>
-            <label htmlFor="cr_id">เลือกเรือ:</label>
+            <label htmlFor="cr_id" className='font-kanit'>เลือกเรือ:</label>
             <Field
               as={Select}
               name='cr_id'
@@ -79,7 +78,7 @@ export default function CargoCraneCreate({ }: Props) {
               fullWidth
             >
               {(CarrierReducer.carrier).map((items) => (
-                <MenuItem key={items.cr_id} value={items.cr_id}>
+                <MenuItem className='font-kanit' key={items.cr_id} value={items.cr_id}>
                   {items.carrier_name}
                 </MenuItem>
               ))}
@@ -87,7 +86,7 @@ export default function CargoCraneCreate({ }: Props) {
           </Box>
           <Stack spacing={2} direction='row' >
             <Box className='w-full'>
-              <label htmlFor="category">สถานะสินค้า (ขาเข้า/ขาออก):</label>
+              <label htmlFor="category" className='font-kanit'>สถานะสินค้า (ขาเข้า/ขาออก):</label>
               <Field
                 as={Select}
                 name='category'
@@ -95,12 +94,12 @@ export default function CargoCraneCreate({ }: Props) {
                 onChange={handleChange}
                 fullWidth
               >
-                <MenuItem value='Import'>Import</MenuItem>
-                <MenuItem value='Export'>Export</MenuItem>
+                <MenuItem value='Import' className='font-kanit'>Import</MenuItem>
+                <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
               </Field>
             </Box>
             <Box className='w-full'>
-              <label htmlFor="maxFTS">จำนวนทุ่นเข้าสูงสุด:</label>
+              <label htmlFor="maxFTS" className='font-kanit'>จำนวนทุ่นเข้าสูงสุด:</label>
               <Field
                 component={TextField}
                 type="number"
@@ -112,7 +111,7 @@ export default function CargoCraneCreate({ }: Props) {
           </Stack>
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <label htmlFor="arrival_time">วัน-เวลา มาถึง:</label>
+              <label htmlFor="arrival_time" className='font-kanit'>วัน-เวลา มาถึง:</label>
               <Field
                 component={TextField}
                 name='arrival_time'
@@ -121,7 +120,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <label htmlFor="deadline_time">วัน-เวลา สิ้นสุด:</label>
+              <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด:</label>
               <Field
                 component={TextField}
                 name='deadline_time'
@@ -132,7 +131,7 @@ export default function CargoCraneCreate({ }: Props) {
           </Stack>
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <label htmlFor="latitude">ละติจูด:</label>
+              <label htmlFor="latitude" className='font-kanit'>ละติจูด:</label>
               <Field
                 component={TextField}
                 name="latitude"
@@ -141,7 +140,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <label htmlFor="longitude">ลองจิจูด:</label>
+              <label htmlFor="longitude" className='font-kanit'>ลองจิจูด:</label>
               <Field
                 component={TextField}
                 type="number"
@@ -154,7 +153,7 @@ export default function CargoCraneCreate({ }: Props) {
 
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <label htmlFor="longitude">ค่าปรับ (บาท):</label>
+              <label htmlFor="longitude" className='font-kanit'>ค่าปรับ (บาท):</label>
               <Field
                 component={TextField}
                 type="number"
@@ -164,7 +163,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <label htmlFor="longitude">รางวัล (บาท):</label>
+              <label htmlFor="longitude" className='font-kanit'>รางวัล (บาท):</label>
               <Field
                 component={TextField}
                 type="number"
@@ -182,6 +181,7 @@ export default function CargoCraneCreate({ }: Props) {
               sx={{ mt: 3, mb: 2 }}
               component={Link}
               to={'/orders'}
+              className='font-kanit'
             >
               กลับ
             </Button>
@@ -190,7 +190,7 @@ export default function CargoCraneCreate({ }: Props) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              className='bg-[#1976D2] hover:bg-[#1563BC]'
+              className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
               disabled={isSubmitting}
             >
               เพิ่มสินค้า

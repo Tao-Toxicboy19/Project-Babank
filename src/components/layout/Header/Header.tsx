@@ -36,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
           <Typography
             variant="h6"
             component='h1'
+            className='font-kanit'
             sx={{
               fontSize: 22,
               fontFamily: "monospace",

@@ -54,6 +54,7 @@ export default function FTSCreatePage({ }: Props) {
           type='text'
           label='ชื่อทุ่น'
           fullWidth
+          className='font-kanit'
         />
         <Field
           component={TextField}
@@ -63,6 +64,7 @@ export default function FTSCreatePage({ }: Props) {
           type='number'
           label='ละติจูด'
           fullWidth
+          className='font-kanit'
         />
         <Field
           component={TextField}
@@ -72,6 +74,7 @@ export default function FTSCreatePage({ }: Props) {
           type='number'
           label='ลองจิจูด'
           fullWidth
+          className='font-kanit'
         />
         <Field
           component={TextField}
@@ -81,6 +84,7 @@ export default function FTSCreatePage({ }: Props) {
           type='number'
           label='เวลาเตรียมความพร้อม (นาที)'
           fullWidth
+          className='font-kanit'
         />
         <Field
           component={TextField}
@@ -90,6 +94,7 @@ export default function FTSCreatePage({ }: Props) {
           type='number'
           label='ความเร็วการเคลื่อนย้าย (กม./ชม.)'
           fullWidth
+          className='font-kanit'
         />
         <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
           <Button
@@ -97,6 +102,7 @@ export default function FTSCreatePage({ }: Props) {
             variant="outlined"
             sx={{ mt: 3, mb: 2 }}
             onClick={() => navigate('/transferstation')}
+            className='font-kanit'
           >
             กลับ
           </Button>
@@ -105,10 +111,10 @@ export default function FTSCreatePage({ }: Props) {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            className='bg-[#1976D2] hover:bg-[#1563BC]'
+            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
             disabled={isSubmitting}
           >
-            เพิ่มทุ่น
+            เพิ่มเครน
           </Button>
         </Stack>
       </Form>

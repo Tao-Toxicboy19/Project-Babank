@@ -30,7 +30,6 @@ export default function OrderEditPageV2({ }: Props) {
                 setLoading(false)
             } catch (error) {
                 setLoading(false)
-                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
             }
         };
         fetchCraneData();
@@ -39,7 +38,6 @@ export default function OrderEditPageV2({ }: Props) {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setIsSubmitting(true);
-        console.log(order)
         dispatch(updateOrder(id, order, navigate, setIsSubmitting));
     };
 
@@ -87,7 +85,7 @@ export default function OrderEditPageV2({ }: Props) {
             <form onSubmit={handleSubmit}>
                 <Stack spacing={2} direction='column'>
                     <Box>
-                        <InputLabel id="cr_id">เลือกเรือ</InputLabel>
+                        <InputLabel id="cr_id" className='font-kanit'>เลือกเรือ</InputLabel>
                         <FormControl fullWidth>
                             <Select
                                 labelId="cr_id"
@@ -96,7 +94,7 @@ export default function OrderEditPageV2({ }: Props) {
                                 onChange={handleSelectChangeCarrier}
                             >
                                 {(CarrierReducer.carrier).map((item: Carrier) => (
-                                    <MenuItem key={item.cr_id} value={item.cr_id}>
+                                    <MenuItem className='font-kanit' key={item.cr_id} value={item.cr_id}>
                                         {item.carrier_name}
                                     </MenuItem>
                                 ))}
@@ -105,7 +103,7 @@ export default function OrderEditPageV2({ }: Props) {
                     </Box>
                     <Stack spacing={2} direction='row'>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
                             <FormControl fullWidth>
                                 <Select
                                     name='category'
@@ -113,13 +111,13 @@ export default function OrderEditPageV2({ }: Props) {
                                     onChange={handleSelectChangeCategory}
                                     fullWidth
                                 >
-                                    <MenuItem value='Import'>Import</MenuItem>
-                                    <MenuItem value='Export'>Export</MenuItem>
+                                    <MenuItem value='Import' className='font-kanit'>Import</MenuItem>
+                                    <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">จำนวนทุ่นเข้าสูงสุด</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>จำนวนทุ่นเข้าสูงสุด</InputLabel>
                             <TextField
                                 name='maxFTS'
                                 id='maxFTS'
@@ -132,7 +130,7 @@ export default function OrderEditPageV2({ }: Props) {
                     </Stack>
                     <Stack spacing={2} direction='row'>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">วัน-เวลา มาถึง</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>วัน-เวลา มาถึง</InputLabel>
                             <TextField
                                 name='arrival_time'
                                 id='arrival_time'
@@ -143,7 +141,7 @@ export default function OrderEditPageV2({ }: Props) {
                             />
                         </Box>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">วัน-เวลา สิ้นสุด</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>วัน-เวลา สิ้นสุด</InputLabel>
                             <TextField
                                 name='deadline_time'
                                 id='deadline_time'
@@ -156,7 +154,7 @@ export default function OrderEditPageV2({ }: Props) {
                     </Stack>
                     <Stack spacing={2} direction='row'>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">ละติจูด</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>ละติจูด</InputLabel>
                             <TextField
                                 name='latitude'
                                 id='latitude'
@@ -167,7 +165,7 @@ export default function OrderEditPageV2({ }: Props) {
                             />
                         </Box>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">ลองจิจูด</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>ลองจิจูด</InputLabel>
                             <TextField
                                 name='longitude'
                                 id='longitude'
@@ -180,7 +178,7 @@ export default function OrderEditPageV2({ }: Props) {
                     </Stack>
                     <Stack spacing={2} direction='row'>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">ค่าปรับ (บาท)</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>ค่าปรับ (บาท)</InputLabel>
                             <TextField
                                 name='penalty_rate'
                                 id='penalty_rate'
@@ -191,7 +189,7 @@ export default function OrderEditPageV2({ }: Props) {
                             />
                         </Box>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id">รางวัล (บาท)</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>รางวัล (บาท)</InputLabel>
                             <TextField
                                 name='reward_rate'
                                 id='reward_rate'
@@ -209,6 +207,7 @@ export default function OrderEditPageV2({ }: Props) {
                             sx={{ mt: 3, mb: 2 }}
                             component={Link}
                             to={'/orders'}
+                            className='font-kanit'
                         >
                             กลับ
                         </Button>
@@ -217,7 +216,7 @@ export default function OrderEditPageV2({ }: Props) {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#1976D2] hover:bg-[#1563BC]'
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                             disabled={isSubmitting}
                         >
                             บันทึก

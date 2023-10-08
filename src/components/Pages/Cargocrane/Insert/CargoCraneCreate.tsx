@@ -54,7 +54,7 @@ export default function CargoCraneCreate({ }: Props) {
             <Form>
                 <Stack spacing={2}>
                     <Box>
-                        <label htmlFor="FTS_id">เลือกทุ่น:</label>
+                        <label htmlFor="FTS_id" className='font-kanit'>เลือกทุ่น:</label>
                         <Field
                             as={Select}
                             name='FTS_id'
@@ -64,14 +64,14 @@ export default function CargoCraneCreate({ }: Props) {
                         >
 
                             {(FTSReducer.FTS).map((items) => (
-                                <MenuItem key={items.fts_id} value={items.fts_id}>
+                                <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
                                     {items.FTS_name}
                                 </MenuItem>
                             ))}
                         </Field>
                     </Box>
                     <Box>
-                        <label htmlFor="crane_id">เลือกเครน:</label>
+                        <label htmlFor="crane_id" className='font-kanit'>เลือกเครน:</label>
                         <Field
                             as={Select}
                             name='crane_id'
@@ -80,14 +80,14 @@ export default function CargoCraneCreate({ }: Props) {
                             fullWidth
                         >
                             {(CraneReducer.result).map((items: any) => (
-                                <MenuItem key={items.id} value={items.id}>
+                                <MenuItem className='font-kanit' key={items.id} value={items.id}>
                                     {items.crane_name}
                                 </MenuItem>
                             ))}
                         </Field>
                     </Box>
                     <Box>
-                        <label htmlFor="category">เลือกสินค้า:</label>
+                        <label htmlFor="category" className='font-kanit'>เลือกสินค้า:</label>
                         <Field
                             as={Select}
                             name='cargo_id'
@@ -96,14 +96,14 @@ export default function CargoCraneCreate({ }: Props) {
                             fullWidth
                         >
                             {(CargoReducer.cargo).map((items) => (
-                                <MenuItem key={items.cargo_id} value={items.cargo_id}>
+                                <MenuItem className='font-kanit' key={items.cargo_id} value={items.cargo_id}>
                                     {items.cargo_name}
                                 </MenuItem>
                             ))}
                         </Field>
                     </Box>
                     <Box>
-                        <label htmlFor="category">สถานะสินค้า (ขาเข้า/ขาออก):</label>
+                        <label htmlFor="category" className='font-kanit'>สถานะสินค้า (ขาเข้า/ขาออก):</label>
                         <Field
                             as={Select}
                             name='category'
@@ -111,12 +111,12 @@ export default function CargoCraneCreate({ }: Props) {
                             onChange={handleChange}
                             fullWidth
                         >
-                            <MenuItem value='Import'>Import</MenuItem>
-                            <MenuItem value='Export'>Export</MenuItem>
+                            <MenuItem value='Import' className='font-kanit'>Import</MenuItem>
+                            <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
                         </Field>
                     </Box>
                     <Box>
-                        <label htmlFor="category">อัตราการขนถ่ายสินค้า (ตัน/ชม.):</label>
+                        <label htmlFor="category" className='font-kanit'>อัตราการขนถ่ายสินค้า (ตัน/ชม.):</label>
                         <Field
                             component={TextField}
                             type="number"
@@ -125,7 +125,7 @@ export default function CargoCraneCreate({ }: Props) {
                         />
                     </Box>
                     <Box>
-                        <label htmlFor="category">อัตราการใช้น้ำมัน (ลิตร/ตัน):</label>
+                        <label htmlFor="category" className='font-kanit'>อัตราการใช้น้ำมัน (ลิตร/ตัน):</label>
                         <Field
                             component={TextField}
                             type="number"
@@ -140,6 +140,7 @@ export default function CargoCraneCreate({ }: Props) {
                             sx={{ mt: 3, mb: 2 }}
                             component={Link}
                             to={'/cargocrane'}
+                            className='font-kanit'
                         >
                             กลับ
                         </Button>
@@ -148,7 +149,7 @@ export default function CargoCraneCreate({ }: Props) {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#1976D2] hover:bg-[#1563BC]'
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                             disabled={isSubmitting}
                         >
                             เพิ่มสินค้า

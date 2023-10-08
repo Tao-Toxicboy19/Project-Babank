@@ -74,8 +74,9 @@ export default function CargoInsertPage({ }: Props) {
                             <Button
                                 variant="contained"
                                 type="button"
-                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                                 onClick={addCargoField}
+                                
                             >
                                 เพิ่มสินค้า
                             </Button>
@@ -83,6 +84,7 @@ export default function CargoInsertPage({ }: Props) {
                                 variant="outlined"
                                 type="button"
                                 onClick={addCargoFieldV2}
+                                className='font-kanit'
                             >
                                 ลบสินค้า
                             </Button>
@@ -92,6 +94,7 @@ export default function CargoInsertPage({ }: Props) {
                                 fullWidth
                                 variant="outlined"
                                 onClick={() => setOpen(false)}
+                                className='font-kanit'
                             >
                                 ปิด
                             </Button>
@@ -99,7 +102,7 @@ export default function CargoInsertPage({ }: Props) {
                                 fullWidth
                                 variant="contained"
                                 type="submit"
-                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                                 disabled={isSubmitting}
                             >
                                 บันทึก
@@ -131,7 +134,7 @@ export default function CargoInsertPage({ }: Props) {
                 aria-describedby="alert-dialog-slide-description"
                 fullWidth
             >
-                <DialogTitle className='flex justify-center'>{"เพิ่มสินค้า"}</DialogTitle>
+                <DialogTitle className='flex justify-center font-kanit'>{"เพิ่มสินค้า"}</DialogTitle>
                 <Card>
                     <CardContent className="">
                         <DialogContent>

@@ -46,25 +46,11 @@ export default function LoginPage({ }: Props) {
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-        className='bg-[#1976D2] hover:bg-[#1563BC]'
+        className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
         disabled={isSubmitting}
       >
-        เข้าสู๋ระบบ
+        เข้าสู่ระบบ
       </Button>
-      {/* <Grid container>
-        <Grid item xs>
-          <Box className="flex">
-            <Typography
-              className="flex m-5 text-[#1695F3] font-bold"
-              component={Link}
-              to={'/register'}
-              variant="body2"
-            >
-              สร้างบัญชีใหม่
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid> */}
     </form>
   )
 
@@ -78,17 +64,17 @@ export default function LoginPage({ }: Props) {
         >
           <Box className='flex justify-center gap-x-5'>
             <Box className='flex items-center'>
-              <img src={Logo1} className="w-[150px] h-auto object-cover" />
+              <img src={Logo1} className="w-[100px] h-auto object-cover" />
             </Box>
             <Box className='flex items-center'>
-              <img src={Logo2} className="w-[200px] h-auto object-cover" />
+              <img src={Logo2} className="w-[130px] h-auto object-cover" />
             </Box>
             <Box className='flex items-center'>
-              <img src={Logo3} className="w-[200px] h-auto object-cover" />
+              <img src={Logo3} className="w-[130px] h-auto object-cover" />
             </Box>
           </Box>
           <Typography
-            className="flex justify-center"
+            className="flex justify-center font-kanit"
             component="h1"
             variant="h5"
           >

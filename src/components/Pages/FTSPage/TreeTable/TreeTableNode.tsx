@@ -35,29 +35,29 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                     <Box className='flex justify-start items-center'>
                         {result && result.some(item => item.crane_name) ? (
                             <>
-                                <Typography>{FTS_name}</Typography>
+                                <Typography className='font-kanit'>{FTS_name}</Typography>
                                 <IconButton onClick={toggleNode}>
                                     {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </>
                         ) : (
-                            <Typography className='flex items-center mt-3'>{FTS_name}</Typography>
+                            <Typography className='flex items-center mt-3 font-kanit'>{FTS_name}</Typography>
                         )}
                     </Box>
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
                     {lat}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
                     {lng}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
                     {setuptime_FTS}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
                     {speed}
                 </Grid>
-                <Grid item xs={2} sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
                     <Box className='flex justify-end'>
                         <Tooltip title="แก้ไข">
                             <IconButton component={Link} to={`/transferstation/edit/${fts_id}`}>
@@ -77,10 +77,10 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 className='border-b-[1px]'
             >
                 <Grid item xs={1} sx={{ marginLeft: 5 }}>
-                    <Typography>ลำดับเครนที่</Typography>
+                    <Typography className='font-kanit'>ลำดับเครนที่</Typography>
                 </Grid>
                 <Grid item xs={1} >
-                    <Typography>เวลาเตรียมความพร้อม (นาที)</Typography>
+                    <Typography className='font-kanit'>เวลาเตรียมความพร้อม (นาที)</Typography>
                 </Grid>
             </Grid >
             }

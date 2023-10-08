@@ -49,6 +49,7 @@ export default function CarrierCreatePage({ }: Props) {
           type='text'
           label='ชื่อเรือ'
           fullWidth
+          className='font-kanit'
         />
         <Field
           component={TextField}
@@ -58,6 +59,7 @@ export default function CarrierCreatePage({ }: Props) {
           type='text'
           label='ชื่อบริษัท'
           fullWidth
+          className='font-kanit'
         />
         <Field
           component={TextField}
@@ -67,8 +69,10 @@ export default function CarrierCreatePage({ }: Props) {
           type='number'
           label='ความจุสูงสุด (ตัน)'
           fullWidth
+          className='font-kanit'
         />
         <Field
+          className='font-kanit'
           component={TextField}
           style={{ marginTop: 16 }}
           name='burden'
@@ -83,6 +87,7 @@ export default function CarrierCreatePage({ }: Props) {
             variant="outlined"
             sx={{ mt: 3, mb: 2 }}
             onClick={() => navigate('/carrier')}
+            className='font-kanit'
           >
             กลับ
           </Button>
@@ -91,7 +96,7 @@ export default function CarrierCreatePage({ }: Props) {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            className='bg-[#1976D2] hover:bg-[#1563BC]'
+            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
             disabled={isSubmitting}
           >
             เพิ่มทุ่น
@@ -115,7 +120,7 @@ export default function CarrierCreatePage({ }: Props) {
         <Card>
           <CardContent>
             <Box className='flex justify-between'>
-              <Typography component="h1" variant="h5">
+              <Typography component="h1" variant="h5" className='font-kanit'>
                 เพิ่มเรือ
               </Typography>
             </Box>

@@ -35,6 +35,7 @@ export default function CraneCreatePage({ }: Props) {
                 <Field
                     component={TextField}
                     style={{ marginTop: 16 }}
+                    className='font-kanit'
                     name='crane_name'
                     id='crane_name'
                     type='text'
@@ -48,6 +49,7 @@ export default function CraneCreatePage({ }: Props) {
                     <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
                     <Field
                         as={Select}
+                        className='font-kanit'
                         name='FTS_id'
                         label='จำนวนเครน'
                         value={values.FTS_id}
@@ -55,7 +57,7 @@ export default function CraneCreatePage({ }: Props) {
                         fullWidth
                     >
                         {(FTSSlice.FTS).map((item: FTS) => (
-                            <MenuItem key={item.fts_id} value={item.fts_id}>
+                            <MenuItem key={item.fts_id} value={item.fts_id} className='font-kanit'>
                                 {item.FTS_name}
                             </MenuItem>
                         ))}
@@ -65,6 +67,7 @@ export default function CraneCreatePage({ }: Props) {
                     component={TextField}
                     style={{ marginTop: 16 }}
                     name='setuptime_crane'
+                    className='font-kanit'
                     id='setuptime_crane'
                     type='number'
                     label='เวลาเตรียมความพร้อม (นาที)'
@@ -76,6 +79,7 @@ export default function CraneCreatePage({ }: Props) {
                         variant="outlined"
                         sx={{ mt: 3, mb: 2 }}
                         onClick={() => navigate('/transferstation')}
+                        className='font-kanit'
                     >
                         กลับ
                     </Button>
@@ -84,7 +88,7 @@ export default function CraneCreatePage({ }: Props) {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
-                        className='bg-[#1976D2] hover:bg-[#1563BC]'
+                        className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                         disabled={isSubmitting}
                     >
                         เพิ่มเครน

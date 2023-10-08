@@ -53,8 +53,8 @@ export default function DescriptionMenu() {
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="ระยะเวลา" {...a11yProps(0)} />
-                        <Tab label="เชื้อเพลิง" {...a11yProps(1)} />
+                        <Tab label="ระยะเวลา" className='font-kanit' {...a11yProps(0)} />
+                        <Tab label="เชื้อเพลิง" className='font-kanit' {...a11yProps(1)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

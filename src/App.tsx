@@ -32,7 +32,6 @@ import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2'
 import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
 import SummarizePage from './components/Pages/SummarizePage/SummarizePage';
 
-
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer() {
@@ -48,8 +47,9 @@ export default function ResponsiveDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
+
   return (
-    <Box sx={{ display: 'flex' }} className=' bg-gradient-to-bl from-[#5FBCFF] to-[#FFF] w-full h-full min-h-screen'>
+    <Box sx={{ display: 'flex' }} className='bg-gradient-to-bl from-[#5FBCFF] to-[#FFF] w-full h-full min-h-screen'>
       <CssBaseline />
       <ToastContainer />
       {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}

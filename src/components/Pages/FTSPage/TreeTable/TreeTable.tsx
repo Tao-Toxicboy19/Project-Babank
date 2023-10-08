@@ -14,7 +14,7 @@ export default function TreeTable({ FTSReducer }: Props) {
         <>
             <Box className="justify-between flex">
                 <Box className="flex items-center">
-                    <Typography className="text-xl">
+                    <Typography className="text-xl font-kanit">
                         จัดการทุ่นและเครน
                     </Typography>
                 </Box>
@@ -40,32 +40,32 @@ export default function TreeTable({ FTSReducer }: Props) {
                 className='border-b-[1px] bg-[#1976D2] mt-5 text-[#FFF] rounded-lg'
             >
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    <Typography className='font-bold text-md'>
+                    <Typography className='font-bold text-md font-kanit'>
                         ชื่อทุ่น
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    <Typography className='font-bold text-md'>
+                    <Typography className='font-bold text-md font-kanit'>
                         ละติจูด
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    <Typography className='font-bold text-md'>
+                    <Typography className='font-bold text-md font-kanit'>
                         ลองจิจูด
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    <Typography className='font-bold text-md'>
+                    <Typography className='font-bold text-md font-kanit'>
                         เวลาเตรียมความพร้อม (นาที)
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    <Typography className='font-bold text-md'>
+                    <Typography className='font-bold text-md font-kanit'>
                         ความเร็วการเคลื่อนย้าย (กม./ชม.)
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ marginY: 1 }}>
-                    <Typography className='font-bold text-md flex justify-end mx-5'>
+                    <Typography className='font-bold text-md font-kanit flex justify-end mx-5'>
                         แก้ไข
                     </Typography>
                 </Grid>

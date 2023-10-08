@@ -37,7 +37,6 @@ export default function App({ }: Props) {
     dispatch(loadCargoCrane())
   }, []);
 
-  // สร้างออบเจกต์ Map เพื่อรวมชื่อซ้ำ
   const nameGroups = new Map<string, CargoCrane[]>();
 
   (filteredData).forEach((item) => {
@@ -67,6 +66,7 @@ export default function App({ }: Props) {
           <TableCell
             key={title}
             align={title === 'ชื่อเรือ' ? 'left' : 'center'}
+            className='font-kanit'
             sx={{
               backgroundColor: 'background.paper',
               fontWeight: 'Bold',
@@ -87,7 +87,7 @@ export default function App({ }: Props) {
         {Array.from(nameGroups.entries()).map(([name, items]) => (
           <React.Fragment key={name}>
             <TableRow>
-              <TableCell className='w-[150px]'>
+              <TableCell className='w-[150px] font-kanit'>
                 {items.length > 1 && (
                   <button onClick={() => toggleGroup(name)}>
                     {openGroups.has(name) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -97,37 +97,37 @@ export default function App({ }: Props) {
               </TableCell>
               <TableCell
                 align="center"
-                className='w-[150px]'
+                className='w-[150px] font-kanit'
               >
                 {items[0].crane!.crane_name}
               </TableCell>
               <TableCell
                 align="center"
-                className='w-[200px]'
+                className='w-[200px] font-kanit'
               >
                 {items[0].cargo!.cargo_name}
               </TableCell>
               <TableCell
                 align="center"
-                className='w-[120px]'
+                className='w-[120px] font-kanit'
               >
                 {items[0].category}
               </TableCell>
               <TableCell
                 align="center"
-                className='w-[120px]'
+                className='w-[120px] font-kanit'
               >
                 {items[0].consumption_rate}
               </TableCell>
               <TableCell
                 align="center"
-                className='w-[120px]'
+                className='w-[120px] font-kanit'
               >
                 {items[0].work_rate}
               </TableCell>
               <TableCell
                 align="center"
-                className='w-[120px]
+                className='w-[120px] font-kanit
                 '
               >
                 <Tooltip title="แก้ไข">
@@ -141,13 +141,46 @@ export default function App({ }: Props) {
             {openGroups.has(name) &&
               items.slice(1).map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center">{item.crane!.crane_name}</TableCell>
-                  <TableCell align="center">{item.cargo!.cargo_name}</TableCell>
-                  <TableCell align="center">{item.category}</TableCell>
-                  <TableCell align="center">{item.consumption_rate}</TableCell>
-                  <TableCell align="center">{item.work_rate}</TableCell>
-                  <TableCell align="center">
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+                    {item.crane!.crane_name}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+                    {item.cargo!.cargo_name}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+                    {item.category}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+                    {item.consumption_rate}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+                    {item.work_rate}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    className='font-kanit'
+                  >
+
                     <Tooltip title="แก้ไข">
                       <IconButton component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>
                         <LuFileEdit className="text-[#169413]" />
@@ -173,6 +206,7 @@ export default function App({ }: Props) {
             <Box className="justify-between flex mx-5">
               <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
                 <Typography
+                  className='font-kanit'
                   component='h1'
                   sx={{
                     fontSize: 22,

@@ -16,10 +16,10 @@ export default function TreeNode({ crane_name, setuptime_crane, crane_id }: Resu
             className='border-b-[1px]'
         >
             <Grid item xs={1} sx={{ marginY: 1 }}>
-                <Typography sx={{ marginLeft: 8 }}>{crane_name}</Typography>
+                <Typography sx={{ marginLeft: 8 }} className='font-kanit'>{crane_name}</Typography>
             </Grid>
             <Grid item xs={1} sx={{ marginY: 1 }}>
-                <Typography sx={{ marginLeft: 8 }}>{setuptime_crane}</Typography>
+                <Typography sx={{ marginLeft: 8 }} className='font-kanit'>{setuptime_crane}</Typography>
             </Grid>
             <Grid item xs={3}>
                 <Box className='flex justify-end'>

@@ -20,7 +20,11 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                     <TableHead className='bg-[#68d8d6]/75'>
                         <TableRow>
                             {titles.map((title) => (
-                                <TableCell key={title} align={title === 'ชื่อทุ่น' ? 'left' : 'right'}>
+                                <TableCell
+                                    key={title}
+                                    align={title === 'ชื่อทุ่น' ? 'left' : 'right'}
+                                    className='font-kanit'
+                                >
                                     {title}
                                 </TableCell>
                             ))}
@@ -33,16 +37,52 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                                 <TableRow
                                     key={index}
                                 >
-                                    <TableCell align="left" className='w-[100px]'>{items.FTS_name}</TableCell>
-                                    <TableCell align="right">
+                                    <TableCell
+                                        align="left"
+                                        className='w-[100px] font-kanit'
+                                    >
+                                        {items.FTS_name}
+                                    </TableCell>
+                                    <TableCell
+                                        className='font-kanit'
+                                        align="right"
+                                    >
                                         {items.carrier_name ? items.carrier_name : 'จุดเริ่มต้น'}
                                     </TableCell>
-                                    <TableCell align="right">{items.lat}</TableCell>
-                                    <TableCell align="right">{items.lng}</TableCell>
-                                    <TableCell align="right">{items.arrivaltime}</TableCell>
-                                    <TableCell align="right">{items.exittime}</TableCell>
-                                    <TableCell align="right">{items.operation_time}</TableCell>
-                                    <TableCell align="right">{items.travel_Distance}</TableCell>
+                                    <TableCell
+                                        className='font-kanit'
+                                        align="right"
+                                    >
+                                        {items.lat}
+                                    </TableCell>
+                                    <TableCell
+                                        className='font-kanit'
+                                        align="right"
+                                    >
+                                        {items.lng}
+                                    </TableCell>
+                                    <TableCell
+                                        className='font-kanit'
+                                        align="right"
+                                    >
+                                        {items.arrivaltime}
+                                    </TableCell>
+                                    <TableCell
+                                        align="right"
+                                    >
+                                        {items.exittime}
+                                    </TableCell>
+                                    <TableCell
+                                        align="right"
+                                    >
+                                        {items.operation_time}
+                                    </TableCell>
+                                    <TableCell
+                                        className='font-kanit'
+                                        align="right"
+                                    >
+                                        {items.travel_Distance}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>

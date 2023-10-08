@@ -101,12 +101,12 @@ const CargoEditPage: React.FC = () => {
                                     <Typography
                                         variant='h6'
                                         component='h1'
-                                        className='flex justify-center'
+                                        className='flex justify-center font-kanit'
                                     >
                                         สินค้าที่ {index + 1}
                                     </Typography>
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
+                                        <InputLabel id="demo-simple-select-label" className='font-kanit'>เลือกทุ่น</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="FTS_id"
@@ -115,7 +115,7 @@ const CargoEditPage: React.FC = () => {
                                             onChange={(e) => handleSelectChange(e, index)}
                                         >
                                             {(CargoReducer.cargo).map((cargoItem: Cargo) => (
-                                                <MenuItem key={cargoItem.cargo_id} value={cargoItem.cargo_id}>
+                                                <MenuItem className='font-kanit' key={cargoItem.cargo_id} value={cargoItem.cargo_id}>
                                                     {cargoItem.cargo_name}
                                                 </MenuItem>
                                             ))}
@@ -147,6 +147,7 @@ const CargoEditPage: React.FC = () => {
                                         <Button
                                             onClick={() => handleRemoveCargo(index)}
                                             variant="outlined"
+                                            className='font-kanit'
                                         >
                                             ลบสินค้า
                                         </Button>
@@ -157,7 +158,7 @@ const CargoEditPage: React.FC = () => {
                                 <Button
                                     variant="contained"
                                     onClick={handleAddCargo}
-                                    className='bg-[#1976d2] hover:bg-[#1563bc]'
+                                    className='bg-[#1976d2] hover:bg-[#1563bc] font-kanit'
                                 >
                                     เพิ่มจำนวนสินค้า
                                 </Button>
@@ -167,12 +168,13 @@ const CargoEditPage: React.FC = () => {
                                         onClick={handleSubmit}
                                         component={Link}
                                         to={'/orders/create'}
+                                        className='font-kanit'
                                     >
                                         กลับ
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        className='bg-[#1976d2] hover:bg-[#1563bc]'
+                                        className='bg-[#1976d2] hover:bg-[#1563bc] font-kanit'
                                         onClick={handleSubmit}
                                         disabled={isSubmitting}
                                     >

@@ -16,8 +16,10 @@ export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
-  const filteredData = (OrderReducer.orders).filter((item) =>
-    item.carrier.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = OrderReducer.orders.filter((order) =>
+    order.cargo_order.some((cargoOrder) =>
+      cargoOrder.cargo.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
   );
 
   const showTbody = () => {
@@ -33,7 +35,7 @@ export default function OrderPage({ }: Props) {
             <TableCell align="center">
               {items.cargo_order.map((cargo) => (
                 <>
-                  <Typography className='flex justify-center'>
+                  <Typography className='flex justify-center font-kanit'>
                     {cargo.cargo.cargo_name}
                   </Typography>
                 </>
@@ -41,24 +43,78 @@ export default function OrderPage({ }: Props) {
             </TableCell>
             <TableCell>
               {items.cargo_order.map((cargo) => (
-                <Typography align="center" key={cargo.order_id}>{cargo.load}</Typography>
+                <Typography
+                  key={cargo.order_id}
+                  align="center"
+                >
+                  {cargo.load}
+                </Typography>
               ))}
             </TableCell>
-            <TableCell align="center">{items.category}</TableCell>
-            <TableCell align="right">{items.arrival_time}</TableCell>
-            <TableCell align="right">{items.deadline_time}</TableCell>
-            <TableCell align="right">{items.latitude}</TableCell>
-            <TableCell align="right">{items.longitude}</TableCell>
+            <TableCell
+              align="center"
+              className="font-kanit"
+            >
+              {items.category}
+            </TableCell>
+            <TableCell
+              align="right"
+              className="font-kanit"
+            >
+              {items.arrival_time}
+            </TableCell>
+            <TableCell
+              align="right"
+              className="font-kanit"
+            >
+              {items.deadline_time}
+            </TableCell>
+            <TableCell
+              align="right"
+              className="font-kanit"
+            >
+              {items.latitude}
+            </TableCell>
+            <TableCell
+              align="right"
+              className="font-kanit"
+            >
+              {items.longitude}
+            </TableCell>
 
             <TableCell>
               {items.cargo_order.map((cargo) => (
-                <Typography align="center" key={cargo.order_id}>{cargo.bulk}</Typography>
+                <Typography
+                  className="font-kanit"
+                  align="center"
+                  key={cargo.order_id}
+                >
+                  {cargo.bulk}
+                </Typography>
               ))}
             </TableCell>
-            <TableCell align="center">{items.maxFTS}</TableCell>
-            <TableCell align="center">{items.penalty_rate}</TableCell>
-            <TableCell align="center">{items.reward_rate}</TableCell>
-            <TableCell align="right">
+            <TableCell
+              align="center"
+              className="font-kanit"
+            >
+              {items.maxFTS}
+            </TableCell>
+            <TableCell
+              align="center"
+              className="font-kanit"
+            >
+              {items.penalty_rate}
+            </TableCell>
+            <TableCell
+              align="center"
+              className="font-kanit"
+            >
+              {items.reward_rate}
+            </TableCell>
+            <TableCell
+              align="right"
+              className="font-kanit"
+            >
               <Box className='flex flex-row justify-end'>
                 <Tooltip title="แก้ไข">
                   <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
@@ -81,6 +137,7 @@ export default function OrderPage({ }: Props) {
           <TableCell
             key={title}
             align={title === 'ชื่อเรือ' ? 'left' : 'center'}
+            className="font-kanit"
             sx={{
               backgroundColor: 'background.paper',
               fontWeight: 'Bold',
@@ -99,6 +156,7 @@ export default function OrderPage({ }: Props) {
       <Box className="justify-between flex mx-5">
         <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
           <Typography
+            className="font-kanit"
             component='h1'
             sx={{
               fontSize: 22,

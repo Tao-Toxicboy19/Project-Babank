@@ -58,43 +58,80 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                     <ListItemIcon>
                         <GridViewIcon />
                     </ListItemIcon>
-                    <ListItemText primary="หน้าแรก" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                หน้าแรก
+                            </Typography>
+                        }
+                    />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/transferstation" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <SupportIcon />
                     </ListItemIcon>
-                    <ListItemText primary="ทุ่น" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                ทุ่น
+                            </Typography>
+                        }
+                    />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/carrier" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <DirectionsBoatFilledIcon />
                     </ListItemIcon>
-                    <ListItemText primary="เรือสินค้า" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                เรือสินค้า
+                            </Typography>
+                        } />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/cargo" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <ListAltIcon />
                     </ListItemIcon>
-                    <ListItemText primary="สินค้า" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                สินค้า
+                            </Typography>
+                        } />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/cargocrane" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <LayersIcon />
                     </ListItemIcon>
-                    <ListItemText primary="ข้อมูลสินค้าและเครน" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                ข้อมูลสินค้าและเครน
+                            </Typography>
+                        } />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/orders" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary="รายการขนถ่ายสินค้า" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                รายการขนถ่ายสินค้า
+                            </Typography>
+                        } />
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/summarize" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <PollIcon />
                     </ListItemIcon>
-                    <ListItemText primary="สรุปรายละเอียดต้นทุน" />
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                สรุปรายละเอียดต้นทุน
+                            </Typography>
+                        } />
                 </ListItem>
             </Stack>
             <Divider />

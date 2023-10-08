@@ -41,7 +41,7 @@ export default function HomePage({ }: Props) {
           (
             <Loading />
           ) : (
-            <Card className="max-h-[100vh] bg-blue-100/50 flex items-center justify-center">
+            <Card className="max-h-[100vh] bg-blue-100/50 flex items-center justify-center font-sriracha">
               <CardContent>
                 <Box className='grid grid-cols-2 gap-10 my-5'>
                   <StockCard

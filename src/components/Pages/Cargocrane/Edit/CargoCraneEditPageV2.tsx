@@ -107,7 +107,7 @@ export default function CraneEditPage({ }: Props) {
                 <form onSubmit={handleSubmit}>
                     <Stack direction='column' spacing={2}>
                         <Box>
-                            <label htmlFor="work_rate">เลือกทุ่น:</label>
+                            <label htmlFor="work_rate" className='font-kanit'>เลือกทุ่น:</label>
                             <FormControl fullWidth>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -116,7 +116,7 @@ export default function CraneEditPage({ }: Props) {
                                     onChange={handleSelectChangeFTS}
                                 >
                                     {(FTSReducer.FTS).map((item: FTS) => (
-                                        <MenuItem key={item.fts_id} value={item.fts_id}>
+                                        <MenuItem className='font-kanit' key={item.fts_id} value={item.fts_id}>
                                             {item.FTS_name}
                                         </MenuItem>
                                     ))}
@@ -124,7 +124,7 @@ export default function CraneEditPage({ }: Props) {
                             </FormControl>
                         </Box>
                         <Box>
-                            <label htmlFor="work_rate">เลือกเครน:</label>
+                            <label htmlFor="work_rate" className='font-kanit'>เลือกเครน:</label>
                             <FormControl fullWidth>
                                 <Select
                                     labelId="crane_id"
@@ -133,7 +133,7 @@ export default function CraneEditPage({ }: Props) {
                                     onChange={handleSelectChangeCrane}
                                 >
                                     {(CraneReducer.result).map((item: Crane) => (
-                                        <MenuItem key={item.id} value={item.id}>
+                                        <MenuItem className='font-kanit' key={item.id} value={item.id}>
                                             {item.crane_name}
                                         </MenuItem>
                                     ))}
@@ -141,7 +141,7 @@ export default function CraneEditPage({ }: Props) {
                             </FormControl>
                         </Box>
                         <Box>
-                            <label htmlFor="work_rate">ชื่อสินค้า:</label>
+                            <label htmlFor="work_rate" className='font-kanit'>ชื่อสินค้า:</label>
                             <FormControl fullWidth>
                                 <Select
                                     labelId="cargo_id"
@@ -150,7 +150,7 @@ export default function CraneEditPage({ }: Props) {
                                     onChange={handleSelectChangeCargo}
                                 >
                                     {(CargoReducer.cargo).map((item: Cargo) => (
-                                        <MenuItem key={item.cargo_id} value={item.cargo_id}>
+                                        <MenuItem className='font-kanit' key={item.cargo_id} value={item.cargo_id}>
                                             {item.cargo_name}
                                         </MenuItem>
                                     ))}
@@ -158,7 +158,7 @@ export default function CraneEditPage({ }: Props) {
                             </FormControl>
                         </Box>
                         <Box>
-                            <label htmlFor="work_rate">สถานะสินค้า (ขาเข้า/ขาออก):</label>
+                            <label htmlFor="work_rate" className='font-kanit'>สถานะสินค้า (ขาเข้า/ขาออก):</label>
                             <FormControl fullWidth>
                                 <Select
                                     name='category'
@@ -166,13 +166,13 @@ export default function CraneEditPage({ }: Props) {
                                     onChange={handleSelectChangeCategory}
                                     fullWidth
                                 >
-                                    <MenuItem value='import'>Import</MenuItem>
-                                    <MenuItem value='Export'>Export</MenuItem>
+                                    <MenuItem value='import' className='font-kanit'>Import</MenuItem>
+                                    <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
                         <Box>
-                            <label className="pr-5" htmlFor="consumption_rate">ชื่อเครน:</label>
+                            <label className="pr-5 font-kanit" htmlFor="consumption_rate" >ชื่อเครน:</label>
                             <TextField
                                 variant="outlined"
                                 type="number"
@@ -181,10 +181,11 @@ export default function CraneEditPage({ }: Props) {
                                 value={consumption_rate}
                                 onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
                             />
                         </Box>
                         <Box>
-                            <label htmlFor="work_rate">เวลาเตรียมการ:</label>
+                            <label htmlFor="work_rate" className='font-kanit'>เวลาเตรียมการ:</label>
                             <TextField
                                 variant="outlined"
                                 type="number"
@@ -193,6 +194,7 @@ export default function CraneEditPage({ }: Props) {
                                 value={work_rate}
                                 onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
                             />
                         </Box>
                         <Stack spacing={2} direction='row'>
@@ -202,6 +204,7 @@ export default function CraneEditPage({ }: Props) {
                                 sx={{ mt: 3, mb: 2 }}
                                 component={Link}
                                 to={'/cargocrane'}
+                                className='font-kanit'
                             >
                                 กลับ
                             </Button>
@@ -210,7 +213,7 @@ export default function CraneEditPage({ }: Props) {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                className='bg-[#1976D2] hover:bg-[#1563BC]'
+                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                                 disabled={isSubmitting}
                             >
                                 เพิ่มสินค้า

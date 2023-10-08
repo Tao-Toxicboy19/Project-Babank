@@ -53,7 +53,7 @@ export default function CarrierEditPage({ }: Props) {
             <CardContent className="m-8">
                 <form onSubmit={handleSubmit}>
                     <Stack direction='column' spacing={1}>
-                        <label className="pr-5" htmlFor="carrier_name">ชื่อเรือ:</label>
+                        <label className="pr-5 font-kanit" htmlFor="carrier_name">ชื่อเรือ:</label>
                         <TextField
                             variant="outlined"
                             type="text"
@@ -64,7 +64,7 @@ export default function CarrierEditPage({ }: Props) {
                             fullWidth
                         />
 
-                        <label className="pr-5" htmlFor="holder">ชื่อบริษัท:</label>
+                        <label className="pr-5 font-kanit" htmlFor="holder">ชื่อบริษัท:</label>
                         <TextField
                             variant="outlined"
                             type="text"
@@ -75,7 +75,7 @@ export default function CarrierEditPage({ }: Props) {
                             fullWidth
                         />
 
-                        <label htmlFor="maxcapacity">ความจุสูงสุด (ตัน):</label>
+                        <label htmlFor="maxcapacity" className='font-kanit'>ความจุสูงสุด (ตัน):</label>
                         <TextField
                             variant="outlined"
                             type="number"
@@ -86,7 +86,7 @@ export default function CarrierEditPage({ }: Props) {
                             fullWidth
                         />
 
-                        <label className="pr-5" htmlFor="burden">จำนวนระวาง:</label>
+                        <label className="pr-5 font-kanit" htmlFor="burden">จำนวนระวาง:</label>
                         <TextField
                             variant="outlined"
                             type="number"
@@ -103,6 +103,7 @@ export default function CarrierEditPage({ }: Props) {
                             variant="outlined"
                             sx={{ mt: 3, mb: 2 }}
                             onClick={() => navigate('/carrier')}
+                            className='font-kanit'
                         >
                             กลับ
                         </Button>
@@ -111,7 +112,7 @@ export default function CarrierEditPage({ }: Props) {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#1976D2] hover:bg-[#1563BC]'
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                             disabled={isSubmitting}
                         >
                             บันทึก

@@ -65,7 +65,7 @@ export default function FTSEditPage({ }: Props) {
       <CardContent className="m-8">
         <form onSubmit={handleSubmit}>
           <Stack direction='column' spacing={1}>
-            <label className="pr-5" htmlFor="FTS_name">ชื่อทุ่น:</label>
+            <label className="pr-5 font-kanit" htmlFor="FTS_name">ชื่อทุ่น:</label>
             <TextField
               variant="outlined"
               type="text"
@@ -74,9 +74,10 @@ export default function FTSEditPage({ }: Props) {
               value={FTS_name}
               onChange={handleInputChange}
               fullWidth
+              className='font-kanit'
             />
 
-            <label className="pr-5" htmlFor="lat">ละติจูด:</label>
+            <label className="pr-5 font-kanit" htmlFor="lat">ละติจูด:</label>
             <TextField
               variant="outlined"
               type="number"
@@ -85,9 +86,10 @@ export default function FTSEditPage({ }: Props) {
               value={lat}
               onChange={handleInputChange}
               fullWidth
+              className='font-kanit'
             />
 
-            <label htmlFor="lng">ลองติจูด:</label>
+            <label htmlFor="lng" className='font-kanit'>ลองติจูด:</label>
             <TextField
               variant="outlined"
               type="number"
@@ -96,9 +98,10 @@ export default function FTSEditPage({ }: Props) {
               value={lng}
               onChange={handleInputChange}
               fullWidth
+              className='font-kanit'
             />
 
-            <label className="pr-5" htmlFor="setuptime_FTS">เวลาเตรียมการ (นาที):</label>
+            <label className="pr-5 font-kanit" htmlFor="setuptime_FTS">เวลาเตรียมการ (นาที):</label>
             <TextField
               variant="outlined"
               type="number"
@@ -107,9 +110,10 @@ export default function FTSEditPage({ }: Props) {
               value={setuptime_FTS}
               onChange={handleInputChange}
               fullWidth
+              className='font-kanit'
             />
 
-            <label className="pr-5" htmlFor="speed">ความเร็ว:</label>
+            <label className="pr-5 font-kanit" htmlFor="speed">ความเร็ว:</label>
             <TextField
               variant="outlined"
               type="number"
@@ -118,6 +122,7 @@ export default function FTSEditPage({ }: Props) {
               value={speed}
               onChange={handleInputChange}
               fullWidth
+              className='font-kanit'
             />
 
           </Stack>
@@ -127,6 +132,7 @@ export default function FTSEditPage({ }: Props) {
               variant="outlined"
               sx={{ mt: 3, mb: 2 }}
               onClick={() => navigate('/transferstation')}
+              className='font-kanit'
             >
               กลับ
             </Button>
@@ -135,7 +141,7 @@ export default function FTSEditPage({ }: Props) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              className='bg-[#1976D2] hover:bg-[#1563BC]'
+              className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
               disabled={isSubmitting}
             >
               บันทึก
