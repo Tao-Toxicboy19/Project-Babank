@@ -33,8 +33,19 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            หน่วยบริหารและจัดการทุนด้านการเพิ่มความสามารถในการแข่งขันของประเทศ
+          <Typography
+            variant="h6"
+            component='h1'
+            sx={{
+              fontSize: 22,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".1rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            โครงการบริหารจัดการทุ่นเเละเรือขนส่ง
           </Typography>
         </Toolbar>
       </AppBar>

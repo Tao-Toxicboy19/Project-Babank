@@ -98,6 +98,19 @@ export default function OrderPage({ }: Props) {
     <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
       <Box className="justify-between flex mx-5">
         <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
+          <Typography
+            component='h1'
+            sx={{
+              fontSize: 22,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".1rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            รายการขนถ่ายสินค้า
+          </Typography>
           <Tooltip title="ค้นหา">
             <TextField
               id="standard-basic"
@@ -135,6 +148,7 @@ export default function OrderPage({ }: Props) {
           </Tooltip>
         </Box>
       </Box >
+      <hr />
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead className='bg-blue-200 w-full'>
           {showThead()}

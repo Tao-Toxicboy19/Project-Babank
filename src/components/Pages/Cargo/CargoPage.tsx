@@ -109,6 +109,19 @@ export default function CargoPage() {
             <Paper sx={{ height: '82.5vh', width: "100%", marginBottom: 1, marginTop: 2 }}>
               <Box className='flex justify-between mx-5'>
                 <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
+                  <Typography
+                    component='h1'
+                    sx={{
+                      fontSize: 22,
+                      fontFamily: "monospace",
+                      fontWeight: 700,
+                      letterSpacing: ".1rem",
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    สินค้า
+                  </Typography>
                   <Tooltip title="ค้นหา">
                     <TextField
                       id="standard-basic"

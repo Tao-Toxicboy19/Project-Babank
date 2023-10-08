@@ -1,41 +1,48 @@
 import Card from "@mui/material/Card";
-import { Typography, Grid } from "@mui/material";
+import { Typography, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
 type StockCardProp = {
     title: string;
-    subtitle: string;
+    subtitle?: string;
     color: any;
     icon: any;
+    path: string;
 };
 
 const StockCard = (props: StockCardProp) => {
     return (
-        <Card>
-            <Grid container style={{ minHeight: 70 }}>
-                <Grid item sx={{ flexGrow: 1, height: 100, padding: 1 }}>
-                    <Typography variant="h5" color="textPrimary">
+        <Box
+            component={Link} to={`${props.path}`}
+            className='relative'
+        >
+            <Card className="w-[400px] h-[100px] p-5">
+                <Box
+                    className={`
+                    ${props.color} flex justify-center items-center absolute top-[-20px] right-[-20px] w-[140px] h-full px-3 py-2 rounded-md
+                    `}
+                >
+
+                    <props.icon className='text-5xl flex justify-center items-center' />
+                </Box>
+                <Box className='m-2 text-[#435B71]'>
+                    <Typography
+                        variant='h5'
+                        component='h4'
+                        className='flex justify-start font-semibold'
+                    >
                         {props.title}
                     </Typography>
-                    <Typography variant="h6" color="textSecondary">
+                    <Typography
+                        variant='h6'
+                        component='h3'
+                        className='flex items-end'
+                    >
                         {props.subtitle}
                     </Typography>
-                </Grid>
-
-                <Grid
-                    item
-                    style={{
-                        backgroundColor: props.color,
-                        color: "white",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        minWidth: 60,
-                    }}
-                >
-                    <props.icon className='text-5xl' />
-                </Grid>
-            </Grid>
-        </Card>
+                </Box>
+            </Card>
+        </Box>
     );
 };
 

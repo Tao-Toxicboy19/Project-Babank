@@ -4,8 +4,7 @@ import { TextField } from 'formik-material-ui';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { Register } from '../../../types/User.type';
-import Logo1 from '../../../assets/images/LO1.png' // จากตรงนี้
-import Logo2 from '../../../assets/images/LO2.png' // จากตรงนี้
+import Logo1 from '../../../assets/images/logo/logo1.png' // จากตรงนี้
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../../store/slices/register.slice';
 import { RootState } from '../../../store/store';
@@ -154,7 +153,6 @@ export default function RegisterPage({ }: Props) {
                 <Box className="flex">
                   {/* เอามาจาก import ด้านบน */}
                   <img src={Logo1} className="w-20, h-20" />
-                  <img src={Logo2} className="w-20, h-20" />
                 </Box>
 
                 <Typography className="mt-5" component="h1" variant="h5">

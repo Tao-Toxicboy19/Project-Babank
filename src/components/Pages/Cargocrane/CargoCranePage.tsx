@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CargoCrane } from '../../../types/CargoCrane.type';
-import { Box, Fab, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from '@mui/material';
+import { Box, Fab, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFTS } from '../../../store/slices/FTS.slice';
@@ -27,7 +27,7 @@ export default function App({ }: Props) {
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
   const filteredData = (CargoCraneReducer.result).filter((item) =>
-    item.fts!.FTS_name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.crane!.crane_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   useEffect(() => {
     dispatch(loadFTS())
@@ -143,6 +143,19 @@ export default function App({ }: Props) {
           <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
             <Box className="justify-between flex mx-5">
               <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
+                <Typography
+                  component='h1'
+                  sx={{
+                    fontSize: 22,
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    letterSpacing: ".1rem",
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  ข้อมูลสินค้าและเครน
+                </Typography>
                 <Tooltip title="ค้นหา">
                   <TextField
                     id="standard-basic"
@@ -180,6 +193,7 @@ export default function App({ }: Props) {
                 </Tooltip>
               </Box>
             </Box >
+            <hr />
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 {showThead()}

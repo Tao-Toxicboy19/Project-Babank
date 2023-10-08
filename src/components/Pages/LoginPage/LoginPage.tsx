@@ -1,10 +1,11 @@
-import { Button, Box, Typography, TextField, Card, Grid, createTheme, CssBaseline, Container, ThemeProvider } from "@mui/material";
+import { Button, Box, Typography, TextField, Card, Grid, createTheme, ThemeProvider } from "@mui/material";
 import { FormikProps, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../../../types/User.type";
-import Logo1 from '../../../assets/images/LO1.png' // จากตรงนี้
-import Logo2 from '../../../assets/images/LO2.png'
+import Logo1 from '../../../assets/images/logo/logo1.png'
+import Logo2 from '../../../assets/images/logo/logo2.jpg'
+import Logo3 from '../../../assets/images/logo/logo3.png'
 import { login } from "../../../store/slices/login.slice";
 
 
@@ -73,33 +74,37 @@ export default function LoginPage({ }: Props) {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" className="w-[750px]">
-        <CssBaseline />
-        <Card className="">
-          <Box
-            sx={{
-              margin: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Box className="flex">
-              <img src={Logo1} className="w-20" />
-              <img src={Logo2} className="w-20" />
+      <Card>
+        <Box
+          sx={{
+            margin: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Box className='flex gap-x-5'>
+            <Box>
+              <img src={Logo1} className="w-[200px] h-auto object-cover" />
             </Box>
-            <Typography className="mt-5" component="h1" variant="h5">
-              เข้าสู่ระบบ
-            </Typography>
-            <Formik onSubmit={(values, { setSubmitting }: any) => {
-              dispactch(login(values, navigate, setSubmitting))
-            }}
-              initialValues={initialValues}>
-              {props => showFormV2(props)}
-            </Formik>
+            <Box>
+              <img src={Logo2} className="w-[200px] h-auto object-cover" />
+            </Box>
+            <Box>
+              <img src={Logo3} className="w-[200px] h-auto object-cover" />
+            </Box>
           </Box>
-        </Card>
-      </Container>
+          <Typography className="mt-5" component="h1" variant="h5">
+            เข้าสู่ระบบ
+          </Typography>
+          <Formik onSubmit={(values, { setSubmitting }: any) => {
+            dispactch(login(values, navigate, setSubmitting))
+          }}
+            initialValues={initialValues}>
+            {props => showFormV2(props)}
+          </Formik>
+        </Box>
+      </Card>
     </ThemeProvider >
   )
 }
