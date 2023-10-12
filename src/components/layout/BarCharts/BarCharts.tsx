@@ -1,7 +1,7 @@
 
 import { BarChart } from '@mui/x-charts/BarChart';
 
-export default function BarCharts() {
+export default function BarCharts({ FTSsolutionSlice, value }: any) {
   return (
     <BarChart
       xAxis={[
@@ -21,7 +21,14 @@ export default function BarCharts() {
       ]}
       series={[
         {
-          data: [2, 5, 3, 7, 8, 9, 5],
+          data: [
+            FTSsolutionSlice[value].total_cost_sum,
+            FTSsolutionSlice[value].total_consumption_cost_sum,
+            FTSsolutionSlice[value].total_consumption_cost_sum,
+            FTSsolutionSlice[value].total_wage_cost_sum,
+            FTSsolutionSlice[value].penality_cost_sum,
+            FTSsolutionSlice[value].total_reward_sum,
+            50],
         },
       ]}
       width={750}

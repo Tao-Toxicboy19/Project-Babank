@@ -178,7 +178,7 @@ export default function OrderEditPageV2({ }: Props) {
                     </Stack>
                     <Stack spacing={2} direction='row'>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>ค่าปรับ (บาท)</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>ค่าปรับ (บาท/วัน)</InputLabel>
                             <TextField
                                 name='penalty_rate'
                                 id='penalty_rate'
@@ -189,7 +189,7 @@ export default function OrderEditPageV2({ }: Props) {
                             />
                         </Box>
                         <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>รางวัล (บาท)</InputLabel>
+                            <InputLabel id="cr_id" className='font-kanit'>รางวัล (บาท/วัน)</InputLabel>
                             <TextField
                                 name='reward_rate'
                                 id='reward_rate'

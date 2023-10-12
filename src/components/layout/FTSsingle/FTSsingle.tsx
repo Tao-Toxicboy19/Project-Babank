@@ -96,21 +96,21 @@ export default function FTSsingle() {
                                 <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
                                     <SummarizaCard
                                         title={'ต้นรวมทุน'}
-                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        price={FTSsolutionSlice[value].total_cost_sum}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
-                                    <SummarizaCard
+                                    <SummarizaCard 
                                         title={'ค่าเชื้อเพลิงรวม'}
-                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        price={FTSsolutionSlice[value].total_consumption_cost_sum}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าแรง'}
-                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        price={FTSsolutionSlice[value].total_wage_cost_sum}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
@@ -124,7 +124,7 @@ export default function FTSsingle() {
                                     />
                                     <SummarizaCard
                                         title={'รางวัล'}
-                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        price={FTSsolutionSlice[value].total_reward_sum}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
@@ -135,7 +135,7 @@ export default function FTSsingle() {
                                 <DetailMenu />
                             </Card>
                             <Card className="col-span-9">
-                                <BarCharts />
+                                <BarCharts FTSsolutionSlice={FTSsolutionSlice} value={value} />
                             </Card>
                         </Box>
                     </TabPanel>

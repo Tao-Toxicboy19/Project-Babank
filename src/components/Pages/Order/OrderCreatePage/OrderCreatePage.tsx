@@ -153,7 +153,7 @@ export default function CargoCraneCreate({ }: Props) {
 
           <Stack spacing={2} direction='row'>
             <Box className='w-full'>
-              <label htmlFor="longitude" className='font-kanit'>ค่าปรับ (บาท):</label>
+              <label htmlFor="longitude" className='font-kanit'>ค่าปรับ (บาท/วัน):</label>
               <Field
                 component={TextField}
                 type="number"
@@ -163,7 +163,7 @@ export default function CargoCraneCreate({ }: Props) {
               />
             </Box>
             <Box className='w-full'>
-              <label htmlFor="longitude" className='font-kanit'>รางวัล (บาท):</label>
+              <label htmlFor="longitude" className='font-kanit'>รางวัล (บาท/วัน):</label>
               <Field
                 component={TextField}
                 type="number"
