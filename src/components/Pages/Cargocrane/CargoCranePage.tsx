@@ -29,6 +29,7 @@ export default function App({ }: Props) {
   const filteredData = (CargoCraneReducer.result).filter((item) =>
     item.crane!.crane_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
   useEffect(() => {
     dispatch(loadFTS())
     dispatch(loadCarrier())

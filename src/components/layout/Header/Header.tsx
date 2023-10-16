@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
               textDecoration: "none",
             }}
           >
-            โครงการบริหารจัดการทุ่นเเละเรือขนส่ง
+            ระบบจัดการทุ่นสำหรับการขนถ่ายสินค้า
           </Typography>
         </Toolbar>
       </AppBar>

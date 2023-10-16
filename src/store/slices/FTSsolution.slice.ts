@@ -2,27 +2,7 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { server } from "../../Constants";
-
-export interface Solution {
-    solution_id: number;
-    FTS_name: string;
-    total_cost_sum: number;
-    total_consumption_cost_sum: number;
-    total_wage_cost_sum: number;
-    penality_cost_sum: number;
-    total_reward_sum: number;
-    result: Result[];
-}
-
-export interface Result {
-    crane_name: string;
-    total_cost: number;
-    total_consumption_cost: number;
-    total_wage_cost: number;
-    penality_cost: number;
-    total_reward: number;
-}
-
+import { Solution } from "../../types/Solution_schedule.type";
 
 export interface FTSSolutionState {
     result: Solution[]
@@ -65,7 +45,6 @@ export const loadFTSsolution = (): ThunkAction<void, RootState, unknown, any> =>
         dispatch(setFTSsolutionStart())
         const result = await axios.get(server.CRANESOLUTIONTABLE)
         dispatch(setFTSsolutionSuccess(result.data))
-        console.log(result.data)
     }
     catch (error) {
         dispatch(setFTSsolutionFailure("Failed to fetch floating data"))

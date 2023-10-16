@@ -129,7 +129,18 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                     <ListItemText
                         primary={
                             <Typography variant="body1" className="font-kanit">
-                                สรุปรายละเอียดต้นทุน
+                                สรุปแผนการจัดทุ่นและต้นทุน
+                            </Typography>
+                        } />
+                </ListItem>
+                <ListItem button component={MyNavLink} to="/report" activeClassName="Mui-selected" exact>
+                    <ListItemIcon>
+                        <PollIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                รายงาน
                             </Typography>
                         } />
                 </ListItem>

@@ -76,5 +76,6 @@ export const server = {
     CRANESOLUTION: `cranesolution`,
     CRANE: `crane`,
     SOLUTIONSCHEDULE: `solution_schedule`,
-    CARGOORDER_URL: `cargoorder`
+    CARGOORDER_URL: `cargoorder`,
+    REPORT_SOLUTION_URL:`report_solution`,
 };

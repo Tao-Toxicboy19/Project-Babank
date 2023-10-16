@@ -1,6 +1,15 @@
-import { LoadScript, GoogleMap, Marker, Polyline } from "@react-google-maps/api";
+import { LoadScript, GoogleMap, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { Marker } from '@react-google-maps/api';
+
+// const google = window.google;
+
+// const blueMarkerIcon = {
+//     url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+//     scaledSize: new google.maps.Size(40, 40), // Adjust the size as needed
+// };
+
 
 export default function RouteMaps({ FTSsolutionSlice, value }: any) {
     const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
@@ -18,6 +27,7 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
         width: '100%'
     };
 
+
     return (
         <div className="App">
             <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
@@ -26,10 +36,11 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
                     zoom={13}
                     center={{ lat: 13.177009, lng: 100.840662 }}
                 >
-                    {(datav2).map((item) => (
+                    {(datav2).map((item, index) => (
                         <Marker
                             key={`${item.lat}-${item.lng}`}
                             position={{ lat: item.lat, lng: item.lng }}
+                            // icon={index === 0 ? blueMarkerIcon : undefined}
                         />
                     ))}
                     <Polyline

@@ -31,6 +31,7 @@ import HomePage from './components/Pages/Home/HomePage';
 import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2';
 import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
 import SummarizePage from './components/Pages/SummarizePage/SummarizePage';
+import ReportPage from './components/Pages/ReportPage/ReportPage';
 
 const drawerWidth = 240;
 
@@ -80,6 +81,7 @@ export default function ResponsiveDrawer() {
               <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
               <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
               <Route path="/summarize" element={< SummarizePage />} />
+              <Route path="/report" element={< ReportPage />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
             <Route element={<PublicRoute />}>

@@ -1,4 +1,4 @@
-import { Button, Box, Typography, TextField, Card, createTheme, ThemeProvider } from "@mui/material";
+import { Button, Box, Typography, TextField, Card, createTheme, ThemeProvider, CardContent } from "@mui/material";
 import { FormikProps, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -59,34 +59,38 @@ export default function LoginPage({ }: Props) {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Card className="max-w-[750px] flex mx-auto">
-        <Box
-          className='flex flex-col justify-center mx-auto mb-5'
-        >
-          <Box className='flex justify-center gap-x-5'>
-            <Box className='flex items-center'>
-              <img src={Logo1} className="w-[100px] h-auto object-cover" />
-            </Box>
-            <Box className='flex items-center'>
-              <img src={Logo2} className="w-[130px] h-auto object-cover" />
-            </Box>
-            <Box className='flex items-center'>
-              <img src={Logo3} className="w-[130px] h-auto object-cover" />
-            </Box>
-          </Box>
-          <Typography
-            className="flex justify-center font-kanit"
-            component="h1"
-            variant="h5"
+        <CardContent>
+          <Box
+            className='flex flex-col justify-center mx-auto mb-5'
           >
-            โครงการบริหารจัดการทุ่นเเละเรือขนส่ง
-          </Typography>
-          <Formik onSubmit={(values, { setSubmitting }: any) => {
-            dispactch(login(values, navigate, setSubmitting))
-          }}
-            initialValues={initialValues}>
-            {props => showFormV2(props)}
-          </Formik>
-        </Box>
+            <Box className='flex justify-center gap-x-5'>
+              <Box className='flex items-center'>
+                <img src={Logo1} className="w-[100px] h-auto object-cover" />
+              </Box>
+              <Box className='flex items-center'>
+                <img src={Logo2} className="w-[130px] h-auto object-cover" />
+              </Box>
+              <Box className='flex items-center'>
+                <img src={Logo3} className="w-[130px] h-auto object-cover" />
+              </Box>
+            </Box>
+            <CardContent>
+              <Typography
+                className="flex justify-center font-kanit"
+                component="h1"
+                variant="h6"
+              >
+                การบริหารจัดการระบบโลจิสติกส์การขนถ่ายสินค้าเทกองที่ทุ่นขนถ่ายสินค้ากลางทะเลโดยใช้ระบบสารสนเทศและดิจิทัลแพลตฟอร์ม
+              </Typography>
+            </CardContent>
+            <Formik onSubmit={(values, { setSubmitting }: any) => {
+              dispactch(login(values, navigate, setSubmitting))
+            }}
+              initialValues={initialValues}>
+              {props => showFormV2(props)}
+            </Formik>
+          </Box>
+        </CardContent>
       </Card>
     </ThemeProvider >
   )

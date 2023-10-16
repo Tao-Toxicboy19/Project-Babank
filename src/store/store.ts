@@ -20,6 +20,7 @@ import craneEditSlice from './slices/crane.edit.slice';
 import registerReducer from './slices/register.slice'
 import SolutionscheduleSlice from './slices/sollution_schedule.slice'
 import statusSlice from './slices/status.slice'
+import reportReducer from './slices/reportSlice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -47,6 +48,7 @@ export const store = configureStore({
     cargoCraneEdit: cargoCraneEditReducer,
     login: loginReducer,
     register: registerReducer,
+    reportReducer: reportReducer,
   },
   middleware: middleware,
 });
