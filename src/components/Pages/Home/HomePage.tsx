@@ -13,7 +13,7 @@ import { loadOrder } from "../../../store/slices/order.slice";
 import Loading from "../../layout/Loading/Loading";
 import { loadCrane } from "../../../store/slices/crane.slice";
 import { loadCargoCrane } from "../../../store/slices/cargocrane.slice";
-
+import { loadReport } from "../../../store/slices/reportSlice";
 
 type Props = {}
 
@@ -32,6 +32,7 @@ export default function HomePage({ }: Props) {
     dispatch(loadOrder())
     dispatch(loadCrane())
     dispatch(loadCargoCrane())
+    dispatch(loadReport());
   }, []);
 
   return (

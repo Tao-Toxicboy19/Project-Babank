@@ -36,11 +36,11 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
                     zoom={13}
                     center={{ lat: 13.177009, lng: 100.840662 }}
                 >
-                    {(datav2).map((item, index) => (
+                    {(datav2).map((item) => (
                         <Marker
                             key={`${item.lat}-${item.lng}`}
                             position={{ lat: item.lat, lng: item.lng }}
-                            // icon={index === 0 ? blueMarkerIcon : undefined}
+                        // icon={index === 0 ? blueMarkerIcon : undefined}
                         />
                     ))}
                     <Polyline

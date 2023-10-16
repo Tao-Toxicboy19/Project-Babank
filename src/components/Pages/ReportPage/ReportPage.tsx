@@ -1,74 +1,50 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { Button, FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
-import { useEffect, useState, } from "react";
-import { loadReport } from "../../../store/slices/reportSlice";
+import { FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { useState, } from "react";
 import { report_solutions } from "../../../types/Solution_schedule.type";
-import React from "react";
 import { useForm } from 'react-hook-form';
 
 export default function ReportPage() {
     const reportReducer = useSelector((state: RootState) => state.reportReducer.result);
-    const dispatch = useDispatch<any>();
-    const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
-    const [selectedMonth, setSelectedMonth] = useState("");
-    const [filteredData, setFilteredData] = useState<report_solutions[]>([]); // เพิ่มตัวแปร filteredData ที่ถูกประกาศ
+    const FtsReducer = useSelector((state: RootState) => state.FTS.FTS)
+    const [filteredData, setFilteredData] = useState<report_solutions[]>(reportReducer);
+    const [selectedFts, setSelectedFts] = useState("all"); // เพิ่ม state สำหรับทุ่น
+    const [selectedMonth] = useState("01"); // เพิ่ม state สำหรับเดือน
 
     const {
         register,
-        handleSubmit,
-        setValue, // เพิ่ม setValue สำหรับการตั้งค่าค่าเดือนที่เลือก
+        setValue,
     } = useForm();
 
-    useEffect(() => {
-        dispatch(loadReport());
-    }, []);
+    // const filterDataBySelectedMonth = (data: report_solutions[], selectedMonth: string) => {
+    //     const currentYear = new Date().getFullYear().toString(); // ดึงปีปัจจุบัน
+    //     return data.filter((item) => item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`));
+    // };
 
-    const nameGroups = new Map<string, report_solutions[]>();
-    reportReducer.forEach((item) => {
-        const name = item.FTS_name;
-        if (nameGroups.has(name)) {
-            nameGroups.get(name)?.push(item);
-        } else {
-            nameGroups.set(name, [item]);
-        }
-    });
-
-    const toggleGroup = (name: string) => {
-        if (openGroups.has(name)) {
-            openGroups.delete(name);
-        } else {
-            openGroups.add(name);
-        }
-        setOpenGroups(new Set(openGroups));
-    };
-
-    const filterDataBySelectedMonth = (data: report_solutions[], selectedMonth: string) => {
-        return data.filter((item) => item.arrival_time.startsWith(`2023-${selectedMonth}`));
+    const filterDataBySelectedMonth = (data: report_solutions[], selectedMonth: string, selectedFts: string) => {
+        const currentYear = new Date().getFullYear().toString();
+        return data.filter((item: any) => {
+            const matchesMonth = item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`);
+            const matchesFts = selectedFts === 'all' || item.FTS_id === selectedFts;
+            return matchesMonth && matchesFts;
+        });
     };
 
     return (
         <>
-            <form
-                onSubmit={handleSubmit((data) => {
-                    const selectedMonth = data.date;
-                    console.log(selectedMonth);
-                    const filteredData = filterDataBySelectedMonth(reportReducer, selectedMonth);
-                    console.log(filteredData);
-                    setFilteredData(filteredData); // กำหนดค่าของ filteredData ด้วยข้อมูลที่ผ่านการกรอง
-                })}
-            >
+            <form>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">เลือกเดือน</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         label="เลือกเดือน"
-                        {...register('date', { required: true })}
+                        {...register('date')}
                         onChange={(e) => {
                             const selectedMonth: any = e.target.value;
-                            setSelectedMonth(selectedMonth);
                             setValue('date', selectedMonth);
+                            setFilteredData(filterDataBySelectedMonth(reportReducer, selectedMonth, selectedFts));
                         }}
                     >
                         <MenuItem value="01">มกราคม</MenuItem>
@@ -85,7 +61,23 @@ export default function ReportPage() {
                         <MenuItem value="12">ธันวาคม</MenuItem>
                     </Select>
                 </FormControl>
-                <Button type="submit">submit</Button>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">เลือกทุ่น</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Age"
+                        onChange={(e) => {
+                            const selectedFts: any = e.target.value;
+                            setSelectedFts(selectedFts);
+                            setFilteredData(filterDataBySelectedMonth(reportReducer, selectedMonth, selectedFts));
+                        }}
+                    >
+                        {FtsReducer.map((items) => (
+                            <MenuItem value={items.fts_id}>{items.FTS_name}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </form>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -99,33 +91,16 @@ export default function ReportPage() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Array.from(nameGroups).map(([name, items], groupIndex) => (
-                            <React.Fragment key={groupIndex}>
-                                <TableRow key={groupIndex}>
-                                    <TableCell>
-                                        {name}
-                                        <Button onClick={() => toggleGroup(name)}>
-                                            {openGroups.has(name) ? 'Hide' : 'Show'}
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell align="right">{items[0].arrival_time}</TableCell>
-                                    <TableCell align="right">{items[0].deadline_time}</TableCell>
-                                    <TableCell align="right">{items[0].load}</TableCell>
-                                    <TableCell align="right">{items[0].cargo_name}</TableCell>
-                                </TableRow>
-                                {openGroups.has(name) &&
-                                    filterDataBySelectedMonth(items.slice(1), selectedMonth).map((item, index) => (
-                                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <TableCell component="th" scope="row">
-                                                {item.FTS_name}
-                                            </TableCell>
-                                            <TableCell align="right">{item.arrival_time}</TableCell>
-                                            <TableCell align="right">{item.deadline_time}</TableCell>
-                                            <TableCell align="right">{item.load}</TableCell>
-                                            <TableCell align="right">{item.cargo_name}</TableCell>
-                                        </TableRow>
-                                    ))}
-                            </React.Fragment>
+                        {filteredData.map((item, index) => (
+                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell>
+                                    {item.FTS_name}
+                                </TableCell>
+                                <TableCell align="right">{item.arrival_time}</TableCell>
+                                <TableCell align="right">{item.deadline_time}</TableCell>
+                                <TableCell align="right">{item.load}</TableCell>
+                                <TableCell align="right">{item.cargo_name}</TableCell>
+                            </TableRow>
                         ))}
                     </TableBody>
                 </Table>
