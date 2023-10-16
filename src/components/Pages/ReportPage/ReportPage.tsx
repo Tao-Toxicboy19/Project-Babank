@@ -14,11 +14,10 @@ export default function ReportPage() {
     const [selectedMonth, setSelectedMonth] = useState("");
     const [filteredData, setFilteredData] = useState<report_solutions[]>([]); // เพิ่มตัวแปร filteredData ที่ถูกประกาศ
 
-
     const {
         register,
         handleSubmit,
-        setValue,
+        setValue, // เพิ่ม setValue สำหรับการตั้งค่าค่าเดือนที่เลือก
     } = useForm();
 
     useEffect(() => {
@@ -100,16 +99,33 @@ export default function ReportPage() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredData.map((item, index) => (
-                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <TableCell>
-                                    {item.FTS_name}
-                                </TableCell>
-                                <TableCell align="right">{item.arrival_time}</TableCell>
-                                <TableCell align="right">{item.deadline_time}</TableCell>
-                                <TableCell align="right">{item.load}</TableCell>
-                                <TableCell align="right">{item.cargo_name}</TableCell>
-                            </TableRow>
+                        {Array.from(nameGroups).map(([name, items], groupIndex) => (
+                            <React.Fragment key={groupIndex}>
+                                <TableRow key={groupIndex}>
+                                    <TableCell>
+                                        {name}
+                                        <Button onClick={() => toggleGroup(name)}>
+                                            {openGroups.has(name) ? 'Hide' : 'Show'}
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="right">{items[0].arrival_time}</TableCell>
+                                    <TableCell align="right">{items[0].deadline_time}</TableCell>
+                                    <TableCell align="right">{items[0].load}</TableCell>
+                                    <TableCell align="right">{items[0].cargo_name}</TableCell>
+                                </TableRow>
+                                {openGroups.has(name) &&
+                                    filterDataBySelectedMonth(items.slice(1), selectedMonth).map((item, index) => (
+                                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableCell component="th" scope="row">
+                                                {item.FTS_name}
+                                            </TableCell>
+                                            <TableCell align="right">{item.arrival_time}</TableCell>
+                                            <TableCell align="right">{item.deadline_time}</TableCell>
+                                            <TableCell align="right">{item.load}</TableCell>
+                                            <TableCell align="right">{item.cargo_name}</TableCell>
+                                        </TableRow>
+                                    ))}
+                            </React.Fragment>
                         ))}
                     </TableBody>
                 </Table>
