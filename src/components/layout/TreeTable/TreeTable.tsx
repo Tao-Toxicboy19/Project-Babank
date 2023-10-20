@@ -1,8 +1,8 @@
 import { Box, Fab, Grid, Tooltip, Typography } from '@mui/material';
 import TreeTableNode from './TreeTableNode';
-import { FTSCrane } from '../../../../types/FloatingCrane.type';
 import Add from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
+import { FTSCrane } from '../../../types/FloatingCrane.type';
 
 
 type Props = {

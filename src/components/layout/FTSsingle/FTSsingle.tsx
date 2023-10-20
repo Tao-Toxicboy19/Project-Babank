@@ -50,8 +50,12 @@ export default function FTSsingle() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
-        console.log(FTSsolutionSlice[newValue]?.FTS_name);
+        // console.log(FTSsolutionSlice[newValue]?.FTS_name);
     };
+    // console.log(FTSsolutionSlice)
+    // console.log(FTSsolutionSlice.map((items) => (
+    //     items.FTS_name
+    // )))
 
 
     return (
@@ -65,8 +69,9 @@ export default function FTSsingle() {
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
                     >
-                        {FTSsolutionSlice.map((items,index) => (
+                        {FTSsolutionSlice.map((items, index) => (
                             <Tab
+                                key={index}
                                 className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
                                 label={`${items.FTS_name}`}
                                 {...a11yProps(0)}
@@ -101,7 +106,7 @@ export default function FTSsingle() {
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
-                                    <SummarizaCard 
+                                    <SummarizaCard
                                         title={'ค่าเชื้อเพลิงรวม'}
                                         price={FTSsolutionSlice[value].total_consumption_cost_sum}
                                         icon={CurrencyBitcoinIcon}

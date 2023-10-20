@@ -1,8 +1,8 @@
 import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Result } from '../../../../types/FloatingCrane.type'
-import CraneDalete from '../CraneDeletePage/CraneDeletePage'
 import { LuFileEdit } from 'react-icons/lu'
+import { Result } from '../../../types/FloatingCrane.type'
+import CraneDalete from '../../pages/FTSPage/CraneDeletePage/CraneDeletePage'
 
 export default function TreeNode({ crane_name, setuptime_crane, crane_id }: Result) {
     return (
