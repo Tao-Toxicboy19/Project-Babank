@@ -8,7 +8,7 @@ import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { toast } from 'react-toastify';
-import { httpClient } from '../../../../utlis/httpclient';
+import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
 
 type Props = {};

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { httpClient } from "../../utlis/httpclient"
+import { httpClient } from "../../utils/httpclient"
 import { server } from "../../Constants"
 import { CargoCrane, CargoCraneEditState } from "../../types/CargoCrane.type"
 import { toast } from "react-toastify"

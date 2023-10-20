@@ -1,7 +1,7 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { Carrier, carrierState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
-import { httpClient } from "../../utlis/httpclient";
+import { httpClient } from "../../utils/httpclient";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 

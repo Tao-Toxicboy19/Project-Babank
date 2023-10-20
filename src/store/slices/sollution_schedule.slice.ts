@@ -1,5 +1,5 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import { httpClient } from "../../utlis/httpclient";
+import { httpClient } from "../../utils/httpclient";
 import { server } from "../../Constants";
 import { RootState } from "../store";
 import { Solution_schedule, Solution_scheduleState } from "../../types/Solution_schedule.type";

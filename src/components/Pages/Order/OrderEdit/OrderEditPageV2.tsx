@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { httpClient } from '../../../../utlis/httpclient';
+import { httpClient } from '../../../../utils/httpclient';
 import { server } from '../../../../Constants';
 import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';

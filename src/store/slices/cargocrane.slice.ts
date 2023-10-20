@@ -1,7 +1,7 @@
 // cargoCraneSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { server } from '../../Constants';
-import { httpClient } from '../../utlis/httpclient';
+import { httpClient } from '../../utils/httpclient';
 import { RootState } from '../store';
 import { toast } from 'react-toastify';
 import { CargoCrane, craneCargoState } from '../../types/CargoCrane.type';

@@ -9,7 +9,7 @@ import { FTS } from '../../../../types/FloatingCrane.type';
 import { toast } from 'react-toastify';
 import { CargoCrane } from '../../../../types/CargoCrane.type';
 import { Cargo } from '../../../../types/Cargo.type';
-import { httpClient } from '../../../../utlis/httpclient';
+import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
 
 type Props = {};

@@ -6,7 +6,7 @@ import { RootState } from '../../../../../store/store';
 import { Cargo } from '../../../../../types/Cargo.type';
 import { server } from '../../../../../Constants';
 import { CargoItem, Orders } from '../../../../../types/Order.type';
-import { httpClient } from '../../../../../utlis/httpclient';
+import { httpClient } from '../../../../../utils/httpclient';
 import { updateCargoOrder } from '../../../../../store/slices/cargoOrder.slice';
 import Loading from '../../../../layout/Loading/Loading';
 

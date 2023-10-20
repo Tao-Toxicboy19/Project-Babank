@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { Orders, OrderState } from '../../types/Order.type';
 import { server } from '../../Constants';
-import { httpClient } from '../../utlis/httpclient';
+import { httpClient } from '../../utils/httpclient';
 import { RootState } from '../store';
 import { toast } from 'react-toastify';
 

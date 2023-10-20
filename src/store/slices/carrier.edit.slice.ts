@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Carrier, CarrierEditState } from "../../types/Carrier.type";
 import { server } from "../../Constants";
-import { httpClient } from "../../utlis/httpclient";
+import { httpClient } from "../../utils/httpclient";
 import { toast } from "react-toastify";
 import { doGetCarrier } from "./carrier.slice";
 

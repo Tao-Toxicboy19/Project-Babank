@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { httpClient } from "../../utlis/httpclient";
+import { httpClient } from "../../utils/httpclient";
 import { server } from "../../Constants";
 import { Register } from "../../types/User.type";
 import { toast } from "react-toastify";
