@@ -1,4 +1,4 @@
-import { Box, Fab, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
+import { Box, Fab, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
 import { TitleOrder } from "../../../Constants"
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -6,8 +6,10 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import OrderDeletePage from "./OrderDelete/OrderDeletePage";
 import { LuFileEdit } from "react-icons/lu";
-import React from "react";
+import React, { useState } from "react";
 import Search from "@mui/icons-material/Search";
+import { useForm } from "react-hook-form";
+import { Orders } from "../../../types/Order.type";
 
 type Props = {}
 
@@ -15,6 +17,20 @@ type Props = {}
 export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [filteredDataV2, setFilteredDataV2] = useState<Orders[]>(OrderReducer.orders);
+
+  const {
+    register,
+    setValue,
+  } = useForm();
+
+  const filterDataBySelectedMonth = (data: Orders[], selectedMonth: string) => {
+    const currentYear = new Date().getFullYear().toString();
+    return data.filter((item: Orders) => {
+      const matchesMonth = item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`);
+      return matchesMonth;
+    });
+  };
 
   const filteredData = OrderReducer.orders.filter((order) =>
     order.cargo_order.some((cargoOrder) =>
@@ -25,7 +41,7 @@ export default function OrderPage({ }: Props) {
   const showTbody = () => {
     return (
       <TableBody>
-        {(filteredData).map((items) => (
+        {(filteredData || filteredDataV2).map((items) => (
           <TableRow
             key={items.or_id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -206,6 +222,57 @@ export default function OrderPage({ }: Props) {
           </Tooltip>
         </Box>
       </Box >
+      <Box>
+
+        <form className="max-w-xl flex gap-x-3 mb-3">
+          <FormControl fullWidth className="bg-[#fff]">
+            <InputLabel id="demo-simple-select-label font-kanit">เลือกเดือน</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="เลือกเดือน"
+              className="font-kanit"
+              {...register('date')}
+              onChange={(e) => {
+                const selectedMonth: any = e.target.value;
+                setValue('date', selectedMonth);
+                setFilteredDataV2(filterDataBySelectedMonth(OrderReducer.orders, selectedMonth));
+              }}
+            >
+              <MenuItem value="01" className="font-kanit">มกราคม</MenuItem>
+              <MenuItem value="02" className="font-kanit">กุมภาพันธ์</MenuItem>
+              <MenuItem value="03" className="font-kanit">มีนาคม</MenuItem>
+              <MenuItem value="04" className="font-kanit">เมษายน</MenuItem>
+              <MenuItem value="05" className="font-kanit">พฤษภาคม</MenuItem>
+              <MenuItem value="06" className="font-kanit">มิถุนายน</MenuItem>
+              <MenuItem value="07" className="font-kanit">กรกฎาคม</MenuItem>
+              <MenuItem value="08" className="font-kanit">สิงหาคม</MenuItem>
+              <MenuItem value="09" className="font-kanit">กันยายน</MenuItem>
+              <MenuItem value="10" className="font-kanit">ตุลาคม</MenuItem>
+              <MenuItem value="11" className="font-kanit">พฤศจิกายน</MenuItem>
+              <MenuItem value="12" className="font-kanit">ธันวาคม</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth className="bg-[#fff] font-kanit">
+            <InputLabel id="demo-simple-select-label font-kanit">เลือกทุ่น</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="เลือกทุ่น"
+              className="font-kanit"
+            // onChange={(e) => {
+            //   const selectedFts: any = e.target.value;
+            //   setSelectedFts(selectedFts);
+            //   setFilteredData(filterDataBySelectedMonth(reportReducer.result, selectedMonth, selectedFts));
+            // }}
+            >
+              {/* {FtsReducer.map((items) => (
+                <MenuItem className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
+              ))} */}
+            </Select>
+          </FormControl>
+        </form>
+      </Box>
       <hr />
       <Table
         aria-label="simple table"

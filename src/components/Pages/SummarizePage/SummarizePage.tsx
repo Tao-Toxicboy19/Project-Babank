@@ -7,6 +7,7 @@ import { Card } from '@mui/material';
 import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
 import RouteLayout from '../../layout/RouteLayout/RouteLayout';
 import FTSsingle from '../../layout/FTSsingle/FTSsingle';
+import Gantts from '../../layout/Gantts/Gantts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -60,6 +61,7 @@ export default function SummarizePage() {
                         <Tab label="สรุป" className="font-kanit" {...a11yProps(0)} />
                         <Tab label="ทุ่น" className="font-kanit" {...a11yProps(1)} />
                         <Tab label="เส้นทาง" className="font-kanit" {...a11yProps(2)} />
+                        <Tab label="รายงาน" className="font-kanit" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -70,6 +72,9 @@ export default function SummarizePage() {
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                     <RouteLayout />
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={3}>
+                    <Gantts />
                 </CustomTabPanel>
             </Box>
         </Card>

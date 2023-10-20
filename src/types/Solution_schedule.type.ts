@@ -89,6 +89,10 @@ export interface report_solutions {
     setuptime_FTS: number;
     speed: number;
     cargo_name: string;
+    carrier_name: string;
+    holder: string;
+    maxcapacity: number;
+    burden: number;
 }
 
 export enum Category {
