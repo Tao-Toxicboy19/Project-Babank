@@ -15,7 +15,7 @@ export default function TreeTable({ FTSReducer }: Props) {
             <Box className="justify-between flex">
                 <Box className="flex items-center">
                     <Typography className="text-xl font-kanit">
-                        จัดการทุ่นและเครน
+                        ข้อมูลทุ่นและเครน
                     </Typography>
                 </Box>
 
