@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack, Button } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
 import AddIcon from '@mui/icons-material/Add';
-import { addCargo } from '../../../../store/slices/Cargo/cargo.slice';
+import { addCargo } from '../../../store/slices/Cargo/cargo.slice';
 import { useDispatch } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 

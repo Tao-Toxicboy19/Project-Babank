@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { server } from '../../../../Constants';
-import { Carrier } from '../../../../types/Carrier.type';
 import { CardContent, Stack, Button, TextField, Card } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import { Carrier } from '../../../../types/Carrier.type';
+import { server } from '../../../../Constants';
 import { updateCarrier } from '../../../../store/slices/Carrier/carrier.edit.slice';
 
 type Props = {};

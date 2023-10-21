@@ -3,9 +3,9 @@ import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Carrier } from '../../../../types/Carrier.type';
-import { addCarrier } from '../../../../store/slices/Carrier/carrier.slice';
 import { useState } from 'react';
+import { addCarrier } from '../../../../store/slices/Carrier/carrier.slice';
+import { Carrier } from '../../../../types/Order.type';
 
 
 type Props = {}

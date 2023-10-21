@@ -8,15 +8,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { Box, InputAdornment, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
 import { Cargo } from '../../../types/Cargo.type';
-import { columns } from './ColumnDataCargo';
-import CargoEditPage from './Edit/CargoEditPage';
-import CargoDeletePage from './Delete/CargoDeletePage';
-import CargoCreatePage from './CargoCreatePage/CargoInsertPage';
 import Loading from '../../layout/Loading/Loading';
 import Search from '@mui/icons-material/Search';
+import { columns } from '../../layout/Cargo/ColumnDataCargo';
+import CargoEditPage from '../../layout/Cargo/Edit/CargoEditPage';
+import CargoDeletePage from '../../layout/Cargo/Delete/CargoDeletePage';
+import CargoCreatePage from '../../layout/Cargo/CargoCreatePage/CargoInsertPage';
 
 
 function fixedHeaderContent() {
@@ -70,14 +69,14 @@ function rowContent(_index: number, row: Cargo) {
 
 
 export default function CargoPage() {
-  const cargoReducer = useSelector((state: RootState) => state.cargo);
+  const cargoReducer = useSelector((state: any) => state.cargo);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
-  const filteredData = (cargoReducer.cargo).filter((item) =>
+  const filteredData = (cargoReducer.cargo).filter((item: any) =>
     item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const rows: Cargo[] = (filteredData).map((items) => ({
+  const rows: Cargo[] = (filteredData).map((items: any) => ({
     cargo_id: items.cargo_id,
     cargo_name: items.cargo_name,
   }));

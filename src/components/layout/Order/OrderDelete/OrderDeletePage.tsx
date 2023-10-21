@@ -1,23 +1,22 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteCargo } from '../../../../store/slices/Cargo/cargo.slice';
-import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
+import DeleteDialog from '../../DeleteDialog/DeleteDialog';
+import { deleteOrder } from '../../../../store/slices/Order/order.slice';
 
-export default function CargoDeletePage({ id }: any) {
-    const dispatch = useDispatch<any>();
+export default function OrderDeletePage({ id }: any) {
     const [open, setOpen] = useState(false);
+    const dispatch = useDispatch<any>();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleDeleteConfirm = async () => {
         setIsSubmitting(true);
         try {
-            dispatch(deleteCargo(id, setOpen))
+            await dispatch(deleteOrder(id, setOpen))
             setIsSubmitting(false);
         } catch (error) {
             setIsSubmitting(false)
         }
     }
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -25,7 +24,6 @@ export default function CargoDeletePage({ id }: any) {
     const handleClose = () => {
         setOpen(false);
     };
-
 
     return (
         <DeleteDialog

@@ -9,7 +9,6 @@ import { loadCrane } from '../../../store/slices/Cargo/crane.slice';
 import { loadCargo } from '../../../store/slices/Cargo/cargo.slice';
 import { loadCargoCrane } from '../../../store/slices/CargoCrane/cargocrane.slice';
 import { RootState } from '../../../store/store';
-import CargoCraneDeletePage from './Delete/CargoCraneDeletePage';
 import AddIcon from '@mui/icons-material/Add';
 import { TitleCargoCrane } from '../../../Constants';
 import { LuFileEdit } from 'react-icons/lu';
@@ -17,6 +16,7 @@ import Search from '@mui/icons-material/Search';
 import Loading from '../../layout/Loading/Loading';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CargoCraneDeletePage from '../../layout/CargoCreateLayout/Delete/CargoCraneDeletePage';
 
 type Props = {}
 

@@ -12,14 +12,14 @@ import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Search from '@mui/icons-material/Search';
-import { Carrier } from '../../../types/Carrier.type';
-import { columns } from './ColumnDataCarrier';
-import CarrierDeletePage from './Delete/CarrierDeletePage';
 import { Link } from 'react-router-dom';
 import Add from '@mui/icons-material/Add';
 import { LuFileEdit } from 'react-icons/lu';
 import Loading from '../../layout/Loading/Loading';
 import NotFound from '../../layout/ERR_REPORT/PageNotFound';
+import CarrierDeletePage from '../../layout/Carrier/Delete/CarrierDeletePage';
+import { Carrier } from '../../../types/Carrier.type';
+import { columns } from '../../layout/Carrier/ColumnDataCarrier';
 
 
 
@@ -46,7 +46,7 @@ function fixedHeaderContent() {
   );
 }
 
-function rowContent(_index: number, row: Carrier) {
+function rowContent(_index: number, row: any) {
   return (
     <React.Fragment>
       {columns.map((column) => (

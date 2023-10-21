@@ -33,17 +33,6 @@ const carrierSlice = createSlice({
         setInsertCarrier: (state, action: PayloadAction<Carrier>) => {
             state.carrier.push(action.payload)
         },
-        // setUpdateCarrier: (state, action: PayloadAction<Carrier>) => {
-        //     const carrierIndex = state.carrier.findIndex(carrier => carrier.cr_id === action.payload.cr_id);
-        //     if (carrierIndex !== -1) {
-        //         state.carrier[carrierIndex] = action.payload
-        //     }
-        // },
-        // setDeleteCarrier: (state, action: PayloadAction<any>) => {
-        //     state.carrier = state.carrier.filter(
-        //         (carrier) => carrier.cr_id !== action.payload
-        //     )
-        // },
     }
 })
 

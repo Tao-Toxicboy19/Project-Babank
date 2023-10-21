@@ -15,7 +15,7 @@ export default function FTS({ }: Props) {
                         <TableCell
                             className='font-kanit text-lg'
                         >
-                            ชื่อเครน
+                            ชื่อทุ่น
                         </TableCell>
                         <TableCell
                             align="right"

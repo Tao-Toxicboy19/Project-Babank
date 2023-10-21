@@ -1,15 +1,15 @@
-import { Box, Fab, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
+import { Box, Fab, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
 import { TitleOrder } from "../../../Constants"
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import OrderDeletePage from "./OrderDelete/OrderDeletePage";
 import { LuFileEdit } from "react-icons/lu";
-import React, { useState } from "react";
+import React from "react";
 import Search from "@mui/icons-material/Search";
-import { useForm } from "react-hook-form";
-import { Orders } from "../../../types/Order.type";
+// import { useForm } from "react-hook-form";
+// import { Orders } from "../../../types/Order.type";
+import OrderDeletePage from "../../layout/Order/OrderDelete/OrderDeletePage";
 
 type Props = {}
 
@@ -17,20 +17,20 @@ type Props = {}
 export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
-  const [filteredDataV2, setFilteredDataV2] = useState<Orders[]>(OrderReducer.orders);
+  // const [filteredDataV2, setFilteredDataV2] = useState<Orders[]>(OrderReducer.orders);
 
-  const {
-    register,
-    setValue,
-  } = useForm();
+  // const {
+  //   register,
+  //   setValue,
+  // } = useForm();
 
-  const filterDataBySelectedMonth = (data: Orders[], selectedMonth: string) => {
-    const currentYear = new Date().getFullYear().toString();
-    return data.filter((item: Orders) => {
-      const matchesMonth = item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`);
-      return matchesMonth;
-    });
-  };
+  // const filterDataBySelectedMonth = (data: Orders[], selectedMonth: string) => {
+  //   const currentYear = new Date().getFullYear().toString();
+  //   return data.filter((item: Orders) => {
+  //     const matchesMonth = item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`);
+  //     return matchesMonth;
+  //   });
+  // };
 
   const filteredData = OrderReducer.orders.filter((order) =>
     order.cargo_order.some((cargoOrder) =>
@@ -41,7 +41,7 @@ export default function OrderPage({ }: Props) {
   const showTbody = () => {
     return (
       <TableBody>
-        {(filteredData || filteredDataV2).map((items) => (
+        {(filteredData).map((items) => (
           <TableRow
             key={items.or_id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -225,7 +225,7 @@ export default function OrderPage({ }: Props) {
       <Box>
 
         <form className="max-w-xl flex gap-x-3 mb-3">
-          <FormControl fullWidth className="bg-[#fff]">
+          {/* <FormControl fullWidth className="bg-[#fff]">
             <InputLabel id="demo-simple-select-label font-kanit">เลือกเดือน</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -260,17 +260,17 @@ export default function OrderPage({ }: Props) {
               id="demo-simple-select"
               label="เลือกทุ่น"
               className="font-kanit"
-            // onChange={(e) => {
-            //   const selectedFts: any = e.target.value;
-            //   setSelectedFts(selectedFts);
-            //   setFilteredData(filterDataBySelectedMonth(reportReducer.result, selectedMonth, selectedFts));
-            // }}
+              onChange={(e) => {
+                const selectedFts: any = e.target.value;
+                setSelectedFts(selectedFts);
+                setFilteredData(filterDataBySelectedMonth(reportReducer.result, selectedMonth, selectedFts));
+              }}
             >
-              {/* {FtsReducer.map((items) => (
+              {FtsReducer.map((items) => (
                 <MenuItem className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
-              ))} */}
+              ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </form>
       </Box>
       <hr />
