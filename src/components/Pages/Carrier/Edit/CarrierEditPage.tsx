@@ -5,7 +5,7 @@ import { server } from '../../../../Constants';
 import { Carrier } from '../../../../types/Carrier.type';
 import { CardContent, Stack, Button, TextField, Card } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { updateCarrier } from '../../../../store/slices/carrier.edit.slice';
+import { updateCarrier } from '../../../../store/slices/Carrier/carrier.edit.slice';
 
 type Props = {};
 

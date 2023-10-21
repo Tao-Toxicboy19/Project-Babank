@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteCarrier } from '../../../../store/slices/carrier.slice';
+import { deleteCarrier } from '../../../../store/slices/Carrier/carrier.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 
 export default function CarrierDeletePage({ id }: any) {

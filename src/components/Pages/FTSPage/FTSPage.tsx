@@ -5,10 +5,14 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TreeTable from '../../layout/TreeTable/TreeTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadFTS } from '../../../store/slices/FTS.slice';
+import { loadFTS } from '../../../store/slices/FTS/FTS.slice';
 import { RootState } from '../../../store/store';
 import { Card } from '@mui/material';
 import Loading from '../../layout/Loading/Loading';
+import Cranes from '../../layout/MainTain/Crane/Cranes';
+import { loadMainTainCrane } from '../../../store/slices/MainTain/CraneSlice';
+import FTS from '../../layout/MainTain/FTS/FTS';
+import { loadMainTainFTS } from '../../../store/slices/MainTain/FTSSlice';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -50,6 +54,8 @@ export default function FTSPage() {
 
   React.useEffect(() => {
     dispatch(loadFTS())
+    dispatch(loadMainTainCrane())
+    dispatch(loadMainTainFTS())
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -74,10 +80,10 @@ export default function FTSPage() {
             <TreeTable FTSReducer={(FTSReducer.FTS)} />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            Item Two
+            <FTS />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            Item Three
+            <Cranes />
           </CustomTabPanel>
         </Box>
       )}

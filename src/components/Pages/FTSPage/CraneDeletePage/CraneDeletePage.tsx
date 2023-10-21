@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { deleteCrane } from '../../../../store/slices/FTS.slice';
+import { deleteCrane } from '../../../../store/slices/FTS/FTS.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 
 

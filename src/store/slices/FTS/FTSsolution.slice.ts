@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
-import { server } from "../../Constants";
-import { Solution } from "../../types/Solution_schedule.type";
+import { RootState } from "../../store";
+import { server } from "../../../Constants";
+import { Solution } from "../../../types/Solution_schedule.type";
 
 export interface FTSSolutionState {
     result: Solution[]

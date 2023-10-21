@@ -21,7 +21,7 @@ export default function ReportPage() {
     const filterDataBySelectedMonth = (data: report_solutions[], selectedMonth: string, selectedFts: string) => {
         const currentYear = new Date().getFullYear().toString();
         return data.filter((item: any) => {
-            const matchesMonth = item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`);
+            const matchesMonth = item.exittime.startsWith(`${currentYear}-${selectedMonth}`);
             const matchesFts = selectedFts === 'all' || item.FTS_id === selectedFts;
             return matchesMonth && matchesFts;
         });

@@ -31,6 +31,7 @@
     "@react-google-maps/api": "^2.19.2",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@syncfusion/ej2-react-gantt": "^23.1.41",
     "@types/axios": "^0.14.0",
     "@types/leaflet-routing-machine": "^3.2.5",
     "@types/material-ui": "^0.21.12",

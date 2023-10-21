@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { Carrier } from '../../../../types/Carrier.type';
 import { Orders } from '../../../../types/Order.type';
-import { updateOrder } from '../../../../store/slices/order.edit.slice';
+import { updateOrder } from '../../../../store/slices/Order/order.edit.slice';
 import Loading from '../../../layout/Loading/Loading';
 
 type Props = {}

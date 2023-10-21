@@ -78,4 +78,6 @@ export const server = {
     SOLUTIONSCHEDULE: `solution_schedule`,
     CARGOORDER_URL: `cargoorder`,
     REPORT_SOLUTION_URL:`report_solution`,
+    MAINTAIN_CRAN_URL:`maintain_crane`,
+    MAINTAIN_FTS_URL:`maintain_fts`,
 };

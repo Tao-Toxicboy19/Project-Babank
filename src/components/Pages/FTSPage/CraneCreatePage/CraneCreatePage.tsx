@@ -6,7 +6,7 @@ import { RootState } from '../../../../store/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { Crane } from '../../../../types/crane.type';
-import { addCrane } from '../../../../store/slices/crane.edit.slice';
+import { addCrane } from '../../../../store/slices/Cargo/crane.edit.slice';
 import { useState } from 'react';
 
 type Props = {}

@@ -5,7 +5,7 @@ import { RootState } from '../../../../store/store';
 import { TextField } from 'formik-material-ui';
 import { Link, useNavigate } from 'react-router-dom';
 import { Orders } from '../../../../types/Order.type';
-import { addOrder } from '../../../../store/slices/order.slice';
+import { addOrder } from '../../../../store/slices/Order/order.slice';
 import * as Yup from 'yup';
 
 type Props = {}

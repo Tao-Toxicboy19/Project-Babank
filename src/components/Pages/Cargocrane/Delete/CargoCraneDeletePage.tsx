@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { DeleteCargoCrane } from '../../../../store/slices/cargocrane.slice';
+import { DeleteCargoCrane } from '../../../../store/slices/CargoCrane/cargocrane.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 
 export default function CargoCraneDeletePage({ id }: any) {

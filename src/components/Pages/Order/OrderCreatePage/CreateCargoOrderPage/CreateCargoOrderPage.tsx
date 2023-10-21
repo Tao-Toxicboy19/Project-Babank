@@ -6,7 +6,7 @@ import { RootState } from '../../../../../store/store';
 import { Cargo } from '../../../../../types/Cargo.type';
 import { Link, useNavigate } from 'react-router-dom';
 import { server } from '../../../../../Constants';
-import { addCargoOrder } from '../../../../../store/slices/cargoOrder.slice';
+import { addCargoOrder } from '../../../../../store/slices/Order/cargoOrder.slice';
 import { CargoItem } from '../../../../../types/Order.type';
 
 const CargoOrderForm: React.FC = () => {

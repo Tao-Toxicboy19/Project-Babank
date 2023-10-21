@@ -4,7 +4,7 @@ import { TextField } from 'formik-material-ui';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Carrier } from '../../../../types/Carrier.type';
-import { addCarrier } from '../../../../store/slices/carrier.slice';
+import { addCarrier } from '../../../../store/slices/Carrier/carrier.slice';
 import { useState } from 'react';
 
 

@@ -1,7 +1,7 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
-import { server } from "../../Constants";
+import { RootState } from "../../store";
+import { server } from "../../../Constants";
 
 export interface FTSCraneCargo {
     FTS_name: string;

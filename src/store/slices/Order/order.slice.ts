@@ -1,9 +1,9 @@
 // orderSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { Orders, OrderState } from '../../types/Order.type';
-import { server } from '../../Constants';
-import { httpClient } from '../../utils/httpclient';
-import { RootState } from '../store';
+import { Orders, OrderState } from '../../../types/Order.type';
+import { server } from '../../../Constants';
+import { httpClient } from '../../../utils/httpclient';
+import { RootState } from '../../store';
 import { toast } from 'react-toastify';
 
 const initialState: OrderState = {

@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { httpClient } from "../../utils/httpclient"
-import { server } from "../../Constants"
-import { Orders, OrderEditState } from "../../types/Order.type"
+import { httpClient } from "../../../utils/httpclient"
+import { server } from "../../../Constants"
+import { Orders, OrderEditState } from "../../../types/Order.type"
 
 const initialState: OrderEditState = {
   result: null,

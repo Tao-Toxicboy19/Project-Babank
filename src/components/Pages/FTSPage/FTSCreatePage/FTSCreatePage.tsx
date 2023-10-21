@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../../../../types/User.type';
 import { FTS } from '../../../../types/FloatingCrane.type';
-import { addFTS } from '../../../../store/slices/FTS.slice';
+import { addFTS } from '../../../../store/slices/FTS/FTS.slice';
 import { useState } from 'react';
 import { RootState } from '../../../../store/store';
 import NotFound from '../../../layout/ERR_REPORT/PageNotFound';

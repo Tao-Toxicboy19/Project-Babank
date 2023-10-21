@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
-import { server } from "../../Constants";
-import { Crane_Solution, Crane_SolutionState } from "../../types/craneSolution.type";
+import { RootState } from "../../store";
+import { server } from "../../../Constants";
+import { Crane_Solution, Crane_SolutionState } from "../../../types/craneSolution.type";
 
 const initialState: Crane_SolutionState = {
     result: {

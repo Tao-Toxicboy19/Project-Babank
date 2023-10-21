@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { server } from "../../Constants";
-import { httpClient } from "../../utils/httpclient";
-import { FTSCrane, FTSCraneState } from "../../types/FloatingCrane.type";
+import { RootState } from "../../store";
+import { server } from "../../../Constants";
+import { httpClient } from "../../../utils/httpclient";
+import { FTSCrane, FTSCraneState } from "../../../types/FloatingCrane.type";
 import { toast } from "react-toastify";
 
 const initialState: FTSCraneState = {

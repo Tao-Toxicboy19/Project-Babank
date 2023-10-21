@@ -7,7 +7,7 @@ import { Cargo } from '../../../../../types/Cargo.type';
 import { server } from '../../../../../Constants';
 import { CargoItem, Orders } from '../../../../../types/Order.type';
 import { httpClient } from '../../../../../utils/httpclient';
-import { updateCargoOrder } from '../../../../../store/slices/cargoOrder.slice';
+import { updateCargoOrder } from '../../../../../store/slices/Order/cargoOrder.slice';
 import Loading from '../../../../layout/Loading/Loading';
 
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { TextField } from 'formik-material-ui';
 import { Link, useNavigate } from 'react-router-dom';
-import { addCargoCrane } from '../../../../store/slices/cargocrane.slice';
+import { addCargoCrane } from '../../../../store/slices/CargoCrane/cargocrane.slice';
 import { useState } from 'react';
 
 type Props = {}

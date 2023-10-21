@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { server } from "../../Constants";
-import { Crane, CraneEditState, } from "../../types/crane.type";
-import { httpClient } from "../../utils/httpclient";
+import { server } from "../../../Constants";
+import { Crane, CraneEditState, } from "../../../types/crane.type";
+import { httpClient } from "../../../utils/httpclient";
 import { toast } from "react-toastify";
 
 const initialState: CraneEditState = {

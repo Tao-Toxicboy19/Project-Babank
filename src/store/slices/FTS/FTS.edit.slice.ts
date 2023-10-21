@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FTSEditState } from "../../types/FloatingCrane.type";
-import { httpClient } from "../../utils/httpclient";
-import { server } from "../../Constants";
+import { FTSEditState } from "../../../types/FloatingCrane.type";
+import { httpClient } from "../../../utils/httpclient";
+import { server } from "../../../Constants";
 import { toast } from "react-toastify";
 
 

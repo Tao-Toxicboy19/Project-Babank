@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
-import { server } from "../../Constants";
-import { FTS_Solution, FTS_SolutionState } from "../../types/FTS_solution.type";
+import { RootState } from "../../store";
+import { server } from "../../../Constants";
+import { FTS_Solution, FTS_SolutionState } from "../../../types/FTS_solution.type";
 
 const initialState: FTS_SolutionState = {
     result: {

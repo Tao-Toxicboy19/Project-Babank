@@ -2,25 +2,27 @@
 import { Action, ThunkAction, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { logger } from 'redux-logger';
 
-import orderReducer from './slices/order.slice';
-import cargoReducer from './slices/cargo.slice';
-import cargoCraneReducer from './slices/cargocrane.slice';
-import carrierReducer from './slices/carrier.slice';
-import carrierEditReducer from './slices/carrier.slice';
-import cargoCraneEditReducer from './slices/cargocrane.edit.slice'
+import orderReducer from './slices/Order/order.slice';
+import cargoReducer from './slices/Cargo/cargo.slice';
+import cargoCraneReducer from './slices/CargoCrane/cargocrane.slice';
+import carrierReducer from './slices/Carrier/carrier.slice';
+import carrierEditReducer from './slices/Carrier/carrier.slice';
+import cargoCraneEditReducer from './slices/CargoCrane/cargocrane.edit.slice'
 import loginReducer from './slices/login.slice'
-import FTSCraneSlice from './slices/FTS.slice';
-import FTSCraneCargoSlice from './slices/FTSCraneCargo.slice';
-import FTSsolutionSlice from './slices/FTSsolution.slice';
-import craneSolutionSlice from './slices/craneSolution.slice';
-import FTSsolutionV2Slice from './slices/FTSsolutionV2.slice';
-import FTSEditSlice from './slices/FTS.edit.slice';
-import craneSlice from './slices/crane.slice';
-import craneEditSlice from './slices/crane.edit.slice';
+import FTSCraneSlice from './slices/FTS/FTS.slice';
+import FTSCraneCargoSlice from './slices/FTS/FTSCraneCargo.slice';
+import FTSsolutionSlice from './slices/FTS/FTSsolution.slice';
+import craneSolutionSlice from './slices/Solution/craneSolution.slice';
+import FTSsolutionV2Slice from './slices/FTS/FTSsolutionV2.slice';
+import FTSEditSlice from './slices/FTS/FTS.edit.slice';
+import craneSlice from './slices/Cargo/crane.slice';
+import craneEditSlice from './slices/Cargo/crane.edit.slice';
 import registerReducer from './slices/register.slice'
-import SolutionscheduleSlice from './slices/sollution_schedule.slice'
+import SolutionscheduleSlice from './slices/Solution/sollution_schedule.slice'
 import statusSlice from './slices/status.slice'
 import reportReducer from './slices/reportSlice'
+import mainTainReducer from './slices/MainTain/CraneSlice'
+import mainTainFTSReducer from './slices/MainTain/FTSSlice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -49,6 +51,8 @@ export const store = configureStore({
     login: loginReducer,
     register: registerReducer,
     reportReducer: reportReducer,
+    mainTainReducer: mainTainReducer,
+    mainTainFTSReducer: mainTainFTSReducer,
   },
   middleware: middleware,
 });

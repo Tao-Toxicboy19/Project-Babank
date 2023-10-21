@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { loadFTS } from "../../../store/slices/FTS.slice";
+import { loadFTS } from "../../../store/slices/FTS/FTS.slice";
 import { Box, Card, CardContent } from "@mui/material";
 import StockCard from "../../layout/StockCard/StockCard";
 import { GiCargoShip, GiCargoCrane } from "react-icons/gi"
 import { BsBoxSeam } from "react-icons/bs";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { RootState } from "../../../store/store";
-import { loadCarrier } from "../../../store/slices/carrier.slice";
-import { loadCargo } from "../../../store/slices/cargo.slice";
-import { loadOrder } from "../../../store/slices/order.slice";
+import { loadCarrier } from "../../../store/slices/Carrier/carrier.slice";
+import { loadCargo } from "../../../store/slices/Cargo/cargo.slice";
+import { loadOrder } from "../../../store/slices/Order/order.slice";
 import Loading from "../../layout/Loading/Loading";
-import { loadCrane } from "../../../store/slices/crane.slice";
-import { loadCargoCrane } from "../../../store/slices/cargocrane.slice";
+import { loadCrane } from "../../../store/slices/Cargo/crane.slice";
+import { loadCargoCrane } from "../../../store/slices/CargoCrane/cargocrane.slice";
 import { loadReport } from "../../../store/slices/reportSlice";
 
 type Props = {}
