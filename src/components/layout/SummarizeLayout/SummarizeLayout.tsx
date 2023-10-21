@@ -1,4 +1,4 @@
-import { Box, Card } from '@mui/material';
+import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import Loading from '../../layout/Loading/Loading';
@@ -15,7 +15,6 @@ import TreeTable from './TreeTable/TreeTable';
 
 
 export default function SummarizeLayout() {
-    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
     const dispatch = useDispatch<any>();
     const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution);
     const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2);
@@ -96,9 +95,9 @@ export default function SummarizeLayout() {
                                 <Box className='col-span-2  mt-5 grid grid-flow-row gap-y-5'>
                                     <DescriptionMenu />
                                 </Box>
-                                <Card className='col-span-5 px-5'>
-                                    <TreeTable data={(FTSsolutionSlice.result)} />
-                                </Card>
+                                <Box className='col-span-5 mt-5'>
+                                    <TreeTable />
+                                </Box>
                             </Box>
                         </Box >
                     </>

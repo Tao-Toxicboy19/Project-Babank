@@ -40,27 +40,27 @@ function a11yProps(index: number) {
     };
 }
 
-export default function DetailMenu() {
-    const [value, setValue] = React.useState(0);
+export default function DetailMenu({ FTSsolutionSlice, value }: any) {
+    const [values, setValues] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
-        setValue(newValue);
+        setValues(newValue);
     };
 
     return (
         <Card className='bg-[#ffffff]/75 max-h-[85vh]'>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tabs value={values} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="ระยะเวลา" {...a11yProps(0)} />
                         <Tab label="เชื้อเพลิง" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
-                <CustomTabPanel value={value} index={0}>
-                    <TimeList />
+                <CustomTabPanel value={values} index={0}>
+                    <TimeList FTSsolutionSlice={FTSsolutionSlice} value={value} />
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
+                <CustomTabPanel value={values} index={1}>
                     <FuelList />
                 </CustomTabPanel>
             </Box>

@@ -30,24 +30,41 @@ export interface Solution_scheduleState {
 }
 
 
-export interface Solution {
-    solution_id: number;
-    FTS_name: string;
-    total_cost_sum: number;
-    total_consumption_cost_sum: number;
-    total_wage_cost_sum: number;
-    penality_cost_sum: number;
-    total_reward_sum: number;
-    result: Result[];
+export interface SolutionCrane {
+    fts: Fts;
+    crane: Crane[];
+    solutions: Solution[];
 }
 
-export interface Result {
+export interface Crane {
+    id: number;
     crane_name: string;
+    setuptime_crane: number;
+}
+
+export interface Fts {
+    id: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
+    setuptime_FTS: number;
+    speed: number;
+}
+
+export interface Solution {
+    fts_id: number;
+    solution_id: number;
     total_cost: number;
     total_consumption_cost: number;
     total_wage_cost: number;
     penality_cost: number;
     total_reward: number;
+    total_late_time: number;
+    total_early_time: number;
+    total_operation_consumption_cost: number;
+    total_operation_time: number;
+    total_preparation_crane_time: number;
+    date: Date;
 }
 
 export interface report_solutionState {

@@ -2,12 +2,12 @@ import ListMenu from '../ListMenu/ListMenu'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 
-type Props = {}
 
-export default function TimeList({ }: Props) {
+export default function TimeList({ value }: any) {
     const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution.result);
     const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2.result);
-
+    console.log(value)
+    console.log(CraneSolutionSlice)
     const result = CraneSolutionSlice.total_preparation_crane_time + FtsSolutionV2Slice.total_preparation_FTS_time
 
     return (

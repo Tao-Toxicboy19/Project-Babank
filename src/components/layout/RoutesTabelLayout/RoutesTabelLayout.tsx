@@ -32,7 +32,7 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                     </TableHead>
                     <TableBody>
                         {(SolutionscheduleReducer)
-                            .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.FTS_name)
+                            .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
                             .map((items, index) => (
                                 <TableRow
                                     key={index}

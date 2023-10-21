@@ -49,7 +49,6 @@ export default function RouteLayout() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
-        console.log(FTSsolutionSlice[newValue]?.FTS_name);
     };
 
     return (
@@ -66,7 +65,7 @@ export default function RouteLayout() {
                         <Tab
                             // className='font-kanit'
                             className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
-                            label={`${items.FTS_name}`}
+                            label={`${items.fts.FTS_name}`}
                             {...a11yProps(index)}
                         />
                     ))}
@@ -87,7 +86,7 @@ export default function RouteLayout() {
                                 textDecoration: "none",
                             }}
                         >
-                            {FTSsolutionSlice[value]?.FTS_name}
+                            {FTSsolutionSlice[value]?.fts.FTS_name}
                         </Typography>
                         <Box className='flex-grow mt-[-1rem]'> {/* ใช้ flex-grow เพื่อให้ส่วนนี้ขยายตามพื้นที่ที่เหลือ */}
                             <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice} value={value} />

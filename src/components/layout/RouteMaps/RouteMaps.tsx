@@ -16,7 +16,7 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
 
 
     const datav2 = SolutionscheduleReducer.solution_schedule
-        .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.FTS_name)
+        .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
         .map((item) => ({
             lat: item.lat,
             lng: item.lng,

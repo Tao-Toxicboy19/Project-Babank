@@ -2,10 +2,10 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
-import { Solution } from "../../../types/Solution_schedule.type";
+import { SolutionCrane } from "../../../types/Solution_schedule.type";
 
 export interface FTSSolutionState {
-    result: Solution[]
+    result: SolutionCrane[]
     loading: boolean
     error: string | null
 }
@@ -25,7 +25,7 @@ const FTSsolutionSlice = createSlice({
             state.loading = true
             state.error = null
         },
-        setFTSsolutionSuccess: (state, action: PayloadAction<Solution[]>) => {
+        setFTSsolutionSuccess: (state, action: PayloadAction<SolutionCrane[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = null
@@ -43,7 +43,7 @@ export default FTSsolutionSlice.reducer
 export const loadFTSsolution = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setFTSsolutionStart())
-        const result = await axios.get(server.CRANESOLUTIONTABLE)
+        const result = await axios.get<SolutionCrane[]>(server.CRANESOLUTIONTABLE)
         dispatch(setFTSsolutionSuccess(result.data))
     }
     catch (error) {

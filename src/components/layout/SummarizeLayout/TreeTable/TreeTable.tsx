@@ -1,61 +1,97 @@
-import { Grid, Typography } from '@mui/material';
-import TreeTableNode from './TreeTableNode';
-import { titleTreeTable } from '../../../../Constants';
-
-export interface TreeTableSolution {
-    solution_id: number;
-    FTS_name: string;
-    total_cost_sum: number;
-    total_consumption_cost_sum: number;
-    total_wage_cost_sum: number;
-    penality_cost_sum: number;
-    total_reward_sum: number;
-    result: Result[];
-}
-export interface Result {
-    crane_name: string;
-    total_cost: number;
-    total_consumption_cost: number;
-    total_wage_cost: number;
-    penality_cost: number;
-    total_reward: number;
-}
-
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
 
 type Props = {
-    data: TreeTableSolution[];
+
 }
 
-export default function TreeTable({ data }: Props) {
+const showThead = () => {
+    return (
+        <TableRow>
+            {["ชื่อเครน", "รายจ่าย", "ค่าเชื้อเพลิง", "ค่าเเรง", "ค่าปรับล่าช้า", "รางวัลรวม"].map((title) => (
+                <TableCell
+                    key={title}
+                    align={title === 'ชื่อเรือ' ? 'left' : 'center'}
+                    className='font-kanit'
+                    sx={{
+                        backgroundColor: 'background.paper',
+                        fontWeight: 'Bold',
+                        fontSize: 18
+                    }}
+                >
+                    {title}
+                </TableCell>
+            ))}
+        </TableRow>
+    )
+}
+
+
+export default function TreeTable({ }: Props) {
+    const FTSsolutionReducer = useSelector((state: RootState) => state.FTSsolution);
+
+
     return (
         <>
-            <Grid
-                container spacing={1}
-                columns={12}
-                className='border-b-[1px] bg-[#68d8d6]/75 rounded-xl mt-5'
-            >
-                {titleTreeTable.map((items) => (
-                    <Grid key={items} item xs={2} >
-                        <Typography
-                            className='flex justify-center mb-2 font-bold text-md text-[#333] font-kanit'
+            <TableContainer component={Paper}>
+                <Table
+                    aria-label="simple table"
+                    sx={{
+                        borderCollapse: "collapse",
+                        "& td, & th": {
+                            padding: "14px",
+                            borderBottom: "1px solid #ddd",
+                        },
+                    }}
+                >
+                    <TableHead>
+                        {showThead()}
+                    </TableHead>
+                    {(FTSsolutionReducer.result).map((items) => (
+                        <TableBody
+                            key={items.fts.id}
                         >
-                            {items}
-                        </Typography>
-                    </Grid>
-                ))}
-            </Grid>
-            {data.map((node, index) => (
-                <TreeTableNode
-                    key={index}
-                    FTS_name={node.FTS_name}
-                    total_cost={node.total_cost_sum} // ส่งค่า lat
-                    total_consumption_cost={node.total_consumption_cost_sum} // ส่งค่า lng
-                    total_wage_cost={node.total_wage_cost_sum}
-                    penality_cost={node.penality_cost_sum}
-                    total_reward={node.total_reward_sum}
-                    result={node.result}
-                />
-            ))}
+                            <TableCell
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {items.fts.FTS_name}
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {items.solutions.reduce((total, solution) => total + solution.total_cost, 0)}
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {items.solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0)}
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {items.solutions.reduce((total, solution) => total + solution.total_wage_cost, 0)}
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {items.solutions.reduce((total, solution) => total + solution.penality_cost, 0)}
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {items.solutions.reduce((total, solution) => total + solution.total_reward, 0)}
+                            </TableCell>
+                        </TableBody>
+                    ))}
+                </Table>
+            </TableContainer>
         </>
     );
 }

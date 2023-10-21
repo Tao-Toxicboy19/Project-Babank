@@ -7,8 +7,7 @@ import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
 import { Card, Typography } from '@mui/material';
-import DetailMenu from '../DetailMenu/DetailMenu';
-import BarCharts from '../BarCharts/BarCharts';
+import { BarCharts } from '../BarCharts/BarCharts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -50,13 +49,7 @@ export default function FTSsingle() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
-        // console.log(FTSsolutionSlice[newValue]?.FTS_name);
     };
-    // console.log(FTSsolutionSlice)
-    // console.log(FTSsolutionSlice.map((items) => (
-    //     items.FTS_name
-    // )))
-
 
     return (
         <>
@@ -73,7 +66,7 @@ export default function FTSsingle() {
                             <Tab
                                 key={index}
                                 className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
-                                label={`${items.FTS_name}`}
+                                label={`${items.fts.FTS_name}`}
                                 {...a11yProps(0)}
                             />
                         ))}
@@ -94,52 +87,51 @@ export default function FTSsingle() {
                                     textDecoration: "none",
                                 }}
                             >
-                                {/* className='font-kanit' */}
-                                {FTSsolutionSlice[value]?.FTS_name}
+                                {FTSsolutionSlice[value]?.fts.FTS_name}
                             </Typography>
                             {FTSsolutionSlice[value] && (
                                 <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
                                     <SummarizaCard
                                         title={'ต้นรวมทุน'}
-                                        price={FTSsolutionSlice[value].total_cost_sum}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_cost, 0)}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าเชื้อเพลิงรวม'}
-                                        price={FTSsolutionSlice[value].total_consumption_cost_sum}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0)}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าแรง'}
-                                        price={FTSsolutionSlice[value].total_wage_cost_sum}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0)}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าปรับล่าช้า'}
-                                        price={FTSsolutionSlice[value].penality_cost_sum}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.penality_cost, 0)}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'รางวัล'}
-                                        price={FTSsolutionSlice[value].total_reward_sum}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_reward, 0)}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                 </Box>
                             )}
-                            <Card className="max-w-[350px] col-span-3">
-                                <DetailMenu />
-                            </Card>
-                            <Card className="col-span-9">
+                            {/* <Card className="max-w-[350px] col-span-3">
+                                <DetailMenu FTSsolutionSlice={FTSsolutionSlice} value={value} />
+                            </Card> */}
+                            <Card className="col-span-10">
                                 <BarCharts FTSsolutionSlice={FTSsolutionSlice} value={value} />
                             </Card>
                         </Box>
