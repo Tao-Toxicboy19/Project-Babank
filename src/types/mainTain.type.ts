@@ -17,18 +17,18 @@ export interface Crane {
 
 export interface MainTainFTS {
     maintain_FTS_id: number;
-    desc_FTS:        string;
-    downtime_FTS:    string;
-    start_time_FTS:  string;
-    mt_FTS_id:       number;
-    fts:             Fts;
+    desc_FTS?: string;
+    downtime_FTS?: any;
+    start_time_FTS?: any;
+    mt_FTS_id: number;
+    fts: Fts;
 }
 
 export interface Fts {
-    id:            number;
-    FTS_name:      string;
-    lat:           number;
-    lng:           number;
+    id: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
     setuptime_FTS: number;
-    speed:         number;
+    speed: number;
 }

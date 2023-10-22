@@ -44,7 +44,6 @@ export const loadCrane = (): ThunkAction<void, RootState, unknown, any> => async
     try {
         dispatch(setCraneState())
         const result = await httpClient.get(server.CRANE)
-        console.log(result.data)
         dispatch(setCraneSuccess(result.data))
     }
     catch (error) {

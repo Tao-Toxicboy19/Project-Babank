@@ -27,6 +27,7 @@ export default function OrderEditPageV2({ }: Props) {
                 setLoading(true);
                 const response = await httpClient.get(`${server.ORDER}/${id}`);
                 setOrder(response.data)
+                console.log(response.data)
                 setLoading(false)
             } catch (error) {
                 setLoading(false)
@@ -75,6 +76,7 @@ export default function OrderEditPageV2({ }: Props) {
         const arrivalTime = new Date(order.arrival_time);
         arrivalTime.setHours(arrivalTime.getHours() + 7);
         const formattedArrivalTime = arrivalTime.toISOString().slice(0, 16);
+        console.log(formattedArrivalTime)
 
 
         const deadline_time = new Date(order.deadline_time);

@@ -3,6 +3,7 @@ import { MainTainFTS } from "../../../types/mainTain.type";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
+import { toast } from "react-toastify";
 
 
 interface mainTainFTSState {
@@ -52,3 +53,29 @@ export const loadMainTainFTS = (): ThunkAction<void, RootState, unknown, any> =>
         dispatch(setMainTainFTSFailed())
     }
 }
+
+export const addMainTainFTS = (formData: any, navigate: any) => {
+    return async (dispatch: any) => {
+        try {
+            await httpClient.post(server.MAINTAIN_FTS_URL, formData);
+            toast.success('เพิ่มข้อมูลเรียบร้อย')
+            navigate('/transferstation')
+            dispatch(loadMainTainFTS())
+        } catch (error) {
+            console.error('Error while adding CARRIER:', error);
+        }
+    };
+};
+
+export const deleteMainTainFTS = (id: any, setOpen: any) => {
+    return async (dispatch: any) => {
+        try {
+            await httpClient.delete(`${server.MAINTAIN_FTS_URL}/${id}`)
+            setOpen(false)
+            dispatch(loadMainTainFTS())
+            toast.success('ลบเรียบร้อย')
+        } catch (error: any) {
+            dispatch(setMainTainFTSFailed())
+        }
+    };
+};

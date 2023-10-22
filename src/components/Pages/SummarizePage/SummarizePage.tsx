@@ -58,10 +58,10 @@ export default function SummarizePage() {
                     className='flex'
                 >
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="สรุป" className="font-kanit" {...a11yProps(0)} />
-                        <Tab label="ทุ่น" className="font-kanit" {...a11yProps(1)} />
-                        <Tab label="เส้นทาง" className="font-kanit" {...a11yProps(2)} />
-                        <Tab label="รายงาน" className="font-kanit" {...a11yProps(3)} />
+                        <Tab label="สรุปภาพรวมต้นทุน" className="font-kanit" {...a11yProps(0)} />
+                        <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
+                        <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(2)} />
+                        <Tab label="สรุปเเผนการจัดตารางเวลา" className="font-kanit" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

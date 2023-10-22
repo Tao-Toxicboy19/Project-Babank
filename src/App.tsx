@@ -31,6 +31,9 @@ import CarrierCreate from './components/layout/Carrier/Insert/CarrierCreate';
 import CreateCargoOrderPage from './components/layout/Order/OrderCreatePage/CreateCargoOrderPage/CreateCargoOrderPage';
 import OrderCreatePage from './components/layout/Order/OrderCreatePage/OrderCreatePage';
 import OrderEditPageV2 from './components/layout/Order/OrderEdit/OrderEditPageV2';
+import EditFTS from './components/layout/MainTain/EditFTS/EditFTS';
+import CreateFTS from './components/layout/MainTain/CreateFTS/CreateFTS';
+import CreateCrane from './components/layout/MainTain/CreateCrane/CreateCrane';
 
 const drawerWidth = 240;
 
@@ -81,6 +84,9 @@ export default function ResponsiveDrawer() {
               <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
               <Route path="/summarize" element={< SummarizePage />} />
               <Route path="/report" element={< ReportPage />} />
+              <Route path="/maintain/:id" element={< EditFTS />} />
+              <Route path="/transferstation/maintain/create" element={<CreateFTS/>} />
+              <Route path="/transferstation/maintain/crane/create" element={<CreateCrane/>} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
             <Route element={<PublicRoute />}>

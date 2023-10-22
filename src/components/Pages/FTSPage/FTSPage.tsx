@@ -71,9 +71,9 @@ export default function FTSPage() {
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="ข้อมูลทุ่นและเครน" {...a11yProps(0)} />
-              <Tab label="ทุ่น" {...a11yProps(1)} />
-              <Tab label="เครน" {...a11yProps(2)} />
+              <Tab label="ข้อมูลทุนเเละเครน" {...a11yProps(0)} />
+              <Tab label="ข้อมูลซ่อมบำรุงทุ่น" {...a11yProps(1)} />
+              <Tab label="ข้อมูลซ่อมบำรุงเครน" {...a11yProps(2)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
