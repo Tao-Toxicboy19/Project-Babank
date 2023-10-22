@@ -4,8 +4,12 @@ export interface Carrier {
     holder: string;
     maxcapacity: number;
     burden: number;
+    carrier_max_FTS: number;
+    carrier_max_crane: number;
+    Width: number;
+    length: number;
+    has_crane: string;
 }
-
 
 export interface CarrierEditState {
     carrier: Carrier | null

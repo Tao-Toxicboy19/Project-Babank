@@ -26,6 +26,36 @@ export const columns: ColumnsCarrier[] = [
         numeric: true,
     },
     {
+        width: 120,
+        label: 'จำนวนทุ่นเข้าได้สูงสุด',
+        dataKey: 'carrier_max_FTS',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'จำนวนเครนเข้าได้สูงสุด',
+        dataKey: 'carrier_max_crane',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'กว้าง',
+        dataKey: 'Width',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'ยาว',
+        dataKey: 'length',
+        numeric: true,
+    },
+    {
+        width: 120,
+        label: 'เครน',
+        dataKey: 'has_crane',
+        numeric: true,
+    },
+    {
         width: 80,
         label: "แก้ไข",
         dataKey: "editColumn",

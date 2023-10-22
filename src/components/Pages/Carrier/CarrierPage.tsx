@@ -89,6 +89,11 @@ export default function CarrierPage() {
     holder: items.holder,
     maxcapacity: items.maxcapacity,
     burden: items.burden,
+    carrier_max_FTS: items.carrier_max_FTS,
+    carrier_max_crane: items.carrier_max_crane,
+    Width: items.Width,
+    length: items.length,
+    has_crane: items.has_crane,
   }));
 
   const VirtuosoTableComponents: TableComponents<Carrier> = {

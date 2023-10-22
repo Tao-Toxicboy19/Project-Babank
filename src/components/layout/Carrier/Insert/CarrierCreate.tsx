@@ -1,7 +1,8 @@
-import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack } from '@mui/material'
+import { Button, Box, ThemeProvider, Typography, createTheme, Card, CardContent, Stack, FormControl, RadioGroup, FormControlLabel, FormLabel } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useNavigate } from 'react-router-dom';
+import Radio from '@mui/material/Radio';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { addCarrier } from '../../../../store/slices/Carrier/carrier.slice';
@@ -81,6 +82,65 @@ export default function CarrierCreatePage({ }: Props) {
           label='จำนวนระวาง'
           fullWidth
         />
+        <Field
+          className='font-kanit'
+          component={TextField}
+          style={{ marginTop: 16 }}
+          name='burden'
+          id='burden'
+          type='number'
+          label='จำนวนทุ่นเข้าได้สูงสุด'
+          fullWidth
+        />
+        <Field
+          className='font-kanit'
+          component={TextField}
+          style={{ marginTop: 16 }}
+          name='burden'
+          id='burden'
+          type='number'
+          label='จำนวนเครนเข้าได้สูงสุด'
+          fullWidth
+        />
+        <Box style={{ marginTop: 16 }}>
+          <Typography className='text-md flex justify-center'>
+            ขนาดของเรือ
+          </Typography>
+          <Stack direction='row' spacing={2}>
+            <Field
+              className='font-kanit'
+              component={TextField}
+              style={{ marginTop: 16 }}
+              name='burden'
+              id='burden'
+              type='number'
+              label='กว้าง (เมตร)'
+              fullWidth
+            />
+            <Field
+              className='font-kanit'
+              component={TextField}
+              style={{ marginTop: 16 }}
+              name='burden'
+              id='burden'
+              type='number'
+              label='ยาว (เมตร)'
+              fullWidth
+            />
+          </Stack>
+        </Box>
+        <FormControl style={{ marginTop: 16 }}>
+          <FormLabel id="demo-form-control-label-placement" className='text-md'>เครนบนเรือ</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-form-control-label-placement"
+            name="position"
+            defaultValue="top"
+          >
+            <FormControlLabel value="has" control={<Radio />} label="มี" />
+            <FormControlLabel value="no" control={<Radio />} label="ไม่มี" />
+          </RadioGroup>
+        </FormControl>
         <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
           <Button
             fullWidth
@@ -119,8 +179,8 @@ export default function CarrierCreatePage({ }: Props) {
       <Box className="flex justify-center items-center">
         <Card>
           <CardContent>
-            <Box className='flex justify-between'>
-              <Typography component="h1" variant="h5" className='font-kanit'>
+            <Box className='flex justify-center'>
+              <Typography component="h1" variant="h5" className='flex justify-center font-kanit'>
                 เพิ่มเรือ
               </Typography>
             </Box>
