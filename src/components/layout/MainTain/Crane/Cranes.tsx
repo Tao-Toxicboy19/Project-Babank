@@ -19,8 +19,8 @@ export default function Cranes() {
         <TableContainer component={Paper}>
             <Box className="justify-between flex m-5">
                 <Box className="flex items-center">
-                    <Typography className="text-xl font-kanit">
-                        ข้อมูลซ่อมบำรุงทุ่น
+                    <Typography className="text-xl font-kanit font-medium">
+                        ข้อมูลซ่อมบำรุงเครน
                     </Typography>
                 </Box>
                 <Box className='flex justify-end'>
@@ -42,35 +42,19 @@ export default function Cranes() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell
-                            className='font-kanit text-lg'
-                        >
-                            ชื่อเครน
-                        </TableCell>
-                        <TableCell
-                            align="right"
-                            className='font-kanit text-lg'
-                        >
-                            รายละเอียด
-                        </TableCell>
-                        <TableCell
-                            align="right"
-                            className='font-kanit text-lg'
-                        >
-                            เวลาหยุดทำงาน
-                        </TableCell>
-                        <TableCell
-                            align="right"
-                            className='font-kanit text-lg'
-                        >
-                            เวลาเริ่มทำงาน
-                        </TableCell>
-                        <TableCell
-                            align="right"
-                            className='font-kanit text-lg'
-                        >
-                            action
-                        </TableCell>
+                        {["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "action"].map((title) => (
+                            <TableCell
+                                key={title}
+                                align={title === 'ชื่อเครน' ? 'left' : 'right'}
+                                className="font-kanit text-lg font-bold"
+                                sx={{
+                                    backgroundColor: 'background.paper',
+                                }}
+                            >
+                                {title}
+                            </TableCell>
+                        ))}
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -79,13 +63,35 @@ export default function Cranes() {
                             key={items.maintain_crane_id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row" className='font-kanit'>
+                            <TableCell
+                                component="th"
+                                scope="row"
+                                className='font-kanit text-md'
+                            >
                                 {items.crane.crane_name}
                             </TableCell>
-                            <TableCell align="right" className='font-kanit'>{items.desc}</TableCell>
-                            <TableCell align="right" className='font-kanit'>{items.downtime}</TableCell>
-                            <TableCell align="right" className='font-kanit'>{items.start_time}</TableCell>
-                            <TableCell align="right" className='font-kanit'>
+                            <TableCell
+                                align="right"
+                                className='font-kanit text-md'
+                            >
+                                {items.desc}
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                className='font-kanit text-md'
+                            >
+                                {items.downtime}
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                className='font-kanit text-md'
+                            >
+                                {items.start_time}
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                className='font-kanit text-md'
+                            >
                                 <Tooltip title="ลบ">
                                     <IconButton>
                                         <DeleteCrane id={items.maintain_crane_id} />

@@ -20,7 +20,7 @@ import CargoCraneDeletePage from '../../layout/CargoCreateLayout/Delete/CargoCra
 
 type Props = {}
 
-export default function App({ }: Props) {
+export default function CargocranePage({ }: Props) {
   const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
   const dispatch = useDispatch<any>();

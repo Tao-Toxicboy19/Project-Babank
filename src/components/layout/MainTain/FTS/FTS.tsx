@@ -17,11 +17,9 @@ export default function FTS({ }: Props) {
                     <TableCell
                         key={title}
                         align={title === 'ชื่อทุ่น' ? 'left' : 'right'}
-                        className="font-kanit"
+                        className="font-kanit text-lg font-bold"
                         sx={{
                             backgroundColor: 'background.paper',
-                            fontWeight: 'Bold',
-                            fontSize: 16
                         }}
                     >
                         {title}
@@ -68,31 +66,31 @@ export default function FTS({ }: Props) {
                             <TableCell
                                 component="th"
                                 scope="row"
-                                className='font-kanit'
+                                className='font-kanit text-md'
                             >
                                 {items.fts.FTS_name}
                             </TableCell>
                             <TableCell
                                 align="right"
-                                className='font-kanit'
+                                className='font-kanit text-md'
                             >
                                 {items.desc_FTS}
                             </TableCell>
                             <TableCell
                                 align="right"
-                                className='font-kanit'
+                                className='font-kanit text-md'
                             >
                                 {items.downtime_FTS}
                             </TableCell>
                             <TableCell
                                 align="right"
-                                className='font-kanit'
+                                className='font-kanit text-md'
                             >
                                 {items.start_time_FTS}
                             </TableCell>
                             <TableCell
                                 align="right"
-                                className='font-kanit'
+                                className='font-kanit text-md'
                             >
                                 <Tooltip title="ลบ">
                                     <IconButton>

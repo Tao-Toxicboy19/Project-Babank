@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom';
 import { LuFileEdit } from "react-icons/lu";
 import { FTSCrane } from '../../../types/FloatingCrane.type';
-import FTSDelete from '../../pages/FTSPage/FTSDelete/FTSDelete';
+import FTSDelete from '../../Pages/FTSPage/FTSDelete/FTSDelete';
 
 const TreeTableNode: React.FC<FTSCrane> = ({
     fts_id,
@@ -35,29 +35,29 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                     <Box className='flex justify-start items-center'>
                         {result && result.some(item => item.crane_name) ? (
                             <>
-                                <Typography className='font-kanit'>{FTS_name}</Typography>
+                                <Typography className='font-kanit text-md'>{FTS_name}</Typography>
                                 <IconButton onClick={toggleNode}>
                                     {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </>
                         ) : (
-                            <Typography className='flex items-center mt-3 font-kanit'>{FTS_name}</Typography>
+                            <Typography className='flex items-center mt-3 font-kanit text-md'>{FTS_name}</Typography>
                         )}
                     </Box>
                 </Grid>
-                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     {lat}
                 </Grid>
-                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     {lng}
                 </Grid>
-                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     {setuptime_FTS}
                 </Grid>
-                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     {speed}
                 </Grid>
-                <Grid item xs={2} className='font-kanit' sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     <Box className='flex justify-end'>
                         <Tooltip title="แก้ไข">
                             <IconButton component={Link} to={`/transferstation/edit/${fts_id}`}>
