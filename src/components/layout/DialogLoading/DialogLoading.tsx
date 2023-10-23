@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
-import { TextField } from '@mui/material';
+import { Stack, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ManagePlans } from '../../../store/slices/managePlansSlice';
 import { RootState } from '../../../store/store';
@@ -29,17 +29,19 @@ export default function DialogLoading() {
                     dispatch(ManagePlans(data));
                 })}
             >
-                <TextField
-                    type='datetime-local'
-                    fullWidth
-                    {...register('date')}
-                />
-                <TextField
-                    type='number'
-                    label='เวลาประมวณผล (นาที)'
-                    fullWidth
-                    {...register('computetime')}
-                />
+                <Stack direction='row' spacing={2}>
+                    <TextField
+                        type='datetime-local'
+                        fullWidth
+                        {...register('date')}
+                    />
+                    <TextField
+                        type='number'
+                        label='เวลาประมวณผล (นาที)'
+                        fullWidth
+                        {...register('computetime')}
+                    />
+                </Stack>
                 {ManagePlansReducer.loading ? (
                     <LoadingButton
                         loading

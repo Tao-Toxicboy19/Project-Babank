@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Card, CardContent, FormControl, MenuItem, Select, Stack } from '@mui/material';
+import { Card, CardContent, Stack } from '@mui/material';
 import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
 import RouteLayout from '../../layout/RouteLayout/RouteLayout';
 import FTSsingle from '../../layout/FTSsingle/FTSsingle';
@@ -47,8 +47,8 @@ function a11yProps(index: number) {
 
 export default function SummarizePage() {
     const [value, setValue] = React.useState(0);
-    const currentYear = new Date().getFullYear();
-    const [selectedYear, setSelectedYear] = React.useState(currentYear);
+    // const currentYear = new Date().getFullYear();
+    // const [selectedYear, setSelectedYear] = React.useState(currentYear);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
@@ -60,7 +60,7 @@ export default function SummarizePage() {
             <CardContent>
                 <Stack direction='row' spacing={2} className='max-w-[60%] my-3'>
                     <DialogLoading />
-                    <FormControl fullWidth className="bg-[#fff]">
+                    {/* <FormControl fullWidth className="bg-[#fff]">
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -70,7 +70,7 @@ export default function SummarizePage() {
                         >
                             <MenuItem value={currentYear} className="font-kanit">{currentYear}</MenuItem>
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
 
                 </Stack>
                 <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
