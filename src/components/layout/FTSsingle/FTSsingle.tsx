@@ -8,6 +8,8 @@ import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
 import { Card, Typography } from '@mui/material';
 import { BarCharts } from '../BarCharts/BarCharts';
+import { CardContent } from '@mui/material';
+import Tables from './Table/Tables';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,6 +51,7 @@ export default function FTSsingle() {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
+        console.log(newValue)
     };
 
     return (
@@ -128,10 +131,12 @@ export default function FTSsingle() {
                                     />
                                 </Box>
                             )}
-                            {/* <Card className="max-w-[350px] col-span-3">
-                                <DetailMenu FTSsolutionSlice={FTSsolutionSlice} value={value} />
-                            </Card> */}
-                            <Card className="col-span-10">
+                            <Card className="col-span-12">
+                                <CardContent>
+                                    <Tables Name={FTSsolutionSlice[value]?.fts.FTS_name} value={value} />
+                                </CardContent>
+                            </Card>
+                            <Card className="col-span-12">
                                 <BarCharts FTSsolutionSlice={FTSsolutionSlice} value={value} />
                             </Card>
                         </Box>

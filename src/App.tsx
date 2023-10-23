@@ -85,8 +85,8 @@ export default function ResponsiveDrawer() {
               <Route path="/summarize" element={< SummarizePage />} />
               <Route path="/report" element={< ReportPage />} />
               <Route path="/maintain/:id" element={< EditFTS />} />
-              <Route path="/transferstation/maintain/create" element={<CreateFTS/>} />
-              <Route path="/transferstation/maintain/crane/create" element={<CreateCrane/>} />
+              <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
+              <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
             <Route element={<PublicRoute />}>

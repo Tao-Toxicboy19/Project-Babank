@@ -62,6 +62,8 @@ export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 
 // export const apiUrl = "http://localhost:5018/api";
 export const apiUrlV2 = "http://crane.otpzlab.com:7070/api";
+export const apiManagePlans = "http://154.49.243.54:5011/route";
+
 
 export const server = {
     LOGIN_URL: `login`,
@@ -81,4 +83,5 @@ export const server = {
     REPORT_SOLUTION_CRANE_URL: `report_solution_crane`,
     MAINTAIN_CRAN_URL: `maintain_crane`,
     MAINTAIN_FTS_URL: `maintain_fts`,
+    CRANESOLUTIONTABLEV2_URL: `cranesolutiontableV2`,
 };

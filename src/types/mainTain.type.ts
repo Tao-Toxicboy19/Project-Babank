@@ -32,3 +32,39 @@ export interface Fts {
     setuptime_FTS: number;
     speed: number;
 }
+////////////////////////////////////////////////////
+
+export interface CarneSolutionV2 {
+    solution_id: number;
+    FTS_id: number;
+    crane_id: number;
+    total_cost: number;
+    total_consumption_cost: number;
+    total_wage_cost: number;
+    penality_cost: number;
+    total_reward: number;
+    total_late_time: number;
+    total_early_time: number;
+    total_operation_consumption_cost: number;
+    total_operation_time: number;
+    total_preparation_crane_time: number;
+    date: Date;
+    crane: CraneV2;
+    fts: FtsV2;
+}
+
+export interface CraneV2 {
+    id: number;
+    crane_name: string;
+    FTS_id: number;
+    setuptime_crane: number;
+}
+
+export interface FtsV2 {
+    id: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
+    setuptime_FTS: number;
+    speed: number;
+}

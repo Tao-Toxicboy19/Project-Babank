@@ -15,6 +15,7 @@ import { loadCrane } from "../../../store/slices/Cargo/crane.slice";
 import { loadCargoCrane } from "../../../store/slices/CargoCrane/cargocrane.slice";
 import { loadReport } from "../../../store/slices/report/reportSlice";
 import { loadReportCrane } from "../../../store/slices/report/reportCraneSlice";
+import { loadCarneSolutionV2 } from "../../../store/slices/Solution/craneSolutionV2Slice";
 
 type Props = {}
 
@@ -35,6 +36,7 @@ export default function HomePage({ }: Props) {
     dispatch(loadCargoCrane())
     dispatch(loadReport());
     dispatch(loadReportCrane());
+    dispatch(loadCarneSolutionV2());
   }, []);
 
   return (

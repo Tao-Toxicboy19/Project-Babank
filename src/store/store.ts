@@ -24,6 +24,8 @@ import reportReducer from './slices/report/reportSlice'
 import reportCraneReducer from './slices/report/reportCraneSlice'
 import mainTainReducer from './slices/MainTain/CraneSlice'
 import mainTainFTSReducer from './slices/MainTain/FTSSlice'
+import managePlansSlice from './slices/managePlansSlice'
+import CarneSolutionV2Slice from './slices/Solution/craneSolutionV2Slice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -55,6 +57,8 @@ export const store = configureStore({
     reportCraneReducer: reportCraneReducer,
     mainTainReducer: mainTainReducer,
     mainTainFTSReducer: mainTainFTSReducer,
+    manMgePlanReducer: managePlansSlice,
+    carneSolutionV2Reducer: CarneSolutionV2Slice,
   },
   middleware: middleware,
 });
