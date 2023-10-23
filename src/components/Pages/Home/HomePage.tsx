@@ -13,7 +13,8 @@ import { loadOrder } from "../../../store/slices/Order/order.slice";
 import Loading from "../../layout/Loading/Loading";
 import { loadCrane } from "../../../store/slices/Cargo/crane.slice";
 import { loadCargoCrane } from "../../../store/slices/CargoCrane/cargocrane.slice";
-import { loadReport } from "../../../store/slices/reportSlice";
+import { loadReport } from "../../../store/slices/report/reportSlice";
+import { loadReportCrane } from "../../../store/slices/report/reportCraneSlice";
 
 type Props = {}
 
@@ -33,6 +34,7 @@ export default function HomePage({ }: Props) {
     dispatch(loadCrane())
     dispatch(loadCargoCrane())
     dispatch(loadReport());
+    dispatch(loadReportCrane());
   }, []);
 
   return (

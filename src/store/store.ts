@@ -20,7 +20,8 @@ import craneEditSlice from './slices/Cargo/crane.edit.slice';
 import registerReducer from './slices/register.slice'
 import SolutionscheduleSlice from './slices/Solution/sollution_schedule.slice'
 import statusSlice from './slices/status.slice'
-import reportReducer from './slices/reportSlice'
+import reportReducer from './slices/report/reportSlice'
+import reportCraneReducer from './slices/report/reportCraneSlice'
 import mainTainReducer from './slices/MainTain/CraneSlice'
 import mainTainFTSReducer from './slices/MainTain/FTSSlice'
 
@@ -51,6 +52,7 @@ export const store = configureStore({
     login: loginReducer,
     register: registerReducer,
     reportReducer: reportReducer,
+    reportCraneReducer: reportCraneReducer,
     mainTainReducer: mainTainReducer,
     mainTainFTSReducer: mainTainFTSReducer,
   },

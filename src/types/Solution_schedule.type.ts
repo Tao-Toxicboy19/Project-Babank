@@ -66,7 +66,7 @@ export interface Solution {
     total_preparation_crane_time: number;
     date: Date;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////
 export interface report_solutionState {
     result: report_solutions[]
     loading: boolean
@@ -116,4 +116,55 @@ export enum Category {
     Export = "export",
     Import = "import",
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+export interface report_solution_craneState {
+    result: report_solution_crane[]
+    loading: boolean
+    error: string | null
+}
+
+export interface report_solution_crane {
+    solution_id: number;
+    carrier_id: number;
+    start_time: any;
+    due_time: any;
+    operation_time: number;
+    Setup_time: number;
+    travel_Distance: number;
+    travel_time: number;
+    operation_rate: number;
+    consumption_rate: number;
+    crane_id: any;
+    bulk: number;
+    load_cargo: number;
+    cargo_id: number;
+    cr_id: number;
+    carrier_name: string;
+    holder: string;
+    maxcapacity: number;
+    burden: number;
+    Width: number;
+    carrier_max_FTS: number;
+    carrier_max_crane: number;
+    length: number;
+    has_crane: HasCrane;
+    id: number;
+    crane_name: string;
+    FTS_id: number;
+    setuptime_crane: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
+    setuptime_FTS: number;
+    speed: number;
+    cargo_name: string;
+}
+
+export enum HasCrane {
+    Has = "has",
+    No = "no",
+}
+
 

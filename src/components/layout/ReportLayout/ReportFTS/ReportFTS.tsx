@@ -8,8 +8,8 @@ import Loading from "../../Loading/Loading";
 export default function ReportFTS() {
     const reportReducer = useSelector((state: RootState) => state.reportReducer);
     const FtsReducer = useSelector((state: RootState) => state.FTS.FTS)
-    const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [filteredData, setFilteredData] = useState<report_solutions[]>(reportReducer.result);
+    const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function ReportFTS() {
                         <CardContent>
                             <form className="max-w-xl flex gap-x-3 mb-3">
                                 <Box className='w-full'>
-                                    <label className="pr-5 font-kanit" htmlFor="FTS_name">เลือกเดือน</label>
+                                    <label className="pr-5 font-kanit text-lg" htmlFor="FTS_name">เลือกเดือน</label>
                                     <FormControl fullWidth className="bg-[#fff]">
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -53,7 +53,7 @@ export default function ReportFTS() {
                                     </FormControl>
                                 </Box>
                                 <Box className='w-full'>
-                                    <label className="pr-5 font-kanit" htmlFor="FTS_name">เลือกทุ่น</label>
+                                    <label className="pr-5 font-kanit text-lg" htmlFor="FTS_name">เลือกทุ่น</label>
                                     <FormControl fullWidth className="bg-[#fff] font-kanit">
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -74,41 +74,11 @@ export default function ReportFTS() {
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell
-                                                className="font-kanit"
-                                            >
-                                                ชื่อทุ่น
-                                            </TableCell>
-                                            <TableCell
-                                                className="font-kanit"
-                                                align="right"
-                                            >
-                                                ชื่อเรือ
-                                            </TableCell>
-                                            <TableCell
-                                                className="font-kanit"
-                                                align="right"
-                                            >
-                                                วัน-เวลา มาถึง
-                                            </TableCell>
-                                            <TableCell
-                                                className="font-kanit"
-                                                align="right"
-                                            >
-                                                วัน-เวลา สิ้นสุด
-                                            </TableCell>
-                                            <TableCell
-                                                className="font-kanit"
-                                                align="right"
-                                            >
-                                                ปริมาณสินค้า (ตัน)
-                                            </TableCell>
-                                            <TableCell
-                                                className="font-kanit"
-                                                align="right"
-                                            >
-                                                ประเภทสินค้า
-                                            </TableCell>
+                                            {["ชื่อทุ่น", "ชื่อเรือ", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"].map((items) => (
+                                                <TableCell key={items} className="font-kanit text-lg font-semibold" align={items === "ชื่อทุ่น" ? "left" : "right"}>
+                                                    {items}
+                                                </TableCell>
+                                            ))}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -118,12 +88,12 @@ export default function ReportFTS() {
                                                 if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
                                                     return (
                                                         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                            <TableCell className="font-kanit">{item.FTS_name}</TableCell>
-                                                            <TableCell className="font-kanit">{item.carrier_name}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.arrival_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.deadline_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.load}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.cargo_name}</TableCell>
+                                                            <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                         </TableRow>
                                                     );
                                                 }
@@ -135,12 +105,12 @@ export default function ReportFTS() {
                                                 if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
                                                     return (
                                                         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                            <TableCell className="font-kanit">{item.FTS_name}</TableCell>
-                                                            <TableCell className="font-kanit">{item.carrier_name}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.arrival_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.deadline_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.load}</TableCell>
-                                                            <TableCell align="right" className="font-kanit">{item.cargo_name}</TableCell>
+                                                            <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
+                                                            <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                         </TableRow>
                                                     );
                                                 }

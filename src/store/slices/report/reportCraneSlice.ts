@@ -1,17 +1,17 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
-import { server } from "../../Constants";
-import { report_solutionState, report_solutions } from "../../types/Solution_schedule.type";
+import { RootState } from "../../store";
+import { server } from "../../../Constants";
+import { report_solution_crane, report_solution_craneState } from "../../../types/Solution_schedule.type";
 
-const initialState: report_solutionState = {
+const initialState: report_solution_craneState = {
     result: [],
     loading: false,
     error: null
 }
 
-const reportSlice = createSlice({
-    name: 'report',
+const reportCraneSlice = createSlice({
+    name: 'reportCrane',
     initialState,
     reducers: {
         setreportStart: (state) => {
@@ -19,7 +19,7 @@ const reportSlice = createSlice({
             state.loading = true
             state.error = null
         },
-        setreportSuccess: (state, action: PayloadAction<report_solutions[]>) => {
+        setreportSuccess: (state, action: PayloadAction<report_solution_crane[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = null
@@ -31,13 +31,13 @@ const reportSlice = createSlice({
         }
     }
 })
-export const { setreportStart, setreportSuccess, setreportFailure } = reportSlice.actions
-export default reportSlice.reducer
+export const { setreportStart, setreportSuccess, setreportFailure } = reportCraneSlice.actions
+export default reportCraneSlice.reducer
 
-export const loadReport = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const loadReportCrane = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setreportStart())
-        const result = await axios.get<report_solutions[]>(server.REPORT_SOLUTION_URL)
+        const result = await axios.get<report_solution_crane[]>(server.REPORT_SOLUTION_CRANE_URL)
         dispatch(setreportSuccess(result.data))
     }
     catch (error) {

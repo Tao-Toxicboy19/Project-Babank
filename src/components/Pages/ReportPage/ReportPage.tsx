@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ReportFTS from '../../layout/ReportLayout/ReportFTS/ReportFTS';
 import { Card, CardContent } from '@mui/material';
+import ReportCrane from '../../layout/ReportLayout/ReportCrane/ReportCrane';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -58,16 +59,16 @@ export default function ReportPage() {
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>
-                        <Typography variant='h5' component='h1' className='flex justify-center'>
+                        <Typography variant='h5' component='h1' className='flex justify-center font-kanit text-[#435b7e] font-bold'>
                             รายงานทุ่น
                         </Typography>
                         <ReportFTS />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
-                        Item Two
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={2}>
-                        Item Three
+                        <Typography variant='h5' component='h1' className='flex justify-center font-kanit text-[#435b7e] font-bold'>
+                            รายงานเครน
+                        </Typography>
+                        <ReportCrane />
                     </CustomTabPanel>
                 </Box>
             </CardContent>
