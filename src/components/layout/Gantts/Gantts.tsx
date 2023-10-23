@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { Card, CardContent } from "@mui/material";
-import { Gantt, Task } from "gantt-task-react";
+import { Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 
 export default function Gantts() {
@@ -10,7 +10,12 @@ export default function Gantts() {
   );
 
 
-  const tasks: Task[] = SolutionscheduleReducer.map((items) => {
+
+  const filteredSolutionschedule = SolutionscheduleReducer.filter((item) => {
+    return item.operation_time !== null;
+  });
+
+  const tasks: Task[] = filteredSolutionschedule.map((items) => {
     const arrivalTime = new Date(items.arrivaltime);
     const exitTime = new Date(items.exittime);
 
@@ -25,18 +30,17 @@ export default function Gantts() {
     };
   });
 
-
   return (
     <>
       <Card>
         <CardContent>
           <Gantt
-            // viewMode={ViewMode.Month}
-            // listCellWidth=""
+            viewMode={ViewMode.Week}
+            listCellWidth=""
             tasks={tasks}
             headerHeight={50}
             rowHeight={50}
-            columnWidth={70}
+            columnWidth={103}
             barCornerRadius={1}
             handleWidth={10}
             fontFamily="kanit"
