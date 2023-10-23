@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { Box, Card, CardContent, FormControl, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useState, } from "react";
-import { useForm } from 'react-hook-form';
+import { useEffect, useState, } from "react";
 import { RootState } from "../../../../store/store";
 import { report_solutions } from "../../../../types/Solution_schedule.type";
 import Loading from "../../Loading/Loading";
@@ -9,23 +8,14 @@ import Loading from "../../Loading/Loading";
 export default function ReportFTS() {
     const reportReducer = useSelector((state: RootState) => state.reportReducer);
     const FtsReducer = useSelector((state: RootState) => state.FTS.FTS)
+    const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [filteredData, setFilteredData] = useState<report_solutions[]>(reportReducer.result);
-    const [selectedFts, setSelectedFts] = useState("all"); // เพิ่ม state สำหรับทุ่น
-    const [selectedMonth] = useState("01"); // เพิ่ม state สำหรับเดือน
+    const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
 
-    const {
-        register,
-        setValue,
-    } = useForm();
-
-    const filterDataBySelectedMonth = (data: report_solutions[], selectedMonth: string, selectedFts: string) => {
-        const currentYear = new Date().getFullYear().toString();
-        return data.filter((item: any) => {
-            const matchesMonth = item.exittime.startsWith(`${currentYear}-${selectedMonth}`);
-            const matchesFts = selectedFts === 'all' || item.FTS_id === selectedFts;
-            return matchesMonth && matchesFts;
-        });
-    };
+    useEffect(() => {
+        const filteredData = reportReducer.result.filter((item: any) => item.FTS_id === selectedFtsId);
+        setFilteredData(filteredData);
+    }, [selectedFtsId, reportReducer.result]);
 
     return (
         <>
@@ -43,25 +33,22 @@ export default function ReportFTS() {
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                             className="font-kanit"
-                                            {...register('date')}
-                                            onChange={(e) => {
-                                                const selectedMonth: any = e.target.value;
-                                                setValue('date', selectedMonth);
-                                                setFilteredData(filterDataBySelectedMonth(reportReducer.result, selectedMonth, selectedFts));
-                                            }}
+                                            value={selectedMonth}
+                                            onChange={(e) => setSelectedMonth(e.target.value)}
                                         >
-                                            <MenuItem value="01" className="font-kanit">มกราคม</MenuItem>
-                                            <MenuItem value="02" className="font-kanit">กุมภาพันธ์</MenuItem>
-                                            <MenuItem value="03" className="font-kanit">มีนาคม</MenuItem>
-                                            <MenuItem value="04" className="font-kanit">เมษายน</MenuItem>
-                                            <MenuItem value="05" className="font-kanit">พฤษภาคม</MenuItem>
-                                            <MenuItem value="06" className="font-kanit">มิถุนายน</MenuItem>
-                                            <MenuItem value="07" className="font-kanit">กรกฎาคม</MenuItem>
-                                            <MenuItem value="08" className="font-kanit">สิงหาคม</MenuItem>
-                                            <MenuItem value="09" className="font-kanit">กันยายน</MenuItem>
-                                            <MenuItem value="10" className="font-kanit">ตุลาคม</MenuItem>
-                                            <MenuItem value="11" className="font-kanit">พฤศจิกายน</MenuItem>
-                                            <MenuItem value="12" className="font-kanit">ธันวาคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="ทุกเดือน">ทุกเดือน</MenuItem>
+                                            <MenuItem className="font-kanit" value="0">มกราคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="1">กุมภาพันธ์</MenuItem>
+                                            <MenuItem className="font-kanit" value="3">มีนาคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="4">เมษายน</MenuItem>
+                                            <MenuItem className="font-kanit" value="5">พฤษภาคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="6">มิถุนายน</MenuItem>
+                                            <MenuItem className="font-kanit" value="7">กรกฎาคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="8">สิงหาคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="9">กันยายน</MenuItem>
+                                            <MenuItem className="font-kanit" value="10">ตุลาคม</MenuItem>
+                                            <MenuItem className="font-kanit" value="11">พฤศจิกายน</MenuItem>
+                                            <MenuItem className="font-kanit" value="12">ธันวาคม</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Box>
@@ -72,12 +59,10 @@ export default function ReportFTS() {
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                             className="font-kanit"
-                                            onChange={(e) => {
-                                                const selectedFts: any = e.target.value;
-                                                setSelectedFts(selectedFts);
-                                                setFilteredData(filterDataBySelectedMonth(reportReducer.result, selectedMonth, selectedFts));
-                                            }}
+                                            value={selectedFtsId}
+                                            onChange={(e) => setSelectedFtsId(e.target.value)}
                                         >
+                                            <MenuItem className="font-kanit" value="ทั้งหมด">ทั้งหมด</MenuItem>
                                             {FtsReducer.map((items) => (
                                                 <MenuItem className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
                                             ))}
@@ -93,6 +78,12 @@ export default function ReportFTS() {
                                                 className="font-kanit"
                                             >
                                                 ชื่อทุ่น
+                                            </TableCell>
+                                            <TableCell
+                                                className="font-kanit"
+                                                align="right"
+                                            >
+                                                ชื่อเรือ
                                             </TableCell>
                                             <TableCell
                                                 className="font-kanit"
@@ -121,38 +112,41 @@ export default function ReportFTS() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {filteredData.map((item, index) => (
-                                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                <TableCell
-                                                    className="font-kanit">
-                                                    {item.carrier_name}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="right"
-                                                    className="font-kanit"
-                                                >
-                                                    {item.arrival_time}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="right"
-                                                    className="font-kanit"
-                                                >
-                                                    {item.deadline_time}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="right"
-                                                    className="font-kanit"
-                                                >
-                                                    {item.load}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="right"
-                                                    className="font-kanit"
-                                                >
-                                                    {item.cargo_name}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
+                                        {selectedFtsId === "ทั้งหมด" ? (
+                                            reportReducer.result.map((item, index) => {
+                                                const itemMonth = new Date(item.deadline_time).getMonth();
+                                                if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
+                                                    return (
+                                                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                            <TableCell className="font-kanit">{item.FTS_name}</TableCell>
+                                                            <TableCell className="font-kanit">{item.carrier_name}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.arrival_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.deadline_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.load}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.cargo_name}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                }
+                                                return null;
+                                            })
+                                        ) : (
+                                            filteredData.map((item, index) => {
+                                                const itemMonth = new Date(item.deadline_time).getMonth();
+                                                if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
+                                                    return (
+                                                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                            <TableCell className="font-kanit">{item.FTS_name}</TableCell>
+                                                            <TableCell className="font-kanit">{item.carrier_name}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.arrival_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.deadline_time}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.load}</TableCell>
+                                                            <TableCell align="right" className="font-kanit">{item.cargo_name}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                }
+                                                return null;
+                                            })
+                                        )}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
