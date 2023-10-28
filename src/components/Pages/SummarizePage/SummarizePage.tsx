@@ -7,8 +7,9 @@ import { Card, CardContent, Stack } from '@mui/material';
 import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
 import RouteLayout from '../../layout/RouteLayout/RouteLayout';
 import FTSsingle from '../../layout/FTSsingle/FTSsingle';
-import Gantts from '../../layout/Gantts/Gantts';
 import DialogLoading from '../../layout/DialogLoading/DialogLoading';
+import FTSGantts from '../../layout/Gantts/FTS/FTSGantts';
+import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -84,6 +85,7 @@ export default function SummarizePage() {
                                 <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
                                 <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(2)} />
                                 <Tab label="สรุปเเผนการจัดตารางเวลา" className="font-kanit" {...a11yProps(3)} />
+                                <Tab label="สรุปเเผนการจัดตารางเวลา" className="font-kanit" {...a11yProps(4)} />
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -96,7 +98,14 @@ export default function SummarizePage() {
                             <RouteLayout />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
-                            <Gantts />
+                            <Box>
+                                <FTSGantts />
+                            </Box>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={4}>
+                            <Box>
+                                <CraneGantts />
+                            </Box>
                         </CustomTabPanel>
                     </Box>
                 </Card>
