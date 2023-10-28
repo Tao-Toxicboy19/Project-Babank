@@ -47,6 +47,7 @@ export const loadFTS = (): ThunkAction<void, RootState, unknown, any> => async (
     try {
         dispatch(setFTSState())
         const result = await httpClient.get(server.FLOATING)
+        console.log(result.data+'hello world')
         dispatch(setFTSSuccess(result.data))
     }
     catch (error) {

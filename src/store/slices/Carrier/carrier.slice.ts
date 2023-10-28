@@ -50,7 +50,7 @@ export const loadCarrier = (): ThunkAction<void, RootState, unknown, any> => asy
     }
 }
 
-export const addCarrier = (formData: FormData, navigate: any) => {
+export const addCarrier = (formData: any, navigate: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.post(server.CARRIER, formData);

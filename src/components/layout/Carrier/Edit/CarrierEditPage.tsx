@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CardContent, Stack, Button, TextField, Card } from '@mui/material';
+import { CardContent, Stack, Button, TextField, Card, FormControlLabel, FormControl, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { Carrier } from '../../../../types/Carrier.type';
 import { server } from '../../../../Constants';
 import { updateCarrier } from '../../../../store/slices/Carrier/carrier.edit.slice';
+import { httpClient } from '../../../../utils/httpclient';
 
 type Props = {};
 
@@ -19,7 +19,7 @@ export default function CarrierEditPage({ }: Props) {
     useEffect(() => {
         const fetchFTSData = async () => {
             try {
-                const response = await axios.get(`${server.CARRIER}/${id}`);
+                const response = await httpClient.get(`${server.CARRIER}/${id}`);
                 setCarrierData(response.data);
             } catch (error) {
                 console.error('เกิดข้อผิดพลาดในการดึงข้อมูล FTS:', error);
@@ -28,18 +28,21 @@ export default function CarrierEditPage({ }: Props) {
         fetchFTSData();
     }, []);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: any) => {
         const { name, value } = event.target;
+        const numericValue = parseFloat(value);
 
-        setCarrierData((prevFTSData: any) => ({
-            ...prevFTSData,
-            [name]: value,
+        setCarrierData((prevCraneData: any) => ({
+            ...prevCraneData!,
+            [name]: numericValue,
         }));
     };
+
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
+            console.log(CarrierData)
             await dispatch(updateCarrier(id, CarrierData, navigate))
             setIsSubmitting(false);
         } catch (error) {
@@ -50,7 +53,7 @@ export default function CarrierEditPage({ }: Props) {
 
     return (
         <Card className="w-[750px] mx-auto">
-            <CardContent className="m-8">
+            <CardContent className="m-5">
                 <form onSubmit={handleSubmit}>
                     <Stack direction='column' spacing={1}>
                         <label className="pr-5 font-kanit" htmlFor="carrier_name">ชื่อเรือ:</label>
@@ -96,6 +99,63 @@ export default function CarrierEditPage({ }: Props) {
                             onChange={handleInputChange}
                             fullWidth
                         />
+                        <label className="pr-5 font-kanit" htmlFor="carrier_max_FTS">จำนวนทุ่นเข้าได้สูงสุด:</label>
+                        <TextField
+                            variant="outlined"
+                            type="number"
+                            id="carrier_max_FTS"
+                            name="carrier_max_FTS"
+                            value={CarrierData?.carrier_max_FTS}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
+                        <label className="pr-5 font-kanit" htmlFor="carrier_max_crane">จำนวนเครนเข้าได้สูงสุด:</label>
+                        <TextField
+                            variant="outlined"
+                            type="number"
+                            id="carrier_max_crane"
+                            name="carrier_max_crane"
+                            value={CarrierData?.carrier_max_crane}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
+                        <label className="pr-5 font-kanit" htmlFor="Width">กว้าง (เมตร):</label>
+                        <TextField
+                            variant="outlined"
+                            type="number"
+                            id="Width"
+                            name="Width"
+                            value={CarrierData?.Width}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
+                        <label className="pr-5 font-kanit" htmlFor="length">ยาว (เมตร):</label>
+                        <TextField
+                            variant="outlined"
+                            type="number"
+                            id="length"
+                            name="length"
+                            value={CarrierData?.length}
+                            onChange={handleInputChange}
+                            fullWidth
+                        />
+
+                        <FormControl style={{ marginTop: 16 }}>
+                            <FormLabel id="demo-form-control-label-placement" className='text-md'>เครนบนเรือ</FormLabel>
+                            <RadioGroup
+                                row
+                                name="has_crane"
+                                aria-labelledby="demo-form-control-label-placement"
+                                value={CarrierData?.has_crane} // กำหนดค่าเริ่มต้นจากค่าใน CarrierData
+                                onChange={handleInputChange} // เมื่อผู้ใช้เลือกรายการใน RadioGroup
+                            >
+                                <FormControlLabel value="has" control={<Radio />} label="มี" />
+                                <FormControlLabel value="no" control={<Radio />} label="ไม่มี" />
+                            </RadioGroup>
+                        </FormControl>
+
+
+
                     </Stack>
                     <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
                         <Button

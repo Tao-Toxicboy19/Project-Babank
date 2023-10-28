@@ -44,8 +44,6 @@ function a11yProps(index: number) {
     };
 }
 
-
-
 export default function SummarizePage() {
     const [value, setValue] = React.useState(0);
     // const currentYear = new Date().getFullYear();
@@ -84,8 +82,8 @@ export default function SummarizePage() {
                                 <Tab label="สรุปภาพรวมต้นทุน" className="font-kanit" {...a11yProps(0)} />
                                 <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
                                 <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(2)} />
-                                <Tab label="สรุปเเผนการจัดตารางเวลา" className="font-kanit" {...a11yProps(3)} />
-                                <Tab label="สรุปเเผนการจัดตารางเวลา" className="font-kanit" {...a11yProps(4)} />
+                                <Tab label="สรุปตารางเวลาเเบบทุ่น" className="font-kanit" {...a11yProps(3)} />
+                                <Tab label="สรุปตารางเวลาเเบบเรือสินค้า" className="font-kanit" {...a11yProps(4)} />
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
