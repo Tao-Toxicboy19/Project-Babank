@@ -4,8 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Link } from 'react-router-dom';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 
 type Props = {}
@@ -89,7 +88,7 @@ export default function CarrierPage({ }: Props) {
               }}
               className='text-blue-900'
             >
-              <KeyboardArrowRightIcon sx={{ fontSize: 40, marginTop: 1 }} />
+              <MoreHorizIcon sx={{ fontSize: 40, marginTop: 1 }} />
               เรือสินค้า
             </Typography>
             <hr />
@@ -117,8 +116,6 @@ export default function CarrierPage({ }: Props) {
                 />
               </Tooltip>
               <Button
-                component={Link}
-                to={'/carrier/create'}
                 variant="contained"
                 className='w-[60%] bg-blue-600 hover:bg-blue-800'
                 startIcon={<AddIcon />}

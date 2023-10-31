@@ -61,7 +61,7 @@ export default function ResponsiveDrawer() {
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Box sx={{ marginTop: 8 }}>
+        <Box sx={{ marginTop:6 }}>
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<HomePage />} />

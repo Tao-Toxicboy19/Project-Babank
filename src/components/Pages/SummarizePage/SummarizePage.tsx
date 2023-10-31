@@ -46,8 +46,6 @@ function a11yProps(index: number) {
 
 export default function SummarizePage() {
     const [value, setValue] = React.useState(0);
-    // const currentYear = new Date().getFullYear();
-    // const [selectedYear, setSelectedYear] = React.useState(currentYear);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
@@ -59,18 +57,6 @@ export default function SummarizePage() {
             <CardContent>
                 <Stack direction='row' spacing={2} className='max-w-[60%] my-3'>
                     <DialogLoading />
-                    {/* <FormControl fullWidth className="bg-[#fff]">
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            className="font-kanit"
-                            value={selectedYear}
-                            onChange={(e: any) => setSelectedYear(e.target.value)}
-                        >
-                            <MenuItem value={currentYear} className="font-kanit">{currentYear}</MenuItem>
-                        </Select>
-                    </FormControl> */}
-
                 </Stack>
                 <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
                     <Box sx={{ width: '100%' }}>

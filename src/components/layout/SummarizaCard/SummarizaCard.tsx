@@ -2,7 +2,7 @@ import { Box, Card, Typography } from "@mui/material"
 
 type Props = {
     title: string
-    price: number
+    price: any
     icon: any
     unit: string
     color: string

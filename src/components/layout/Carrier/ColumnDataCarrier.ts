@@ -15,7 +15,7 @@ export const columns: ColumnsCarrier[] = [
     },
     {
         width: 150,
-        label: 'ความจุสูงสุด (ตัน)	',
+        label: 'ความจุสูงสุด (ตัน)',
         dataKey: 'maxcapacity',
         numeric: true,
     },

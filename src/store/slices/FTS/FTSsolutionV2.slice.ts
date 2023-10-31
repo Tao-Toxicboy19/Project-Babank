@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { FTS_Solution, FTS_SolutionState } from "../../../types/FTS_solution.type";
+import { httpClient } from "../../../utils/httpclient";
 
 const initialState: FTS_SolutionState = {
     result: {
@@ -20,7 +20,7 @@ const FtsSolutionV2Slice = createSlice({
     name: 'FtsSolutionV2',
     initialState,
     reducers: {
-        setCraneSolutionState: (state) => {
+        setCraneSolutionState: (state: FTS_SolutionState) => {
             state.result = {
                 solution_id: 0,
                 FTS_id: 0,
@@ -31,12 +31,12 @@ const FtsSolutionV2Slice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        setCraneSolutionSuccess: (state, action: PayloadAction<FTS_Solution>) => {
+        setCraneSolutionSuccess: (state: FTS_SolutionState, action: PayloadAction<FTS_Solution>) => {
             state.result = action.payload;
             state.loading = false;
             state.error = null;
         },
-        setCraneSolutionFailure: (state, action: PayloadAction<string>) => {
+        setCraneSolutionFailure: (state: FTS_SolutionState, action: PayloadAction<string>) => {
             state.result = {
                 solution_id: 0,
                 FTS_id: 0,
@@ -56,7 +56,7 @@ export default FtsSolutionV2Slice.reducer
 export const loadFtsSolutionV2 = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setCraneSolutionState())
-        const result = await axios.get(server.FTSSOLUTION)
+        const result = await httpClient.get<FTS_Solution>(server.FTSSOLUTION)
         dispatch(setCraneSolutionSuccess(result.data))
     }
     catch (error) {

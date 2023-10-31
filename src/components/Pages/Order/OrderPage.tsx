@@ -17,20 +17,6 @@ type Props = {}
 export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
-  // const [filteredDataV2, setFilteredDataV2] = useState<Orders[]>(OrderReducer.orders);
-
-  // const {
-  //   register,
-  //   setValue,
-  // } = useForm();
-
-  // const filterDataBySelectedMonth = (data: Orders[], selectedMonth: string) => {
-  //   const currentYear = new Date().getFullYear().toString();
-  //   return data.filter((item: Orders) => {
-  //     const matchesMonth = item.arrival_time.startsWith(`${currentYear}-${selectedMonth}`);
-  //     return matchesMonth;
-  //   });
-  // };
 
   const filteredData = OrderReducer.orders.filter((order) =>
     order.cargo_order.some((cargoOrder) =>

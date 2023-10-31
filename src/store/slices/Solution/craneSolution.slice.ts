@@ -1,8 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { Crane_Solution, Crane_SolutionState } from "../../../types/craneSolution.type";
+import { httpClient } from "../../../utils/httpclient";
 
 const initialState: Crane_SolutionState = {
     result: {
@@ -78,9 +78,8 @@ export default CraneSolutionSlice.reducer
 export const loadCraneSolution = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setCraneSolutionState())
-        const result = await axios.get(server.CRANESOLUTION)
+        const result = await httpClient.get(server.CRANESOLUTION)
         dispatch(setCraneSolutionSuccess(result.data))
-        console.log(result.data)
     }
     catch (error) {
         dispatch(setCraneSolutionFailure("Failed to fetch floating data"))

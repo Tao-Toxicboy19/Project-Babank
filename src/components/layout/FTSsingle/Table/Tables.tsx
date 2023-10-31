@@ -61,32 +61,32 @@ export default function Tables({ Name }: Props) {
                             align="center"
                             className='font-kanit text-lg'
                         >
-                            {items.total_cost}
+                            {items.total_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </TableCell>
 
                         <TableCell
                             align="center"
                             className='font-kanit text-lg'
                         >
-                            {items.total_consumption_cost}
+                            {items.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </TableCell>
                         <TableCell
                             align="center"
                             className='font-kanit text-lg'
                         >
-                            {items.total_wage_cost}
+                            {items.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </TableCell>
                         <TableCell
                             align="center"
                             className='font-kanit text-lg'
                         >
-                            {items.penality_cost}
+                            {items.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </TableCell>
                         <TableCell
                             align="center"
                             className='font-kanit text-lg'
                         >
-                            {items.total_reward}
+                            {items.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')    }
                         </TableCell>
 
                     </TableBody>

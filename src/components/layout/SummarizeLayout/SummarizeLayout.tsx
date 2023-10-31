@@ -19,14 +19,13 @@ export default function SummarizeLayout() {
     const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution);
     const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2);
 
-
     const isLoading = CraneSolutionSlice.loading || FtsSolutionV2Slice.loading;
 
     useEffect(() => {
         dispatch(loadCraneSolution())
-        dispatch(loadFtsSolutionV2())
         dispatch(loadSolution())
         dispatch(loadFTSsolution())
+        dispatch(loadFtsSolutionV2())
     }, []);
 
     return (
@@ -57,35 +56,35 @@ export default function SummarizeLayout() {
                                 </Box>
                                 <SummarizaCard
                                     title={'ต้นทุน'}
-                                    price={(CraneSolutionSlice.result)?.total_cost}
+                                    price={(CraneSolutionSlice.result)?.total_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'ค่าเชื้อเพลิง'}
-                                    price={(CraneSolutionSlice.result)?.total_consumption_cost}
+                                    price={(CraneSolutionSlice.result)?.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'ค่าแรง'}
-                                    price={(CraneSolutionSlice.result)?.total_wage_cost}
+                                    price={(CraneSolutionSlice.result)?.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'ค่าปรับล่าช้า'}
-                                    price={(CraneSolutionSlice.result)?.penality_cost}
+                                    price={(CraneSolutionSlice.result)?.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'รางวัล'}
-                                    price={(CraneSolutionSlice.result)?.total_reward}
+                                    price={(CraneSolutionSlice.result)?.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'

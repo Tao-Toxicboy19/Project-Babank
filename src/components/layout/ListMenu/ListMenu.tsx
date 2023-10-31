@@ -2,7 +2,7 @@ import { Typography } from '@mui/material'
 
 type Props = {
     title: string
-    price: number
+    price: any
     unit: string
 }
 

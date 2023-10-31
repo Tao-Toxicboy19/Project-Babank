@@ -96,35 +96,35 @@ export default function FTSsingle() {
                                 <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
                                     <SummarizaCard
                                         title={'ต้นรวมทุน'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_cost, 0)}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าเชื้อเพลิงรวม'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0)}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าแรง'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0)}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'ค่าปรับล่าช้า'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.penality_cost, 0)}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.penality_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
                                     />
                                     <SummarizaCard
                                         title={'รางวัล'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_reward, 0)}
+                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_reward, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
                                         color='bg-[#00a6fb]/50'
