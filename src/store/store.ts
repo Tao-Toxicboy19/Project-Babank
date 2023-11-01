@@ -6,7 +6,7 @@ import orderReducer from './slices/Order/order.slice';
 import cargoReducer from './slices/Cargo/cargo.slice';
 import cargoCraneReducer from './slices/CargoCrane/cargocrane.slice';
 import carrierReducer from './slices/Carrier/carrier.slice';
-import carrierEditReducer from './slices/Carrier/carrier.slice';
+import carrierEditReducer from './slices/Carrier/carrier.edit.slice';
 import cargoCraneEditReducer from './slices/CargoCrane/cargocrane.edit.slice'
 import loginReducer from './slices/login.slice'
 import FTSCraneSlice from './slices/FTS/FTS.slice';

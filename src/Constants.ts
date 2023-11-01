@@ -55,6 +55,8 @@ export const titleTreeTable = [
     'รางวัลรวม',
 ]
 
+export const TitleCarrier = ["ชื่อเรือ", "ชื่อบริษัท", "ความจุสูงสุด (ตัน)", "จำนวนระวาง", "จำนวนทุ่นเข้าได้สูงสุด", "จำนวนเครนเข้าได้สูงสุด", "กว้าง", "ยาว", "เครน", "#"]
+
 export const NETWORK_CONNECTION_MESSAGE =
     "Cannot connect to server, Please try again.";
 

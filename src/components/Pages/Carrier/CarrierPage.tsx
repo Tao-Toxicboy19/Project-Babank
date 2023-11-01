@@ -1,39 +1,22 @@
-import Search from '@mui/icons-material/Search'
-import { Box, Button, Card, CardContent, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, IconButton, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
-
+import Loading from '../../layout/Loading/Loading';
+import Titles from '../../layout/Titles/Titles';
+import { LuFileEdit } from 'react-icons/lu';
+import CarrierDeletePage from '../../layout/Carrier/Delete/CarrierDeletePage';
+import SearchTerms from '../../layout/SearchTerms/SearchTerms';
+import TableTitles from '../../layout/TableTitles/TableTitles';
+import { TitleCarrier } from '../../../Constants';
 
 type Props = {}
 
-const showThead = () => {
-  return (
-    <TableRow>
-      {["ชื่อเรือ", "ชื่อบริษัท", "ความจุสูงสุด (ตัน)", "จำนวนระวาง", "จำนวนทุ่นเข้าได้สูงสุด", "จำนวนเครนเข้าได้สูงสุด", "กว้าง", "ยาว", "เครน", ""].map((title) => (
-        <TableCell
-          key={title}
-          align={title === 'ชื่อเรือ' ? 'left' : 'center'}
-          className="font-kanit text-blue-900"
-          sx={{
-            backgroundColor: 'background.paper',
-            fontWeight: 'Bold',
-            fontSize: 16
-          }}
-        >
-          {title}
-        </TableCell>
-      ))}
-    </TableRow>
-  )
-}
-
 export default function CarrierPage({ }: Props) {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const carrierReducer = useSelector((state: RootState) => state.carrier);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   // search
   const filteredData = (carrierReducer.carrier).filter((item) =>
@@ -50,16 +33,23 @@ export default function CarrierPage({ }: Props) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">{items.carrier_name}</TableCell>
-              <TableCell align="right">{items.holder}</TableCell>
-              <TableCell align="right">{items.maxcapacity}</TableCell>
-              <TableCell align="right">{items.burden}</TableCell>
-              <TableCell align="right">{items.carrier_max_FTS}</TableCell>
-              <TableCell align="right">{items.carrier_max_crane}</TableCell>
-              <TableCell align="right">{items.Width}</TableCell>
-              <TableCell align="right">{items.length}</TableCell>
-              <TableCell align="right">{items.has_crane}</TableCell>
-              <TableCell align="right">
-                hello
+              <TableCell align="center">{items.holder}</TableCell>
+              <TableCell align="center">{items.maxcapacity}</TableCell>
+              <TableCell align="center">{items.burden}</TableCell>
+              <TableCell align="center">{items.carrier_max_FTS}</TableCell>
+              <TableCell align="center">{items.carrier_max_crane}</TableCell>
+              <TableCell align="center">{items.Width}</TableCell>
+              <TableCell align="center">{items.length}</TableCell>
+              <TableCell align="center">{items.has_crane}</TableCell>
+              <TableCell align="center">
+                <Stack direction='row' className="flex justify-end">
+                  <Tooltip title="แก้ไข">
+                    <IconButton component={Link} to={`/carrier/edit/${items.cr_id}`}>
+                      <LuFileEdit className="text-[#169413]" />
+                    </IconButton>
+                  </Tooltip>
+                  <CarrierDeletePage id={items.cr_id} />
+                </Stack>
               </TableCell>
 
             </TableRow>
@@ -71,77 +61,73 @@ export default function CarrierPage({ }: Props) {
 
   return (
     <>
-      <Card>
+      <Card className='min-h-[90vh]'>
         <CardContent className='flex flex-col gap-y-7'>
-          <Box>
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 2,
-                fontSize: 33,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-              className='text-blue-900'
-            >
-              <KeyboardArrowRightIcon sx={{ fontSize: 40, marginTop: 1 }} />
-              เรือสินค้า
-            </Typography>
-            <hr />
-          </Box>
-          <Box className='w-full flex justify-end'>
-            <Box className='w-[600px] flex gap-x-5'>
-              <Tooltip
-                title="ค้นหา"
-                className='flex justify-end'
-              >
-                <TextField
-                  fullWidth
-                  id="standard-basic"
-                  variant="outlined"
-                  placeholder='Search'
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Tooltip>
-              <Button
-                component={Link}
-                to={'/carrier/create'}
-                variant="contained"
-                className='w-[60%] bg-blue-600 hover:bg-blue-800'
-                startIcon={<AddIcon />}
-              >
-                Create
-              </Button>
-            </Box>
-          </Box>
-          <Box>
-            <hr />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  {showThead()}
-                </TableHead>
-                <TableBody>
-                  {showTbody()}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+          {carrierReducer.loading ? (
+            <Loading />
+          ) : carrierReducer.error ? (
+            <Typography>Error: {carrierReducer.error}</Typography>
+          ) : (
+            <>
+              <Box>
+                <Titles title='เรือสินค้า' />
+                <hr />
+              </Box>
+              <Box className='w-full flex justify-end'>
+                <Box className='w-[600px] flex gap-x-5'>
+                  <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                  <Button
+                    component={Link}
+                    to={'/carrier/create'}
+                    variant="contained"
+                    className='w-[60%] bg-blue-600 hover:bg-blue-800'
+                    startIcon={<AddIcon />}
+                  >
+                    Create
+                  </Button>
+                </Box>
+              </Box>
+              <Box>
+                <hr />
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableTitles Titles={TitleCarrier} />
+                    </TableHead>
+                    <TableBody>
+                      {filteredData.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={10}>
+                            <Typography
+                              sx={{
+                                mr: 2,
+                                fontSize: 33,
+                                display: { xs: "none", md: "flex" },
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".1rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                              }}
+                              className='text-cyan-800 flex justify-center items-center h-[59vh]'
+                              variant='h4'
+                              component='h2'
+                            >
+                              ไม่มีข้อมูล
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        showTbody()
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </>
+          )}
         </CardContent>
-      </Card>
+      </Card >
     </>
   )
 }

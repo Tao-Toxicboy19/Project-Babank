@@ -63,22 +63,13 @@ export const addCarrier = (formData: any, navigate: any) => {
     };
 };
 
-export const doGetCarrier = async (dispatch: any) => {
-    try {
-        const result = await httpClient.get(server.CARRIER);
-        dispatch(setCarrierSuccess(result.data));
-    } catch (error: any) {
-        dispatch(setCarrierFailure(error.message));
-    }
-};
-
 export const deleteCarrier = (id: any, setOpen: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.delete(`${server.CARRIER}/${id}`);
             toast.success('ลบเรียบร้อย')
             setOpen(false);
-            await doGetCarrier(dispatch);
+            await dispatch(loadCarrier())
         } catch (error: any) {
             if (error.response && error.response.status === 500) {
                 toast.warn(`

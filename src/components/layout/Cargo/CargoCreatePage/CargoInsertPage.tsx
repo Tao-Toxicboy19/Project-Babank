@@ -1,15 +1,18 @@
 import { Formik, Form, Field, FormikProps } from 'formik';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import * as Yup from 'yup';
-import { Fab, Dialog, DialogContent, DialogTitle, Slide, Tooltip, Card, CardContent, Stack, Button } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Slide, Card, CardContent, Stack, Button } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions';
-import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
 import { TextField } from 'formik-material-ui';
 import { addCargo } from '../../../../store/slices/Cargo/cargo.slice';
+import { Typography } from '@mui/material';
 
-type Props = {}
+type Props = {
+    open: boolean
+    setOpen: Dispatch<SetStateAction<boolean>>
+}
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -20,10 +23,9 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CargoCreatePage({ }: Props) {
+export default function CargoCreatePage({ open, setOpen }: Props) {
     const dispatch = useDispatch<any>();
     const [cargoCount, setCargoCount] = useState(1);
-    const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const initialValues = {
@@ -76,7 +78,7 @@ export default function CargoCreatePage({ }: Props) {
                                 type="button"
                                 className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
                                 onClick={addCargoField}
-                                
+
                             >
                                 เพิ่มสินค้า
                             </Button>
@@ -115,17 +117,7 @@ export default function CargoCreatePage({ }: Props) {
     }
 
     return (
-        <div>
-            <Tooltip title="เพิ่มสินค้า">
-                <Fab
-                    color="primary"
-                    aria-label="add"
-                    size='small'
-                    className='bg-blue-500 hover:bg-blue-700 my-4'
-                    onClick={() => setOpen(true)}>
-                    <AddIcon />
-                </Fab>
-            </Tooltip>
+        <>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -134,9 +126,27 @@ export default function CargoCreatePage({ }: Props) {
                 aria-describedby="alert-dialog-slide-description"
                 fullWidth
             >
-                <DialogTitle className='flex justify-center font-kanit'>{"เพิ่มสินค้า"}</DialogTitle>
+                <DialogTitle className='flex justify-center font-kanit'>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        sx={{
+                            mr: 2,
+                            fontSize: 33,
+                            display: { xs: "none", md: "flex" },
+                            fontFamily: "monospace",
+                            fontWeight: 700,
+                            letterSpacing: ".1rem",
+                            color: "inherit",
+                            textDecoration: "none",
+                        }}
+                        className='text-blue-900'
+                    >
+                        เพิ่มสินค้า
+                    </Typography>
+                </DialogTitle>
                 <Card>
-                    <CardContent className="">
+                    <CardContent className="mb-10">
                         <DialogContent>
                             <Formik
                                 initialValues={initialValues}
@@ -149,6 +159,6 @@ export default function CargoCreatePage({ }: Props) {
                     </CardContent>
                 </Card>
             </Dialog>
-        </div>
+        </>
     );
 };

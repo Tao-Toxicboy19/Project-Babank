@@ -1,185 +1,251 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { CardContent, Stack, Button, TextField, Card, FormControlLabel, FormControl, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Carrier } from '../../../../types/Carrier.type';
-import { server } from '../../../../Constants';
+import { useNavigate, useParams } from 'react-router-dom';
+import Titles from '../../Titles/Titles';
 import { updateCarrier } from '../../../../store/slices/Carrier/carrier.edit.slice';
+import { server } from '../../../../Constants';
 import { httpClient } from '../../../../utils/httpclient';
+import { Carrier } from '../../../../types/Carrier.type';
+import Loading from '../../Loading/Loading';
 
-type Props = {};
+type Props = {}
+
+const defaultTheme = createTheme();
 
 export default function CarrierEditPage({ }: Props) {
-    const [CarrierData, setCarrierData] = useState<Carrier | null>(null);
-    const { id } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch<any>();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [data, setData] = useState<Carrier>();
+    const { id } = useParams()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const fetchFTSData = async () => {
+        try {
+            const response = await httpClient.get(`${server.CARRIER}/${id}`);
+            setData(response.data);
+            console.log(response.data)
+        } catch (error) {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล FTS:', error);
+        }
+    };
+
+    console.log(data?.carrier_name)
 
     useEffect(() => {
-        const fetchFTSData = async () => {
-            try {
-                const response = await httpClient.get(`${server.CARRIER}/${id}`);
-                setCarrierData(response.data);
-            } catch (error) {
-                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล FTS:', error);
-            }
-        };
         fetchFTSData();
     }, []);
 
-    const handleInputChange = (event: any) => {
-        const { name, value } = event.target;
-        const numericValue = parseFloat(value);
+    const showForm = () => {
+        return (
+            <form
+                onSubmit={handleSubmit(async (data) => {
+                    setIsSubmitting(true);
+                    try {
+                        await dispatch(updateCarrier(id, data, navigate));
+                        setIsSubmitting(false);
+                    } catch (error) {
+                        setIsSubmitting(false);
+                    }
+                })}>
+                <Box className='grid grid-cols-2 gap-x-5 mt-5'>
+                    <Stack direction='column' spacing={4}>
+                        <Box>
+                            <TextField
+                                id='carrier_name'
+                                type='text'
+                                label='ชื่อเรือ'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('carrier_name', { required: true })}
+                                value={data?.carrier_name}
+                                defaultValue={data?.carrier_name}
+                            />
+                            {errors.carrier_name &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>
+                            }
+                        </Box>
 
-        setCarrierData((prevCraneData: any) => ({
-            ...prevCraneData!,
-            [name]: numericValue,
-        }));
-    };
+                        <Box>
+                            <TextField
+                                label='ชื่อบริษัท'
+                                id='holder'
+                                type='text'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('holder', { required: true })}
+                                defaultValue={data?.holder}
+                            />
+                            {errors.holder &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
 
+                        <Box>
+                            <TextField
+                                label='ความจุสูงสุด (ตัน)'
+                                id='maxcapacity'
+                                type='number'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('maxcapacity', { required: true, valueAsNumber: true },)}
+                                defaultValue={data?.maxcapacity}
+                            />
+                            {errors.maxcapacity &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        try {
-            console.log(CarrierData)
-            await dispatch(updateCarrier(id, CarrierData, navigate))
-            setIsSubmitting(false);
-        } catch (error) {
-            setIsSubmitting(false);
-        }
-        setIsSubmitting(true);
-    };
+                        <Box>
+                            <TextField
+                                id='burden'
+                                label='จำนวนระวาง'
+                                type='number'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('burden', { required: true, valueAsNumber: true })}
+                                defaultValue={data?.burden}
+                            />
+                            {errors.burden &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
+                    </Stack>
 
-    return (
-        <Card className="w-[750px] mx-auto">
-            <CardContent className="m-5">
-                <form onSubmit={handleSubmit}>
-                    <Stack direction='column' spacing={1}>
-                        <label className="pr-5 font-kanit" htmlFor="carrier_name">ชื่อเรือ:</label>
-                        <TextField
-                            variant="outlined"
-                            type="text"
-                            id="carrier_name"
-                            name="carrier_name"
-                            value={CarrierData?.carrier_name}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
+                    <Stack direction='column' spacing={4}>
+                        <Box>
+                            <TextField
+                                id='carrier_max_FTS'
+                                label='จำนวนทุ่นเข้าได้สูงสุด'
+                                type='number'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('carrier_max_FTS', { required: true, valueAsNumber: true })}
+                                defaultValue={data?.carrier_max_FTS}
+                            />
+                            {errors.carrier_max_FTS &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
 
-                        <label className="pr-5 font-kanit" htmlFor="holder">ชื่อบริษัท:</label>
-                        <TextField
-                            variant="outlined"
-                            type="text"
-                            id="holder"
-                            name="holder"
-                            value={CarrierData?.holder}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
+                        <Box>
+                            <TextField
+                                id='carrier_max_crane'
+                                label='จำนวนเครนเข้าได้สูงสุด'
+                                type='number'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('carrier_max_crane', { required: true, valueAsNumber: true })}
+                                defaultValue={data?.carrier_max_crane}
+                            />
+                            {errors.carrier_max_crane &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
 
-                        <label htmlFor="maxcapacity" className='font-kanit'>ความจุสูงสุด (ตัน):</label>
-                        <TextField
-                            variant="outlined"
-                            type="number"
-                            id="maxcapacity"
-                            name="maxcapacity"
-                            value={CarrierData?.maxcapacity}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
+                        <Box>
+                            <TextField
+                                id='Width'
+                                label='กว้าง (เมตร)'
+                                type='number'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('Width', { required: true, valueAsNumber: true })}
+                                defaultValue={data?.Width}
+                            />
+                            {errors.Width &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
 
-                        <label className="pr-5 font-kanit" htmlFor="burden">จำนวนระวาง:</label>
-                        <TextField
-                            variant="outlined"
-                            type="number"
-                            id="burden"
-                            name="burden"
-                            value={CarrierData?.burden}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
-                        <label className="pr-5 font-kanit" htmlFor="carrier_max_FTS">จำนวนทุ่นเข้าได้สูงสุด:</label>
-                        <TextField
-                            variant="outlined"
-                            type="number"
-                            id="carrier_max_FTS"
-                            name="carrier_max_FTS"
-                            value={CarrierData?.carrier_max_FTS}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
-                        <label className="pr-5 font-kanit" htmlFor="carrier_max_crane">จำนวนเครนเข้าได้สูงสุด:</label>
-                        <TextField
-                            variant="outlined"
-                            type="number"
-                            id="carrier_max_crane"
-                            name="carrier_max_crane"
-                            value={CarrierData?.carrier_max_crane}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
-                        <label className="pr-5 font-kanit" htmlFor="Width">กว้าง (เมตร):</label>
-                        <TextField
-                            variant="outlined"
-                            type="number"
-                            id="Width"
-                            name="Width"
-                            value={CarrierData?.Width}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
-                        <label className="pr-5 font-kanit" htmlFor="length">ยาว (เมตร):</label>
-                        <TextField
-                            variant="outlined"
-                            type="number"
-                            id="length"
-                            name="length"
-                            value={CarrierData?.length}
-                            onChange={handleInputChange}
-                            fullWidth
-                        />
+                        <Box>
+                            <TextField
+                                id='length'
+                                label='ยาว (เมตร)'
+                                type='number'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('length', { required: true, valueAsNumber: true })}
+                                defaultValue={data?.length}
+                            />
+                            {errors.length &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
 
-                        <FormControl style={{ marginTop: 16 }}>
+                    </Stack>
+
+                    <Box className='col-span-2 flex justify-start my-3'>
+                        <FormControl>
                             <FormLabel id="demo-form-control-label-placement" className='text-md'>เครนบนเรือ</FormLabel>
                             <RadioGroup
                                 row
-                                name="has_crane"
                                 aria-labelledby="demo-form-control-label-placement"
-                                value={CarrierData?.has_crane} // กำหนดค่าเริ่มต้นจากค่าใน CarrierData
-                                onChange={handleInputChange} // เมื่อผู้ใช้เลือกรายการใน RadioGroup
+                                defaultValue={data?.has_crane}
+                                {...register('has_crane')}
                             >
                                 <FormControlLabel value="has" control={<Radio />} label="มี" />
                                 <FormControlLabel value="no" control={<Radio />} label="ไม่มี" />
                             </RadioGroup>
                         </FormControl>
-
-
-
-                    </Stack>
-                    <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={() => navigate('/carrier')}
-                            className='font-kanit'
-                        >
-                            กลับ
-                        </Button>
+                    </Box>
+                    <Stack direction='row' spacing={2} className='col-span-2 flex'>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
                             disabled={isSubmitting}
                         >
                             บันทึก
                         </Button>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={() => navigate('/carrier')}
+                            className='font-kanit text-lg py-3'
+                        >
+                            กลับ
+                        </Button>
                     </Stack>
-                </form>
-            </CardContent>
-        </Card>
-    );
+                </Box>
+            </form >
+        )
+    }
+
+    return (
+        <ThemeProvider theme={defaultTheme}>
+            <Card className='min-h-[90vh]'>
+                <CardContent>
+                    {data === undefined ? (
+                        <Loading />
+                    ) : (
+                        <>
+                            <Box className='flex justify-start'>
+                                <Titles title='เรือสินค้า' title2='แก้ไขเรือ' />
+                            </Box>
+                            <Box>
+                                {showForm()}
+                            </Box>
+                        </>
+                    )}
+                </CardContent>
+            </Card>
+        </ThemeProvider >
+    )
 }

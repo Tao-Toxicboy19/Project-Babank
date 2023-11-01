@@ -3,7 +3,7 @@ import { Carrier, CarrierEditState } from "../../../types/Carrier.type";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from "react-toastify";
-import { doGetCarrier } from "./carrier.slice";
+import { loadCarrier } from "./carrier.slice";
 
 const initialState: CarrierEditState = {
     carrier: null,
@@ -42,7 +42,7 @@ export const updateCarrier = (id: any, formData: any, navigate: any) => {
             dispatch(setCarrierStart());
             const result = await httpClient.put(`${server.CARRIER}/${id}`, formData);
             dispatch(setCarrierSuccess(result.data));
-            await doGetCarrier(dispatch);
+            dispatch(loadCarrier())
             toast.success('แก้ไขเรียบร้อย')
             navigate('/carrier');
         } catch (error) {
@@ -51,4 +51,3 @@ export const updateCarrier = (id: any, formData: any, navigate: any) => {
         }
     };
 };
-

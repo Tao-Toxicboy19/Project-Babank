@@ -1,42 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { CargoCrane } from '../../../types/CargoCrane.type';
-import { Box, Fab, IconButton, InputAdornment, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadFTS } from '../../../store/slices/FTS/FTS.slice';
-import { loadCarrier } from '../../../store/slices/Carrier/carrier.slice';
-import { loadCrane } from '../../../store/slices/Cargo/crane.slice';
-import { loadCargo } from '../../../store/slices/Cargo/cargo.slice';
-import { loadCargoCrane } from '../../../store/slices/CargoCrane/cargocrane.slice';
-import { RootState } from '../../../store/store';
-import AddIcon from '@mui/icons-material/Add';
-import { TitleCargoCrane } from '../../../Constants';
-import { LuFileEdit } from 'react-icons/lu';
-import Search from '@mui/icons-material/Search';
-import Loading from '../../layout/Loading/Loading';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import CargoCraneDeletePage from '../../layout/CargoCreateLayout/Delete/CargoCraneDeletePage';
+import { Box, Button, Card, CardContent, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material'
+import Loading from '../../layout/Loading/Loading'
+import Titles from '../../layout/Titles/Titles'
+import SearchTerms from '../../layout/SearchTerms/SearchTerms'
+import Add from '@mui/icons-material/Add'
+import TableTitles from '../../layout/TableTitles/TableTitles'
+import { TitleCargoCrane } from '../../../Constants'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store'
+import { useState } from 'react'
+import { CargoCrane } from '../../../types/CargoCrane.type'
+import React from 'react'
+import { LuFileEdit } from 'react-icons/lu'
+import CargoCraneDeletePage from '../../layout/CargoCreateLayout/Delete/CargoCraneDeletePage'
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 
-export default function CargocranePage({ }: Props) {
+export default function CargoCranePage({ }: Props) {
   const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
-  const dispatch = useDispatch<any>();
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
 
   const filteredData = (CargoCraneReducer.result).filter((item) =>
     item.crane!.crane_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
-  useEffect(() => {
-    dispatch(loadFTS())
-    dispatch(loadCarrier())
-    dispatch(loadCargo())
-    dispatch(loadCrane())
-    dispatch(loadCargoCrane())
-  }, []);
 
   const nameGroups = new Map<string, CargoCrane[]>();
 
@@ -60,27 +49,6 @@ export default function CargocranePage({ }: Props) {
     setOpenGroups(new Set(openGroups));
   };
 
-  const showThead = () => {
-    return (
-      <TableRow>
-        {TitleCargoCrane.map((title) => (
-          <TableCell
-            key={title}
-            align={title === 'ชื่อเรือ' ? 'left' : 'center'}
-            className='font-kanit'
-            sx={{
-              backgroundColor: 'background.paper',
-              fontWeight: 'Bold',
-              fontSize: 16
-            }}
-          >
-            {title}
-          </TableCell>
-        ))}
-      </TableRow>
-    )
-  }
-
 
   const showTbody = () => {
     return (
@@ -91,7 +59,7 @@ export default function CargocranePage({ }: Props) {
               <TableCell className='w-[150px] font-kanit'>
                 {items.length > 1 && (
                   <button onClick={() => toggleGroup(name)}>
-                    {openGroups.has(name) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    {openGroups.has(name) ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                   </button>
                 )}
                 {name}
@@ -132,7 +100,10 @@ export default function CargocranePage({ }: Props) {
                 '
               >
                 <Tooltip title="แก้ไข">
-                  <IconButton component={Link} to={`/cargocrane/edit/${items[0].cargo_crane_id}`}>
+                  <IconButton
+                    component={Link}
+                    to={`/cargocrane/edit/${items[0].cargo_crane_id}`}
+                  >
                     <LuFileEdit className="text-[#169413]" />
                   </IconButton>
                 </Tooltip>
@@ -197,85 +168,51 @@ export default function CargocranePage({ }: Props) {
     );
   };
 
-  return (
-    <>
-      {CargoCraneReducer.loading ? (
-        <Loading />
-      )
-        : (
-          <TableContainer component={Paper} className='min-h-[90vh] mt-5'>
-            <Box className="justify-between flex mx-5">
-              <Stack direction='row' spacing={5} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
-                <Typography
-                  className='font-kanit'
-                  component='h1'
-                  sx={{
-                    fontSize: 22,
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".1rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  ข้อมูลสินค้าและเครน
-                </Typography>
-                <Tooltip title="ค้นหา">
-                  <TextField
-                    id="standard-basic"
-                    variant="standard"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Search />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          Search
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Tooltip>
-              </Stack>
 
-              <Box className='flex justify-end'>
-                <Tooltip title="เพิ่มทุ่น">
-                  <Fab
-                    component={Link}
-                    to="/cargocrane/create"
-                    color="primary"
-                    aria-label="add"
-                    size='small'
-                    className='bg-blue-500 hover:bg-blue-700 my-4'
-                  >
-                    <AddIcon />
-                  </Fab>
-                </Tooltip>
+  return (
+    <Card className='min-h-[90vh]'>
+      <CardContent className='flex flex-col gap-y-7'>
+        {CargoCraneReducer.loading ? (
+          <Loading />
+        ) : (
+          CargoCraneReducer.error ? (
+            <Typography>Error: {CargoCraneReducer.error}</Typography>
+          ) : (
+            <>
+              <Box>
+                <Titles title='ข้อมูลสินค้าและเครน' />
+                <hr />
               </Box>
-            </Box >
-            <hr />
-            <Table
-              aria-label="simple table"
-              sx={{
-                borderCollapse: "collapse",
-                "& td, & th": {
-                  padding: "8px",
-                  borderBottom: "1px solid #ddd",
-                },
-              }}
-            >
-              <TableHead>
-                {showThead()}
-              </TableHead>
-              {showTbody()}
-            </Table>
-          </TableContainer >
-        )
-      }
-    </>
-  );
+              <Box className='w-full flex justify-end'>
+                <Box className='w-[600px] flex gap-x-5'>
+                  <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                  <Tooltip title="เพิ่มสินค้า">
+                    <Button
+                      component={Link}
+                      to="/cargocrane/create"
+                      variant="contained"
+                      className='w-[60%] bg-blue-600 hover:bg-blue-800'
+                      startIcon={<Add />}
+                    >
+                      Create
+                    </Button>
+                  </Tooltip>
+                </Box>
+              </Box>
+              <Box>
+                <hr />
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableTitles Titles={TitleCargoCrane} />
+                    </TableHead>
+                    {showTbody()}
+                  </Table>
+                </TableContainer>
+              </Box>
+            </>
+          ))}
+      </CardContent>
+    </Card>
+  )
 }
