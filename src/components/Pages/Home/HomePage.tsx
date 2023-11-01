@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadFTS } from "../../../store/slices/FTS/FTS.slice";
-import { Box, Card, CardContent } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import StockCard from "../../layout/StockCard/StockCard";
-import { GiCargoShip, GiCargoCrane } from "react-icons/gi"
+import { GiCargoShip, GiCargoCrane, GiCrane } from "react-icons/gi"
 import { BsBoxSeam } from "react-icons/bs";
+import { TbListDetails } from "react-icons/tb";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 import { RootState } from "../../../store/store";
 import { loadCarrier } from "../../../store/slices/Carrier/carrier.slice";
 import { loadCargo } from "../../../store/slices/Cargo/cargo.slice";
@@ -16,6 +18,7 @@ import { loadCargoCrane } from "../../../store/slices/CargoCrane/cargocrane.slic
 import { loadReport } from "../../../store/slices/report/reportSlice";
 import { loadReportCrane } from "../../../store/slices/report/reportCraneSlice";
 import { loadCarneSolutionV2 } from "../../../store/slices/Solution/craneSolutionV2Slice";
+import { Link } from "react-router-dom";
 
 type Props = {}
 
@@ -71,7 +74,7 @@ export default function HomePage({ }: Props) {
                     path={'/cargo'}
                   />
                   <StockCard
-                    icon={HiOutlineClipboardDocumentList}
+                    icon={GiCrane}
                     title="ข้อมูลสินค้าและเครน"
                     subtitle={`${(CargoCraneReducer.result).length} รายการ`}
                     color="bg-[#7b2cbf]/75"
@@ -85,11 +88,35 @@ export default function HomePage({ }: Props) {
                     path={'/orders'}
                   />
                   <StockCard
-                    icon={HiOutlineClipboardDocumentList}
+                    icon={TbListDetails}
                     title="สรุปรายละเอียดต้นทุน"
                     color="bg-[#a53860]/75"
                     path={'/summarize'}
                   />
+                  <Box
+                    component={Link} to={`/report`}
+                    className='relative col-span-2 mx-auto'
+                  >
+                    <Card className="w-[500px] h-[100px] p-5">
+                      <Box
+                        className={`
+                        bg-[#D2DE32]/75 flex justify-center items-center absolute top-[-20px] right-[-20px] w-[140px] h-full px-3 py-2 rounded-md
+                    `}
+                      >
+
+                        <HiOutlineDocumentReport className='text-5xl flex justify-center items-center' />
+                      </Box>
+                      <Box className='m-2 text-[#435B71]'>
+                        <Typography
+                          variant='h5'
+                          component='h4'
+                          className='flex justify-start font-semibold font-kanit'
+                        >
+                          รายงาน
+                        </Typography>
+                      </Box>
+                    </Card>
+                  </Box>
                 </Box>
               </CardContent>
             </Card >
