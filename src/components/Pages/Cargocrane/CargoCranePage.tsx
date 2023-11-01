@@ -11,10 +11,10 @@ import { useState } from 'react'
 import { CargoCrane } from '../../../types/CargoCrane.type'
 import React from 'react'
 import { LuFileEdit } from 'react-icons/lu'
-import CargoCraneDeletePage from '../../layout/CargoCreateLayout/Delete/CargoCraneDeletePage'
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import { Link } from 'react-router-dom'
+import CargoCraneDeletePage from '../../layout/CargoCraneLayout/Delete/CargoCraneDeletePage'
 
 type Props = {}
 
@@ -52,7 +52,7 @@ export default function CargoCranePage({ }: Props) {
 
   const showTbody = () => {
     return (
-      <TableBody>
+      <>
         {Array.from(nameGroups.entries()).map(([name, items]) => (
           <React.Fragment key={name}>
             <TableRow>
@@ -164,7 +164,7 @@ export default function CargoCranePage({ }: Props) {
               ))}
           </React.Fragment>
         ))}
-      </TableBody>
+      </>
     );
   };
 
@@ -206,7 +206,33 @@ export default function CargoCranePage({ }: Props) {
                     <TableHead>
                       <TableTitles Titles={TitleCargoCrane} />
                     </TableHead>
-                    {showTbody()}
+                    <TableBody>
+                      {filteredData.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={10}>
+                            <Typography
+                              sx={{
+                                mr: 2,
+                                fontSize: 33,
+                                display: { xs: "none", md: "flex" },
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".1rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                              }}
+                              className='text-cyan-800 flex justify-center items-center h-[59vh]'
+                              variant='h4'
+                              component='h2'
+                            >
+                              ไม่มีข้อมูล
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        showTbody()
+                      )}
+                    </TableBody>
                   </Table>
                 </TableContainer>
               </Box>

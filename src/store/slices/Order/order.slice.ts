@@ -60,8 +60,8 @@ export const addOrder = (formattedValues: any, navigate: any) => {
       await httpClient.post(server.ORDER, formattedValues);
       await dispatch(loadOrder())
       navigate('/orders/create/cargo')
-    } catch (error) {
-      console.error('Error while adding CARRIER:', error);
+    } catch (error: any) {
+      dispatch(setOrdersFailure(error.message));
     }
   };
 };

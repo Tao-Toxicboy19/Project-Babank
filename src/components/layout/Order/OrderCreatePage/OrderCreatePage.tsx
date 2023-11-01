@@ -1,217 +1,232 @@
-import { Formik, Form, Field, FormikProps } from 'formik';
-import { Box, Button, Card, CardContent, MenuItem, Select, Stack } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Titles from '../../Titles/Titles';
 import { RootState } from '../../../../store/store';
-import { TextField } from 'formik-material-ui';
-import { Link, useNavigate } from 'react-router-dom';
-import { Orders } from '../../../../types/Order.type';
+import { format } from 'date-fns';
 import { addOrder } from '../../../../store/slices/Order/order.slice';
-import * as Yup from 'yup';
 
 type Props = {}
 
-const initialValues: any = {
-  or_id: 0,
-  cr_id: 0,
-  category: '',
-  arrival_time: '',
-  deadline_time: '',
-  latitude: 0,
-  longitude: 0,
-  maxFTS: 0,
-  penalty_rate: 0,
-  reward_rate: 0,
-};
+const defaultTheme = createTheme();
 
-export default function CargoCraneCreate({ }: Props) {
+export default function OrderCreatePage({ }: Props) {
+  const navigate = useNavigate()
   const CarrierReducer = useSelector((state: RootState) => state.carrier);
   const dispatch = useDispatch<any>();
-  const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const validationSchema = Yup.object().shape({
-    cr_id: Yup.number().required('กรุณาเลือกทุ่น'),
-    cargo_order: Yup.array().of(
-      Yup.object().shape({
-        cargo_id: Yup.number().required('กรุณาเลือกสินค้า'),
-        order_id: Yup.number().required('กรุณากรอก order_id'),
-        load: Yup.number().required('กรุณากรอกปริมาณสินค้า'),
-        bulk: Yup.number().required('กรุณากรอกจำนวนระวาง'),
-      })
-    ),
-    category: Yup.string().required('กรุณาเลือกสถานะสินค้า'),
-    maxFTS: Yup.number().required('กรุณากรอกจำนวนทุ่นเข้าสูงสุด'),
-    arrival_time: Yup.string().required('กรุณาเลือกวัน-เวลามาถึง'),
-    deadline_time: Yup.string().required('กรุณาเลือกวัน-เวลาสิ้นสุด'),
-    latitude: Yup.number().required('กรุณากรอกละติจูด'),
-    longitude: Yup.number().required('กรุณากรอกลองจิจูด'),
-    penalty_rate: Yup.number().required('กรุณากรอกค่าปรับ'),
-    reward_rate: Yup.number().required('กรุณากรอกรางวัล'),
-  });
-
-  const handleSubmit = async (values: any, { isSubmitting }: any) => {
-    const formattedValues = {
-      ...values,
-      arrival_time: new Date(values.arrival_time).toISOString(),
-      deadline_time: new Date(values.deadline_time).toISOString(),
-      latitude: parseFloat(values.latitude),
-      longitude: parseFloat(values.longitude),
-    };
-    try {
-      dispatch(addOrder(formattedValues, navigate))
-      isSubmitting(false);
-    } catch (error) {
-      console.error('เกิดข้อผิดพลาดในการสร้างรายการ Cargo Crane:', error);
-    }
-  };
-
-  const showForm = ({ isSubmitting, handleChange, values }: FormikProps<Orders>) => {
+  const showForm = () => {
     return (
-      <Form>
-        <Stack spacing={2} direction='column'>
-          <Box>
-            <label htmlFor="cr_id" className='font-kanit'>เลือกเรือ:</label>
-            <Field
-              as={Select}
-              name='cr_id'
-              id="cr_id"
-              onChange={handleChange}
-              fullWidth
-            >
-              {(CarrierReducer.carrier).map((items) => (
-                <MenuItem className='font-kanit' key={items.cr_id} value={items.cr_id}>
-                  {items.carrier_name}
-                </MenuItem>
-              ))}
-            </Field>
-          </Box>
-          <Stack spacing={2} direction='row' >
-            <Box className='w-full'>
-              <label htmlFor="category" className='font-kanit'>สถานะสินค้า (ขาเข้า/ขาออก):</label>
-              <Field
-                as={Select}
-                name='category'
-                value={values.category}
-                onChange={handleChange}
-                fullWidth
-              >
-                <MenuItem value='Import' className='font-kanit'>Import</MenuItem>
-                <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
-              </Field>
+      <form
+        onSubmit={handleSubmit(async (data) => {
+          setIsSubmitting(true);
+          const formattedValues = {
+            ...data,
+            arrival_time: format(new Date(data.arrival_time), 'yyyy-MM-dd HH:mm:ss'),
+            deadline_time: format(new Date(data.deadline_time), 'yyyy-MM-dd HH:mm:ss'),
+          };
+          try {
+            await dispatch(addOrder(formattedValues, navigate))
+            setIsSubmitting(false);
+          } catch (error) {
+            setIsSubmitting(false);
+          }
+        })}>
+        <Box className='grid grid-cols-2 gap-x-5 mt-5'>
+          <Stack direction='column' spacing={4}>
+            <Box>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">เลือกเครน</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="เลือกเครน"
+                  {...register('cr_id', { required: true })}
+                >
+                  {(CarrierReducer.carrier).map((items) => (
+                    <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
+                      {items.carrier_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {errors.cargo_id &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
             </Box>
-            <Box className='w-full'>
-              <label htmlFor="maxFTS" className='font-kanit'>จำนวนทุ่นเข้าสูงสุด:</label>
-              <Field
-                component={TextField}
-                type="number"
-                name="maxFTS"
-                id="maxFTS"
-                fullWidth
-              />
+
+            <Box>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="สถานะสินค้า (ขาเข้า/ขาออก)"
+                  {...register('category', { required: true })}
+                >
+                  <MenuItem value='import' className='font-kanit'>import</MenuItem>
+                  <MenuItem value='export' className='font-kanit'>export</MenuItem>
+                </Select>
+              </FormControl>
+              {errors.category &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
             </Box>
-          </Stack>
-          <Stack spacing={2} direction='row'>
-            <Box className='w-full'>
-              <label htmlFor="arrival_time" className='font-kanit'>วัน-เวลา มาถึง:</label>
-              <Field
-                component={TextField}
-                name='arrival_time'
-                type='datetime-local'
+
+            <Box>
+              <TextField
+                label='จำนวนทุ่นเข้าสูงสุด'
+                id='maxFTS'
+                type='number'
                 fullWidth
+                className='font-kanit'
+                {...register('maxFTS', { required: true, valueAsNumber: true })}
               />
+              {errors.maxFTS &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
             </Box>
-            <Box className='w-full'>
-              <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด:</label>
-              <Field
-                component={TextField}
-                name='deadline_time'
-                type='datetime-local'
+
+            <Box>
+              <TextField
+                label='ละติจูด'
+                id='latitude'
+                type='number'
                 fullWidth
+                className='font-kanit'
+                {...register('latitude', { required: true, valueAsNumber: true },)}
               />
+              {errors.latitude &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
             </Box>
-          </Stack>
-          <Stack spacing={2} direction='row'>
-            <Box className='w-full'>
-              <label htmlFor="latitude" className='font-kanit'>ละติจูด:</label>
-              <Field
-                component={TextField}
-                name="latitude"
-                id="latitude"
+
+            <Box>
+              <TextField
+                id='longitude'
+                label='ลองจิจูด'
+                type='number'
                 fullWidth
+                className='font-kanit'
+                {...register('longitude', { required: true, valueAsNumber: true })}
               />
-            </Box>
-            <Box className='w-full'>
-              <label htmlFor="longitude" className='font-kanit'>ลองจิจูด:</label>
-              <Field
-                component={TextField}
-                type="number"
-                name="longitude"
-                id="longitude"
-                fullWidth
-              />
+              {errors.longitude &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
             </Box>
           </Stack>
 
-          <Stack spacing={2} direction='row'>
-            <Box className='w-full'>
-              <label htmlFor="longitude" className='font-kanit'>ค่าปรับ (บาท/วัน):</label>
-              <Field
-                component={TextField}
-                type="number"
-                name="penalty_rate"
-                id="penalty_rate"
+          <Stack direction='column' spacing={4}>
+            <Box>
+              <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา มาถึง</label>
+              <TextField
+                id='arrival_time'
+                type='datetime-local'
                 fullWidth
+                className='font-kanit'
+                {...register('arrival_time', { required: true })}
               />
+              {errors.arrival_time &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
             </Box>
-            <Box className='w-full'>
-              <label htmlFor="longitude" className='font-kanit'>รางวัล (บาท/วัน):</label>
-              <Field
-                component={TextField}
-                type="number"
-                name="reward_rate"
-                id="reward_rate"
-                fullWidth
-              />
-            </Box>
-          </Stack>
 
-          <Stack spacing={2} direction='row'>
-            <Button
-              fullWidth
-              variant="outlined"
-              sx={{ mt: 3, mb: 2 }}
-              component={Link}
-              to={'/orders'}
-              className='font-kanit'
-            >
-              กลับ
-            </Button>
+            <Box>
+              <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด</label>
+              <TextField
+                id='deadline_time'
+                type='datetime-local'
+                fullWidth
+                className='font-kanit'
+                {...register('deadline_time', { required: true })}
+              />
+              {errors.deadline_time &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
+            </Box>
+
+            <Box>
+              <TextField
+                id='penalty_rate'
+                label='ค่าปรับ (บาท/วัน)'
+                type='number'
+                fullWidth
+                className='font-kanit'
+                {...register('penalty_rate', { required: true, valueAsNumber: true })}
+              />
+              {errors.penalty_rate &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
+            </Box>
+
+            <Box>
+              <TextField
+                id='reward_rate'
+                label='รางวัล (บาท/วัน)'
+                type='number'
+                fullWidth
+                className='font-kanit'
+                {...register('reward_rate', { required: true, valueAsNumber: true })}
+              />
+              {errors.reward_rate &&
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  กรุณากรอกข้อมูล
+                </Alert>}
+            </Box>
+
+          </Stack>
+          <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+              className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
               disabled={isSubmitting}
             >
-              เพิ่มสินค้า
+              เพิ่มทุ่น
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => navigate('/carrier')}
+              className='font-kanit text-lg py-3'
+            >
+              กลับ
             </Button>
           </Stack>
-        </Stack>
-      </Form >
+        </Box>
+      </form >
     )
   }
 
   return (
-    <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
-      <CardContent>
-        <Formik
-          validationSchema={validationSchema}
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-        >
-          {(props: any) => showForm(props)}
-        </Formik>
-      </CardContent>
-    </Card>
-  );
-};
+    <ThemeProvider theme={defaultTheme}>
+      <Card className='min-h-[90vh]'>
+        <CardContent>
+          <Box className='flex justify-start'>
+            <Titles title='รายการขนถ่ายสินค้า' title2='เพิ่มข้อมูล' title3='เพิ่มสินค้า' />
+          </Box>
+          <Box>
+            {showForm()}
+          </Box>
+        </CardContent>
+      </Card>
+    </ThemeProvider >
+  )
+}

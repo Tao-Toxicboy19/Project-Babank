@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Button, Card, CardContent, FormControl, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../store/store';
 import { Cargo } from '../../../../../types/Cargo.type';
@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { server } from '../../../../../Constants';
 import { addCargoOrder } from '../../../../../store/slices/Order/cargoOrder.slice';
 import { CargoItem } from '../../../../../types/Order.type';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 const CargoOrderForm: React.FC = () => {
     const [order_id, setOrderId] = useState<number>(0);
@@ -78,23 +79,55 @@ const CargoOrderForm: React.FC = () => {
     };
 
     return (
-        <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
+        <Card className='min-h-[90vh]'>
             <CardContent>
+                <Typography
+                    variant="h6"
+                    noWrap
+                    sx={{
+                        mr: 2,
+                        fontSize: 33,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".1rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                    }}
+                    className='text-blue-900'
+                >
+                    <KeyboardArrowRight sx={{ fontSize: 40, marginTop: 1 }} />
+                    รายการขนถ่ายสินค้า
+                    <KeyboardArrowRight sx={{ fontSize: 40, marginTop: 1 }} />
+                    เพิ่มข้อมูล
+                    <KeyboardArrowRight sx={{ fontSize: 40, marginTop: 1 }} />
+                    เพิ่มสินค้า
+                </Typography>
                 {cargo.map((item, index) => (
                     <Stack key={index} spacing={2} direction='column'>
                         <Typography
                             variant='h6'
                             component='h1'
                             className='flex justify-center font-kanit'
+                            sx={{
+                                mr: 2,
+                                fontSize: 33,
+                                display: { xs: "none", md: "flex" },
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".1rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
                         >
                             สินค้าที่ {index + 1}
                         </Typography>
                         <FormControl fullWidth>
-                            <label htmlFor="cargo_id" className='font-kanit'>เลือกสินค้า:</label>
+                            <InputLabel id="demo-simple-select-label">เลือกสินค้า</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
-                                id="cargo_id"
-                                value={item.cargo_id}
+                                id="demo-simple-select"
+                                label="เลือกสินค้า"
                                 onChange={(e) => handleSelectChange(e, index)}
                             >
                                 {(CargoReducer.cargo).map((cargoItem: Cargo) => (
@@ -105,10 +138,10 @@ const CargoOrderForm: React.FC = () => {
                             </Select>
                         </FormControl>
                         <Box>
-                            <label htmlFor="cargo_id" className='font-kanit'>ปริมาณสินค้า (ตัน):</label>
                             <TextField
                                 fullWidth
                                 id="load"
+                                label='ปริมาณสินค้า (ตัน)'
                                 variant="outlined"
                                 type="number"
                                 value={item.load}
@@ -118,10 +151,10 @@ const CargoOrderForm: React.FC = () => {
                             />
                         </Box>
                         <Box>
-                            <label htmlFor="cargo_id" className='font-kanit'>จำนวนระวาง:</label>
                             <TextField
                                 fullWidth
                                 id="bulk"
+                                label='จำนวนระวาง'
                                 variant="outlined"
                                 type="number"
                                 value={item.bulk}
@@ -134,9 +167,7 @@ const CargoOrderForm: React.FC = () => {
 
                             <Button
                                 className='font-kanit'
-                                onClick={
-                                    () => handleRemoveCargo(index)
-                                }
+                                onClick={() => handleRemoveCargo(index)}
                                 variant="outlined"
                             >
                                 ลบสินค้า
@@ -148,7 +179,7 @@ const CargoOrderForm: React.FC = () => {
                     <Button
                         variant="contained"
                         onClick={handleAddCargo}
-                        className='bg-[#1976d2] hover:bg-[#1563bc]'
+                        className='bg-[#1976d2] hover:bg-[#1563bc] text-md py-1'
                     >
                         เพิ่มจำนวนสินค้า
                     </Button>
@@ -158,17 +189,17 @@ const CargoOrderForm: React.FC = () => {
                             onClick={handleSubmit}
                             component={Link}
                             to={'/orders/create'}
-                            className='font-kanit'
+                            className='font-kanit text-lg py-3 px-[5rem]'
                         >
                             กลับ
                         </Button>
                         <Button
                             variant="contained"
-                            className='bg-[#1976d2] hover:bg-[#1563bc] font-kanit'
+                            className='bg-[#1976d2] hover:bg-[#1563bc] font-kanit text-lg py-3 px-[5rem]'
                             onClick={handleSubmit}
                             disabled={isSubmitting}
                         >
-                            เพิ่มสินค้า
+                            บันทึก
                         </Button>
                     </Stack>
                 </Stack>

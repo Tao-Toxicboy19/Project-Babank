@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import Sidebar from './components/layout/Sidebar/Sidebar';
@@ -9,9 +10,6 @@ import { restoreLogin } from './store/slices/login.slice';
 import { RootState } from './store/store';
 import PublicRoute from './utils/PublicRoute';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import CargoCraneEditPageV2 from './components/layout/CargoCreateLayout/Edit/CargoCraneEditPageV2';
-import CargoCraneCreate from './components/layout/CargoCreateLayout/Insert/CargoCraneCreate';
 import CarrierEditPage from './components/layout/Carrier/Edit/CarrierEditPage';
 import CarrierCreate from './components/layout/Carrier/Insert/CarrierCreate';
 import CreateCargoOrderPage from './components/layout/Order/OrderCreatePage/CreateCargoOrderPage/CreateCargoOrderPage';
@@ -21,7 +19,6 @@ import EditFTS from './components/layout/MainTain/EditFTS/EditFTS';
 import CreateFTS from './components/layout/MainTain/CreateFTS/CreateFTS';
 import CreateCrane from './components/layout/MainTain/CreateCrane/CreateCrane';
 import CargoPage from './components/Pages/Cargo/CargoPage';
-import CarrierPage from './components/Pages/Carrier/CarrierPage';
 import CraneCreatePage from './components/Pages/FTSPage/CraneCreatePage/CraneCreatePage';
 import CraneEdit from './components/Pages/FTSPage/CraneEdit/CraneEdit';
 import FTSCreatePage from './components/Pages/FTSPage/FTSCreatePage/FTSCreatePage';
@@ -34,6 +31,9 @@ import RegisterPage from './components/Pages/Register/RegisterPage';
 import ReportPage from './components/Pages/ReportPage/ReportPage';
 import SummarizePage from './components/Pages/SummarizePage/SummarizePage';
 import CargocranePage from './components/Pages/Cargocrane/CargoCranePage';
+import CargoCraneEditPageV2 from './components/layout/CargoCraneLayout/Edit/CargoCraneEditPageV2';
+import CargoCraneCreate from './components/layout/CargoCraneLayout/Insert/CargoCraneCreate';
+import CarrierPage from './components/Pages/Carrier/CarrierPage';
 
 const drawerWidth = 240;
 
@@ -61,7 +61,7 @@ export default function ResponsiveDrawer() {
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Box sx={{ marginTop:6 }}>
+        <Box sx={{ marginTop: 6 }}>
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<HomePage />} />

@@ -20,14 +20,14 @@ export default function CarrierPage({ }: Props) {
 
   // search
   const filteredData = (carrierReducer.carrier).filter((item) =>
-    item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const showTbody = () => {
     return (
       <>
         {
-          filteredData.map((items) => (
+          carrierReducer.carrier.map((items) => (
             <TableRow
               key={items.cr_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -51,7 +51,6 @@ export default function CarrierPage({ }: Props) {
                   <CarrierDeletePage id={items.cr_id} />
                 </Stack>
               </TableCell>
-
             </TableRow>
           ))
         }
@@ -120,6 +119,7 @@ export default function CarrierPage({ }: Props) {
                       ) : (
                         showTbody()
                       )}
+                      {showTbody()}
                     </TableBody>
                   </Table>
                 </TableContainer>

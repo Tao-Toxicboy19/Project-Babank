@@ -181,7 +181,7 @@ export default function CarrierCreate({ }: Props) {
               className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
               disabled={isSubmitting}
             >
-              เพิ่มทุ่น
+              เพิ่มข้อมูล
             </Button>
             <Button
               fullWidth

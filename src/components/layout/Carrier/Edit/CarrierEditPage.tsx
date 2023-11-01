@@ -237,7 +237,7 @@ export default function CarrierEditPage({ }: Props) {
                     ) : (
                         <>
                             <Box className='flex justify-start'>
-                                <Titles title='เรือสินค้า' title2='แก้ไขเรือ' />
+                                <Titles title='เรือสินค้า' title2='แก้ไขข้อมูล' />
                             </Box>
                             <Box>
                                 {showForm()}

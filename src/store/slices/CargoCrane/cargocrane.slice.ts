@@ -72,7 +72,7 @@ export const DeleteCargoCrane = (id: any, setOpen: any) => async (dispatch: any)
 }
 
 
-export const addCargoCrane = (formData: FormData, naviagte: any) => {
+export const addCargoCrane = (formData: any, naviagte: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.post(server.CARGOCRANE, formData);
