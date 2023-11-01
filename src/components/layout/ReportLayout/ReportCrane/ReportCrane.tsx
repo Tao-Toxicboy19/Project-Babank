@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { TableContainer, TableHead, TableCell, Paper, Table, TableRow, TableBody, MenuItem, FormControl, Box, Select, Card, CardContent } from "@mui/material";
+import { TableContainer, TableHead, TableCell, Paper, Table, TableRow, TableBody, MenuItem, FormControl, Box, Select, Card, CardContent, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { report_solution_crane } from "../../../../types/Solution_schedule.type";
 import Loading from "../../Loading/Loading";
+import TableTitles from "../../TableTitles/TableTitles";
+import { TitleReportCrane } from "../../../../Constants";
 
 type Props = {}
 
@@ -27,12 +29,12 @@ export default function ReportCrane({ }: Props) {
     return (
 
         <>
-            {reportCraneReducer.loading ? (
-                <Loading />
-            ) : (
-                <>
-                    <Card className="bg-[#fff]/75">
-                        <CardContent>
+            <Card className="bg-[#fff]/75 min-h-[72.3vh]">
+                <CardContent>
+                    {reportCraneReducer.loading ? (
+                        <Loading />
+                    ) : (
+                        <>
                             <form className="max-w-xl flex gap-x-3 mb-3">
                                 <Box className='w-full'>
                                     <label className="pr-5 font-kanit text-lg" htmlFor="FTS_name">เลือกเดือน</label>
@@ -98,61 +100,80 @@ export default function ReportCrane({ }: Props) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
-                                        <TableRow>
-                                            {["ชื่อทุ่น", "ชื่อเรือ", "ระวาง", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"].map((items) => (
-                                                <TableCell key={items} className="font-kanit text-lg font-semibold" align={items === "ชื่อทุ่น" ? "left" : "right"}>
-                                                    {items}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
+                                        <TableTitles Titles={TitleReportCrane} />
                                     </TableHead>
                                     <TableBody>
-                                        {selectedFtsId === "ทั้งหมด" ? (
-                                            reportCraneReducer.result.map((item, index) => {
-                                                const itemMonth = new Date(item.due_time).getMonth();
-                                                if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
-                                                    (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
-                                                    return (
-                                                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                            <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.bulk}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.start_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.due_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.load_cargo}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                }
-                                                return null;
-                                            })
+                                        {filteredData.length === 0 ? (
+                                            <TableRow>
+                                                <TableCell colSpan={7} className="font-kanit text-md">
+                                                    <Typography
+                                                        sx={{
+                                                            mr: 2,
+                                                            fontSize: 33,
+                                                            display: { xs: "none", md: "flex" },
+                                                            fontFamily: "monospace",
+                                                            fontWeight: 700,
+                                                            letterSpacing: ".1rem",
+                                                            color: "inherit",
+                                                            textDecoration: "none",
+                                                        }}
+                                                        className='text-cyan-800 flex justify-center items-center h-[50vh]'
+                                                        variant='h4'
+                                                        component='h2'
+                                                    >
+                                                        ไม่มีข้อมูล
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
                                         ) : (
-                                            filteredData.map((item, index) => {
-                                                const itemMonth = new Date(item.due_time).getMonth();
-                                                if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
-                                                    (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
-                                                    return (
-                                                        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                            <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.start_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.due_time}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.load_cargo}</TableCell>
-                                                            <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                }
-                                                return null;
-                                            })
+                                            <>
+                                                {selectedFtsId === "ทั้งหมด" ? (
+                                                    reportCraneReducer.result.map((item, index) => {
+                                                        const itemMonth = new Date(item.due_time).getMonth();
+                                                        if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
+                                                            (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
+                                                            return (
+                                                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                                    <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.bulk}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.start_time}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.due_time}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.load_cargo}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                                </TableRow>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })
+                                                ) : (
+                                                    filteredData.map((item, index) => {
+                                                        const itemMonth = new Date(item.due_time).getMonth();
+                                                        if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
+                                                            (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
+                                                            return (
+                                                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                                    <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.start_time}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.due_time}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.load_cargo}</TableCell>
+                                                                    <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                                </TableRow>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })
+                                                )}
+                                            </>
                                         )}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </CardContent>
-                    </Card>
-                </>
-            )
-            }
+                        </>
+                    )}
+                </CardContent>
+            </Card>
         </>
     )
 }

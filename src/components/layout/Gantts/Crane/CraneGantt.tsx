@@ -2,6 +2,7 @@ import { Chart } from "react-google-charts";
 import { parse, format } from 'date-fns';
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
+import { Typography } from "@mui/material";
 
 export default function CraneGantts() {
     const SolutionscheduleReducer = useSelector(
@@ -25,11 +26,33 @@ export default function CraneGantts() {
     });
 
     return (
-        <Chart
-            chartType="Timeline"
-            data={datav2}
-            width="100%"
-            height="800px"
-        />
+        <>
+            {SolutionscheduleReducer.length === 0 ? (
+                <Typography
+                    sx={{
+                        mr: 2,
+                        fontSize: 33,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".1rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                    }}
+                    className='text-cyan-800 flex justify-center items-center'
+                    variant='h4'
+                    component='h2'
+                >
+                    ไม่มีข้อมูล
+                </Typography>
+            ) : (
+                <Chart
+                    chartType="Timeline"
+                    data={datav2}
+                    width="100%"
+                    height="800px"
+                />
+            )}
+        </>
     );
 }

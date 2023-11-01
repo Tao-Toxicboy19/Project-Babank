@@ -172,7 +172,7 @@ export default function OrderPage({ }: Props) {
                     <TableBody>
                       {filteredData.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={10}>
+                          <TableCell colSpan={13}>
                             <Typography
                               sx={{
                                 mr: 2,

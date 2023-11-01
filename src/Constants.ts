@@ -57,6 +57,9 @@ export const titleTreeTable = [
 
 export const TitleCarrier = ["ชื่อเรือ", "ชื่อบริษัท", "ความจุสูงสุด (ตัน)", "จำนวนระวาง", "จำนวนทุ่นเข้าได้สูงสุด", "จำนวนเครนเข้าได้สูงสุด", "กว้าง", "ยาว", "เครน", "#"]
 
+export const TitleReportFTS = ["ชื่อทุ่น", "ชื่อเรือ", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"]
+export const TitleReportCrane = ["ชื่อทุ่น", "ชื่อเรือ", "ระวาง", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"]
+
 export const NETWORK_CONNECTION_MESSAGE =
     "Cannot connect to server, Please try again.";
 

@@ -46,103 +46,124 @@ function a11yProps(index: number) {
 
 export default function FTSsingle() {
     const [value, setValue] = React.useState(0);
-    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution.result);
+    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
-        console.log(newValue)
     };
+
+    console.log(FTSsolutionSlice.result)
 
     return (
         <>
-            <Box className='grid grid-cols-9'>
-                <Card className='h-[100%]'>
-                    <Tabs
-                        orientation="vertical"
-                        variant="scrollable"
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="Vertical tabs example"
-                    >
-                        {FTSsolutionSlice.map((items, index) => (
-                            <Tab
-                                key={index}
-                                className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
-                                label={`${items.fts.FTS_name}`}
-                                {...a11yProps(0)}
-                            />
-                        ))}
-                    </Tabs>
-                </Card>
-                <Box className='col-span-8'>
-                    <TabPanel value={value} index={value}>
-                        <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
-                            <Typography
-                                className='col-span-12 flex justify-center border-b-[1px] border-gray-300 font-kanit'
-                                component='h1'
-                                sx={{
-                                    fontSize: 22,
-                                    fontFamily: "monospace",
-                                    fontWeight: 700,
-                                    letterSpacing: ".1rem",
-                                    color: "inherit",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                {FTSsolutionSlice[value]?.fts.FTS_name}
-                            </Typography>
-                            {FTSsolutionSlice[value] && (
-                                <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
-                                    <SummarizaCard
-                                        title={'ต้นรวมทุน'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                        icon={CurrencyBitcoinIcon}
-                                        unit={'บาท'}
-                                        color='bg-[#00a6fb]/50'
-                                    />
-                                    <SummarizaCard
-                                        title={'ค่าเชื้อเพลิงรวม'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                        icon={CurrencyBitcoinIcon}
-                                        unit={'บาท'}
-                                        color='bg-[#00a6fb]/50'
-                                    />
-                                    <SummarizaCard
-                                        title={'ค่าแรง'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                        icon={CurrencyBitcoinIcon}
-                                        unit={'บาท'}
-                                        color='bg-[#00a6fb]/50'
-                                    />
-                                    <SummarizaCard
-                                        title={'ค่าปรับล่าช้า'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.penality_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                        icon={CurrencyBitcoinIcon}
-                                        unit={'บาท'}
-                                        color='bg-[#00a6fb]/50'
-                                    />
-                                    <SummarizaCard
-                                        title={'รางวัล'}
-                                        price={FTSsolutionSlice[value].solutions.reduce((total, solution) => total + solution.total_reward, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                        icon={CurrencyBitcoinIcon}
-                                        unit={'บาท'}
-                                        color='bg-[#00a6fb]/50'
-                                    />
-                                </Box>
-                            )}
-                            <Card className="col-span-12">
-                                <CardContent>
-                                    <Tables Name={FTSsolutionSlice[value]?.fts.FTS_name} value={value} />
-                                </CardContent>
-                            </Card>
-                            <Card className="col-span-12">
-                                <BarCharts FTSsolutionSlice={FTSsolutionSlice} value={value} />
-                            </Card>
-                        </Box>
-                    </TabPanel>
-                </Box >
-            </Box>
+            {FTSsolutionSlice.result.length === 0 ? (
+                <Typography
+                    sx={{
+                        mr: 2,
+                        fontSize: 33,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".1rem",
+                        color: "inherit",
+                        textDecoration: "none",
+                    }}
+                    className='text-cyan-800 flex justify-center items-center'
+                    variant='h4'
+                    component='h2'
+                >
+                    ไม่มีข้อมูล
+                </Typography>
+            ) : (
+                <Box className='grid grid-cols-9'>
+                    <Card className='h-[100%]'>
+                        <Tabs
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={value}
+                            onChange={handleChange}
+                            aria-label="Vertical tabs example"
+                        >
+                            {FTSsolutionSlice.result.map((items, index) => (
+                                <Tab
+                                    key={index}
+                                    className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
+                                    label={`${items.fts.FTS_name}`}
+                                    {...a11yProps(0)}
+                                />
+                            ))}
+                        </Tabs>
+                    </Card>
+                    <Box className='col-span-8'>
+                        <TabPanel value={value} index={value}>
+                            <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
+                                <Typography
+                                    className='col-span-12 flex justify-center border-b-[1px] border-gray-300 font-kanit'
+                                    component='h1'
+                                    sx={{
+                                        fontSize: 22,
+                                        fontFamily: "monospace",
+                                        fontWeight: 700,
+                                        letterSpacing: ".1rem",
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    {FTSsolutionSlice.result[value]?.fts.FTS_name}
+                                </Typography>
+                                {FTSsolutionSlice.result[value] && (
+                                    <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
+                                        <SummarizaCard
+                                            title={'ต้นรวมทุน'}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            icon={CurrencyBitcoinIcon}
+                                            unit={'บาท'}
+                                            color='bg-[#00a6fb]/50'
+                                        />
+                                        <SummarizaCard
+                                            title={'ค่าเชื้อเพลิงรวม'}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            icon={CurrencyBitcoinIcon}
+                                            unit={'บาท'}
+                                            color='bg-[#00a6fb]/50'
+                                        />
+                                        <SummarizaCard
+                                            title={'ค่าแรง'}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            icon={CurrencyBitcoinIcon}
+                                            unit={'บาท'}
+                                            color='bg-[#00a6fb]/50'
+                                        />
+                                        <SummarizaCard
+                                            title={'ค่าปรับล่าช้า'}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.penality_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            icon={CurrencyBitcoinIcon}
+                                            unit={'บาท'}
+                                            color='bg-[#00a6fb]/50'
+                                        />
+                                        <SummarizaCard
+                                            title={'รางวัล'}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_reward, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            icon={CurrencyBitcoinIcon}
+                                            unit={'บาท'}
+                                            color='bg-[#00a6fb]/50'
+                                        />
+                                    </Box>
+                                )}
+                                <Card className="col-span-12">
+                                    <CardContent>
+                                        <Tables Name={FTSsolutionSlice.result[value]?.fts.FTS_name} value={value} />
+                                    </CardContent>
+                                </Card>
+                                <Card className="col-span-12">
+                                    <BarCharts FTSsolutionSlice={FTSsolutionSlice.result} value={value} />
+                                </Card>
+                            </Box>
+                        </TabPanel>
+                    </Box >
+                </Box>
+            )}
         </>
     );
 }

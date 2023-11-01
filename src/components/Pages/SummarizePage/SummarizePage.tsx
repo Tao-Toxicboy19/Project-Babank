@@ -6,10 +6,10 @@ import Box from '@mui/material/Box';
 import { Card, CardContent, Stack } from '@mui/material';
 import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
 import RouteLayout from '../../layout/RouteLayout/RouteLayout';
-import FTSsingle from '../../layout/FTSsingle/FTSsingle';
 import DialogLoading from '../../layout/DialogLoading/DialogLoading';
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts';
 import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
+import FTSsingle from '../../layout/FTSsingle/FTSsingle';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -58,7 +58,7 @@ export default function SummarizePage() {
                 <Stack direction='row' spacing={2} className='max-w-[60%] my-3'>
                     <DialogLoading />
                 </Stack>
-                <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
+                <Card className='bg-[#ffffff]/75 min-h-[72.3vh]'>
                     <Box sx={{ width: '100%' }}>
                         <Box
                             sx={{ borderBottom: 1, borderColor: 'divider' }}
