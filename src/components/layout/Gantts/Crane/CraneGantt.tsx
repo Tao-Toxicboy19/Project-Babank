@@ -9,8 +9,9 @@ export default function CraneGantts() {
         (state: RootState) => state.Solutionschedule.solution_schedule
     );
     const filteredData = SolutionscheduleReducer.filter((item: any) => item.carrier_name !== null);
-
-    const datav2 = filteredData.map((item: any) => {
+    let data = [filteredData[0]]
+    data = data.concat(filteredData)
+    const datav2 = data.map((item: any) => {
         const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date());
         const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date());
 

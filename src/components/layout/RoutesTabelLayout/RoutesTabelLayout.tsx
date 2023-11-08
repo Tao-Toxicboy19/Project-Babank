@@ -12,7 +12,6 @@ import { titles } from '../../../Constants';
 export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
     const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule.solution_schedule);
 
-
     return (
         <>
             <TableContainer component={Paper} className='mt-5 max-h-[65vh]'>

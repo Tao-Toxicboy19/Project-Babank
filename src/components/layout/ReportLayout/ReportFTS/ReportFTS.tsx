@@ -6,6 +6,7 @@ import { report_solutions } from "../../../../types/Solution_schedule.type";
 import Loading from "../../Loading/Loading";
 import { TitleReportFTS } from "../../../../Constants";
 import TableTitles from "../../TableTitles/TableTitles";
+import moment from "moment";
 
 export default function ReportFTS() {
     const reportReducer = useSelector((state: RootState) => state.reportReducer);
@@ -82,13 +83,15 @@ export default function ReportFTS() {
                                             {selectedFtsId === "ทั้งหมด" ? (
                                                 reportReducer.result.map((item, index) => {
                                                     const itemMonth = new Date(item.deadline_time).getMonth();
+                                                    const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                                    const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                                 <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
                                                                 <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDate}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDateV2}</TableCell>
                                                                 <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
                                                                 <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                             </TableRow>
@@ -99,13 +102,15 @@ export default function ReportFTS() {
                                             ) : (
                                                 filteredData.map((item, index) => {
                                                     const itemMonth = new Date(item.deadline_time).getMonth();
+                                                    const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                                    const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                                 <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
                                                                 <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDate}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDateV2}</TableCell>
                                                                 <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
                                                                 <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                             </TableRow>
@@ -115,67 +120,6 @@ export default function ReportFTS() {
                                                 })
                                             )}
                                         </>
-                                        {/* {filteredData.length === 0 ? (
-                                            <TableRow>
-                                                <TableCell colSpan={6} className="font-kanit text-md">
-                                                    <Typography
-                                                        sx={{
-                                                            mr: 2,
-                                                            fontSize: 33,
-                                                            display: { xs: "none", md: "flex" },
-                                                            fontFamily: "monospace",
-                                                            fontWeight: 700,
-                                                            letterSpacing: ".1rem",
-                                                            color: "inherit",
-                                                            textDecoration: "none",
-                                                        }}
-                                                        className='text-cyan-800 flex justify-center items-center h-[50vh]'
-                                                        variant='h4'
-                                                        component='h2'
-                                                    >
-                                                        ไม่มีข้อมูล
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : (
-                                            <>
-                                                {selectedFtsId === "ทั้งหมด" ? (
-                                                    reportReducer.result.map((item, index) => {
-                                                        const itemMonth = new Date(item.deadline_time).getMonth();
-                                                        if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
-                                                            return (
-                                                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                                    <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
-                                                                </TableRow>
-                                                            );
-                                                        }
-                                                        return null;
-                                                    })
-                                                ) : (
-                                                    filteredData.map((item, index) => {
-                                                        const itemMonth = new Date(item.deadline_time).getMonth();
-                                                        if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
-                                                            return (
-                                                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                                    <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
-                                                                    <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
-                                                                </TableRow>
-                                                            );
-                                                        }
-                                                        return null;
-                                                    })
-                                                )}
-                                            </>
-                                        )} */}
                                     </TableBody>
                                 </Table>
                             </TableContainer>

@@ -105,7 +105,13 @@ export default function OrderPage({ }: Props) {
                 variant="outlined"
                 type="submit"
               >
-                Outlined
+                confirm
+              </Button>
+              <Button
+                variant="outlined"
+                type="submit"
+              >
+                cancel
               </Button>
             </form>
           </DialogContentText>

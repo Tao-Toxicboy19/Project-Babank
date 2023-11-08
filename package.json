@@ -49,6 +49,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "lodash": "^4.17.21",
     "material-ui": "^0.20.2",
+    "moment": "^2.29.4",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.2",
     "react": "^18.2.0",
