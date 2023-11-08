@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import { TitleOrder } from "../../../Constants"
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -19,6 +19,7 @@ type Props = {}
 export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
 
   const filteredData = OrderReducer.orders.filter((order) =>
     order.cargo_order.some((cargoOrder) =>
@@ -26,10 +27,26 @@ export default function OrderPage({ }: Props) {
     )
   );
 
+  const monthNames = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+
+  const arrivalTimeV2 = filteredData.map(item => {
+    const date = new Date(item.arrival_time);
+    const month = date.getMonth();
+    return monthNames[month];
+  });
+
+  const uniqueMonths = Array.from(new Set(arrivalTimeV2));
+
+  let displayData = selectedMonth === "ทุกเดือน" ? filteredData : filteredData.filter(item => {
+    const date = new Date(item.arrival_time);
+    const month = date.getMonth();
+    return monthNames[month] === selectedMonth;
+  });
+
   const showTbody = () => {
     return (
       <>
-        {(filteredData).map((items) => (
+        {(displayData).map((items) => (
           <TableRow
             key={items.or_id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -140,6 +157,8 @@ export default function OrderPage({ }: Props) {
     )
   }
 
+
+
   return (
     <>
       <Card className='min-h-[90vh]'>
@@ -154,14 +173,34 @@ export default function OrderPage({ }: Props) {
                 <Titles title='รายการขนถ่ายสินค้า' />
                 <hr />
               </Box>
-              <Box className='w-full flex justify-end'>
+              <Box className='w-full flex justify-between'>
+
+                <FormControl className="w-[200px]">
+                  <InputLabel id="demo-simple-select-label">เลือกเดือน</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedMonth}
+                    onChange={(e) => setSelectedMonth(e.target.value)}
+                    label="เลือกเดือน"
+                  >
+                    <MenuItem value="ทุกเดือน">ทุกเดือน</MenuItem>
+                    {uniqueMonths.map((month) => (
+                      <MenuItem key={month} value={month}>
+                        {month}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+
                 <Box className='w-[600px] flex gap-x-5'>
                   <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                   <Button
                     component={Link}
                     to={'/orders/create'}
                     variant="contained"
-                    className='w-[60%] bg-blue-600 hover:bg-blue-800'
+                    className='w-[60%]  bg-blue-600 hover:bg-blue-800'
                     startIcon={<AddIcon />}
                   >
                     Create
