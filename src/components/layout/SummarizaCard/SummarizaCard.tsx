@@ -20,8 +20,8 @@ export default function SummarizaCard(props: Props) {
                         <Box className='flex items-center'>
                             <props.icon className='text-2xl flex justify-center items-center' />
                             <Typography
-                                variant='h5'
-                                component='h4'
+                                variant='h6'
+                                component='h5'
                                 className='font-kanit flex justify-center font-semibold'
                             >
                                 {props.price}

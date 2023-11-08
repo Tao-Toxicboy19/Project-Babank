@@ -116,6 +116,12 @@ export default function OrderPage({ }: Props) {
               {items.reward_rate}
             </TableCell>
             <TableCell
+              align="center"
+              className="font-kanit"
+            >
+              {items.status_order}
+            </TableCell>
+            <TableCell
               align="right"
               className="font-kanit"
             >

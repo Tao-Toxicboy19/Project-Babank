@@ -21,6 +21,7 @@ export interface Orders {
     maxFTS: number;
     penalty_rate: number;
     reward_rate: number;
+    status_order: string
     carrier: Carrier;
     cargo_order: CargoOrder[];
 }

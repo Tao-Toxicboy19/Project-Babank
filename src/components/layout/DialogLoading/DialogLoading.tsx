@@ -1,67 +1,69 @@
+import * as React from 'react';
 import Button from '@mui/material/Button';
-import { useForm } from 'react-hook-form';
-import { Stack, TextField } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { ManagePlans } from '../../../store/slices/managePlansSlice';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Box } from '@mui/material';
+import Checkboxs from './Checkbox/Checkboxs';
+import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import LoadingButton from '@mui/lab/LoadingButton';
-
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 export default function DialogLoading() {
-    const ManagePlansReducer = useSelector((state: RootState) => state.manMgePlanReducer);
-    const dispatch = useDispatch<any>();
-    const {
-        register,
-        handleSubmit,
-        formState: { },
-    } = useForm();
+  const [open, setOpen] = React.useState(false);
+  const orderReducer = useSelector((state: RootState) => state.order);
 
+  const statusOrders = (orderReducer.orders).map((order) => order.status_order);
 
-    return (
+  const newerOrders = statusOrders.filter((status) => status === "Newer");
+  // const inProgressOrders = statusOrders.filter((status) => status === "In progress");
 
-        <>
-            <form
-                onSubmit={handleSubmit((data) => {
-                    // เพิ่มค่าเวลาปัจจุบันเข้าไปในข้อมูล
-                    data.currenttime = new Date().toISOString();
-
-                    console.log(data);
-                    dispatch(ManagePlans(data));
-                })}
-            >
-                <Stack direction='row' spacing={2}>
-                    <TextField
-                        type='datetime-local'
-                        fullWidth
-                        {...register('date')}
-                    />
-                    <TextField
-                        type='number'
-                        label='เวลาประมวณผล (นาที)'
-                        fullWidth
-                        {...register('computetime')}
-                    />
-                </Stack>
-                {ManagePlansReducer.loading ? (
-                    <LoadingButton
-                        loading
-                        variant="outlined"
-                        className='bg-blue-200 hover-bg-blue-300 flex items-center mt-2 font-kanit text-xl'
-                        fullWidth
-                    >
-                        Submit
-                    </LoadingButton>
-                ) : (
-                    <Button
-                        type='submit'
-                        fullWidth
-                        variant="contained"
-                        className='bg-blue-600 hover-bg-blue-700 flex items-center mt-2 font-kanit text-xl'
-                    >
-                        จัดเเผนการย้ายทุ่น
-                    </Button>
-                )}
-            </form>
-        </>
-    );
+  return (
+    <React.Fragment>
+      <Box className='flex gap-x-5'>
+        <Box>
+          <Button
+            variant="outlined"
+            onClick={() => setOpen(true)}>
+            จัดเเผนการย้ายทุ่น
+          </Button>
+        </Box>
+        <Box className='mt-2'>
+          {!statusOrders ? (
+            <span>ข้อมูลอยู่ในแผนทั้งหมดแล้ว</span>
+          ) : (
+            <>
+              <Typography>
+                <span className='flex items-center gap-x-2'>
+                  <WarningAmberIcon color="error" />
+                  มีข้อมูลใหม่ ยังไม่ประมวลผล {newerOrders.length} รายการ
+                </span>
+              </Typography>
+            </>
+          )
+          }
+        </Box >
+      </Box >
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth='xl'
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"จัดเเผนการย้ายทุ่น"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Box className='mx-20'>
+              <Checkboxs />
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+    </React.Fragment >
+  );
 }
