@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Box, Card, CardContent, FormControl, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Card, CardContent, FormControl, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState, } from "react";
 import { RootState } from "../../../../store/store";
 import { report_solutions } from "../../../../types/Solution_schedule.type";
@@ -78,7 +78,44 @@ export default function ReportFTS() {
                                         <TableTitles Titles={TitleReportFTS} />
                                     </TableHead>
                                     <TableBody>
-                                        {filteredData.length === 0 ? (
+                                        <>
+                                            {selectedFtsId === "ทั้งหมด" ? (
+                                                reportReducer.result.map((item, index) => {
+                                                    const itemMonth = new Date(item.deadline_time).getMonth();
+                                                    if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
+                                                        return (
+                                                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                                <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                            </TableRow>
+                                                        );
+                                                    }
+                                                    return null;
+                                                })
+                                            ) : (
+                                                filteredData.map((item, index) => {
+                                                    const itemMonth = new Date(item.deadline_time).getMonth();
+                                                    if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
+                                                        return (
+                                                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                                <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.arrival_time}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.deadline_time}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                            </TableRow>
+                                                        );
+                                                    }
+                                                    return null;
+                                                })
+                                            )}
+                                        </>
+                                        {/* {filteredData.length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={6} className="font-kanit text-md">
                                                     <Typography
@@ -138,8 +175,7 @@ export default function ReportFTS() {
                                                     })
                                                 )}
                                             </>
-                                        )}
-
+                                        )} */}
                                     </TableBody>
                                 </Table>
                             </TableContainer>

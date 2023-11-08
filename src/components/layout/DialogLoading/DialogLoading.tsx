@@ -13,12 +13,16 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 export default function DialogLoading() {
   const [open, setOpen] = React.useState(false);
+
+  const handleCloseV2 = () => {
+    setOpen(false);
+  };
+
   const orderReducer = useSelector((state: RootState) => state.order);
 
   const statusOrders = (orderReducer.orders).map((order) => order.status_order);
 
   const newerOrders = statusOrders.filter((status) => status === "Newer");
-  // const inProgressOrders = statusOrders.filter((status) => status === "In progress");
 
   return (
     <React.Fragment>
@@ -59,7 +63,7 @@ export default function DialogLoading() {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <Box className='mx-20'>
-              <Checkboxs />
+              <Checkboxs handleCloseV2={handleCloseV2} />
             </Box>
           </DialogContentText>
         </DialogContent>

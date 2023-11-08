@@ -1,5 +1,5 @@
-import { Box, Button, Card, CardContent, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
-import { TitleOrder } from "../../../Constants"
+import { Box, Button, Card, CardContent, Dialog, DialogContent, DialogContentText, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
+import { TitleOrder, monthNames } from "../../../Constants"
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,6 +11,8 @@ import TableTitles from "../../layout/TableTitles/TableTitles";
 import Loading from "../../layout/Loading/Loading";
 import Titles from "../../layout/Titles/Titles";
 import SearchTerms from "../../layout/SearchTerms/SearchTerms";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 type Props = {}
 
@@ -21,13 +23,29 @@ export default function OrderPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    // formState: { errors },
+  } = useForm();
+
   const filteredData = OrderReducer.orders.filter((order) =>
     order.cargo_order.some((cargoOrder) =>
       cargoOrder.cargo.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
-  const monthNames = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+
 
   const arrivalTimeV2 = filteredData.map(item => {
     const date = new Date(item.arrival_time);
@@ -43,6 +61,60 @@ export default function OrderPage({ }: Props) {
     return monthNames[month] === selectedMonth;
   });
 
+
+  const dialogFrom = () => (
+    <React.Fragment>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <form onSubmit={handleSubmit((data) => console.log(data))}>
+
+              <Box>
+                <TextField
+                  fullWidth
+                  id="real_start_time"
+                  variant="outlined"
+                  className='font-kanit'
+                  type='datetime-local'
+                  {...register('real_start_time', { required: true })}
+                />
+                <TextField
+                  fullWidth
+                  id="outlined-basic"
+                  variant="outlined"
+                  type='datetime-local'
+                  {...register('real_end_time', { required: true })}
+                />
+                <TextField
+                  fullWidth
+                  id="outlined-basic"
+                  label="Outlined"
+                  variant="outlined"
+                  {...register('reason')}
+                />
+              </Box>
+              <Button
+                variant="outlined"
+                type="submit"
+              >
+                Outlined
+              </Button>
+            </form>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+    </React.Fragment>
+  )
+
+
   const showTbody = () => {
     return (
       <>
@@ -56,11 +128,16 @@ export default function OrderPage({ }: Props) {
               align="center"
               className="font-kanit"
             >
-              <Typography
-                className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'}`}
-              >
-                {items.status_order}
-              </Typography>
+
+              <Tooltip title="เปลี่ยนสถานะ">
+                <Typography
+                  className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'}`}
+                  style={{ cursor: 'pointer' }}
+                  onClick={handleClickOpen}
+                >
+                  {items.status_order}
+                </Typography>
+              </Tooltip>
 
             </TableCell>
             <TableCell align="center">
@@ -250,6 +327,7 @@ export default function OrderPage({ }: Props) {
               </Box>
             </>
           )}
+          {dialogFrom()}
         </CardContent>
       </Card >
     </>

@@ -50,14 +50,34 @@ const ManagePlansSlice = createSlice({
 export const { setManagePlanstart, setManagePlansuccess, setManagePlanFailed } = ManagePlansSlice.actions
 export default ManagePlansSlice.reducer;
 
-export const ManagePlans = (valuse: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void, computetime: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setManagePlanstart())
-        const result = await httpClient.post(apiManagePlans, valuse)
-        dispatch(setManagePlansuccess(result.data))
+        const values = {
+            computetime,
+            fts: fts,
+            order: order
+        };
+        handleClickOpen();
+
+        const result = await httpClient.post(apiManagePlans, values)
+        dispatch(setManagePlansuccess(result.data));
+
+        // เมื่อคำขอไปยัง API เสร็จสิ้น รอ 3 วินาทีแล้วค่อยปิด modal
+        // setTimeout(() => {
+        //     handleClose()
+        //     handleCloseV2()
+        //     console.log(values)
+        //     toast.success('ประมวลผลเรียบร้อย')
+        // }, 4000);
+        handleClose()
+        handleCloseV2()
         toast.success('ประมวลผลเรียบร้อย')
-    }
-    catch (error) {
+
+    } catch (error) {
         dispatch(setManagePlanFailed())
+        handleClose()
+        handleCloseV2()
     }
 }
+
