@@ -52,7 +52,17 @@ export default function OrderPage({ }: Props) {
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell align="left">{items.carrier.carrier_name}</TableCell>
+            <TableCell
+              align="center"
+              className="font-kanit"
+            >
+              <Typography
+                className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'}`}
+              >
+                {items.status_order}
+              </Typography>
 
+            </TableCell>
             <TableCell align="center">
               {items.cargo_order.map((cargo) => (
                 <>
@@ -131,12 +141,6 @@ export default function OrderPage({ }: Props) {
               className="font-kanit"
             >
               {items.reward_rate}
-            </TableCell>
-            <TableCell
-              align="center"
-              className="font-kanit"
-            >
-              {items.status_order}
             </TableCell>
             <TableCell
               align="right"
