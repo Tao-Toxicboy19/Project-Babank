@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { httpClient } from "../../utils/httpclient";
 import { server } from "../../Constants";
-import { Register } from "../../types/User.type";
 import { toast } from "react-toastify";
+import { FieldValues } from "react-hook-form";
 
 interface RegisterState {
     loading: boolean;
@@ -39,7 +39,7 @@ const registerSlice = createSlice({
 export const { registerStart, registerSuccess, registerFailed } = registerSlice.actions;
 export default registerSlice.reducer;
 
-export const register = (values: Register, navigate: any) => {
+export const registerLocal = (values: FieldValues, navigate: any, setSubmitting: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(registerStart());
@@ -52,6 +52,7 @@ export const register = (values: Register, navigate: any) => {
                 dispatch(registerFailed());
             }
         } catch (error: any) {
+            setSubmitting(false);
             console.error('เกิดข้อผิดพลาดในการลงทะเบียน: ' + error.message);
             dispatch(registerFailed());
         }

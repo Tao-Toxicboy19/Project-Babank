@@ -43,6 +43,7 @@ export default function LoginPage({ }: Props) {
             <form
               className="w-full"
               onSubmit={handleSubmit((data) => {
+                console.log(data);
                 setIsSubmitting(true);
                 dispatch(login(data, navigate, () => {
                   setIsSubmitting(false);
@@ -54,11 +55,11 @@ export default function LoginPage({ }: Props) {
                 >Username</label
                 >
                 <input
-                  type="email"
+                  type="text"
                   id="username"
                   placeholder="Please insert your username"
                   className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                  {...register('email')}
+                  {...register('username')}
                 />
               </div>
               <div id="input" className="flex flex-col w-full my-5">

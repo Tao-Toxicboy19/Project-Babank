@@ -1,13 +1,11 @@
-import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Grid, Card, CardContent, Stack, Alert } from '@mui/material'
-import { Field, Form, Formik, FormikProps } from 'formik';
-import { TextField } from 'formik-material-ui';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { Register } from '../../../types/User.type';
+import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Grid, Card, CardContent, Stack, Alert, TextField } from '@mui/material'
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Logo1 from '../../../assets/images/logo/logo1.png' // จากตรงนี้
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../../store/slices/register.slice';
+import { registerLocal } from '../../../store/slices/register.slice';
 import { RootState } from '../../../store/store';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 
 type Props = {}
@@ -15,83 +13,40 @@ type Props = {}
 const defaultTheme = createTheme();
 
 export default function RegisterPage({ }: Props) {
-  const navigate = useNavigate()
-  const dispatch = useDispatch<any>();
   const RegisterReducer = useSelector((state: RootState) => state.register);
-
-  const handleSubmit = async (values: Register, { isSubmitting }: any) => {
-    dispatch(register(values, navigate))
-    isSubmitting(false)
-  };
-
-  const validationSchema = Yup.object().shape({
-    firstname: Yup.string().required('กรุณากรอกชื่อ'),
-    lastname: Yup.string().required('กรุณากรอกนามสกุล'),
-    email: Yup.string().email('รูปแบบอีเมล์ไม่ถูกต้อง').required('กรุณากรอกอีเมล์'),
-    password: Yup.string().required('กรุณากรอกรหัสผ่าน').min(6, 'รหัสผ่านควรมีอย่างน้อย 6 ตัวอักษร'),
-    confirmpassword: Yup.string()
-      .required('กรุณายืนยันรหัสผ่าน')
-      .oneOf([Yup.ref('password'),], 'รหัสผ่านไม่ตรงกัน'),
-  });
-
-  const validateForm = (values: Register) => {
-    let errors: any = {}
-    if (!values.firstname) errors.firstname = 'กรุณาใส่ชื่อจริง'
-    if (!values.lastname) errors.lastname = 'กรุณาใส่นามสกุล'
-    if (!values.email) errors.email = 'กรุณาใส่อีเมล'
-    if (!values.password) errors.password = 'กรุณาใส่รหัสผ่าน'
-    if (!values.confirmpassword) errors.confirmpassword = 'กรุณายืนยันรหัสผ่าน'
-    return errors
-  };
+  const { register, handleSubmit } = useForm();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch = useDispatch<any>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-  const showForm = ({ isSubmitting }: FormikProps<Register>) => {
+  const showForm = () => {
     return (
-      <Form className='mt-3 px-5'>
+      <form
+        onSubmit={handleSubmit((data) => {
+          console.log(data);
+          setIsSubmitting(true);
+          dispatch(registerLocal(data, navigate, () => {
+            setIsSubmitting(false)
+          }));
+        })}
+      >
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Field
-              component={TextField}
-              name='firstname'
+          <Grid item xs={12}>
+            <TextField
               type='text'
-              label='ชื่อจริง'
+              label='username'
               fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Field
-              component={TextField}
-              name='lastname'
-              type='text'
-              label='นามสกุล'
-              fullWidth
+              {...register('username')}
+
             />
           </Grid>
           <Grid item xs={12}>
-            <Field
-              component={TextField}
-              name='email'
-              type='text'
-              label='อีเมล'
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Field
-              component={TextField}
-              name='password'
+            <TextField
               type='password'
               label='รหัสผ่าน'
               fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Field
-              component={TextField}
-              name='confirmpassword'
-              type='password'
-              label='ยืนยันรหัสผ่าน'
-              fullWidth
+              {...register('password')}
             />
           </Grid>
         </Grid>
@@ -118,14 +73,9 @@ export default function RegisterPage({ }: Props) {
             สร้างบัญชี
           </Button>
         </Stack>
-      </Form>
+      </form>
     )
   }
-
-
-  const initialValues: Register = {
-    firstname: '', lastname: '', email: '', password: '', confirmpassword: '',
-  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -151,7 +101,6 @@ export default function RegisterPage({ }: Props) {
                 }}
               >
                 <Box className="flex">
-                  {/* เอามาจาก import ด้านบน */}
                   <img src={Logo1} className="w-20, h-20" />
                 </Box>
 
@@ -160,14 +109,9 @@ export default function RegisterPage({ }: Props) {
                 </Typography>
               </Box>
 
-              <Formik
-                onSubmit={handleSubmit}
-                validate={validateForm}
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-              >
-                {(props: any) => showForm(props)}
-              </Formik>
+              <Box>
+                {showForm()}
+              </Box>
             </CardContent>
           </Card >
         </Box>
