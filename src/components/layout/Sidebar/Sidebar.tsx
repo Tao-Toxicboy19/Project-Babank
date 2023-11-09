@@ -11,6 +11,7 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import { useDispatch } from 'react-redux';
 import PollIcon from '@mui/icons-material/Poll';
 import { logout } from '../../../store/slices/login.slice';
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const dispatch = useDispatch<any>();
@@ -124,7 +125,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/summarize" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
-                        <PollIcon />
+                        <AlignHorizontalLeftIcon />
                     </ListItemIcon>
                     <ListItemText
                         primary={

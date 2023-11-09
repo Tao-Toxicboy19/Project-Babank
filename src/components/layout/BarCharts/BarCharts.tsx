@@ -32,11 +32,11 @@ export const options = {
 };
 
 const labels = [
-  'ต้นทุน',
+  'ต้นรวมทุน',
+  'ค่าเชื้อเพลิงรวม',
   'ค่าแรง',
-  'ค่าปรับ',
+  'ค่าปรับล่าช้า',
   'รางวัล',
-  'ค่าเชื้อเพลิงรวมขนถ่าย',
 ];
 
 export function BarCharts({ FTSsolutionSlice, value }: any) {
@@ -44,7 +44,7 @@ export function BarCharts({ FTSsolutionSlice, value }: any) {
     labels,
     datasets: [
       {
-        label: 'Dataset 1',
+        label: FTSsolutionSlice[value]?.fts.FTS_name,
         data: [
           FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.total_cost, 0),
           FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.total_consumption_cost, 0),
