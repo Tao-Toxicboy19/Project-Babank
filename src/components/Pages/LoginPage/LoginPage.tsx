@@ -1,98 +1,110 @@
-import { Button, Box, Typography, TextField, Card, createTheme, ThemeProvider, CardContent } from "@mui/material";
-import { FormikProps, Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Login } from "../../../types/User.type";
+import { Box } from "@mui/material"
 import Logo1 from '../../../assets/images/logo/logo1.png'
 import Logo2 from '../../../assets/images/logo/logo2.png'
 import Logo3 from '../../../assets/images/logo/logo3.png'
-import { login } from "../../../store/slices/login.slice";
-
+import { useForm } from "react-hook-form"
+import { useDispatch } from "react-redux"
+import { NavigateFunction, useNavigate } from "react-router-dom"
+import { login } from "../../../store/slices/login.slice"
+import { useState } from "react"
 
 type Props = {}
 
-const defaultTheme = createTheme();
-
-
 export default function LoginPage({ }: Props) {
-  const navigate = useNavigate()
-  const dispactch = useDispatch<any>();
-
-  const showFormV2 = ({ handleSubmit, handleChange, values, isSubmitting }: FormikProps<Login>) => (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        variant='outlined'
-        margin='normal'
-        fullWidth
-        id='email'
-        label='email'
-        onChange={handleChange}
-        value={values.email}
-        autoComplete='email'
-        autoFocus
-      />
-      <TextField
-        variant='outlined'
-        margin='normal'
-        fullWidth
-        id='password'
-        label='Password'
-        type='password'
-        onChange={handleChange}
-        value={values.password}
-      />
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
-        disabled={isSubmitting}
-      >
-        เข้าสู่ระบบ
-      </Button>
-    </form>
-  )
-
-  const initialValues: Login = { email: "", password: "" }
-
+  const { register, handleSubmit } = useForm();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch = useDispatch<any>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Card className="max-w-[750px] flex mx-auto">
-        <CardContent>
-          <Box
-            className='flex flex-col justify-center mx-auto mb-5'
-          >
-            <Box className='flex justify-center gap-x-5'>
-              <Box className='flex items-center'>
-                <img src={Logo1} className="w-[100px] h-auto object-cover" />
-              </Box>
-              <Box className='flex items-center'>
-                <img src={Logo2} className="w-[130px] h-auto object-cover" />
-              </Box>
-              <Box className='flex items-center'>
-                <img src={Logo3} className="w-[130px] h-auto object-cover" />
-              </Box>
+    <>
+
+      <Box className='h-[4rem]'></Box>
+      <div
+        className="flex flex-col text-center md:text-left md:flex-row justify-evenly md:items-center"
+      >
+        <div className="flex justify-center flex-col w-full mx-5">
+          <Box className='flex justify-start gap-x-5'>
+            <Box className='flex items-center'>
+              <img src={Logo1} className="w-[250px] h-auto object-cover" />
             </Box>
-            <CardContent>
-              <Typography
-                className="flex justify-center font-kanit"
-                component="h1"
-                variant="h6"
-              >
-                การบริหารจัดการระบบโลจิสติกส์การขนถ่ายสินค้าเทกองที่ทุ่นขนถ่ายสินค้ากลางทะเลโดยใช้ระบบสารสนเทศและดิจิทัลแพลตฟอร์ม
-              </Typography>
-            </CardContent>
-            <Formik onSubmit={(values, { setSubmitting }: any) => {
-              dispactch(login(values, navigate, setSubmitting))
-            }}
-              initialValues={initialValues}>
-              {props => showFormV2(props)}
-            </Formik>
+            <Box className='flex items-center mt-5'>
+              <img src={Logo2} className="w-[350px] h-auto object-cover" />
+            </Box>
+            <Box className='flex items-center'>
+              <img src={Logo3} className="w-[300px] h-auto object-cover" />
+            </Box>
           </Box>
-        </CardContent>
-      </Card>
-    </ThemeProvider >
+        </div>
+        <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
+          <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
+            <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
+              การบริหารจัดการระบบโลจิสติกส์การขนถ่ายสินค้าเทกองที่ทุ่นขนถ่ายสินค้ากลางทะเลโดยใช้ระบบสารสนเทศและดิจิทัลแพลตฟอร์ม
+            </h2>
+            <form
+              className="w-full"
+              onSubmit={handleSubmit((data) => {
+                setIsSubmitting(true);
+                dispatch(login(data, navigate, () => {
+                  setIsSubmitting(false);
+                }));
+              })}
+            >
+              <div id="input" className="flex flex-col w-full my-5">
+                <label htmlFor="username" className="text-gray-500 mb-2"
+                >Username</label
+                >
+                <input
+                  type="email"
+                  id="username"
+                  placeholder="Please insert your username"
+                  className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
+                  {...register('email')}
+                />
+              </div>
+              <div id="input" className="flex flex-col w-full my-5">
+                <label htmlFor="password" className="text-gray-500 mb-2"
+                >Password</label
+                >
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Please insert your password"
+                  className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
+                  {...register('password')}
+
+                />
+              </div>
+              <div id="button" className="flex flex-col w-full my-5">
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="w-full py-4 bg-green-600 rounded-lg text-green-100"
+                >
+                  <div className="flex flex-row items-center justify-center">
+                    <div className="mr-2">
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div className="font-bold">Sigin</div>
+                  </div>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
-

@@ -21,7 +21,10 @@ export interface Orders {
     maxFTS: number;
     penalty_rate: number;
     reward_rate: number;
-    status_order: string
+    status_order: string;
+    rel_start_time: null | string;
+    rel_finish_time: null | string;
+    reason: string;
     carrier: Carrier;
     cargo_order: CargoOrder[];
 }
@@ -59,3 +62,8 @@ export interface CargoItem {
     load: number;
     bulk: number;
 }
+
+
+
+
+///////////////////////////////

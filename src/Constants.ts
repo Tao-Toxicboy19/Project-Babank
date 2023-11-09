@@ -34,6 +34,9 @@ export const TitleOrder = [
     'จำนวนทุ่นเข้าสูงสุด',
     'ค่าปรับ (บาท)',
     'รางวัล (บาท)',
+    'เวลาเริ่มจริง',
+    'เวลาเสร็จจริง',
+    'หมายเหตุ',
     'แก้ไข้'
 ]
 
@@ -93,4 +96,5 @@ export const server = {
     MAINTAIN_CRAN_URL: `maintain_crane`,
     MAINTAIN_FTS_URL: `maintain_fts`,
     CRANESOLUTIONTABLEV2_URL: `cranesolutiontableV2`,
+    UPDATESTATUS: `updatestatus`,
 };

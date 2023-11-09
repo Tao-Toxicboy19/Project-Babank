@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Dialog, DialogContent, DialogContentText, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import { TitleOrder, monthNames } from "../../../Constants"
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -11,8 +11,7 @@ import TableTitles from "../../layout/TableTitles/TableTitles";
 import Loading from "../../layout/Loading/Loading";
 import Titles from "../../layout/Titles/Titles";
 import SearchTerms from "../../layout/SearchTerms/SearchTerms";
-import React from "react";
-import { useForm } from "react-hook-form";
+import UpdateStatus from "../../layout/Order/UpdateStatus/UpdateStatus";
 
 type Props = {}
 
@@ -23,21 +22,9 @@ export default function OrderPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
 
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm();
 
   const filteredData = OrderReducer.orders.filter((order) =>
     order.cargo_order.some((cargoOrder) =>
@@ -62,183 +49,136 @@ export default function OrderPage({ }: Props) {
   });
 
 
-  const dialogFrom = () => (
-    <React.Fragment>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <form onSubmit={handleSubmit((data) => console.log(data))}>
-
-              <Box>
-                <TextField
-                  fullWidth
-                  id="real_start_time"
-                  variant="outlined"
-                  className='font-kanit'
-                  type='datetime-local'
-                  {...register('real_start_time', { required: true })}
-                />
-                <TextField
-                  fullWidth
-                  id="outlined-basic"
-                  variant="outlined"
-                  type='datetime-local'
-                  {...register('real_end_time', { required: true })}
-                />
-                <TextField
-                  fullWidth
-                  id="outlined-basic"
-                  label="Outlined"
-                  variant="outlined"
-                  {...register('reason')}
-                />
-              </Box>
-              <Button
-                variant="outlined"
-                type="submit"
-              >
-                confirm
-              </Button>
-              <Button
-                variant="outlined"
-                type="submit"
-              >
-                cancel
-              </Button>
-            </form>
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
-    </React.Fragment>
-  )
 
 
   const showTbody = () => {
     return (
       <>
         {(displayData).map((items) => (
-          <TableRow
-            key={items.or_id}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-          >
-            <TableCell align="left">{items.carrier.carrier_name}</TableCell>
-            <TableCell
-              align="center"
-              className="font-kanit"
+          <>
+            <TableRow
+              key={items.or_id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-
-              <Tooltip title="เปลี่ยนสถานะ">
-                <Typography
-                  className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'}`}
-                  style={{ cursor: 'pointer' }}
-                  onClick={handleClickOpen}
-                >
-                  {items.status_order}
-                </Typography>
-              </Tooltip>
-
-            </TableCell>
-            <TableCell align="center">
-              {items.cargo_order.map((cargo) => (
-                <>
-                  <Typography className='flex justify-center font-kanit'>
-                    {cargo.cargo.cargo_name}
+              <TableCell align="left">{items.carrier.carrier_name}</TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                <UpdateStatus items={items} />
+              </TableCell>
+              <TableCell align="center">
+                {items.cargo_order.map((cargo) => (
+                  <>
+                    <Typography className='flex justify-center font-kanit'>
+                      {cargo.cargo.cargo_name}
+                    </Typography>
+                  </>
+                ))}
+              </TableCell>
+              <TableCell>
+                {items.cargo_order.map((cargo) => (
+                  <Typography
+                    key={cargo.order_id}
+                    align="center"
+                  >
+                    {cargo.load}
                   </Typography>
-                </>
-              ))}
-            </TableCell>
-            <TableCell>
-              {items.cargo_order.map((cargo) => (
-                <Typography
-                  key={cargo.order_id}
-                  align="center"
-                >
-                  {cargo.load}
-                </Typography>
-              ))}
-            </TableCell>
-            <TableCell
-              align="center"
-              className="font-kanit"
-            >
-              {items.category}
-            </TableCell>
-            <TableCell
-              align="right"
-              className="font-kanit"
-            >
-              {items.arrival_time}
-            </TableCell>
-            <TableCell
-              align="right"
-              className="font-kanit"
-            >
-              {items.deadline_time}
-            </TableCell>
-            <TableCell
-              align="right"
-              className="font-kanit"
-            >
-              {items.latitude}
-            </TableCell>
-            <TableCell
-              align="right"
-              className="font-kanit"
-            >
-              {items.longitude}
-            </TableCell>
+                ))}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.category}
+              </TableCell>
+              <TableCell
+                align="right"
+                className="font-kanit"
+              >
+                {items.arrival_time}
+              </TableCell>
+              <TableCell
+                align="right"
+                className="font-kanit"
+              >
+                {items.deadline_time}
+              </TableCell>
+              <TableCell
+                align="right"
+                className="font-kanit"
+              >
+                {items.latitude}
+              </TableCell>
+              <TableCell
+                align="right"
+                className="font-kanit"
+              >
+                {items.longitude}
+              </TableCell>
 
-            <TableCell>
-              {items.cargo_order.map((cargo) => (
-                <Typography
-                  className="font-kanit"
-                  align="center"
-                  key={cargo.order_id}
-                >
-                  {cargo.bulk}
-                </Typography>
-              ))}
-            </TableCell>
-            <TableCell
-              align="center"
-              className="font-kanit"
-            >
-              {items.maxFTS}
-            </TableCell>
-            <TableCell
-              align="center"
-              className="font-kanit"
-            >
-              {items.penalty_rate}
-            </TableCell>
-            <TableCell
-              align="center"
-              className="font-kanit"
-            >
-              {items.reward_rate}
-            </TableCell>
-            <TableCell
-              align="right"
-              className="font-kanit"
-            >
-              <Box className='flex flex-row justify-end'>
-                <Tooltip title="แก้ไข">
-                  <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
-                    <LuFileEdit className="text-[#169413]" />
-                  </IconButton>
-                </Tooltip>
-                <OrderDeletePage id={items.or_id} />
-              </Box>
-            </TableCell>
-          </TableRow>
+              <TableCell>
+                {items.cargo_order.map((cargo) => (
+                  <Typography
+                    className="font-kanit"
+                    align="center"
+                    key={cargo.order_id}
+                  >
+                    {cargo.bulk}
+                  </Typography>
+                ))}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.maxFTS}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.penalty_rate}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.reward_rate}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.rel_start_time}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.rel_finish_time}
+              </TableCell>
+              <TableCell
+                align="center"
+                className="font-kanit"
+              >
+                {items.reason}
+              </TableCell>
+              <TableCell
+                align="right"
+                className="font-kanit"
+              >
+                <Box className='flex flex-row justify-end'>
+                  <Tooltip title="แก้ไข">
+                    <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
+                      <LuFileEdit className="text-[#169413]" />
+                    </IconButton>
+                  </Tooltip>
+                  <OrderDeletePage id={items.or_id} />
+                </Box>
+              </TableCell>
+            </TableRow>
+          </>
         ))}
       </>
     )
@@ -279,8 +219,6 @@ export default function OrderPage({ }: Props) {
                     ))}
                   </Select>
                 </FormControl>
-
-
                 <Box className='w-[600px] flex gap-x-5'>
                   <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                   <Button
@@ -325,15 +263,17 @@ export default function OrderPage({ }: Props) {
                           </TableCell>
                         </TableRow>
                       ) : (
-                        showTbody()
+                        <>
+                          {showTbody()}
+                        </>
                       )}
                     </TableBody>
+
                   </Table>
                 </TableContainer>
               </Box>
             </>
           )}
-          {dialogFrom()}
         </CardContent>
       </Card >
     </>

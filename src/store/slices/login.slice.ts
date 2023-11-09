@@ -4,6 +4,7 @@ import { RootState } from "../store";
 import { Login, LoginResult } from "../../types/User.type";
 import { httpClient } from "../../utils/httpclient";
 import { toast } from 'react-toastify';
+import { FieldValues } from "react-hook-form";
 
 
 interface LoginState {
@@ -49,7 +50,7 @@ export const { setLoginStart, setLoginSuccess, setLoginFailed, setLogout } = log
 export default loginSlice.reducer;
 
 
-export const login = (user: Login, navigate: any, setSubmitting: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const login = (user: FieldValues, navigate: any, setSubmitting: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         dispatch(setLoginStart());
         const result = await httpClient.post<LoginResult>(server.LOGIN_URL, user);

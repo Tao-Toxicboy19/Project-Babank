@@ -5,6 +5,7 @@ import { server } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
+import { FieldValues } from 'react-hook-form';
 
 const initialState: OrderState = {
   orders: [],
@@ -73,6 +74,20 @@ export const deleteOrder = (id: any, setOpen: any) => {
       await dispatch(loadOrder())
       toast.success('ลบเรียบร้อย')
       setOpen(false)
+    } catch (error: any) {
+      dispatch(setOrdersFailure(error.message));
+    }
+  };
+};
+
+
+export const updateStatus = (id: number, data: FieldValues, handleClose: () => void) => {
+  return async (dispatch: any) => {
+    try {
+      await httpClient.patch(`${server.UPDATESTATUS}/${id}`, data)
+      await dispatch(loadOrder())
+      toast.success('อัพเดทสถานะเรียบร้อย')
+      handleClose()
     } catch (error: any) {
       dispatch(setOrdersFailure(error.message));
     }
