@@ -4,7 +4,7 @@ import { Box, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom';
-import { LuFileEdit } from "react-icons/lu";
+import { RiEditLine } from "react-icons/ri";
 import { FTSCrane } from '../../../types/FloatingCrane.type';
 import FTSDelete from '../../Pages/FTSPage/FTSDelete/FTSDelete';
 
@@ -61,7 +61,7 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                     <Box className='flex justify-end'>
                         <Tooltip title="แก้ไข">
                             <IconButton component={Link} to={`/transferstation/edit/${fts_id}`}>
-                                <LuFileEdit className="text-[#169413]" />
+                                <RiEditLine className="text-[#135812]" />
                             </IconButton>
                         </Tooltip>
                         <FTSDelete id={fts_id} />

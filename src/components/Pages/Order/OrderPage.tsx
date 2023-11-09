@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import { LuFileEdit } from "react-icons/lu";
+import { RiEditLine } from "react-icons/ri";
 import { useState } from "react";
 import OrderDeletePage from "../../layout/Order/OrderDelete/OrderDeletePage";
 import TableTitles from "../../layout/TableTitles/TableTitles";
@@ -67,7 +67,7 @@ export default function OrderPage({ }: Props) {
                 className="font-kanit"
               >
 
-                
+
                 <UpdateStatus items={items} />
 
 
@@ -176,7 +176,8 @@ export default function OrderPage({ }: Props) {
                 <Box className='flex flex-row justify-end'>
                   <Tooltip title="แก้ไข">
                     <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
-                      <LuFileEdit className="text-[#169413]" />
+                      <RiEditLine className="text-[#135812]" />
+
                     </IconButton>
                   </Tooltip>
                   <OrderDeletePage id={items.or_id} />

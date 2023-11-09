@@ -30,6 +30,9 @@ export default function HomePage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
 
+  const isLoading = FTSReducer.loading && CarrierReducer.loading && CargoReducer.cargo && OrderReducer.orders && CargoCraneReducer.result
+
+
   useEffect(() => {
     dispatch(loadFTS())
     dispatch(loadCarrier())
@@ -44,84 +47,81 @@ export default function HomePage({ }: Props) {
 
   return (
     <>
-      {
-        FTSReducer.loading ?
-          (
+      <Card className="min-h-[90vh] bg-blue-100/50 flex items-center justify-center font-sriracha">
+        <CardContent>
+          {isLoading ? (
             <Loading />
           ) : (
-            <Card className="max-h-[100vh] bg-blue-100/50 flex items-center justify-center font-sriracha">
-              <CardContent>
-                <Box className='grid grid-cols-2 gap-10 my-5'>
-                  <StockCard
-                    icon={GiCargoCrane}
-                    title="ทุ่น"
-                    subtitle={`${(FTSReducer.FTS).length} ลำ`}
-                    color="bg-[#00a65a]/75"
-                    path={'/transferstation'}
-                  />
-                  <StockCard
-                    icon={GiCargoShip}
-                    title="เรือขนสินค้า"
-                    subtitle={`${(CarrierReducer.carrier).length} ลำ`}
-                    color="bg-[#f39c12]/75"
-                    path={'/carrier'}
-                  />
-                  <StockCard
-                    icon={BsBoxSeam}
-                    title="สินค้า"
-                    subtitle={`${(CargoReducer.cargo).length} ประเภท`}
-                    color="bg-[#dd4b39]/75"
-                    path={'/cargo'}
-                  />
-                  <StockCard
-                    icon={GiCrane}
-                    title="ข้อมูลสินค้าและเครน"
-                    subtitle={`${(CargoCraneReducer.result).length} รายการ`}
-                    color="bg-[#7b2cbf]/75"
-                    path={'/cargocrane'}
-                  />
-                  <StockCard
-                    icon={HiOutlineClipboardDocumentList}
-                    title="ขนถ่ายสินค้า"
-                    subtitle={`${(OrderReducer.orders).length} รายการ`}
-                    color="bg-[#00c0ef]/75"
-                    path={'/orders'}
-                  />
-                  <StockCard
-                    icon={TbListDetails}
-                    title="สรุปรายละเอียดต้นทุน"
-                    color="bg-[#a53860]/75"
-                    path={'/summarize'}
-                  />
+            <Box className='grid grid-cols-2 gap-10 my-5'>
+              <StockCard
+                icon={GiCargoCrane}
+                title="ทุ่น"
+                subtitle={`${(FTSReducer.FTS).length} ลำ`}
+                color="bg-[#00a65a]/75"
+                path={'/transferstation'}
+              />
+              <StockCard
+                icon={GiCargoShip}
+                title="เรือขนสินค้า"
+                subtitle={`${(CarrierReducer.carrier).length} ลำ`}
+                color="bg-[#f39c12]/75"
+                path={'/carrier'}
+              />
+              <StockCard
+                icon={BsBoxSeam}
+                title="สินค้า"
+                subtitle={`${(CargoReducer.cargo).length} ประเภท`}
+                color="bg-[#dd4b39]/75"
+                path={'/cargo'}
+              />
+              <StockCard
+                icon={GiCrane}
+                title="ข้อมูลสินค้าและเครน"
+                subtitle={`${(CargoCraneReducer.result).length} รายการ`}
+                color="bg-[#7b2cbf]/75"
+                path={'/cargocrane'}
+              />
+              <StockCard
+                icon={HiOutlineClipboardDocumentList}
+                title="ขนถ่ายสินค้า"
+                subtitle={`${(OrderReducer.orders).length} รายการ`}
+                color="bg-[#00c0ef]/75"
+                path={'/orders'}
+              />
+              <StockCard
+                icon={TbListDetails}
+                title="สรุปรายละเอียดต้นทุน"
+                color="bg-[#a53860]/75"
+                path={'/summarize'}
+              />
+              <Box
+                component={Link} to={`/report`}
+                className='relative col-span-2 mx-auto'
+              >
+                <Card className="w-[500px] h-[100px] p-5">
                   <Box
-                    component={Link} to={`/report`}
-                    className='relative col-span-2 mx-auto'
+                    className={`
+                      bg-[#D2DE32]/75 flex justify-center items-center absolute top-[-20px] right-[-20px] w-[140px] h-full px-3 py-2 rounded-md
+                  `}
                   >
-                    <Card className="w-[500px] h-[100px] p-5">
-                      <Box
-                        className={`
-                        bg-[#D2DE32]/75 flex justify-center items-center absolute top-[-20px] right-[-20px] w-[140px] h-full px-3 py-2 rounded-md
-                    `}
-                      >
 
-                        <HiOutlineDocumentReport className='text-5xl flex justify-center items-center' />
-                      </Box>
-                      <Box className='m-2 text-[#435B71]'>
-                        <Typography
-                          variant='h5'
-                          component='h4'
-                          className='flex justify-start font-semibold font-kanit'
-                        >
-                          รายงาน
-                        </Typography>
-                      </Box>
-                    </Card>
+                    <HiOutlineDocumentReport className='text-5xl flex justify-center items-center' />
                   </Box>
-                </Box>
-              </CardContent>
-            </Card >
-          )
-      }
+                  <Box className='m-2 text-[#435B71]'>
+                    <Typography
+                      variant='h5'
+                      component='h4'
+                      className='flex justify-start font-semibold font-kanit'
+                    >
+                      รายงาน
+                    </Typography>
+                  </Box>
+                </Card>
+              </Box>
+            </Box>
+          )}
+        </CardContent>
+      </Card >
     </>
   )
 }

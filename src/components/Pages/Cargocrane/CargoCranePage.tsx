@@ -10,7 +10,7 @@ import { RootState } from '../../../store/store'
 import { useState } from 'react'
 import { CargoCrane } from '../../../types/CargoCrane.type'
 import React from 'react'
-import { LuFileEdit } from 'react-icons/lu'
+import { RiEditLine } from 'react-icons/ri'
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import { Link } from 'react-router-dom'
@@ -104,7 +104,8 @@ export default function CargoCranePage({ }: Props) {
                     component={Link}
                     to={`/cargocrane/edit/${items[0].cargo_crane_id}`}
                   >
-                    <LuFileEdit className="text-[#169413]" />
+                    <RiEditLine className="text-[#135812]" />
+
                   </IconButton>
                 </Tooltip>
                 <CargoCraneDeletePage id={items[0].cargo_crane_id} />
@@ -155,7 +156,7 @@ export default function CargoCranePage({ }: Props) {
 
                     <Tooltip title="แก้ไข">
                       <IconButton component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>
-                        <LuFileEdit className="text-[#169413]" />
+                        <RiEditLine className="text-[#135812]" />
                       </IconButton>
                     </Tooltip>
                     <CargoCraneDeletePage id={item.cargo_crane_id} />

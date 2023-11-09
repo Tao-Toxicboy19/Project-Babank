@@ -64,7 +64,7 @@ export default function FTSPage() {
   };
 
   return (
-    <Card className='bg-[#fff]/75'>
+    <Card className='bg-[#fff]/75 min-h-[90vh]'> 
       {FTSReducer.loading ? (
         <Loading />
       ) : (

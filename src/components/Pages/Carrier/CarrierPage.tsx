@@ -6,11 +6,12 @@ import { RootState } from '../../../store/store';
 import { Link } from 'react-router-dom';
 import Loading from '../../layout/Loading/Loading';
 import Titles from '../../layout/Titles/Titles';
-import { LuFileEdit } from 'react-icons/lu';
 import CarrierDeletePage from '../../layout/Carrier/Delete/CarrierDeletePage';
 import SearchTerms from '../../layout/SearchTerms/SearchTerms';
 import TableTitles from '../../layout/TableTitles/TableTitles';
 import { TitleCarrier } from '../../../Constants';
+import { RiEditLine } from 'react-icons/ri';
+
 
 type Props = {}
 
@@ -45,7 +46,7 @@ export default function CarrierPage({ }: Props) {
                 <Stack direction='row' className="flex justify-end">
                   <Tooltip title="แก้ไข">
                     <IconButton component={Link} to={`/carrier/edit/${items.cr_id}`}>
-                      <LuFileEdit className="text-[#169413]" />
+                      <RiEditLine className="text-[#135812]" />
                     </IconButton>
                   </Tooltip>
                   <CarrierDeletePage id={items.cr_id} />

@@ -9,7 +9,7 @@ import React from 'react';
 import { Cargo } from '../../../../types/Cargo.type';
 import SaveIcon from '@mui/icons-material/Save';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { LuFileEdit } from 'react-icons/lu';
+import { RiEditLine } from 'react-icons/ri';
 import { updateCargo } from '../../../../store/slices/Cargo/cargo.edit.slice';
 import { setUpdateCargo } from '../../../../store/slices/Cargo/cargo.slice';
 
@@ -82,7 +82,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                 <IconButton
                     onClick={() => setOpen(true)}
                 >
-                    <LuFileEdit className="text-[#169413]" />
+                    <RiEditLine className="text-[#135812]" />
                 </IconButton>
             </Tooltip>
             <Dialog
