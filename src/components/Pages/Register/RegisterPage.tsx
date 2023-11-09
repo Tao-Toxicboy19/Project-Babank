@@ -26,9 +26,13 @@ export default function RegisterPage({ }: Props) {
         onSubmit={handleSubmit((data) => {
           console.log(data);
           setIsSubmitting(true);
-          dispatch(registerLocal(data, navigate, () => {
-            setIsSubmitting(false)
-          }));
+          try {
+            dispatch(registerLocal(data, navigate))
+            setIsSubmitting(false);
+
+          } catch (error) {
+            setIsSubmitting(false);
+          }
         })}
       >
         <Grid container spacing={2}>
@@ -73,7 +77,7 @@ export default function RegisterPage({ }: Props) {
             สร้างบัญชี
           </Button>
         </Stack>
-      </form>
+      </form >
     )
   }
 

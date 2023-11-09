@@ -31,11 +31,11 @@ export default function UpdateStatus({ items }: Props) {
 
     return (
         <>
-            <Tooltip title="เปลี่ยนสถานะ">
+            <Tooltip title={items.status_order !== 'Approved' ? "เปลี่ยนสถานะ" : ""}>
                 <Typography
-                    className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'}`}
-                    style={{ cursor: 'pointer' }}
-                    onClick={handleClickOpen}
+                    className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'} ${items.status_order === 'Approved' ? 'disabled' : ''}`}
+                    style={{ cursor: items.status_order !== 'Approved' ? 'pointer' : 'not-allowed' }}
+                    onClick={items.status_order !== 'Approved' ? handleClickOpen : undefined}
                 >
                     {items.status_order}
                 </Typography>

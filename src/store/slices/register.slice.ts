@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { httpClient } from "../../utils/httpclient";
 import { server } from "../../Constants";
 import { toast } from "react-toastify";
-import { FieldValues } from "react-hook-form";
 
 interface RegisterState {
     loading: boolean;
@@ -39,20 +38,22 @@ const registerSlice = createSlice({
 export const { registerStart, registerSuccess, registerFailed } = registerSlice.actions;
 export default registerSlice.reducer;
 
-export const registerLocal = (values: FieldValues, navigate: any, setSubmitting: any) => {
+export const registerLocal = (values: any, navigate: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(registerStart());
             const result = await httpClient.post(server.REGISTER_URL, values);
-            if (result.data && result.data.message === 'สร้างผู้ใช้เรียบร้อยแล้ว') {
-                toast.success('Register Successfully');
-                navigate('/login');
-                dispatch(registerSuccess(result.data));
-            } else {
-                dispatch(registerFailed());
-            }
+            toast.success('Register Successfully');
+            navigate('/login');
+            dispatch(registerSuccess(result.data));
+            // if (result.data && result.data.message === 'OK') {
+            //     toast.success('Register Successfully');
+            //     navigate('/login');
+            //     dispatch(registerSuccess(result.data));
+            // } else {
+            //     dispatch(registerFailed());
+            // }
         } catch (error: any) {
-            setSubmitting(false);
             console.error('เกิดข้อผิดพลาดในการลงทะเบียน: ' + error.message);
             dispatch(registerFailed());
         }

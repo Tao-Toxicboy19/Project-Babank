@@ -12,6 +12,7 @@ import Loading from "../../layout/Loading/Loading";
 import Titles from "../../layout/Titles/Titles";
 import SearchTerms from "../../layout/SearchTerms/SearchTerms";
 import UpdateStatus from "../../layout/Order/UpdateStatus/UpdateStatus";
+import moment from "moment";
 
 type Props = {}
 
@@ -65,7 +66,11 @@ export default function OrderPage({ }: Props) {
                 align="center"
                 className="font-kanit"
               >
+
+                
                 <UpdateStatus items={items} />
+
+
               </TableCell>
               <TableCell align="center">
                 {items.cargo_order.map((cargo) => (
@@ -96,13 +101,13 @@ export default function OrderPage({ }: Props) {
                 align="right"
                 className="font-kanit"
               >
-                {items.arrival_time}
+                {moment(items.arrival_time).format('DD/MM/YYYY HH:mm:ss')}
               </TableCell>
               <TableCell
                 align="right"
                 className="font-kanit"
               >
-                {items.deadline_time}
+                {moment(items.deadline_time).format('DD/MM/YYYY HH:mm:ss')}
               </TableCell>
               <TableCell
                 align="right"
@@ -150,13 +155,13 @@ export default function OrderPage({ }: Props) {
                 align="center"
                 className="font-kanit"
               >
-                {items.rel_start_time}
+                {items.rel_start_time ? moment(items.rel_start_time).format('DD/MM/YYYY HH:mm:ss') : ""}
               </TableCell>
               <TableCell
                 align="center"
                 className="font-kanit"
               >
-                {items.rel_finish_time}
+                {items.rel_finish_time ? moment(items.rel_finish_time).format('DD/MM/YYYY HH:mm:ss') : ""}
               </TableCell>
               <TableCell
                 align="center"
