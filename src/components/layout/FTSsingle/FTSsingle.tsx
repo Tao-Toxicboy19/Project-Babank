@@ -17,7 +17,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
-
+    // loadSolution_carrier_order
     return (
         <div
             role="tabpanel"
@@ -134,14 +134,23 @@ export default function FTSsingle() {
                                         />
                                         <SummarizaCard
                                             title={'ค่าปรับล่าช้า'}
-                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.penality_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                            icon={CurrencyBitcoinIcon}
+                                            price={(
+                                                FTSsolutionSlice.result[value].solutions.reduce(
+                                                    (total, solution) => total + solution.total_reward,
+                                                    0
+                                                ) 
+                                            ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} icon={CurrencyBitcoinIcon}
                                             unit={'บาท'}
                                             color='bg-[#00a6fb]/50'
                                         />
                                         <SummarizaCard
                                             title={'รางวัล'}
-                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_reward, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            price={(
+                                                FTSsolutionSlice.result[value].solutions.reduce(
+                                                    (total, solution) => total + solution.total_reward,
+                                                    0
+                                                ) 
+                                            ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             icon={CurrencyBitcoinIcon}
                                             unit={'บาท'}
                                             color='bg-[#00a6fb]/50'

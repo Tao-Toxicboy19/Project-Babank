@@ -168,3 +168,17 @@ export enum HasCrane {
 }
 
 
+////////////////////////////////////
+
+export interface Solution_carrier_order {
+    s_id: number;
+    order_id: number;
+    penalty_cost: number;
+    reward: number;
+}
+
+export interface Solution_carrier_orderState {
+    result: Solution_carrier_order
+    loading: boolean
+    error: string | null
+}

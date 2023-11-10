@@ -32,8 +32,8 @@ export const TitleOrder = [
     'ลองจิจูด',
     'จำนวนระวาง',
     'จำนวนทุ่นเข้าสูงสุด',
-    'ค่าปรับ (บาท)',
-    'รางวัล (บาท)',
+    'ค่าปรับ (บาท/ชั่วโมง)',
+    'รางวัล (บาท/ชั่วโมง)',
     'เวลาเริ่มจริง',
     'เวลาเสร็จจริง',
     'หมายเหตุ',
@@ -97,4 +97,5 @@ export const server = {
     MAINTAIN_FTS_URL: `maintain_fts`,
     CRANESOLUTIONTABLEV2_URL: `cranesolutiontableV2`,
     UPDATESTATUS: `updatestatus`,
+    SOLUTION_CARRIER_ORDER_SUM:`solution_carrier_order_sum`,
 };

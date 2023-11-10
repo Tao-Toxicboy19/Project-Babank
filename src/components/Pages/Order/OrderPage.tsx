@@ -143,13 +143,13 @@ export default function OrderPage({ }: Props) {
                 align="center"
                 className="font-kanit"
               >
-                {items.penalty_rate}
+                {(items.penalty_rate).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableCell>
               <TableCell
                 align="center"
                 className="font-kanit"
               >
-                {items.reward_rate}
+                {(items.reward_rate).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableCell>
               <TableCell
                 align="center"

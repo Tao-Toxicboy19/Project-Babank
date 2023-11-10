@@ -3,6 +3,10 @@ import { toast } from "react-toastify";
 import { httpClient } from "../../utils/httpclient";
 import { RootState } from "../store";
 import { apiManagePlans } from "../../Constants";
+import { loadFTSsolution } from "./FTS/FTSsolution.slice";
+import { loadFtsSolutionV2 } from "./FTS/FTSsolutionV2.slice";
+import { loadCraneSolution } from "./Solution/craneSolution.slice";
+import { loadSolution } from "./Solution/sollution_schedule.slice";
 
 
 export interface ManagePlans {
@@ -62,14 +66,10 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
 
         const result = await httpClient.post(apiManagePlans, values)
         dispatch(setManagePlansuccess(result.data));
-
-        // เมื่อคำขอไปยัง API เสร็จสิ้น รอ 3 วินาทีแล้วค่อยปิด modal
-        // setTimeout(() => {
-        //     handleClose()
-        //     handleCloseV2()
-        //     console.log(values)
-        //     toast.success('ประมวลผลเรียบร้อย')
-        // }, 4000);
+        dispatch(loadCraneSolution())
+        dispatch(loadSolution())
+        dispatch(loadFTSsolution())
+        dispatch(loadFtsSolutionV2())
         handleClose()
         handleCloseV2()
         toast.success('ประมวลผลเรียบร้อย')

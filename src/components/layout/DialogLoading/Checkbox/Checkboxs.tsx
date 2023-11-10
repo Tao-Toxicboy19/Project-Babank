@@ -62,7 +62,6 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                 cr_id: item.carrier.cr_id,
                 // เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการในออบเจ็กต์นี้
             }));
-        console.log(formData)
         dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData.computetime))
     };
 

@@ -31,11 +31,11 @@ export default function UpdateStatus({ items }: Props) {
 
     return (
         <>
-            <Tooltip title={items.status_order !== 'Approved' ? "เปลี่ยนสถานะ" : ""}>
+            <Tooltip title={items.status_order !== 'Assign' ? "" : "เปลี่ยนสถานะ"}>
                 <Typography
-                    className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'In progress' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'} ${items.status_order === 'Approved' ? 'disabled' : ''}`}
-                    style={{ cursor: items.status_order !== 'Approved' ? 'pointer' : 'not-allowed' }}
-                    onClick={items.status_order !== 'Approved' ? handleClickOpen : undefined}
+                    className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'Assign' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'} ${items.status_order === 'Approved' ? 'disabled' : ''}`}
+                    style={{ cursor: items.status_order !== 'Assign' ? 'not-allowed' : 'pointer' }}
+                    onClick={items.status_order !== 'Assign' ? undefined : handleClickOpen}
                 >
                     {items.status_order}
                 </Typography>
@@ -64,7 +64,7 @@ export default function UpdateStatus({ items }: Props) {
                         }}
                         className='text-slate-900 font-kanit'
                     >
-                        เปลี่ยนสถานะ เป็น Approved
+                        ยืนยันข้อมูลการขนถ่านสินค้า
                     </Typography>
                     <hr />
                 </DialogTitle>
@@ -86,6 +86,7 @@ export default function UpdateStatus({ items }: Props) {
                         >
                             <Stack direction='column' spacing={2} className='w-[500px]'>
                                 <Stack direction='column' spacing={1} >
+                                    <label htmlFor="deadline_time" className='font-kanit'>เวลาเริ่มการขนถ่ายจริง</label>
                                     <TextField
                                         fullWidth
                                         id="real_start_time"
@@ -102,6 +103,7 @@ export default function UpdateStatus({ items }: Props) {
 
                                 </Stack>
                                 <Stack direction='column' spacing={1}>
+                                    <label htmlFor="deadline_time" className='font-kanit'>เวลาสิ้นสุดการขนถ่ายจริง</label>
                                     <TextField
                                         fullWidth
                                         id="outlined-basic"
@@ -118,7 +120,7 @@ export default function UpdateStatus({ items }: Props) {
                                 <TextField
                                     fullWidth
                                     id="outlined-basic"
-                                    label="Outlined"
+                                    label="	หมายเหตุ"
                                     variant="outlined"
                                     {...register('reason')}
                                 />

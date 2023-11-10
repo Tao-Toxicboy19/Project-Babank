@@ -19,6 +19,7 @@ import { loadReport } from "../../../store/slices/report/reportSlice";
 import { loadReportCrane } from "../../../store/slices/report/reportCraneSlice";
 import { loadCarneSolutionV2 } from "../../../store/slices/Solution/craneSolutionV2Slice";
 import { Link } from "react-router-dom";
+import { loadSolution_carrier_order } from "../../../store/slices/Solution/solution_carrier_orderSlice";
 
 type Props = {}
 
@@ -43,6 +44,7 @@ export default function HomePage({ }: Props) {
     dispatch(loadReport());
     dispatch(loadReportCrane());
     dispatch(loadCarneSolutionV2());
+    dispatch(loadSolution_carrier_order())
   }, []);
 
   return (

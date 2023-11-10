@@ -19,8 +19,10 @@ export default function SummarizeLayout() {
     const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution);
     const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2);
 
+
+    const Solution_carrier_orderReducer = useSelector((state: RootState) => state.Solution_carrier_orderReducer);
     const isLoading = CraneSolutionSlice.loading || FtsSolutionV2Slice.loading;
-    
+
     useEffect(() => {
         dispatch(loadCraneSolution())
         dispatch(loadSolution())
@@ -96,14 +98,14 @@ export default function SummarizeLayout() {
                             />
                             <SummarizaCard
                                 title={'ค่าปรับล่าช้า'}
-                                price={(CraneSolutionSlice.result)?.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                price={(((CraneSolutionSlice.result)?.penality_cost) + Solution_carrier_orderReducer.result.penalty_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 icon={CurrencyBitcoinIcon}
                                 unit={'บาท'}
                                 color='bg-[#00a6fb]/50'
                             />
                             <SummarizaCard
                                 title={'รางวัล'}
-                                price={(CraneSolutionSlice.result)?.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                price={(((CraneSolutionSlice.result)?.total_reward)+Solution_carrier_orderReducer.result.reward).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 icon={CurrencyBitcoinIcon}
                                 unit={'บาท'}
                                 color='bg-[#00a6fb]/50'
