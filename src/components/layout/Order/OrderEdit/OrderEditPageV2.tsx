@@ -1,246 +1,270 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { httpClient } from '../../../../utils/httpclient';
-import { server } from '../../../../Constants';
-import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import Titles from '../../Titles/Titles';
 import { RootState } from '../../../../store/store';
-import { Carrier } from '../../../../types/Carrier.type';
-import { Orders } from '../../../../types/Order.type';
+import { server } from '../../../../Constants';
+import { httpClient } from '../../../../utils/httpclient';
+import Loading from '../../Loading/Loading';
 import { updateOrder } from '../../../../store/slices/Order/order.edit.slice';
-import Loading from '../../../layout/Loading/Loading';
 
 type Props = {}
 
+const defaultTheme = createTheme();
+
 export default function OrderEditPageV2({ }: Props) {
     const { id } = useParams()
+    const navigate = useNavigate()
     const CarrierReducer = useSelector((state: RootState) => state.carrier);
-    const [order, setOrder] = useState<Orders | null>(null)
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch<any>();
-    const navigate = useNavigate();
+    const [data, setData] = useState<any>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
+    const fetchFTSData = async () => {
+        try {
+            const response = await httpClient.get(`${server.ORDER}/${id}`);
+            setData(response.data);
+        } catch (error) {
+            throw error;
+        }
+    };
     useEffect(() => {
-        const fetchCraneData = async () => {
-            try {
-                setLoading(true);
-                const response = await httpClient.get(`${server.ORDER}/${id}`);
-                setOrder(response.data)
-                console.log(response.data)
-                setLoading(false)
-            } catch (error) {
-                setLoading(false)
-            }
-        };
-        fetchCraneData();
-    }, [id]);
-
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        setIsSubmitting(true);
-        dispatch(updateOrder(id, order, navigate, setIsSubmitting));
-    };
-
-
-    const handleSelectChangeCarrier = (event: any) => {
-        const value = event.target.value as number;
-        setOrder((prevCraneData: any) => ({
-            ...prevCraneData!,
-            cr_id: value,
-        }));
-    };
-    const handleSelectChangeCategory = (event: any) => {
-        const value = event.target.value as number;
-        setOrder((prevCraneData: any) => ({
-            ...prevCraneData!,
-            category: value,
-        }));
-    };
-
-    const handleInputChange = (event: any) => {
-        const { name, value } = event.target;
-        const numericValue = parseFloat(value);
-
-        setOrder((prevCraneData: any) => ({
-            ...prevCraneData!,
-            [name]: numericValue,
-        }));
-    };
-
+        fetchFTSData();
+    }, []);
 
     const showForm = () => {
-        if (order === null) {
-            return null;
-        }
-        const arrivalTime = new Date(order.arrival_time);
+
+        const arrivalTime = new Date(data.arrival_time);
         arrivalTime.setHours(arrivalTime.getHours() + 7);
         const formattedArrivalTime = arrivalTime.toISOString().slice(0, 16);
-        console.log(formattedArrivalTime)
 
 
-        const deadline_time = new Date(order.deadline_time);
+        const deadline_time = new Date(data.deadline_time);
         deadline_time.setHours(deadline_time.getHours() + 7);
         const formattedDeadline_time = deadline_time.toISOString().slice(0, 16);
 
         return (
-            <form onSubmit={handleSubmit}>
-                <Stack spacing={2} direction='column'>
-                    <Box>
-                        <InputLabel id="cr_id" className='font-kanit'>เลือกเรือ</InputLabel>
-                        <FormControl fullWidth>
-                            <Select
-                                labelId="cr_id"
-                                id="cr_id"
-                                value={order?.cr_id}
-                                onChange={handleSelectChangeCarrier}
-                            >
-                                {(CarrierReducer.carrier).map((item: Carrier) => (
-                                    <MenuItem className='font-kanit' key={item.cr_id} value={item.cr_id}>
-                                        {item.carrier_name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    <Stack spacing={2} direction='row'>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+            <form
+                onSubmit={handleSubmit(async (data) => {
+                    console.log(data)
+                    setIsSubmitting(true);
+                    dispatch(updateOrder(id, data, navigate, setIsSubmitting));
+                })}>
+                <Box className='grid grid-cols-2 gap-x-5 mt-5'>
+                    <Stack direction='column' spacing={4}>
+                        <Box>
                             <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">เลือกเครน</InputLabel>
                                 <Select
-                                    name='category'
-                                    value={order?.category}
-                                    onChange={handleSelectChangeCategory}
-                                    fullWidth
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    label="เลือกเครน"
+                                    {...register('cr_id', { required: true })}
+                                    defaultValue={data.cr_id}
                                 >
-                                    <MenuItem value='Import' className='font-kanit'>Import</MenuItem>
-                                    <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
+                                    {(CarrierReducer.carrier).map((items) => (
+                                        <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
+                                            {items.carrier_name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
+                            {errors.cargo_id &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>จำนวนทุ่นเข้าสูงสุด</InputLabel>
+
+                        <Box>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    label="สถานะสินค้า (ขาเข้า/ขาออก)"
+                                    {...register('category', { required: true })}
+                                    defaultValue={data.category}
+                                >
+                                    <MenuItem value='import' className='font-kanit'>import</MenuItem>
+                                    <MenuItem value='export' className='font-kanit'>export</MenuItem>
+                                </Select>
+                            </FormControl>
+                            {errors.category &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
+
+                        <Box>
                             <TextField
-                                name='maxFTS'
+                                label='จำนวนทุ่นเข้าสูงสุด'
                                 id='maxFTS'
                                 type='number'
-                                value={order?.maxFTS}
-                                onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
+                                {...register('maxFTS', { required: true, valueAsNumber: true })}
+                                defaultValue={data.maxFTS}
                             />
+                            {errors.maxFTS &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
-                    </Stack>
-                    <Stack spacing={2} direction='row'>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>วัน-เวลา มาถึง</InputLabel>
+
+                        <Box>
                             <TextField
-                                name='arrival_time'
-                                id='arrival_time'
-                                type='datetime-local'
-                                value={formattedArrivalTime}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-                        </Box>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>วัน-เวลา สิ้นสุด</InputLabel>
-                            <TextField
-                                name='deadline_time'
-                                id='deadline_time'
-                                type='datetime-local'
-                                value={formattedDeadline_time}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-                        </Box>
-                    </Stack>
-                    <Stack spacing={2} direction='row'>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>ละติจูด</InputLabel>
-                            <TextField
-                                name='latitude'
+                                label='ละติจูด'
                                 id='latitude'
                                 type='number'
-                                value={order?.latitude}
-                                onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
+                                {...register('latitude', { required: true, valueAsNumber: true },)}
+                                defaultValue={data.latitude}
                             />
+                            {errors.latitude &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>ลองจิจูด</InputLabel>
+
+                        <Box>
                             <TextField
-                                name='longitude'
                                 id='longitude'
+                                label='ลองจิจูด'
                                 type='number'
-                                value={order?.longitude}
-                                onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
+                                {...register('longitude', { required: true, valueAsNumber: true })}
+                                defaultValue={data.longitude}
                             />
+                            {errors.longitude &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                     </Stack>
-                    <Stack spacing={2} direction='row'>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>ค่าปรับ (บาท/วัน)</InputLabel>
+
+                    <Stack direction='column' spacing={4}>
+                        <Box>
+                            <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา มาถึง</label>
                             <TextField
-                                name='penalty_rate'
+                                id='arrival_time'
+                                type='datetime-local'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('arrival_time', { required: true })}
+                                defaultValue={formattedArrivalTime}
+                            />
+                            {errors.arrival_time &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
+
+                        <Box>
+                            <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด</label>
+                            <TextField
+                                id='deadline_time'
+                                type='datetime-local'
+                                fullWidth
+                                className='font-kanit'
+                                {...register('deadline_time', { required: true })}
+                                defaultValue={formattedDeadline_time}
+                            />
+                            {errors.deadline_time &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
+
+                        <Box>
+                            <TextField
                                 id='penalty_rate'
+                                label='ค่าปรับ (บาท/วัน)'
                                 type='number'
-                                value={order?.penalty_rate}
-                                onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
+                                {...register('penalty_rate', { required: true, valueAsNumber: true })}
+                                defaultValue={data.penalty_rate}
                             />
+                            {errors.penalty_rate &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
-                        <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>รางวัล (บาท/วัน)</InputLabel>
+
+                        <Box>
                             <TextField
-                                name='reward_rate'
                                 id='reward_rate'
+                                label='รางวัล (บาท/วัน)'
                                 type='number'
-                                value={order?.reward_rate}
-                                onChange={handleInputChange}
                                 fullWidth
+                                className='font-kanit'
+                                {...register('reward_rate', { required: true, valueAsNumber: true })}
+                                defaultValue={data.reward_rate}
                             />
+                            {errors.reward_rate &&
+                                <Alert variant="outlined" severity="error" className='mt-2'>
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
+
                     </Stack>
-                    <Stack spacing={2} direction='row'>
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            sx={{ mt: 3, mb: 2 }}
-                            component={Link}
-                            to={'/orders'}
-                            className='font-kanit'
-                        >
-                            กลับ
-                        </Button>
+                    <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
                             disabled={isSubmitting}
                         >
                             บันทึก
                         </Button>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={() => navigate('/orders')}
+                            className='font-kanit text-lg py-3'
+                        >
+                            กลับ
+                        </Button>
                     </Stack>
-                </Stack>
+                </Box>
             </form >
         )
     }
 
     return (
-        <>{
-            loading ? (
-                <Loading />
-            ) : (
-                <Card sx={{ maxWidth: 750, marginX: 'auto' }}>
-                    <CardContent>
-                        {showForm()}
-                    </CardContent>
-                </Card>
-            )
-        }
-        </>
+        <ThemeProvider theme={defaultTheme}>
+            <Card className='min-h-[90vh]'>
+                <CardContent>
+                    {data === undefined ? (<Loading />) : (
+                        <>
+                            <Box className='flex justify-between'>
+                                <Titles title='รายการขนถ่ายสินค้า' title2='แก้ไขข้อมูล' />
+                                <Button
+                                    variant="contained"
+                                    className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3 px-10'
+                                    onClick={() => navigate(`/orders/cargo/edit/${id}`)}
+                                >
+                                    แก้ไขสินค้า
+                                </Button>
+                            </Box>
+                            <Box>
+                                {showForm()}
+                            </Box>
+                        </>
+                    )}
+
+                </CardContent>
+            </Card>
+        </ThemeProvider >
     )
 }

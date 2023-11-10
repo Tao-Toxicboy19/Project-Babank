@@ -3,6 +3,7 @@ import { server } from "../../../Constants";
 import { Crane, CraneEditState, } from "../../../types/crane.type";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from "react-toastify";
+import { FieldValues } from "react-hook-form";
 
 const initialState: CraneEditState = {
     result: null,
@@ -36,11 +37,11 @@ export const { setCraneEditState, setCraneEditSuccess, setCraneEditFailure } = C
 export default CraneEditSlice.reducer
 
 
-export const addCrane = (formData: FormData, navigate: any) => {
+export const addCrane = (formData: FieldValues, navigate: any) => {
     return async () => {
         try {
             await httpClient.post(server.CRANE, formData);
-            toast.success('Successfully')
+            toast.success('เพิ่มข้อมูลเรียนร้อย')
             navigate('/transferstation')
         } catch (error) {
             console.error('Error while adding CARRIER:', error);

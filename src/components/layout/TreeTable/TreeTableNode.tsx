@@ -82,12 +82,25 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 <Grid item xs={1} >
                     <Typography className='font-kanit'>เวลาเตรียมความพร้อม (นาที)</Typography>
                 </Grid>
+                <Grid item xs={1} sx={{ marginLeft: 5 }}>
+                    <Typography className='font-kanit'>ค่าแรง (เดือน)</Typography>
+                </Grid>
+                <Grid item xs={1} >
+                    <Typography className='font-kanit'>ค่ารางวัล (บาท/ตัน)</Typography>
+                </Grid>
             </Grid >
             }
             {
                 isOpen &&
                 result.map((subNode, index) => (
-                    <TreeNode key={index} crane_name={subNode.crane_name} setuptime_crane={subNode.setuptime_crane} crane_id={subNode.crane_id} />
+                    <TreeNode
+                        key={index}
+                        crane_name={subNode.crane_name}
+                        setuptime_crane={subNode.setuptime_crane}
+                        crane_id={subNode.crane_id}
+                        wage_month_cost={subNode.wage_month_cost}
+                        premium_rate={subNode.premium_rate}
+                    />
                 ))
             }
         </>

@@ -119,8 +119,8 @@ export default function CargoCraneCreate({ }: Props) {
                                     label="สถานะสินค้า (ขาเข้า/ขาออก)"
                                     {...register('category', { required: true })}
                                 >
-                                    <MenuItem value='Import' className='font-kanit'>Import</MenuItem>
-                                    <MenuItem value='Export' className='font-kanit'>Export</MenuItem>
+                                    <MenuItem value='import' className='font-kanit'>Import</MenuItem>
+                                    <MenuItem value='export' className='font-kanit'>Export</MenuItem>
                                 </Select>
                             </FormControl>
                             {errors.category &&

@@ -1,107 +1,83 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
-import { Crane } from '../../../../types/crane.type';
+import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
 import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../types/FloatingCrane.type';
 import { toast } from 'react-toastify';
 import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
+import { useForm } from 'react-hook-form';
+import Titles from '../../../layout/Titles/Titles';
 
 type Props = {};
 
+const defaultTheme = createTheme()
+
 export default function CraneEditPage({ }: Props) {
-    const [craneData, setCraneData] = useState<Crane | null>(null);
+    const [craneData, setCraneData] = useState<any>();
     const { id } = useParams();
     const navigate = useNavigate()
     const FTSSlice = useSelector((state: RootState) => state.FTS);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const {
+        register,
+        handleSubmit,
+    } = useForm();
 
-    useEffect(() => {
-        const fetchCraneData = async () => {
-            try {
-                const response = await axios.get(`${server.CRANE}/${id}`);
-                setCraneData(response.data);
-            } catch (error) {
-                console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
-            }
-        };
-        fetchCraneData();
-    }, [id]);
-
-    const handleSelectChange = (event: any) => {
-        const value = event.target.value as number;
-        setCraneData((prevCraneData: any) => ({
-            ...prevCraneData!,
-            FTS_id: value,
-        }));
-    };
-
-
-    const handleInputChange = (event: any) => {
-        const { name, value } = event.target;
-
-        setCraneData((prevCraneData: any) => ({
-            ...prevCraneData!,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setIsSubmitting(true);
-
+    const fetchCraneData = async () => {
         try {
-            await httpClient.put(`${server.CRANE}/${id}`, craneData);
-            setIsSubmitting(false);
-            toast.success('แก้ไขเครนรรีนยร้อย');
-            navigate('/transferstation')
+            const response = await axios.get(`${server.CRANE}/${id}`);
+            setCraneData(response.data);
         } catch (error) {
-            console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล Crane:', error);
-            setIsSubmitting(false);
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
         }
     };
 
+    useEffect(() => {
+        fetchCraneData();
+    }, [id]);
 
-    if (!craneData) {
+    const showForm = () => {
         return (
-            <Loading />
-        );
-    }
+            <form
+                onSubmit={handleSubmit(async (data) => {
+                    setIsSubmitting(true);
+                    try {
+                        await httpClient.put(`${server.CRANE}/${id}`, data);
+                        setIsSubmitting(false);
+                        toast.success('แก้ไขเครนรรีนยร้อย');
+                        navigate('/transferstation')
+                    } catch (error) {
+                        setIsSubmitting(false);
+                    }
+                })}>
+                <Box className='mt-5'>
+                    <Stack direction='column' spacing={4}>
+                        <Box>
+                            <TextField
+                                variant="outlined"
+                                type="text"
+                                label='ชื่อเครน'
+                                className='font-kanit'
+                                id="crane_name"
+                                {...register('crane_name', { required: true })}
+                                defaultValue={craneData.crane_name}
+                                fullWidth
+                            />
+                        </Box>
 
-    const { crane_name, FTS_id, setuptime_crane } = craneData;
-
-    return (
-        <div>
-            <Card className="max-w-[720px] mx-auto">
-                <CardContent className="m-4">
-                    <form onSubmit={handleSubmit}>
-                        <Stack direction='column' spacing={3}>
-                            <Box>
-                                <label className="pr-5 font-kanit" htmlFor="FTS_name">ชื่อเครน:</label>
-                                <TextField
-                                    variant="outlined"
-                                    type="text"
-                                    className='font-kanit'
-                                    id="crane_name"
-                                    name="crane_name"
-                                    value={crane_name}
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Box>
+                        <Box>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label" className='font-kanit'>เลือกทุ่น</InputLabel>
+                                <InputLabel id="demo-simple-select-label">เลือกเครน</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
-                                    id="FTS_id"
-                                    value={FTS_id}
-                                    className='font-kanit'
-                                    label="เลือกทุ่น"
-                                    onChange={handleSelectChange}
+                                    id="demo-simple-select"
+                                    label="เลือกเครน"
+                                    {...register('cr_id', { required: true, valueAsNumber: true })}
+                                    defaultValue={craneData.FTS_id}
                                 >
                                     {(FTSSlice.FTS).map((item: FTS) => (
                                         <MenuItem key={item.fts_id} value={item.fts_id}>
@@ -110,44 +86,91 @@ export default function CraneEditPage({ }: Props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <Box>
-                                <label htmlFor="lng" className='font-kanit'>เวลาเตรียมการ:</label>
-                                <TextField
-                                    variant="outlined"
-                                    type="number"
-                                    id="setuptime_crane"
-                                    className='font-kanit'
-                                    name="setuptime_crane"
-                                    value={setuptime_crane}
-                                    onChange={handleInputChange}
-                                    fullWidth
-                                />
-                            </Box>
-                        </Stack>
-                        <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
-                            <Button
-                                fullWidth
+                        </Box>
+
+                        <Box>
+                            <TextField
                                 variant="outlined"
-                                sx={{ mt: 3, mb: 2 }}
-                                onClick={() => navigate('/transferstation')}
+                                type="number"
+                                label='เวลาเตรียมการ'
+                                id="setuptime_crane"
                                 className='font-kanit'
-                            >
-                                กลับ
-                            </Button>
-                            <Button
-                                type="submit"
+                                {...register('setuptime_crane', { required: true, valueAsNumber: true })}
+                                defaultValue={craneData.setuptime_crane}
                                 fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
-                                disabled={isSubmitting}
-                            >
-                                บันทึก
-                            </Button>
-                        </Stack>
-                    </form>
+                            />
+                        </Box>
+
+                        <Box>
+                            <TextField
+                                variant="outlined"
+                                type="number"
+                                label='ค่าแรง (เดือน)'
+                                id="wage_month_cost"
+                                className='font-kanit'
+                                {...register('wage_month_cost', { required: true, valueAsNumber: true })}
+                                defaultValue={craneData.wage_month_cost}
+                                fullWidth
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                variant="outlined"
+                                type="number"
+                                label='ค่ารางวัล (บาท/ตัน)'
+                                id="premium_rate"
+                                className='font-kanit'
+                                {...register('premium_rate', { required: true, valueAsNumber: true })}
+                                defaultValue={craneData.premium_rate}
+                                fullWidth
+                            />
+                        </Box>
+                    </Stack>
+
+
+                    <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={() => navigate('/transferstation')}
+                            className='font-kanit text-lg py-3'
+                        >
+                            กลับ
+                        </Button>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
+                            disabled={isSubmitting}
+                        >
+                            บันทึก
+                        </Button>
+                    </Stack>
+                </Box>
+            </form >
+        )
+    }
+
+
+    return (
+        <ThemeProvider theme={defaultTheme}>
+            <Card className='min-h-[90vh]'>
+                <CardContent>
+                    {craneData === undefined ? (
+                        <Loading />
+                    ) : (
+                        <>
+                            <Box className='flex justify-start'>
+                                <Titles title='เครน' title2='แก้ไขข้อมูล' />
+                            </Box>
+                            <Box>
+                                {showForm()}
+                            </Box>
+                        </>
+                    )}
                 </CardContent>
             </Card>
-        </div >
-    );
+        </ThemeProvider >
+    )
 }

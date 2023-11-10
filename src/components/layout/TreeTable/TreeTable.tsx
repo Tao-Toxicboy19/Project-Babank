@@ -2,14 +2,8 @@ import { Box, Fab, Grid, Tooltip, Typography } from '@mui/material';
 import TreeTableNode from './TreeTableNode';
 import Add from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
-import { FTSCrane } from '../../../types/FloatingCrane.type';
 
-
-type Props = {
-    FTSReducer: FTSCrane[];
-}
-
-export default function TreeTable({ FTSReducer }: Props) {
+export default function TreeTable({ FTSReducer }: any) {
     return (
         <>
             <Box className="justify-between flex">
@@ -72,7 +66,7 @@ export default function TreeTable({ FTSReducer }: Props) {
             </Grid>
 
             {
-                FTSReducer.map((node, index) => (
+                FTSReducer.map((node: any, index: any) => (
                     <TreeTableNode
                         key={index}
                         fts_id={node.fts_id}

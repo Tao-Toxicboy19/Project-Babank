@@ -167,7 +167,7 @@ const CargoEditPage: React.FC = () => {
                                         variant="outlined"
                                         onClick={handleSubmit}
                                         component={Link}
-                                        to={'/orders/create'}
+                                        to={'/orders'}
                                         className='font-kanit'
                                     >
                                         กลับ

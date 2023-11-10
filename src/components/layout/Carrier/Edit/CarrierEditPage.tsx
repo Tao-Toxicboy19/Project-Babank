@@ -7,7 +7,6 @@ import Titles from '../../Titles/Titles';
 import { updateCarrier } from '../../../../store/slices/Carrier/carrier.edit.slice';
 import { server } from '../../../../Constants';
 import { httpClient } from '../../../../utils/httpclient';
-import { Carrier } from '../../../../types/Carrier.type';
 import Loading from '../../Loading/Loading';
 
 type Props = {}
@@ -18,7 +17,7 @@ export default function CarrierEditPage({ }: Props) {
     const navigate = useNavigate()
     const dispatch = useDispatch<any>();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [data, setData] = useState<Carrier>();
+    const [data, setData] = useState<any>();
     const { id } = useParams()
     const {
         register,
@@ -30,13 +29,10 @@ export default function CarrierEditPage({ }: Props) {
         try {
             const response = await httpClient.get(`${server.CARRIER}/${id}`);
             setData(response.data);
-            console.log(response.data)
         } catch (error) {
-            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล FTS:', error);
+            throw error;
         }
     };
-
-    console.log(data?.carrier_name)
 
     useEffect(() => {
         fetchFTSData();
@@ -64,8 +60,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('carrier_name', { required: true })}
-                                value={data?.carrier_name}
-                                defaultValue={data?.carrier_name}
+                                defaultValue={data.carrier_name}
                             />
                             {errors.carrier_name &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -82,7 +77,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('holder', { required: true })}
-                                defaultValue={data?.holder}
+                                defaultValue={data.holder}
                             />
                             {errors.holder &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -98,7 +93,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('maxcapacity', { required: true, valueAsNumber: true },)}
-                                defaultValue={data?.maxcapacity}
+                                defaultValue={data.maxcapacity}
                             />
                             {errors.maxcapacity &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -114,7 +109,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('burden', { required: true, valueAsNumber: true })}
-                                defaultValue={data?.burden}
+                                defaultValue={data.burden}
                             />
                             {errors.burden &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -132,7 +127,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('carrier_max_FTS', { required: true, valueAsNumber: true })}
-                                defaultValue={data?.carrier_max_FTS}
+                                defaultValue={data.carrier_max_FTS}
                             />
                             {errors.carrier_max_FTS &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -148,7 +143,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('carrier_max_crane', { required: true, valueAsNumber: true })}
-                                defaultValue={data?.carrier_max_crane}
+                                defaultValue={data.carrier_max_crane}
                             />
                             {errors.carrier_max_crane &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -164,7 +159,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('Width', { required: true, valueAsNumber: true })}
-                                defaultValue={data?.Width}
+                                defaultValue={data.Width}
                             />
                             {errors.Width &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -180,7 +175,7 @@ export default function CarrierEditPage({ }: Props) {
                                 fullWidth
                                 className='font-kanit'
                                 {...register('length', { required: true, valueAsNumber: true })}
-                                defaultValue={data?.length}
+                                defaultValue={data.length}
                             />
                             {errors.length &&
                                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -196,7 +191,7 @@ export default function CarrierEditPage({ }: Props) {
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-form-control-label-placement"
-                                defaultValue={data?.has_crane}
+                                defaultValue={data.has_crane}
                                 {...register('has_crane')}
                             >
                                 <FormControlLabel value="has" control={<Radio />} label="มี" />

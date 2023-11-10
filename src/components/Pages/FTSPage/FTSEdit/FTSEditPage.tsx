@@ -1,138 +1,130 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
-import { Button, Card, CardContent, Stack, TextField } from '@mui/material';
-import { FTS } from '../../../../types/FloatingCrane.type';
+import { Box, Button, Card, CardContent, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
 import { toast } from 'react-toastify';
 import Loading from '../../../layout/Loading/Loading';
+import { useForm } from 'react-hook-form';
+import Titles from '../../../layout/Titles/Titles';
 
 type Props = {
 };
 
+const defaultTheme = createTheme()
+
 export default function FTSEditPage({ }: Props) {
-  const [FTSData, setFTSData] = useState<FTS | null>(null);
+  const [FTSData, setFTSData] = useState<any>();
   const { id } = useParams()
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+  } = useForm();
 
-  useEffect(() => {
-    const fetchFTSData = async () => {
-      try {
-        const response = await axios.get(`${server.FLOATING}/${id}`);
-        setFTSData(response.data);
-      } catch (error) {
-        console.error('เกิดข้อผิดพลาดในการดึงข้อมูล FTS:', error);
-      }
-    };
-    fetchFTSData();
-  }, []);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setFTSData((prevFTSData: any) => ({
-      ...prevFTSData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-
+  const fetchFTSData = async () => {
     try {
-      await axios.put(`${server.FLOATING}/${id}`, FTSData);
-      setIsSubmitting(false);
-      toast.success('แก้ไขทุ่นเรียบร้อย');
-      navigate('/transferstation')
+      const response = await axios.get(`${server.FLOATING}/${id}`);
+      setFTSData(response.data);
     } catch (error) {
-      console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูล FTS:', error);
-      setIsSubmitting(false);
+      throw error;
     }
   };
 
-  if (!FTSData) {
+  useEffect(() => {
+    fetchFTSData();
+  }, []);
+
+  const showForm = () => {
     return (
-      <Loading />
-    );
-  }
+      <form
+        onSubmit={handleSubmit(async (data) => {
+          setIsSubmitting(true);
+          try {
+            await axios.put(`${server.FLOATING}/${id}`, data);
+            setIsSubmitting(false);
+            toast.success('แก้ไขทุ่นเรียบร้อย');
+            navigate('/transferstation')
+          } catch (error) {
+            console.log(error);
+            setIsSubmitting(false);
+            throw error;
+          }
+        })}>
+        <Box className='mt-5'>
+          <Stack direction='column' spacing={4}>
+            <Box>
+              <TextField
+                variant="outlined"
+                type="text"
+                label='ชื่อทุ่น'
+                className='font-kanit'
+                id="FTS_name"
+                {...register('FTS_name', { required: true })}
+                defaultValue={FTSData.FTS_name}
+                fullWidth
+              />
+            </Box>
 
-  const { FTS_name, lat, lng, setuptime_FTS, speed } = FTSData;
+            <Box>
+              <TextField
+                variant="outlined"
+                type="number"
+                label='ละติจูด'
+                id="lat"
+                className='font-kanit'
+                {...register('lat', { required: true, valueAsNumber: true })}
+                defaultValue={FTSData.lat}
+                fullWidth
+              />
+            </Box>
 
-  return (
-    <Card className="w-[750px] mx-auto">
-      <CardContent className="m-8">
-        <form onSubmit={handleSubmit}>
-          <Stack direction='column' spacing={1}>
-            <label className="pr-5 font-kanit" htmlFor="FTS_name">ชื่อทุ่น:</label>
-            <TextField
-              variant="outlined"
-              type="text"
-              id="FTS_name"
-              name="FTS_name"
-              value={FTS_name}
-              onChange={handleInputChange}
-              fullWidth
-              className='font-kanit'
-            />
-
-            <label className="pr-5 font-kanit" htmlFor="lat">ละติจูด:</label>
-            <TextField
-              variant="outlined"
-              type="number"
-              id="lat"
-              name="lat"
-              value={lat}
-              onChange={handleInputChange}
-              fullWidth
-              className='font-kanit'
-            />
-
-            <label htmlFor="lng" className='font-kanit'>ลองติจูด:</label>
-            <TextField
-              variant="outlined"
-              type="number"
-              id="lng"
-              name="lng"
-              value={lng}
-              onChange={handleInputChange}
-              fullWidth
-              className='font-kanit'
-            />
-
-            <label className="pr-5 font-kanit" htmlFor="setuptime_FTS">เวลาเตรียมการ (นาที):</label>
-            <TextField
-              variant="outlined"
-              type="number"
-              id="setuptime_FTS"
-              name="setuptime_FTS"
-              value={setuptime_FTS}
-              onChange={handleInputChange}
-              fullWidth
-              className='font-kanit'
-            />
-
-            <label className="pr-5 font-kanit" htmlFor="speed">ความเร็ว:</label>
-            <TextField
-              variant="outlined"
-              type="number"
-              id="speed"
-              name="speed"
-              value={speed}
-              onChange={handleInputChange}
-              fullWidth
-              className='font-kanit'
-            />
-
+            <Box>
+              <TextField
+                variant="outlined"
+                type="number"
+                label='ลองติจูด'
+                id="lng"
+                className='font-kanit'
+                {...register('lng', { required: true, valueAsNumber: true })}
+                defaultValue={FTSData.lng}
+                fullWidth
+              />
+            </Box>
+            <Box>
+              <TextField
+                variant="outlined"
+                type="number"
+                label='เวลาเตรียมการ (นาที)'
+                id="setuptime_FTS"
+                className='font-kanit'
+                {...register('setuptime_FTS', { required: true, valueAsNumber: true })}
+                defaultValue={FTSData.setuptime_FTS}
+                fullWidth
+              />
+            </Box>
+            <Box>
+              <TextField
+                variant="outlined"
+                type="number"
+                label='ความเร็ว'
+                id="speed"
+                className='font-kanit'
+                {...register('speed', { required: true, valueAsNumber: true })}
+                defaultValue={FTSData.speed}
+                fullWidth
+              />
+            </Box>
           </Stack>
-          <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
+
+
+          <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
             <Button
               fullWidth
               variant="outlined"
-              sx={{ mt: 3, mb: 2 }}
               onClick={() => navigate('/transferstation')}
-              className='font-kanit'
+              className='font-kanit text-lg py-3'
             >
               กลับ
             </Button>
@@ -140,15 +132,35 @@ export default function FTSEditPage({ }: Props) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+              className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
               disabled={isSubmitting}
             >
               บันทึก
             </Button>
           </Stack>
-        </form>
-      </CardContent>
-    </Card>
+        </Box>
+      </form >
+    )
+  }
+
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Card className='min-h-[90vh]'>
+        <CardContent>
+          {FTSData === undefined ? (
+            <Loading />
+          ) : (
+            <>
+              <Box className='flex justify-start'>
+                <Titles title='ทุ่น' title2='แก้ไขข้อมูล' />
+              </Box>
+              <Box>
+                {showForm()}
+              </Box>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </ThemeProvider >
   );
 }

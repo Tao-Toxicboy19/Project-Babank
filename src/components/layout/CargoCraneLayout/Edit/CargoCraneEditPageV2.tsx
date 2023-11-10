@@ -55,7 +55,6 @@ export default function CargoCraneEditPageV2({ }: Props) {
                     } catch (error) {
                         setIsSubmitting(false)
                     }
-                    console.log(data)
                 })}>
                 <Box className='grid grid-cols-2 gap-5 mt-5'>
                     <Stack direction='column' spacing={4}>

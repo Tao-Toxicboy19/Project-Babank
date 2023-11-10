@@ -34,6 +34,7 @@ import CargocranePage from './components/Pages/Cargocrane/CargoCranePage';
 import CargoCraneEditPageV2 from './components/layout/CargoCraneLayout/Edit/CargoCraneEditPageV2';
 import CargoCraneCreate from './components/layout/CargoCraneLayout/Insert/CargoCraneCreate';
 import CarrierPage from './components/Pages/Carrier/CarrierPage';
+import CargoEditPage from './components/layout/Order/OrderEdit/CargoEditPage/CargoEditPage';
 
 const drawerWidth = 240;
 
@@ -78,7 +79,7 @@ export default function ResponsiveDrawer() {
               <Route path="/orders/create" element={<OrderCreatePage />} />
               <Route path="/orders/create/cargo" element={<CreateCargoOrderPage />} />
               <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} />
-              {/* <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} /> */}
+              <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} />
               <Route path="/cargocrane" element={<CargocranePage />} />
               <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
               <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />

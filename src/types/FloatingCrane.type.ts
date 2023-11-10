@@ -20,7 +20,10 @@ export interface FTSCrane {
 export interface Result {
   crane_id: number;
   crane_name: string;
+  FTS_id: number;
   setuptime_crane: number;
+  wage_month_cost: number;
+  premium_rate: number;
 }
 
 

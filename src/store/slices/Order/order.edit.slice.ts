@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../../utils/httpclient"
 import { server } from "../../../Constants"
 import { Orders, OrderEditState } from "../../../types/Order.type"
+import { loadOrder } from "./order.slice"
 
 const initialState: OrderEditState = {
   result: null,
@@ -39,16 +40,12 @@ export const updateOrder = (id: any, values: any, navigate: any, setIsSubmitting
     try {
       setIsSubmitting(true);
       dispatch(setOrderEditStart());
-      const result = await httpClient.put(`${server.ORDER}/${id}`, values);
+      const result = await httpClient.patch(`${server.ORDER}/${id}`, values);
+      dispatch(loadOrder())
       dispatch(setOrderEditSuccess(result.data));
-      navigate(`/orders/cargo/edit/${id}`)
+      navigate(`/orders`)
     } catch (error) {
-      alert(JSON.stringify(error));
       dispatch(setOrderEditFailure('Failed to update floating data'));
-    } finally {
-      setTimeout(() => {
-        setIsSubmitting(false);
-      }, 2000);
     }
   };
 };

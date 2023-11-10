@@ -177,7 +177,6 @@ export default function OrderPage({ }: Props) {
                   <Tooltip title="แก้ไข">
                     <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
                       <RiEditLine className="text-[#135812]" />
-
                     </IconButton>
                   </Tooltip>
                   <OrderDeletePage id={items.or_id} />

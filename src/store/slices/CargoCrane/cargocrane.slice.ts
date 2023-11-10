@@ -76,7 +76,7 @@ export const addCargoCrane = (formData: any, naviagte: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.post(server.CARGOCRANE, formData);
-      toast.success('successfully')
+      toast.success('เพิ่มข้อมูลเรียบร้อย')
       await dispatch(doGetCargoCrane())
       naviagte('/cargocrane')
     } catch (error) {
