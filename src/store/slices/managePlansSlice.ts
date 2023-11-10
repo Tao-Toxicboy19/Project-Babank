@@ -7,6 +7,7 @@ import { loadFTSsolution } from "./FTS/FTSsolution.slice";
 import { loadFtsSolutionV2 } from "./FTS/FTSsolutionV2.slice";
 import { loadCraneSolution } from "./Solution/craneSolution.slice";
 import { loadSolution } from "./Solution/sollution_schedule.slice";
+import { loadSolution_carrier_order } from "./Solution/solution_carrier_orderSlice";
 
 
 export interface ManagePlans {
@@ -70,6 +71,8 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
         dispatch(loadSolution())
         dispatch(loadFTSsolution())
         dispatch(loadFtsSolutionV2())
+        dispatch(loadCraneSolution());
+        dispatch(loadSolution_carrier_order())
         handleClose()
         handleCloseV2()
         toast.success('ประมวลผลเรียบร้อย')

@@ -8,6 +8,7 @@ import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
 import { Card, Typography } from '@mui/material';
 import Tables from './Table/Tables';
+import { BarCharts } from '../BarCharts/BarCharts';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -110,7 +111,8 @@ export default function FTSsingle() {
                                 </Typography>
 
                                 {FTSsolutionSlice.result[value] && (
-                                    <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
+                                    <Box className='col-span-12 grid grid-cols-6 gap-x-5'>
+                                        <Box></Box>
                                         <SummarizaCard
                                             title={'ต้นรวมทุน'}
                                             price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -160,10 +162,9 @@ export default function FTSsingle() {
                                 <Box className="col-span-12">
                                     <Tables Name={FTSsolutionSlice.result[value]?.fts.FTS_name} value={value} />
                                 </Box>
-                                {/* <Card className="col-span-12">
+                                <Card className="col-span-12">
                                     <BarCharts FTSsolutionSlice={FTSsolutionSlice.result} value={value} />
-                                </Card> */}
-
+                                </Card>
                             </Box>
                         </TabPanel>
                     </Box >
