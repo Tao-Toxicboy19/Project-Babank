@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { titles } from '../../../Constants';
+import moment from 'moment';
 
 export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
     const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule.solution_schedule);
@@ -32,58 +33,63 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                     <TableBody>
                         {(SolutionscheduleReducer)
                             .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
-                            .map((items, index) => (
-                                <TableRow
-                                    key={index}
-                                >
-                                    <TableCell
-                                        align="left"
-                                        className='w-[100px] font-kanit'
+                            .map((items, index) => {
+                                const formattedDate = moment(items.arrivaltime, 'M/D/YYYY, h:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                const formattedDateV2 = moment(items.exittime, 'M/D/YYYY, h:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                return (
+                                    <TableRow
+                                        key={index}
                                     >
-                                        {items.FTS_name}
-                                    </TableCell>
-                                    <TableCell
-                                        className='font-kanit'
-                                        align="right"
-                                    >
-                                        {items.carrier_name ? items.carrier_name : 'จุดเริ่มต้น'}
-                                    </TableCell>
-                                    <TableCell
-                                        className='font-kanit'
-                                        align="right"
-                                    >
-                                        {items.lat}
-                                    </TableCell>
-                                    <TableCell
-                                        className='font-kanit'
-                                        align="right"
-                                    >
-                                        {items.lng}
-                                    </TableCell>
-                                    <TableCell
-                                        className='font-kanit'
-                                        align="right"
-                                    >
-                                        {items.arrivaltime}
-                                    </TableCell>
-                                    <TableCell
-                                        align="right"
-                                    >
-                                        {items.exittime}
-                                    </TableCell>
-                                    <TableCell
-                                        align="right"
-                                    >
-                                        {items.operation_time}
-                                    </TableCell>
-                                    <TableCell
-                                        className='font-kanit'
-                                        align="right"
-                                    >
-                                        {items.travel_Distance}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                        <TableCell
+                                            align="left"
+                                            className='w-[100px] font-kanit'
+                                        >
+                                            {items.FTS_name}
+                                        </TableCell>
+                                        <TableCell
+                                            className='font-kanit'
+                                            align="right"
+                                        >
+                                            {items.carrier_name ? items.carrier_name : 'จุดเริ่มต้น'}
+                                        </TableCell>
+                                        <TableCell
+                                            className='font-kanit'
+                                            align="right"
+                                        >
+                                            {items.lat}
+                                        </TableCell>
+                                        <TableCell
+                                            className='font-kanit'
+                                            align="right"
+                                        >
+                                            {items.lng}
+                                        </TableCell>
+                                        <TableCell
+                                            className='font-kanit'
+                                            align="right"
+                                        >
+                                            {formattedDate}
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                        >
+                                            {formattedDateV2}
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                        >
+                                            {items.operation_time}
+                                        </TableCell>
+                                        <TableCell
+                                            className='font-kanit'
+                                            align="right"
+                                        >
+                                            {items.travel_Distance}
+                                        </TableCell>
+                                    </TableRow>
+                                )
+
+                            })}
                     </TableBody>
                 </Table>
             </TableContainer>
