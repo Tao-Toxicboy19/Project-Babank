@@ -11,6 +11,7 @@ import Add from '@mui/icons-material/Add';
 import { Box, Typography, Fab, Tooltip, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import DeleteCrane from '../DeleteCrane/DeleteCrane';
+import moment from 'moment';
 
 export default function Cranes() {
     const MainTainReducer = useSelector((state: RootState) => state.mainTainReducer);
@@ -80,13 +81,13 @@ export default function Cranes() {
                                 align="right"
                                 className='font-kanit text-md'
                             >
-                                {items.downtime}
+                                {moment(items.downtime).format('DD/MM/YYYY HH:mm')}
                             </TableCell>
                             <TableCell
                                 align="right"
                                 className='font-kanit text-md'
                             >
-                                {items.start_time}
+                                {moment(items.start_time).format('DD/MM/YYYY HH:mm')}
                             </TableCell>
                             <TableCell
                                 align="right"

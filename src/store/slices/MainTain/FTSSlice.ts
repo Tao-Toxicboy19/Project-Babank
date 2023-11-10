@@ -47,9 +47,11 @@ export const loadMainTainFTS = (): ThunkAction<void, RootState, unknown, any> =>
     try {
         dispatch(setMainTainFTSStart())
         const result = await httpClient.get(server.MAINTAIN_FTS_URL)
+        console.log(result.data)
         dispatch(setMainTainFTSSuccess(result.data))
     }
     catch (error) {
+        console.error(error)
         dispatch(setMainTainFTSFailed())
     }
 }

@@ -41,7 +41,14 @@ export default function CarrierPage({ }: Props) {
               <TableCell align="center">{items.carrier_max_crane}</TableCell>
               <TableCell align="center">{items.Width}</TableCell>
               <TableCell align="center">{items.length}</TableCell>
-              <TableCell align="center">{items.has_crane}</TableCell>
+              <TableCell align="right">
+                <Typography
+                  className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${items.has_crane !== 'ไม่มีเครน' ? 'bg-emerald-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
+                >
+                  {items.has_crane}
+
+                </Typography>
+              </TableCell>
               <TableCell align="center">
                 <Stack direction='row' className="flex justify-end">
                   <Tooltip title="แก้ไข">
@@ -52,7 +59,7 @@ export default function CarrierPage({ }: Props) {
                   <CarrierDeletePage id={items.cr_id} />
                 </Stack>
               </TableCell>
-            </TableRow>
+            </TableRow >
           ))
         }
       </>

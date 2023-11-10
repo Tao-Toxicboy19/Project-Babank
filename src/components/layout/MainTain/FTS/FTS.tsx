@@ -4,12 +4,13 @@ import { TableContainer, TableHead, TableCell, Table, Paper, TableRow, TableBody
 import { Link } from 'react-router-dom';
 import Add from '@mui/icons-material/Add';
 import DeleteFTS from '../DeleteFTS/DeleteFTS';
+import moment from 'moment';
 
 type Props = {}
 
 export default function FTS({ }: Props) {
     const MainTainFTSReducer = useSelector((state: RootState) => state.mainTainFTSReducer);
-
+    console.log(MainTainFTSReducer)
     const showHead = () => {
         return (
             <TableRow>
@@ -80,13 +81,13 @@ export default function FTS({ }: Props) {
                                 align="right"
                                 className='font-kanit text-md'
                             >
-                                {items.downtime_FTS}
+                                {moment(items.downtime_FTS, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')}
                             </TableCell>
                             <TableCell
                                 align="right"
                                 className='font-kanit text-md'
                             >
-                                {items.start_time_FTS}
+                                {moment(items.start_time_FTS, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')}
                             </TableCell>
                             <TableCell
                                 align="right"

@@ -80,7 +80,11 @@ export default function CargoCranePage({ }: Props) {
                 align="center"
                 className='w-[120px] font-kanit'
               >
-                {items[0].category}
+                <Typography
+                  className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${items[0].category !== 'export' ? 'bg-emerald-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
+                >
+                  {items[0].category}
+                </Typography>
               </TableCell>
               <TableCell
                 align="center"
@@ -135,7 +139,11 @@ export default function CargoCranePage({ }: Props) {
                     align="center"
                     className='font-kanit'
                   >
-                    {item.category}
+                    <Typography
+                      className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${item.category !== 'export' ? 'bg-emerald-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
+                    >
+                      {item.category}
+                    </Typography>
                   </TableCell>
                   <TableCell
                     align="center"

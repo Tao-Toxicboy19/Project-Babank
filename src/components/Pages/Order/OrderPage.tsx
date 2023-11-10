@@ -95,7 +95,11 @@ export default function OrderPage({ }: Props) {
                 align="center"
                 className="font-kanit"
               >
-                {items.category}
+                <Typography
+                  className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${items.category !== 'export' ? 'bg-emerald-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
+                >
+                  {items.category}
+                </Typography>
               </TableCell>
               <TableCell
                 align="right"
