@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { ManagePlans } from '../../../../store/slices/managePlansSlice';
 import LoadingTest from './loading/LoadinTest';
+import { Typography } from '@mui/material';
 
 type Props = {
     handleCloseV2: any
@@ -19,7 +20,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         formState: { },
         setValue, // เพิ่ม setValue
     } = useForm();
-    const [selectAll, setSelectAll] = React.useState(false);
+    const [selectAll, setSelectAll] = React.useState(true);
 
     const [open, setOpen] = React.useState(false);
 
@@ -81,11 +82,14 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                     }
                     label="เลือกทั้งหมด"
                 />
+
                 <Button variant='outlined' type="submit">จัดการแผน</Button>
             </Box>
+
             <Box className='grid grid-cols-3'>
 
                 <Box className='border-1'>
+                    <Typography>เลือกเรือ</Typography>
                     {orderRucerV2.map((item) => (
                         <Box key={item.cr_id}>
                             {(!selectAll) ? (
@@ -104,7 +108,8 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                     <FormControlLabel
                                         control={
                                             <Checkbox
-                                                defaultChecked={selectAll}
+                                                disabled checked
+                                                // defaultChecked={selectAll}
                                                 {...register(`Carrier-${item.carrier.cr_id}`)}
                                                 onChange={(e) => {
                                                     if (selectAll) {
@@ -121,6 +126,8 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                     ))}
                 </Box>
                 <Box>
+                    <Typography>เลือกทุ่น</Typography>
+
                     {(FTSReducer.FTS).map((item) => (
                         <Box key={item.fts_id}>
                             {(!selectAll) ? (
@@ -141,7 +148,8 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                     <FormControlLabel
                                         control={
                                             <Checkbox
-                                                defaultChecked={selectAll}
+                                                disabled checked
+                                                // defaultChecked={selectAll}
                                                 {...register(`example-${item.fts_id}`)}
                                                 onChange={(e) => {
                                                     if (selectAll) {
@@ -156,13 +164,15 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                             )}
                         </Box>
                     ))}
+
                 </Box>
-                <Box className='p-2 px-5'>
+                <Box className='my-6'>
                     <TextField
                         type='number'
                         label='เวลาประมวณผล (นาที)'
                         fullWidth
                         {...register('computetime')}
+                        defaultValue={1}
                     />
                 </Box>
             </Box>

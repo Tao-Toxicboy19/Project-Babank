@@ -7,27 +7,6 @@ type Props = {
     Name: any
 }
 
-const showThead = () => {
-    return (
-        <TableRow>
-            {["ชื่อเครน", "รายจ่าย", "ค่าเชื้อเพลิง", "ค่าเเรง", "ค่าปรับล่าช้า", "รางวัลรวม"].map((title) => (
-                <TableCell
-                    key={title}
-                    align={title === 'ชื่อเครน' ? 'left' : 'center'}
-                    className='font-kanit'
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    {title}
-                </TableCell>
-            ))}
-        </TableRow>
-    )
-}
-
 
 export default function Tables({ Name }: Props) {
     const CraneSolutionV2Reducer = useSelector((state: RootState) => state.carneSolutionV2Reducer.result);
@@ -47,7 +26,74 @@ export default function Tables({ Name }: Props) {
                 }}
             >
                 <TableHead>
-                    {showThead()}
+                    <TableRow>
+                        <TableCell
+                            align={'left'}
+                            className='font-kanit w-[115px]'
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 18
+                            }}
+                        >
+                            ชื่อเครน
+                        </TableCell>
+                        <TableCell
+                            align={'center'}
+                            className='font-kanit w-[145px]'
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 18
+                            }}
+                        >
+                            ต้นทุน
+                        </TableCell>
+                        <TableCell
+                            align={'center'}
+                            className='font-kanit w-[100px]'
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 18
+                            }}
+                        >
+                            ค่าเชื้อเพลิง
+                        </TableCell>
+                        <TableCell
+                            align={'center'}
+                            className='font-kanit w-[100px]'
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 18
+                            }}
+                        >
+                            ค่าเเรง
+                        </TableCell>
+                        <TableCell
+                            align={'center'}
+                            className='font-kanit w-[100px]'
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 18
+                            }}
+                        >
+                            ค่าปรับล่าช้า
+                        </TableCell>
+                        <TableCell
+                            align={'center'}
+                            className='font-kanit w-[100px]'
+                            sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 18
+                            }}
+                        >
+                            รางวัลรวม
+                        </TableCell>
+                    </TableRow>
                 </TableHead>
                 {(filteredData).map((items: any) => (
                     <TableBody>
@@ -86,7 +132,7 @@ export default function Tables({ Name }: Props) {
                             align="center"
                             className='font-kanit text-lg'
                         >
-                            {items.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')    }
+                            {items.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </TableCell>
 
                     </TableBody>

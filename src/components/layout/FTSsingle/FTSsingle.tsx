@@ -7,8 +7,6 @@ import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { RootState } from '../../../store/store';
 import SummarizaCard from '../SummarizaCard/SummarizaCard';
 import { Card, Typography } from '@mui/material';
-import { BarCharts } from '../BarCharts/BarCharts';
-import { CardContent } from '@mui/material';
 import Tables from './Table/Tables';
 
 interface TabPanelProps {
@@ -52,8 +50,6 @@ export default function FTSsingle() {
         event.preventDefault();
         setValue(newValue);
     };
-
-    console.log(FTSsolutionSlice.result)
 
     return (
         <>
@@ -112,6 +108,7 @@ export default function FTSsingle() {
                                 >
                                     {FTSsolutionSlice.result[value]?.fts.FTS_name}
                                 </Typography>
+
                                 {FTSsolutionSlice.result[value] && (
                                     <Box className='col-span-12 grid grid-cols-5 gap-x-5'>
                                         <SummarizaCard
@@ -151,14 +148,13 @@ export default function FTSsingle() {
                                         />
                                     </Box>
                                 )}
-                                <Card className="col-span-12">
-                                    <CardContent>
-                                        <Tables Name={FTSsolutionSlice.result[value]?.fts.FTS_name} value={value} />
-                                    </CardContent>
-                                </Card>
-                                <Card className="col-span-12">
+                                <Box className="col-span-12">
+                                    <Tables Name={FTSsolutionSlice.result[value]?.fts.FTS_name} value={value} />
+                                </Box>
+                                {/* <Card className="col-span-12">
                                     <BarCharts FTSsolutionSlice={FTSsolutionSlice.result} value={value} />
-                                </Card>
+                                </Card> */}
+
                             </Box>
                         </TabPanel>
                     </Box >

@@ -11,6 +11,7 @@ export default function CraneGantts() {
     const filteredData = SolutionscheduleReducer.filter((item: any) => item.carrier_name !== null);
     let data = [filteredData[0]]
     data = data.concat(filteredData)
+
     const datav2 = data.map((item: any) => {
         const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date());
         const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date());
@@ -28,7 +29,7 @@ export default function CraneGantts() {
 
     return (
         <>
-            {SolutionscheduleReducer.length === 0 ? (
+            {data.length === 1 ? (
                 <Typography
                     sx={{
                         mr: 2,

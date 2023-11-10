@@ -58,7 +58,7 @@ export default function SummarizePage() {
                 <Stack direction='row' spacing={2} className='max-w-[60%] my-3'>
                     <DialogLoading />
                 </Stack>
-                <Card className='bg-[#ffffff]/75 min-h-[72.3vh]'>
+                <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
                     <Box sx={{ width: '100%' }}>
                         <Box
                             sx={{ borderBottom: 1, borderColor: 'divider' }}

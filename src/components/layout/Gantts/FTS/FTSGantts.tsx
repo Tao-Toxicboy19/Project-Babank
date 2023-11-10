@@ -12,12 +12,9 @@ export default function FTSGantts() {
   const filteredData = (SolutionscheduleReducer.solution_schedule).filter((item: any) => item.carrier_name !== null);
   let data = [filteredData[0]]
   data = data.concat(filteredData)
-  // console.log(filteredData)
   const datav2 = data.map((item: any) => {
     const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date());
     const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date());
-    // console.log(parsedEndDate)
-    // console.log(parsedStartDate)
 
     const formattedStartDate = format(parsedStartDate, "yyyy, M, d");
     const formattedEndDate = format(parsedEndDate, "yyyy, M, d");
@@ -32,7 +29,7 @@ export default function FTSGantts() {
 
   return (
     <>
-      {SolutionscheduleReducer.solution_schedule.length === 0 ? (
+      {data.length === 1 ? (
         <Typography
           sx={{
             mr: 2,
