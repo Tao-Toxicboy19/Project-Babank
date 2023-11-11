@@ -115,7 +115,14 @@ export default function FTSsingle() {
                                         <Box></Box>
                                         <SummarizaCard
                                             title={'ต้นรวมทุน'}
-                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) =>
+                                                total + solution.total_cost
+                                                + solution.total_consumption_cost
+                                                + solution.total_wage_cost
+                                                + solution.penality_cost
+                                                , 0)
+                                                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                            }
                                             icon={CurrencyBitcoinIcon}
                                             unit={'บาท'}
                                             color='bg-[#00a6fb]/50'
@@ -138,10 +145,11 @@ export default function FTSsingle() {
                                             title={'ค่าปรับล่าช้า'}
                                             price={(
                                                 FTSsolutionSlice.result[value].solutions.reduce(
-                                                    (total, solution) => total + solution.total_reward,
-                                                    0
-                                                ) 
-                                            ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} icon={CurrencyBitcoinIcon}
+                                                    (max, solution) => Math.max(max, solution.penality_cost),
+                                                    -Infinity
+                                                )
+                                            ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                            icon={CurrencyBitcoinIcon}
                                             unit={'บาท'}
                                             color='bg-[#00a6fb]/50'
                                         />
@@ -149,9 +157,9 @@ export default function FTSsingle() {
                                             title={'รางวัล'}
                                             price={(
                                                 FTSsolutionSlice.result[value].solutions.reduce(
-                                                    (total, solution) => total + solution.total_reward,
-                                                    0
-                                                ) 
+                                                    (min, solution) => Math.min(min, solution.total_reward),
+                                                    Infinity
+                                                )
                                             ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                             icon={CurrencyBitcoinIcon}
                                             unit={'บาท'}

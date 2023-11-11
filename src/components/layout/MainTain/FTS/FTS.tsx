@@ -81,13 +81,13 @@ export default function FTS({ }: Props) {
                                 align="right"
                                 className='font-kanit text-md'
                             >
-                                {moment(items.downtime_FTS, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')}
+                                {moment(items.downtime_FTS, 'YYYY-MM-DD HH:mm:ss').add(12, 'hours').format('DD/MM/YYYY HH:mm:ss')}
                             </TableCell>
                             <TableCell
                                 align="right"
                                 className='font-kanit text-md'
                             >
-                                {moment(items.start_time_FTS, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')}
+                                {moment(items.start_time_FTS, 'YYYY-MM-DD HH:mm:ss').add(12, 'hours').format('DD/MM/YYYY HH:mm:ss')}
                             </TableCell>
                             <TableCell
                                 align="right"

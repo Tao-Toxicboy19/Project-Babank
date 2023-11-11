@@ -34,8 +34,12 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                         {(SolutionscheduleReducer)
                             .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
                             .map((items, index) => {
-                                const formattedDate = moment(items.arrivaltime, 'M/D/YYYY, h:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                const formattedDateV2 = moment(items.exittime, 'M/D/YYYY, h:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                const formattedDate = moment(items.arrivaltime, 'M/D/YYYY, HH:mm:ss')
+                                    .add(12, 'hours')  // เพิ่ม 12 ชั่วโมง
+                                    .format('DD/MM/YYYY HH:mm:ss');
+                                const formattedDateV2 = moment(items.exittime, 'M/D/YYYY, HH:mm:ss')
+                                    .add(12, 'hours')  // เพิ่ม 12 ชั่วโมง
+                                    .format('DD/MM/YYYY HH:mm:ss');
                                 return (
                                     <TableRow
                                         key={index}

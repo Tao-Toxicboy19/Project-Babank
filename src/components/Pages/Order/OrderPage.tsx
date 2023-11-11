@@ -105,13 +105,13 @@ export default function OrderPage({ }: Props) {
                 align="right"
                 className="font-kanit"
               >
-                {moment(items.arrival_time).format('DD/MM/YYYY HH:mm:ss')}
+                {items.arrival_time ? moment(items.arrival_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
               </TableCell>
               <TableCell
                 align="right"
                 className="font-kanit"
               >
-                {moment(items.deadline_time).format('DD/MM/YYYY HH:mm:ss')}
+                {items.deadline_time ? moment(items.deadline_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
               </TableCell>
               <TableCell
                 align="right"
@@ -159,13 +159,13 @@ export default function OrderPage({ }: Props) {
                 align="center"
                 className="font-kanit"
               >
-                {items.rel_start_time ? moment(items.rel_start_time).format('DD/MM/YYYY HH:mm:ss') : ""}
+                {items.rel_start_time ? moment(items.rel_start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
               </TableCell>
               <TableCell
                 align="center"
                 className="font-kanit"
               >
-                {items.rel_finish_time ? moment(items.rel_finish_time).format('DD/MM/YYYY HH:mm:ss') : ""}
+                {items.rel_finish_time ? moment(items.rel_finish_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
               </TableCell>
               <TableCell
                 align="center"

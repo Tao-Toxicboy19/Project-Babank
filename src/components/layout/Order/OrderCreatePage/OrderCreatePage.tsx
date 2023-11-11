@@ -44,11 +44,11 @@ export default function OrderCreatePage({ }: Props) {
           <Stack direction='column' spacing={4}>
             <Box>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">เลือกเครน</InputLabel>
+                <InputLabel id="demo-simple-select-label">เลือกเรือ</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  label="เลือกเครน"
+                  label="เลือกเรือ"
                   {...register('cr_id', { required: true })}
                 >
                   {(CarrierReducer.carrier).map((items) => (

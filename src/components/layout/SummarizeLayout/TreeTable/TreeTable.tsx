@@ -80,13 +80,14 @@ export default function TreeTable({ }: Props) {
                                 align="center"
                                 className='font-kanit text-lg'
                             >
-                                {items.solutions.reduce((total, solution) => total + solution.penality_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                {items.solutions.reduce((max, solution) => Math.max(max, solution.penality_cost), -Infinity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </TableCell>
+
                             <TableCell
                                 align="center"
                                 className='font-kanit text-lg'
                             >
-                                {items.solutions.reduce((total, solution) => total + solution.total_reward, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                {items.solutions.reduce((min, solution) => Math.min(min, solution.total_reward), Infinity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             </TableCell>
                         </TableBody>
                     ))}
