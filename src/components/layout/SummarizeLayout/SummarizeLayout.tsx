@@ -76,8 +76,12 @@ export default function SummarizeLayout() {
                                 </Typography>
                             </Box>
                             <SummarizaCard
-                                title={'ต้นทุน'}
-                                price={(CraneSolutionSlice.result)?.total_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                title={'ต้นทุนรวม'}
+                                price={
+                                    ((CraneSolutionSlice.result)?.total_consumption_cost
+                                        + (Solution_carrier_orderReducer.result.penalty_cost)
+                                        + (CraneSolutionSlice.result)?.total_wage_cost)
+                                        .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 icon={CurrencyBitcoinIcon}
                                 unit={'บาท'}
                                 color='bg-[#00a6fb]/50'
@@ -98,14 +102,15 @@ export default function SummarizeLayout() {
                             />
                             <SummarizaCard
                                 title={'ค่าปรับล่าช้า'}
-                                price={(((CraneSolutionSlice.result)?.penality_cost) + Solution_carrier_orderReducer.result.penalty_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                price={(Solution_carrier_orderReducer.result.penalty_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 icon={CurrencyBitcoinIcon}
                                 unit={'บาท'}
                                 color='bg-[#00a6fb]/50'
                             />
                             <SummarizaCard
                                 title={'รางวัล'}
-                                price={(((CraneSolutionSlice.result)?.total_reward)+Solution_carrier_orderReducer.result.reward).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                // price={(((CraneSolutionSlice.result)?.total_reward)+Solution_carrier_orderReducer.result.reward).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                price={(Solution_carrier_orderReducer.result.reward).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 icon={CurrencyBitcoinIcon}
                                 unit={'บาท'}
                                 color='bg-[#00a6fb]/50'

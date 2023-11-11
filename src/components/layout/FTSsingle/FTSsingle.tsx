@@ -46,6 +46,7 @@ function a11yProps(index: number) {
 export default function FTSsingle() {
     const [value, setValue] = React.useState(0);
     const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
+    // const loadSolution_carrier_orderReducer = useSelector((state: RootState) => state.Solution_carrier_orderReducer);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
@@ -114,10 +115,10 @@ export default function FTSsingle() {
                                     <Box className='col-span-12 grid grid-cols-6 gap-x-5'>
                                         <Box></Box>
                                         <SummarizaCard
-                                            title={'ต้นรวมทุน'}
-                                            price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) =>
-                                                total + solution.total_cost
-                                                + solution.total_consumption_cost
+                                            title={'ต้นทุนรวม'}
+                                            price={FTSsolutionSlice.result[value].solutions.reduce((_, solution) =>
+                                                // total + solution.total_cost
+                                                solution.total_consumption_cost
                                                 + solution.total_wage_cost
                                                 + solution.penality_cost
                                                 , 0)
