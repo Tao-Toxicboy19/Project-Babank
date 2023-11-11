@@ -12,6 +12,7 @@ import moment from 'moment';
 
 export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
     const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule.solution_schedule);
+    const filteredData = SolutionscheduleReducer.filter(item => item.carrier_name !== null);
 
     return (
         <>
@@ -31,7 +32,7 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {(SolutionscheduleReducer)
+                        {(filteredData)
                             .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
                             .map((items, index) => {
                                 const formattedDate = moment(items.arrivaltime, 'M/D/YYYY, HH:mm:ss')

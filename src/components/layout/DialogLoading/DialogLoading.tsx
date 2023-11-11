@@ -6,10 +6,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/material';
 import Checkboxs from './Checkbox/Checkboxs';
-import { Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+// import { Typography } from '@mui/material';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../../store/store';
+// import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 export default function DialogLoading() {
   const [open, setOpen] = React.useState(false);
@@ -18,11 +18,11 @@ export default function DialogLoading() {
     setOpen(false);
   };
 
-  const orderReducer = useSelector((state: RootState) => state.order);
+  // const orderReducer = useSelector((state: RootState) => state.order);
 
-  const statusOrders = (orderReducer.orders).map((order) => order.status_order);
+  // const statusOrders = (orderReducer.orders).map((order) => order.status_order);
 
-  const newerOrders = statusOrders.filter((status) => status === "Newer");
+  // const newerOrders = statusOrders.filter((status) => status === "Newer");
 
   return (
     <React.Fragment>
@@ -34,7 +34,7 @@ export default function DialogLoading() {
             จัดเเผนการย้ายทุ่น
           </Button>
         </Box>
-        <Box className='mt-2'>
+        {/* <Box className='mt-2'>
           {!statusOrders ? (
             <span>ข้อมูลอยู่ในแผนทั้งหมดแล้ว</span>
           ) : (
@@ -48,7 +48,7 @@ export default function DialogLoading() {
             </>
           )
           }
-        </Box >
+        </Box > */}
       </Box >
       <Dialog
         open={open}
