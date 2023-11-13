@@ -3,8 +3,9 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { Orders } from '../../../../types/Order.type';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateStatus } from '../../../../store/slices/Order/order.slice';
+import { RootState } from '../../../../store/store';
 
 type Props = {
     items: Orders
@@ -14,6 +15,7 @@ export default function UpdateStatus({ items }: Props) {
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false); // เพิ่ม state สำหรับการกำลัง submit
     const dispatch = useDispatch<any>();
+    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -34,8 +36,8 @@ export default function UpdateStatus({ items }: Props) {
             <Tooltip title={items.status_order !== 'Assign' ? "" : "เปลี่ยนสถานะ"}>
                 <Typography
                     className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950' : items.status_order === 'Assign' ? 'bg-purple-100 text-indigo-900' : 'bg-slate-200 text-gray-700'} ${items.status_order === 'Approved' ? 'disabled' : ''}`}
-                    style={{ cursor: items.status_order !== 'Assign' ? 'not-allowed' : 'pointer' }}
-                    onClick={items.status_order !== 'Assign' ? undefined : handleClickOpen}
+                    style={{ cursor: rolesReducer.result?.role === 'Viewer' || items.status_order !== 'Assign' ? 'not-allowed' : 'pointer' }}
+                    onClick={rolesReducer.result?.role === 'Viewer' || items.status_order !== 'Assign' ? undefined : handleClickOpen}
                 >
                     {items.status_order}
                 </Typography>

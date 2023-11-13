@@ -9,5 +9,5 @@ export default function AdminRoute({ }: Props) {
 
     const allowedRoles = ['Administrator', 'Contributor'];
 
-    return allowedRoles.includes(rolesReducer.result?.role) ? <Outlet /> : <Navigate to='/' />;
+    return allowedRoles.includes(rolesReducer.result?.role || '') ? <Outlet /> : <Navigate to='/' />;
 }
