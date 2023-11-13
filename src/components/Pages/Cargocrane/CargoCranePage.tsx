@@ -22,6 +22,7 @@ export default function CargoCranePage({ }: Props) {
   const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
+  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
   const filteredData = (CargoCraneReducer.result).filter((item) =>
     item.crane!.crane_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -98,22 +99,25 @@ export default function CargoCranePage({ }: Props) {
               >
                 {items[0].work_rate}
               </TableCell>
-              <TableCell
-                align="center"
-                className='w-[120px] font-kanit
-                '
-              >
-                <Tooltip title="แก้ไข">
-                  <IconButton
-                    component={Link}
-                    to={`/cargocrane/edit/${items[0].cargo_crane_id}`}
-                  >
-                    <RiEditLine className="text-[#135812]" />
+              {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                <></>
+              ) : (
+                <TableCell
+                  align="center"
+                  className='w-[120px] font-kanit'
+                >
+                  <Tooltip title="แก้ไข">
+                    <IconButton
+                      component={Link}
+                      to={`/cargocrane/edit/${items[0].cargo_crane_id}`}
+                    >
+                      <RiEditLine className="text-[#135812]" />
 
-                  </IconButton>
-                </Tooltip>
-                <CargoCraneDeletePage id={items[0].cargo_crane_id} />
-              </TableCell>
+                    </IconButton>
+                  </Tooltip>
+                  <CargoCraneDeletePage id={items[0].cargo_crane_id} />
+                </TableCell>
+              )}
             </TableRow>
             {openGroups.has(name) &&
               items.slice(1).map((item, index) => (
@@ -157,18 +161,22 @@ export default function CargoCranePage({ }: Props) {
                   >
                     {item.work_rate}
                   </TableCell>
-                  <TableCell
-                    align="center"
-                    className='font-kanit'
-                  >
+                  {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                    <></>
+                  ) : (
+                    <TableCell
+                      align="center"
+                      className='font-kanit'
+                    >
 
-                    <Tooltip title="แก้ไข">
-                      <IconButton component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>
-                        <RiEditLine className="text-[#135812]" />
-                      </IconButton>
-                    </Tooltip>
-                    <CargoCraneDeletePage id={item.cargo_crane_id} />
-                  </TableCell>
+                      <Tooltip title="แก้ไข">
+                        <IconButton component={Link} to={`/cargocrane/edit/${item.cargo_crane_id}`}>
+                          <RiEditLine className="text-[#135812]" />
+                        </IconButton>
+                      </Tooltip>
+                      <CargoCraneDeletePage id={item.cargo_crane_id} />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
           </React.Fragment>
@@ -193,20 +201,24 @@ export default function CargoCranePage({ }: Props) {
                 <hr />
               </Box>
               <Box className='w-full flex justify-end'>
-                <Box className='w-[600px] flex gap-x-5'>
-                  <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                  <Tooltip title="เพิ่มสินค้า">
-                    <Button
-                      component={Link}
-                      to="/cargocrane/create"
-                      variant="contained"
-                      className='w-[60%] bg-blue-600 hover:bg-blue-800'
-                      startIcon={<Add />}
-                    >
-                      Create
-                    </Button>
-                  </Tooltip>
-                </Box>
+                {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                  <></>
+                ) : (
+                  <Box className='w-[600px] flex gap-x-5'>
+                    <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                    <Tooltip title="เพิ่มสินค้า">
+                      <Button
+                        component={Link}
+                        to="/cargocrane/create"
+                        variant="contained"
+                        className='w-[60%] bg-blue-600 hover:bg-blue-800'
+                        startIcon={<Add />}
+                      >
+                        Create
+                      </Button>
+                    </Tooltip>
+                  </Box>
+                )}
               </Box>
               <Box>
                 <hr />
