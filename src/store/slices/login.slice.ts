@@ -5,6 +5,7 @@ import { LoginResult } from "../../types/User.type";
 import { httpClient } from "../../utils/httpclient";
 import { toast } from 'react-toastify';
 import { FieldValues } from "react-hook-form";
+import { roles } from "./rolesSlice";
 
 
 interface LoginState {
@@ -57,7 +58,7 @@ export const login = (user: FieldValues, navigate: any, setSubmitting: any): Thu
         if (result.data.token) {
             localStorage.setItem('token', result.data.token);
             dispatch(setLoginSuccess(result.data));
-            navigate('/')
+            dispatch(roles())
         }
     } catch (error) {
         setSubmitting(false);

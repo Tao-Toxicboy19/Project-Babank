@@ -61,7 +61,7 @@ export const titleTreeTable = [
     'รางวัลรวม',
 ]
 
-export const TitleCarrier = ["ชื่อเรือ", "ชื่อบริษัท", "ความจุสูงสุด (ตัน)", "จำนวนระวาง", "จำนวนทุ่นเข้าได้สูงสุด", "จำนวนเครนเข้าได้สูงสุด", "กว้าง", "ยาว", "เครน", "#"]
+export const TitleCarrier = ["ชื่อเรือ", "ชื่อบริษัท", "ความจุสูงสุด (ตัน)", "จำนวนระวาง", "จำนวนทุ่นเข้าได้สูงสุด", "จำนวนเครนเข้าได้สูงสุด", "กว้าง", "ยาว", "เครน", "แก้ไข"]
 
 export const TitleReportFTS = ["ชื่อทุ่น", "ชื่อเรือ", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"]
 export const TitleReportCrane = ["ชื่อทุ่น", "ชื่อเรือ", "ระวาง", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"]
@@ -98,4 +98,5 @@ export const server = {
     CRANESOLUTIONTABLEV2_URL: `cranesolutiontableV2`,
     UPDATESTATUS: `updatestatus`,
     SOLUTION_CARRIER_ORDER_SUM:`solution_carrier_order_sum`,
+    ROLES_URL:`roles`,
 };

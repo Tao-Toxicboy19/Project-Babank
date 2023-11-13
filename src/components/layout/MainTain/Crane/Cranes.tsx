@@ -12,9 +12,12 @@ import { Box, Typography, Fab, Tooltip, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import DeleteCrane from '../DeleteCrane/DeleteCrane';
 import moment from 'moment';
+import TableTitles from '../../TableTitles/TableTitles';
 
 export default function Cranes() {
     const MainTainReducer = useSelector((state: RootState) => state.mainTainReducer);
+    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const title = ["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แก้ไข"]
 
     return (
         <TableContainer component={Paper}>
@@ -25,38 +28,28 @@ export default function Cranes() {
                     </Typography>
                 </Box>
                 <Box className='flex justify-end'>
-                    <Tooltip title="เพิ่มทุ่น">
-                        <Fab
-                            component={Link}
-                            to="/transferstation/maintain/crane/create  "
-                            color="primary"
-                            aria-label="add"
-                            size='small'
-                            className='bg-blue-500 hover:bg-blue-700'
-                        >
-                            <Add />
-                        </Fab>
-                    </Tooltip>
+                    {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                        <></>
+                    ) : (
+                        <Tooltip title="เพิ่มทุ่น">
+                            <Fab
+                                component={Link}
+                                to="/transferstation/maintain/crane/create  "
+                                color="primary"
+                                aria-label="add"
+                                size='small'
+                                className='bg-blue-500 hover:bg-blue-700'
+                            >
+                                <Add />
+                            </Fab>
+                        </Tooltip>
+                    )}
                 </Box>
             </Box >
             <hr />
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
-                    <TableRow>
-                        {["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "action"].map((title) => (
-                            <TableCell
-                                key={title}
-                                align={title === 'ชื่อเครน' ? 'left' : 'right'}
-                                className="font-kanit text-lg font-bold"
-                                sx={{
-                                    backgroundColor: 'background.paper',
-                                }}
-                            >
-                                {title}
-                            </TableCell>
-                        ))}
-
-                    </TableRow>
+                    <TableTitles Titles={title} />
                 </TableHead>
                 <TableBody>
                     {(MainTainReducer.data).map((items) => (
@@ -89,16 +82,20 @@ export default function Cranes() {
                             >
                                 {moment(items.start_time).format('DD/MM/YYYY HH:mm')}
                             </TableCell>
-                            <TableCell
-                                align="right"
-                                className='font-kanit text-md'
-                            >
-                                <Tooltip title="ลบ">
-                                    <IconButton>
-                                        <DeleteCrane id={items.maintain_crane_id} />
-                                    </IconButton>
-                                </Tooltip>
-                            </TableCell>
+                            {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                                <></>
+                            ) : (
+                                <TableCell
+                                    align="right"
+                                    className='font-kanit text-md'
+                                >
+                                    <Tooltip title="ลบ">
+                                        <IconButton>
+                                            <DeleteCrane id={items.maintain_crane_id} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </TableCell>
+                            )}
                         </TableRow>
                     ))}
                 </TableBody>

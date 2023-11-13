@@ -53,7 +53,6 @@ export default function OrderEditPageV2({ }: Props) {
         return (
             <form
                 onSubmit={handleSubmit(async (data) => {
-                    console.log(data)
                     setIsSubmitting(true);
                     dispatch(updateOrder(id, data, navigate, setIsSubmitting));
                 })}>

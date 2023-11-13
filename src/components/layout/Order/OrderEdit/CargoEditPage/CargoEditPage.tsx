@@ -72,10 +72,9 @@ const CargoEditPage: React.FC = () => {
                 cargo: cargoData,
             };
             setIsSubmitting(true);
-            console.log(values)
             dispatch(updateCargoOrder(id, values, navigate, setIsSubmitting))
         } catch (error) {
-            console.error(error);
+            throw new Error()
         }
     };
 

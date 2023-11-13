@@ -35,6 +35,7 @@ import CargoCraneEditPageV2 from './components/layout/CargoCraneLayout/Edit/Carg
 import CargoCraneCreate from './components/layout/CargoCraneLayout/Insert/CargoCraneCreate';
 import CarrierPage from './components/Pages/Carrier/CarrierPage';
 import CargoEditPage from './components/layout/Order/OrderEdit/CargoEditPage/CargoEditPage';
+import { roles } from './store/slices/rolesSlice';
 
 const drawerWidth = 240;
 
@@ -44,7 +45,8 @@ export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(restoreLogin())
+    dispatch(restoreLogin());
+    dispatch(roles())
   }, []);
 
   const handleDrawerToggle = () => {

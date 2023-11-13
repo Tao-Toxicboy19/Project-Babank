@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { RiEditLine } from "react-icons/ri";
 import { FTSCrane } from '../../../types/FloatingCrane.type';
 import FTSDelete from '../../Pages/FTSPage/FTSDelete/FTSDelete';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 const TreeTableNode: React.FC<FTSCrane> = ({
     fts_id,
@@ -18,7 +20,10 @@ const TreeTableNode: React.FC<FTSCrane> = ({
     result,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const columns = rolesReducer.result && rolesReducer.result.role === 'Viewer'
+        ? 10
+        : 12;
     const toggleNode = () => {
         setIsOpen(!isOpen);
     };
@@ -28,7 +33,7 @@ const TreeTableNode: React.FC<FTSCrane> = ({
             <Grid
                 container
                 spacing={1}
-                columns={12}
+                columns={columns}
                 className='border-b-[1px] bg-[#f8f8f8] rounded-lg mt-1'
             >
                 <Grid item xs={2}>
@@ -51,22 +56,27 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     {lng}
                 </Grid>
-                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
+                <Grid item xs={2} className='font-kanit text-md ' sx={{ marginY: 1}}>
                     {setuptime_FTS}
                 </Grid>
                 <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
                     {speed}
                 </Grid>
-                <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
-                    <Box className='flex justify-end'>
-                        <Tooltip title="แก้ไข">
-                            <IconButton component={Link} to={`/transferstation/edit/${fts_id}`}>
-                                <RiEditLine className="text-[#135812]" />
-                            </IconButton>
-                        </Tooltip>
-                        <FTSDelete id={fts_id} />
-                    </Box>
-                </Grid>
+                {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                    <></>
+                ) : (
+                    <Grid item xs={2} className='font-kanit text-md' sx={{ marginY: 1 }}>
+                        <Box className='flex justify-end'>
+                            <Tooltip title="แก้ไข">
+                                <IconButton component={Link} to={`/transferstation/edit/${fts_id}`}>
+                                    <RiEditLine className="text-[#135812]" />
+                                </IconButton>
+                            </Tooltip>
+                            <FTSDelete id={fts_id} />
+                        </Box>
+                    </Grid>
+                )}
+
             </Grid >
 
             {isOpen && <Grid
@@ -82,7 +92,7 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                 <Grid item xs={1} >
                     <Typography className='font-kanit'>เวลาเตรียมความพร้อม (นาที)</Typography>
                 </Grid>
-                <Grid item xs={1} sx={{ marginLeft: 5 }}>
+                <Grid item xs={1} sx={{ marginLeft: -1 }}>
                     <Typography className='font-kanit'>ค่าแรง (เดือน)</Typography>
                 </Grid>
                 <Grid item xs={1} >

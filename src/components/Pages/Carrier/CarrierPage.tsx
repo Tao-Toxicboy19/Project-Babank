@@ -18,6 +18,7 @@ type Props = {}
 export default function CarrierPage({ }: Props) {
   const carrierReducer = useSelector((state: RootState) => state.carrier);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
   // search
   const filteredData = (carrierReducer.carrier).filter((item) =>
@@ -46,19 +47,22 @@ export default function CarrierPage({ }: Props) {
                   className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${items.has_crane !== 'ไม่มีเครน' ? 'bg-emerald-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
                 >
                   {items.has_crane}
-
                 </Typography>
               </TableCell>
-              <TableCell align="center">
-                <Stack direction='row' className="flex justify-end">
-                  <Tooltip title="แก้ไข">
-                    <IconButton component={Link} to={`/carrier/edit/${items.cr_id}`}>
-                      <RiEditLine className="text-[#135812]" />
-                    </IconButton>
-                  </Tooltip>
-                  <CarrierDeletePage id={items.cr_id} />
-                </Stack>
-              </TableCell>
+              {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                <></>
+              ) : (
+                <TableCell align="center">
+                  <Stack direction='row' className="flex justify-end">
+                    <Tooltip title="แก้ไข">
+                      <IconButton component={Link} to={`/carrier/edit/${items.cr_id}`}>
+                        <RiEditLine className="text-[#135812]" />
+                      </IconButton>
+                    </Tooltip>
+                    <CarrierDeletePage id={items.cr_id} />
+                  </Stack>
+                </TableCell>
+              )}
             </TableRow >
           ))
         }
@@ -83,15 +87,19 @@ export default function CarrierPage({ }: Props) {
               <Box className='w-full flex justify-end'>
                 <Box className='w-[600px] flex gap-x-5'>
                   <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                  <Button
-                    component={Link}
-                    to={'/carrier/create'}
-                    variant="contained"
-                    className='w-[60%] bg-blue-600 hover:bg-blue-800'
-                    startIcon={<AddIcon />}
-                  >
-                    Create
-                  </Button>
+                  {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                    <></>
+                  ) : (
+                    <Button
+                      component={Link}
+                      to={'/carrier/create'}
+                      variant="contained"
+                      className='w-[60%] bg-blue-600 hover:bg-blue-800'
+                      startIcon={<AddIcon />}
+                    >
+                      Create
+                    </Button>
+                  )}
                 </Box>
               </Box>
               <Box>
@@ -127,7 +135,6 @@ export default function CarrierPage({ }: Props) {
                       ) : (
                         showTbody()
                       )}
-                      {showTbody()}
                     </TableBody>
                   </Table>
                 </TableContainer>

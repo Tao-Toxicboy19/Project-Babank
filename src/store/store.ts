@@ -27,9 +27,11 @@ import mainTainFTSReducer from './slices/MainTain/FTSSlice'
 import managePlansSlice from './slices/managePlansSlice'
 import CarneSolutionV2Slice from './slices/Solution/craneSolutionV2Slice'
 import Solution_carrier_orderReducer from './slices/Solution/solution_carrier_orderSlice'
+import rolesReducer from './slices/rolesSlice'
+
 const middleware = [...getDefaultMiddleware()];
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   middleware.push(logger);
 }
 
@@ -59,7 +61,8 @@ export const store = configureStore({
     mainTainFTSReducer: mainTainFTSReducer,
     manMgePlanReducer: managePlansSlice,
     carneSolutionV2Reducer: CarneSolutionV2Slice,
-    Solution_carrier_orderReducer: Solution_carrier_orderReducer
+    Solution_carrier_orderReducer: Solution_carrier_orderReducer,
+    rolesReducer: rolesReducer,
   },
   middleware: middleware,
 });

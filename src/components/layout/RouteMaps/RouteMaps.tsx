@@ -2,6 +2,7 @@ import { LoadScript, GoogleMap, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { Marker } from '@react-google-maps/api';
+import Loading from "../Loading/Loading";
 
 // const google = window.google;
 
@@ -30,29 +31,33 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
 
     return (
         <div className="App">
-            <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                <GoogleMap
-                    mapContainerStyle={mapStyles}
-                    zoom={13}
-                    center={{ lat: 13.177009, lng: 100.840662 }}
-                >
-                    {(datav2).map((item) => (
-                        <Marker
-                            key={`${item.lat}-${item.lng}`}
-                            position={{ lat: item.lat, lng: item.lng }}
-                        // icon={index === 0 ? blueMarkerIcon : undefined}
+            {SolutionscheduleReducer.loading ? (
+                <Loading />
+            ) : (
+                <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                    <GoogleMap
+                        mapContainerStyle={mapStyles}
+                        zoom={13}
+                        center={{ lat: 13.177009, lng: 100.840662 }}
+                    >
+                        {(datav2).map((item: any) => (
+                            <Marker
+                                key={`${item.lat}-${item.lng}`}
+                                position={{ lat: item.lat, lng: item.lng }}
+                            // icon={index === 0 ? blueMarkerIcon : undefined}
+                            />
+                        ))}
+                        <Polyline
+                            path={datav2}
+                            options={{
+                                strokeColor: '#FF0000', // สีของเส้น Polyline
+                                strokeOpacity: 1.0, // ความโปร่งใสของเส้น Polyline
+                                strokeWeight: 2, // ความหนาของเส้น Polyline
+                            }}
                         />
-                    ))}
-                    <Polyline
-                        path={datav2}
-                        options={{
-                            strokeColor: '#FF0000', // สีของเส้น Polyline
-                            strokeOpacity: 1.0, // ความโปร่งใสของเส้น Polyline
-                            strokeWeight: 2, // ความหนาของเส้น Polyline
-                        }}
-                    />
-                </GoogleMap>
-            </LoadScript>
+                    </GoogleMap>
+                </LoadScript>
+            )}
         </div>
     );
 }
