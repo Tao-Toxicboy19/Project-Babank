@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
                 textDecoration: "none",
               }}
             >
-              {rolesReducer.result?.role}
+              {rolesReducer.result?.name}
             </Typography>
           </Box>
 

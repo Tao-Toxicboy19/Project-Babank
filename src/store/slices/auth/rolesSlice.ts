@@ -3,10 +3,17 @@ import { server } from "../../../Constants";
 import { RootState } from "../../store";
 import { httpClient } from "../../../utils/httpclient";
 
+
+interface Users {
+    id: number;
+    name: string;
+    role: string
+}
+
 interface RolesState {
     loading: boolean
     error: boolean
-    result: any
+    result: Users | null
 }
 
 const initialState: RolesState = {
@@ -50,6 +57,7 @@ export const roles = (): ThunkAction<void, RootState, unknown, any> => async (di
             }
         };
         const result = await httpClient.post(server.ROLES_URL, {}, config);
+        console.log(result.data)
         dispatch(setrolesSuccess(result.data));
     } catch (error) {
         dispatch(setrolesFailed());
