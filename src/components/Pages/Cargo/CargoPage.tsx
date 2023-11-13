@@ -16,6 +16,7 @@ export default function CargoPage({ }: Props) {
   const cargoReducer = useSelector((state: RootState) => state.cargo);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
   const filteredData = (cargoReducer.cargo).filter((item) =>
     item.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -38,17 +39,23 @@ export default function CargoPage({ }: Props) {
               <Box className='w-full flex justify-end'>
                 <Box className='w-[600px] flex gap-x-5'>
                   <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                  <Tooltip title="เพิ่มสินค้า">
-                    <Button
-                      variant="contained"
-                      className='w-[60%] bg-blue-600 hover:bg-blue-800'
-                      startIcon={<Add />}
-                      onClick={() => setOpen(true)}
-                    >
-                      Create
-                    </Button>
-                  </Tooltip>
-                  <CargoCreatePage open={open} setOpen={setOpen} />
+                  {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                    <></>
+                  ) : (
+                    <>
+                      <Tooltip title="เพิ่มสินค้า">
+                        <Button
+                          variant="contained"
+                          className='w-[60%] bg-blue-600 hover:bg-blue-800'
+                          startIcon={<Add />}
+                          onClick={() => setOpen(true)}
+                        >
+                          Create
+                        </Button>
+                      </Tooltip>
+                      <CargoCreatePage open={open} setOpen={setOpen} />
+                    </>
+                  )}
                 </Box>
               </Box>
               <Box>
@@ -68,17 +75,21 @@ export default function CargoPage({ }: Props) {
                         >
                           ชื่อสินค้า
                         </TableCell>
-                        <TableCell
-                          align={'center'}
-                          className="font-kanit text-blue-900 w-9"
-                          sx={{
-                            backgroundColor: 'background.paper',
-                            fontWeight: 'Bold',
-                            fontSize: 16,
-                          }}
-                        >
-                          #
-                        </TableCell>
+                        {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                          <></>
+                        ) : (
+                          <TableCell
+                            align={'center'}
+                            className="font-kanit text-blue-900 w-9"
+                            sx={{
+                              backgroundColor: 'background.paper',
+                              fontWeight: 'Bold',
+                              fontSize: 16,
+                            }}
+                          >
+                            #
+                          </TableCell>
+                        )}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -115,14 +126,16 @@ export default function CargoPage({ }: Props) {
                               <TableCell component="th" scope="row">
                                 {row.cargo_name}
                               </TableCell>
-                              {/* <TableCell align="center">{row.cargo_name}</TableCell> */}
-                              <TableCell align="center">
-                                <Stack direction='row' className="flex justify-end">
-                                  <CargoEditPage id={row.cargo_id} result={row} />
-                                  <CargoDeletePage id={row.cargo_id} result={row.cargo_name} />
-                                </Stack>
-                              </TableCell>
-
+                              {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                                <></>
+                              ) : (
+                                <TableCell align="center">
+                                  <Stack direction='row' className="flex justify-end">
+                                    <CargoEditPage id={row.cargo_id} result={row} />
+                                    <CargoDeletePage id={row.cargo_id} result={row.cargo_name} />
+                                  </Stack>
+                                </TableCell>
+                              )}
                             </TableRow>
                           ))}
                         </>
