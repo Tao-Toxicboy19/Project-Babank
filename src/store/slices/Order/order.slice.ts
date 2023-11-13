@@ -1,7 +1,7 @@
 // orderSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { Orders, OrderState } from '../../../types/Order.type';
-import { server } from '../../../Constants';
+import { server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
@@ -72,7 +72,7 @@ export const deleteOrder = (id: any, setOpen: any) => {
     try {
       await httpClient.delete(`${server.ORDER}/${id}`)
       await dispatch(loadOrder())
-      toast.success('ลบเรียบร้อย')
+      toast.success(SUCCESS)
       setOpen(false)
     } catch (error: any) {
       dispatch(setOrdersFailure(error.message));
@@ -86,7 +86,7 @@ export const updateStatus = (id: number, data: FieldValues, handleClose: () => v
     try {
       await httpClient.patch(`${server.UPDATESTATUS}/${id}`, data)
       await dispatch(loadOrder())
-      toast.success('อัพเดทสถานะเรียบร้อย')
+      toast.success(SUCCESS)
       handleClose()
     } catch (error: any) {
       dispatch(setOrdersFailure(error.message));

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { httpClient } from "../../utils/httpclient";
-import { server } from "../../Constants";
+import { httpClient } from "../../../utils/httpclient";
+import { server, SUCCESS } from "../../../Constants";
 import { toast } from "react-toastify";
 
 interface RegisterState {
@@ -43,18 +43,10 @@ export const registerLocal = (values: any, navigate: any) => {
         try {
             dispatch(registerStart());
             const result = await httpClient.post(server.REGISTER_URL, values);
-            toast.success('Register Successfully');
+            toast.success(SUCCESS);
             navigate('/login');
             dispatch(registerSuccess(result.data));
-            // if (result.data && result.data.message === 'OK') {
-            //     toast.success('Register Successfully');
-            //     navigate('/login');
-            //     dispatch(registerSuccess(result.data));
-            // } else {
-            //     dispatch(registerFailed());
-            // }
         } catch (error: any) {
-            console.error('เกิดข้อผิดพลาดในการลงทะเบียน: ' + error.message);
             dispatch(registerFailed());
         }
     };

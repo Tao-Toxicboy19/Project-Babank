@@ -1,10 +1,7 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { server } from "../../Constants";
-import { RootState } from "../store";
-import { LoginResult } from "../../types/User.type";
-import { httpClient } from "../../utils/httpclient";
-import { toast } from 'react-toastify';
-import { FieldValues } from "react-hook-form";
+import { server } from "../../../Constants";
+import { RootState } from "../../store";
+import { httpClient } from "../../../utils/httpclient";
 
 interface RolesState {
     loading: boolean
@@ -53,7 +50,6 @@ export const roles = (): ThunkAction<void, RootState, unknown, any> => async (di
             }
         };
         const result = await httpClient.post(server.ROLES_URL, {}, config);
-        console.log(result.data)
         dispatch(setrolesSuccess(result.data));
     } catch (error) {
         dispatch(setrolesFailed());

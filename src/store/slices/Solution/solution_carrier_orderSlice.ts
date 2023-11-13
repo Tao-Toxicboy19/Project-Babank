@@ -56,7 +56,6 @@ export const loadSolution_carrier_order = (): ThunkAction<void, RootState, unkno
         dispatch(loadingSolution_carrier_order())
         const result = await httpClient.get<Solution_carrier_order>(server.SOLUTION_CARRIER_ORDER_SUM)
         dispatch(successSolution_carrier_order(result.data))
-        console.log(result.data)
     }
     catch (error) {
         dispatch(faildSolution_carrier_order("Failed to fetch floating data"))

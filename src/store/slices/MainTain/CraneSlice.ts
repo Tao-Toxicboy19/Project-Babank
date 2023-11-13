@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { MainTain } from "../../../types/mainTain.type";
-import { server } from "../../../Constants";
+import { server, SUCCESS } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
 import { toast } from "react-toastify";
@@ -58,11 +58,11 @@ export const addMainTainCrane = (formData: any, navigate: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.post(server.MAINTAIN_CRAN_URL, formData);
-            toast.success('เพิ่มข้อมูลเรียบร้อย')
+            toast.success(SUCCESS)
             navigate('/transferstation')
             dispatch(loadMainTainCrane())
         } catch (error) {
-            console.error('Error while adding CARRIER:', error);
+            dispatch(setMainTainFailed())
         }
     };
 };
@@ -73,7 +73,7 @@ export const deleteMainTainCrane = (id: any, setOpen: any) => {
             await httpClient.delete(`${server.MAINTAIN_CRAN_URL}/${id}`)
             setOpen(false)
             dispatch(loadMainTainCrane())
-            toast.success('ลบเรียบร้อย')
+            toast.success(SUCCESS)
         } catch (error: any) {
             dispatch(setMainTainFailed())
         }

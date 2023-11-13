@@ -1,6 +1,6 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { httpClient } from "../../../utils/httpclient";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { RootState } from "../../store";
 import { loadMainTainFTS } from "./FTSSlice";
 import { toast } from "react-toastify";
@@ -41,9 +41,8 @@ export const updateMainTainFTS = (id: any, valuse: any, navigate: any): ThunkAct
         dispatch(setFTSStart())
         const result = await httpClient.put(`${server.MAINTAIN_FTS_URL}/${id}`, valuse)
         dispatch(setFTSSuccess(result.data))
-        console.log(result.data)
         dispatch(loadMainTainFTS())
-        toast.success('เพิ่มข้อมูลเรียบร้อย');
+        toast.success(SUCCESS);
         navigate('/transferstation')
     } catch (error) {
         dispatch(setFTSFailure('Failed to update cargo data'))

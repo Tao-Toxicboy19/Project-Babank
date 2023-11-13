@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Carrier, CarrierEditState } from "../../../types/Carrier.type";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from "react-toastify";
 import { loadCarrier } from "./carrier.slice";
@@ -43,7 +43,7 @@ export const updateCarrier = (id: any, formData: any, navigate: any) => {
             const result = await httpClient.put(`${server.CARRIER}/${id}`, formData);
             dispatch(setCarrierSuccess(result.data));
             dispatch(loadCarrier())
-            toast.success('แก้ไขเรียบร้อย')
+            toast.success(SUCCESS)
             navigate('/carrier');
         } catch (error) {
             toast.success(JSON.stringify(error));

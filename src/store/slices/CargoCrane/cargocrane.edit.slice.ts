@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../../utils/httpclient"
-import { server } from "../../../Constants"
+import { SUCCESS, server } from "../../../Constants"
 import { CargoCrane, CargoCraneEditState } from "../../../types/CargoCrane.type"
 import { toast } from "react-toastify"
 
@@ -41,11 +41,10 @@ export const updateCargoCrane = (id: any, formData: any, navigate: any) => {
       dispatch(setCargoCraneEditStart());
       const result = await httpClient.put(`${server.CARGOCRANE}/${id}`, formData);
       dispatch(setCargoCraneEditSuccess(result.data));
-      toast.success('แก้ไขเรียบร้อย')
+      toast.success(SUCCESS)
       navigate('/cargocrane')
     } catch (error) {
       toast.warn('เกิดข้อผิดพลาด');
-      console.log(error)
       dispatch(setCargoCraneEditFailure('Failed to update floating data'));
     }
   };

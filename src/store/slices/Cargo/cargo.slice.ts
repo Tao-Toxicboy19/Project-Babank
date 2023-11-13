@@ -1,5 +1,5 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
 import { Cargo, CargoState } from "../../../types/Cargo.type";
@@ -70,10 +70,10 @@ export const addCargo = (values: any, setOpen: any) => {
       await httpClient.post(server.CARGO, values);
       const result = await httpClient.get(server.CARGO)
       dispatch(setCargoSuccess(result.data))
-      toast.success('เพิ่มสินค้าเรียบร้อย')
+      toast.success(SUCCESS)
       setOpen(false)
     } catch (error) {
-      console.error('Error while adding CARRIER:', error);
+      dispatch(setCargoFailure("Failed"));
     }
   };
 };
@@ -82,7 +82,7 @@ export const deleteCargo = (id: any, setOpen: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.delete(`${server.CARGO}/${id}`)
-      toast.success('ลบเรียบร้อย')
+      toast.success(SUCCESS)
       dispatch(setDeleteCargo(id));
     } catch (error: any) {
       if (error.response && error.response.status === 500) {

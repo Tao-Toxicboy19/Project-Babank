@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { server } from '../../../Constants';
+import { server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
@@ -53,16 +53,15 @@ export const addCargoOrder = (values: any, navigate: any, setIsSubmitting: any):
         dispatch(setcargoOrderStart());
         const result = await httpClient.post<CargordersState>(server.CARGOORDER_URL, values);
         dispatch(setcargoOrderSuccess(result.data));
-        await dispatch(loadOrder())
+        dispatch(loadOrder())
         setIsSubmitting(false)
-        toast.success('เพิ่มออเดอร์เรียบร้อย');
+        toast.success(SUCCESS);
         navigate('/orders')
     } catch (error: any) {
         if (error.response && error.response.status === 500) {
-            await toast.warn('สินค้าซ้ำกัน')
+            toast.warn('สินค้าซ้ำกัน')
             setIsSubmitting(false)
         } else {
-            console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
             dispatch(setcargoOrderFailure("error"));
         }
     }
@@ -76,16 +75,14 @@ export const updateCargoOrder = (id: any, values: any, navigate: any, setIsSubmi
             dispatch(setcargoOrderStart());
             const result = await httpClient.put(`${server.CARGOORDER_URL}/${id}`, values);
             dispatch(setcargoOrderSuccess(result.data));
-            toast.success('แก้ไข้เรียบร้อย')
+            toast.success(SUCCESS)
             await dispatch(loadOrder())
             navigate('/orders')
-            console.log(result.data)
         } catch (error: any) {
             if (error.response && error.response.status === 500) {
                 toast.warn('สินค้าซ้ำกัน')
                 setIsSubmitting(false);
             } else {
-                console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
                 dispatch(setcargoOrderFailure('Failed to update floating data'));
             }
         }

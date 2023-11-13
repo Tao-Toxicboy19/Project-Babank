@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { Crane, CraneEditState, } from "../../../types/crane.type";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from "react-toastify";
@@ -38,13 +38,13 @@ export default CraneEditSlice.reducer
 
 
 export const addCrane = (formData: FieldValues, navigate: any) => {
-    return async () => {
+    return async (dispatch: any) => {
         try {
             await httpClient.post(server.CRANE, formData);
-            toast.success('เพิ่มข้อมูลเรียนร้อย')
+            toast.success(SUCCESS)
             navigate('/transferstation')
         } catch (error) {
-            console.error('Error while adding CARRIER:', error);
+            dispatch(setCraneEditFailure("hello"))
         }
     };
 };
@@ -55,7 +55,6 @@ export const getCraneById = (id: any) => {
             dispatch(setCraneEditState())
             const result = await httpClient.get(`${server.CRANE}/${id}`)
             dispatch(setCraneEditSuccess(result.data))
-            console.log(result.data)
         }
         catch (error) {
             alert(JSON.stringify(error))
@@ -68,7 +67,7 @@ export const getCraneById = (id: any) => {
 export const updateCrane = (formData: FormData, navigate: any, id: any) => {
     return async () => {
         await httpClient.put(`${server.CRANE}/${id}`, formData)
-        toast.success('Successfully')
+        toast.success(SUCCESS)
         navigate('/transferstation')
     }
 }

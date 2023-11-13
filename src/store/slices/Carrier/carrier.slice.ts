@@ -1,6 +1,6 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { Carrier, carrierState } from "../../../types/Carrier.type";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
 import { toast } from "react-toastify";
@@ -54,11 +54,11 @@ export const addCarrier = (formData: any, navigate: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.post(server.CARRIER, formData);
-            toast.success('Successfully')
+            toast.success(SUCCESS)
             await dispatch(loadCarrier())
             navigate('/carrier')
         } catch (error) {
-            console.error('Error while adding CARRIER:', error);
+            dispatch(setCarrierFailure("Failed"));
         }
     };
 };
@@ -67,7 +67,7 @@ export const deleteCarrier = (id: any, setOpen: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.delete(`${server.CARRIER}/${id}`);
-            toast.success('ลบเรียบร้อย')
+            toast.success(SUCCESS)
             setOpen(false);
             await dispatch(loadCarrier())
         } catch (error: any) {

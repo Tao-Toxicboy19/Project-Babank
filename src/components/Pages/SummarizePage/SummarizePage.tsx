@@ -10,6 +10,8 @@ import DialogLoading from '../../layout/DialogLoading/DialogLoading';
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts';
 import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
 import FTSsingle from '../../layout/FTSsingle/FTSsingle';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -46,6 +48,7 @@ function a11yProps(index: number) {
 
 export default function SummarizePage() {
     const [value, setValue] = React.useState(0);
+    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
@@ -57,7 +60,18 @@ export default function SummarizePage() {
         <Card>
             <CardContent>
                 <Stack direction='row' spacing={2} className='max-w-[60%] my-3'>
-                    <DialogLoading />
+                    {rolesReducer.result ? (
+                        rolesReducer.result.role === 'Viewer' ? (
+                            <></>
+                        ) : rolesReducer.result.role === 'Contributor' ? (
+                            <></>
+                        ) : (
+                            <DialogLoading />
+                        )
+                    ) : (
+                        <></>
+                    )}
+
                 </Stack>
                 <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
                     <Box sx={{ width: '100%' }}>

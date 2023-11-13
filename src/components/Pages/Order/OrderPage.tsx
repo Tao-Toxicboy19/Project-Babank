@@ -22,8 +22,7 @@ export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
-
-
+  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
 
 
@@ -32,7 +31,6 @@ export default function OrderPage({ }: Props) {
       cargoOrder.cargo.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
-
 
 
   const arrivalTimeV2 = filteredData.map(item => {
@@ -173,19 +171,23 @@ export default function OrderPage({ }: Props) {
               >
                 {items.reason}
               </TableCell>
-              <TableCell
-                align="right"
-                className="font-kanit"
-              >
-                <Box className='flex flex-row justify-end'>
-                  <Tooltip title="แก้ไข">
-                    <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
-                      <RiEditLine className="text-[#135812]" />
-                    </IconButton>
-                  </Tooltip>
-                  <OrderDeletePage id={items.or_id} />
-                </Box>
-              </TableCell>
+              {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                <></>
+              ) : (
+                <TableCell
+                  align="right"
+                  className="font-kanit"
+                >
+                  <Box className='flex flex-row justify-end'>
+                    <Tooltip title="แก้ไข">
+                      <IconButton component={Link} to={`/orders/edit/${items.or_id}`}>
+                        <RiEditLine className="text-[#135812]" />
+                      </IconButton>
+                    </Tooltip>
+                    <OrderDeletePage id={items.or_id} />
+                  </Box>
+                </TableCell>
+              )}
             </TableRow>
           </>
         ))}
@@ -230,15 +232,19 @@ export default function OrderPage({ }: Props) {
                 </FormControl>
                 <Box className='w-[600px] flex gap-x-5'>
                   <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                  <Button
-                    component={Link}
-                    to={'/orders/create'}
-                    variant="contained"
-                    className='w-[60%]  bg-blue-600 hover:bg-blue-800'
-                    startIcon={<AddIcon />}
-                  >
-                    Create
-                  </Button>
+                  {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                    <></>
+                  ) : (
+                    <Button
+                      component={Link}
+                      to={'/orders/create'}
+                      variant="contained"
+                      className='w-[60%]  bg-blue-600 hover:bg-blue-800'
+                      startIcon={<AddIcon />}
+                    >
+                      Create
+                    </Button>
+                  )}
                 </Box>
               </Box>
               <Box>

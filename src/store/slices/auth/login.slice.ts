@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { server } from "../../Constants";
-import { RootState } from "../store";
-import { LoginResult } from "../../types/User.type";
-import { httpClient } from "../../utils/httpclient";
+import { server } from "../../../Constants";
+import { RootState } from "../../store";
+import { LoginResult } from "../../../types/User.type";
+import { httpClient } from "../../../utils/httpclient";
 import { toast } from 'react-toastify';
 import { FieldValues } from "react-hook-form";
 import { roles } from "./rolesSlice";
@@ -59,6 +59,7 @@ export const login = (user: FieldValues, navigate: any, setSubmitting: any): Thu
             localStorage.setItem('token', result.data.token);
             dispatch(setLoginSuccess(result.data));
             dispatch(roles())
+            navigate('/')
         }
     } catch (error) {
         setSubmitting(false);
@@ -80,7 +81,6 @@ export const restoreLogin = () => {
 export const logout = () => {
     return (dispatch: any) => {
         localStorage.removeItem('token');
-        // alert('logged out');
         toast.success('logged out')
         dispatch(setLogout());
     };

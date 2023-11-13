@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { MainTainFTS } from "../../../types/mainTain.type";
-import { server } from "../../../Constants";
+import { server, SUCCESS } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
 import { toast } from "react-toastify";
@@ -47,11 +47,9 @@ export const loadMainTainFTS = (): ThunkAction<void, RootState, unknown, any> =>
     try {
         dispatch(setMainTainFTSStart())
         const result = await httpClient.get(server.MAINTAIN_FTS_URL)
-        console.log(result.data)
         dispatch(setMainTainFTSSuccess(result.data))
     }
     catch (error) {
-        console.error(error)
         dispatch(setMainTainFTSFailed())
     }
 }
@@ -60,11 +58,11 @@ export const addMainTainFTS = (formData: any, navigate: any) => {
     return async (dispatch: any) => {
         try {
             await httpClient.post(server.MAINTAIN_FTS_URL, formData);
-            toast.success('เพิ่มข้อมูลเรียบร้อย')
+            toast.success(SUCCESS)
             navigate('/transferstation')
             dispatch(loadMainTainFTS())
         } catch (error) {
-            console.error('Error while adding CARRIER:', error);
+            dispatch(setMainTainFTSFailed())
         }
     };
 };
@@ -75,7 +73,7 @@ export const deleteMainTainFTS = (id: any, setOpen: any) => {
             await httpClient.delete(`${server.MAINTAIN_FTS_URL}/${id}`)
             setOpen(false)
             dispatch(loadMainTainFTS())
-            toast.success('ลบเรียบร้อย')
+            toast.success(SUCCESS)
         } catch (error: any) {
             dispatch(setMainTainFTSFailed())
         }

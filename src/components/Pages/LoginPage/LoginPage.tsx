@@ -5,7 +5,7 @@ import Logo3 from '../../../assets/images/logo/logo3.png'
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { NavigateFunction, useNavigate } from "react-router-dom"
-import { login } from "../../../store/slices/login.slice"
+import { login } from "../../../store/slices/auth/login.slice"
 import { useState } from "react"
 
 type Props = {}
@@ -43,7 +43,6 @@ export default function LoginPage({ }: Props) {
               <form
                 className="w-full"
                 onSubmit={handleSubmit((data) => {
-                  console.log(data);
                   setIsSubmitting(true);
                   dispatch(login(data, navigate, () => {
                     setIsSubmitting(false);

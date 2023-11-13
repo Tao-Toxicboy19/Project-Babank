@@ -1,6 +1,6 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { FTSCrane, FTSCraneState } from "../../../types/FloatingCrane.type";
 import { toast } from "react-toastify";
@@ -55,14 +55,15 @@ export const loadFTS = (): ThunkAction<void, RootState, unknown, any> => async (
 }
 
 export const addFTS = (formData: FormData, navigate: any) => {
-    return async () => {
+    return async (dispatch: any) => {
         try {
             await httpClient.post(server.FLOATING, formData);
-            toast.success('Successfully')
+            toast.success(SUCCESS)
             navigate('/transferstation')
         } catch (error) {
-            console.error('Error while adding CARRIER:', error);
+            dispatch(setFTSFailure("Failed"));
         }
+
     };
 };
 
@@ -71,7 +72,7 @@ export const deleteFTS = (id: any, setOpen: any) => {
         try {
             await httpClient.delete(`${server.FLOATING}/${id}`);
             dispatch(setDeleteFTS(id));
-            toast.success('ลบทุ่นเรียบร้อย');
+            toast.success(SUCCESS);
         } catch (error: any) {
             if (error.response && error.response.status === 500) {
                 toast.warn(`
@@ -80,7 +81,7 @@ export const deleteFTS = (id: any, setOpen: any) => {
                 `);
                 setOpen(false)
             } else {
-                console.error('เกิดข้อผิดพลาดในการลบข้อมูล:', error);
+                dispatch(setFTSFailure("Failed"));
             }
         }
     };

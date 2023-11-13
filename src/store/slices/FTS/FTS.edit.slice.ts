@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { FTSEditState } from "../../../types/FloatingCrane.type";
 import { httpClient } from "../../../utils/httpclient";
-import { server } from "../../../Constants";
+import { SUCCESS, server } from "../../../Constants";
 import { toast } from "react-toastify";
 
 
@@ -40,7 +40,7 @@ export default FTSEditSlice.reducer
 export const updateFTS = (formData: FormData, navigate: any, id: any) => {
     return async () => {
         await httpClient.put(`${server.FLOATING}/${id}`, formData)
-        toast.success('Successfully')
+        toast.success(SUCCESS)
         navigate('/transferstation')
     }
 }
@@ -51,7 +51,6 @@ export const getFTSById = (id: any) => {
             dispatch(setFTSEditStart())
             const result = await httpClient.get(`${server.FLOATING}/${id}`)
             await dispatch(setFTSEditSuccess(result.data))
-            console.log(result.data)
         }
         catch (error) {
             toast.success(JSON.stringify(error))

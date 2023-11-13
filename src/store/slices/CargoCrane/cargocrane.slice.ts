@@ -1,6 +1,6 @@
 // cargoCraneSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { server } from '../../../Constants';
+import { server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
@@ -64,7 +64,7 @@ export const DeleteCargoCrane = (id: any, setOpen: any) => async (dispatch: any)
     await httpClient.delete(`${server.CARGOCRANE}/${id}`)
     await dispatch(doGetCargoCrane())
     setOpen(false);
-    toast.success("ลบเรียบร้อย");
+    toast.success(SUCCESS);
   } catch (error) {
     dispatch(setCargoCraneFailure('error deleting cargo'));
 
@@ -76,13 +76,12 @@ export const addCargoCrane = (formData: any, naviagte: any) => {
   return async (dispatch: any) => {
     try {
       await httpClient.post(server.CARGOCRANE, formData);
-      toast.success('เพิ่มข้อมูลเรียบร้อย')
+      toast.success(SUCCESS)
       await dispatch(doGetCargoCrane())
       naviagte('/cargocrane')
     } catch (error) {
       toast.warn('มีสินค้าแล้ว')
       naviagte('/cargocrane')
-      console.error('Error while adding CARRIER:', error);
     }
   };
 };

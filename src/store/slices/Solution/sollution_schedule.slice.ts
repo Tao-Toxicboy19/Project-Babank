@@ -41,7 +41,6 @@ export const loadSolution = (): ThunkAction<void, RootState, unknown, any> => as
         dispatch(loadingSolutionSchedule())
         const result = await httpClient.get(server.SOLUTIONSCHEDULE)
         dispatch(successSolutionSchedule(result.data))
-        console.log(result.data)
     }
     catch (error) {
         dispatch(faildSolutionSchedule("Failed to fetch floating data"))

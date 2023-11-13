@@ -1,12 +1,12 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
-import { Box, CssBaseline } from '@mui/material';
+import { Box } from '@mui/material';
 import Sidebar from './components/layout/Sidebar/Sidebar';
 import Header from './components/layout/Header/Header';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from './utils/PrivateRoute';
 import { useDispatch, useSelector } from 'react-redux';
-import { restoreLogin } from './store/slices/login.slice';
+import { restoreLogin } from './store/slices/auth/login.slice';
 import { RootState } from './store/store';
 import PublicRoute from './utils/PublicRoute';
 import { ToastContainer } from 'react-toastify';
@@ -35,7 +35,10 @@ import CargoCraneEditPageV2 from './components/layout/CargoCraneLayout/Edit/Carg
 import CargoCraneCreate from './components/layout/CargoCraneLayout/Insert/CargoCraneCreate';
 import CarrierPage from './components/Pages/Carrier/CarrierPage';
 import CargoEditPage from './components/layout/Order/OrderEdit/CargoEditPage/CargoEditPage';
-import { roles } from './store/slices/rolesSlice';
+import { roles } from './store/slices/auth/rolesSlice';
+import AdminRoute from './utils/AdminRoute';
+import AdminRouteV2 from './utils/AdminRouteV2';
+import ManagementUserPage from './components/Pages/ManagementUserPage/ManagementUserPage';
 
 const drawerWidth = 240;
 
@@ -53,10 +56,9 @@ export default function ResponsiveDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
-
   return (
     <Box sx={{ display: 'flex' }} className='bg-gradient-to-bl from-[#5FBCFF] to-[#FFF] w-full h-full min-h-screen'>
-      <CssBaseline />
+
       <ToastContainer />
       {loginReducer.data && <Header drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />}
       {loginReducer.data && <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />}
@@ -67,30 +69,50 @@ export default function ResponsiveDrawer() {
         <Box sx={{ marginTop: 6 }}>
           <Routes>
             <Route element={<PrivateRoute />}>
+
               <Route path="/home" element={<HomePage />} />
               <Route path="/cargo" element={<CargoPage />} />
               <Route path="/transferstation" element={<FTSPage />} />
-              <Route path="/transferstation/create" element={<FTSCreatePage />} />
-              <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
-              <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
-              <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
               <Route path="/carrier" element={<CarrierPage />} />
-              <Route path="/carrier/create" element={<CarrierCreate />} />
-              <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
               <Route path="/orders" element={<OrderPage />} />
-              <Route path="/orders/create" element={<OrderCreatePage />} />
-              <Route path="/orders/create/cargo" element={<CreateCargoOrderPage />} />
-              <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} />
-              <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} />
-              <Route path="/cargocrane" element={<CargocranePage />} />
-              <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
-              <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
               <Route path="/summarize" element={< SummarizePage />} />
               <Route path="/report" element={< ReportPage />} />
-              <Route path="/maintain/:id" element={< EditFTS />} />
-              <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
-              <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
+              <Route path="/cargocrane" element={<CargocranePage />} />
               <Route path="*" element={<Navigate to="/home" />} />
+
+              <Route element={<AdminRoute />}>
+                <Route path="*" element={<Navigate to="/home" />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/cargo" element={<CargoPage />} />
+                <Route path="/transferstation" element={<FTSPage />} />
+                <Route path="/carrier" element={<CarrierPage />} />
+                <Route path="/orders" element={<OrderPage />} />
+                <Route path="/summarize" element={< SummarizePage />} />
+                <Route path="/report" element={< ReportPage />} />
+                <Route path="/cargocrane" element={<CargocranePage />} />
+                <Route path="/transferstation/create" element={<FTSCreatePage />} />
+                <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
+                <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
+                <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
+                <Route path="/carrier/create" element={<CarrierCreate />} />
+                <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
+                <Route path="/orders/create" element={<OrderCreatePage />} />
+                <Route path="/orders/create/cargo" element={<CreateCargoOrderPage />} />
+                <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} />
+                <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} />
+                <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
+                <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
+                <Route path="/maintain/:id" element={< EditFTS />} />
+                <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
+                <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
+              </Route>
+
+
+              <Route element={<AdminRouteV2 />}>
+                <Route path="/management/user" element={<ManagementUserPage />} />
+              </Route>
+
+
             </Route>
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<LoginPage />} />

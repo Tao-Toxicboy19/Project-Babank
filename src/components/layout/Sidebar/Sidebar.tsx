@@ -1,4 +1,4 @@
-import { Divider, Drawer, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
+import { Box, Divider, Drawer, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import DirectionsBoatFilledIcon from '@mui/icons-material/DirectionsBoatFilled';
 import SupportIcon from '@mui/icons-material/Support';
@@ -8,13 +8,17 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, NavLink } from 'react-router-dom';
 import GridViewIcon from '@mui/icons-material/GridView';
-import { useDispatch } from 'react-redux';
-import PollIcon from '@mui/icons-material/Poll';
-import { logout } from '../../../store/slices/login.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../../store/slices/auth/login.slice';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
+import { HiOutlineDocumentReport } from 'react-icons/hi';
+import { BiUser } from 'react-icons/bi';
+import { RootState } from '../../../store/store';
+import Loading from '../Loading/Loading';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const dispatch = useDispatch<any>();
+    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
     const MyNavLink = React.forwardRef<any, any>((props, ref) => {
         return (
@@ -125,7 +129,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/summarize" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
-                        <AlignHorizontalLeftIcon />
+                        <AlignHorizontalLeftIcon className='flex justify-center text-3xl' />
                     </ListItemIcon>
                     <ListItemText
                         primary={
@@ -136,7 +140,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                 </ListItem>
                 <ListItem button component={MyNavLink} to="/report" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
-                        <PollIcon />
+                        <HiOutlineDocumentReport className='text-3xl ml-[-4px]' />
                     </ListItemIcon>
                     <ListItemText
                         primary={
@@ -147,6 +151,29 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                 </ListItem>
             </Stack>
             <Divider />
+            {rolesReducer.result ? (
+                rolesReducer.result.role === 'Viewer' ? (
+                    <></>
+                ) : rolesReducer.result.role === 'Contributor' ? (
+                    <></>
+                ) : (
+                    <Box className='mt-5'>
+                        <ListItem button component={MyNavLink} to="/management/user" activeClassName="Mui-selected" exact>
+                            <ListItemIcon>
+                                <BiUser className='text-3xl ml-[-4px]' />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={
+                                    <Typography variant="body1" className="font-kanit">
+                                        จัดการบัญชีผู้ใช้
+                                    </Typography>
+                                } />
+                        </ListItem>
+                    </Box>
+                )
+            ) : (
+                <></>
+            )}
             <Stack sx={{ position: 'absolute', bottom: 10, width: '100%' }}>
                 <ListItemButton
                     onClick={() => dispatch(logout())}
@@ -172,7 +199,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                 open={mobileOpen}
                 onClose={handleDrawerToggle}
                 ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
+                    keepMounted: true,
                 }}
                 sx={{
                     display: { xs: 'block', sm: 'none' },
@@ -188,7 +215,11 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                     '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                 }}
             >
-                {drawer}
+                {rolesReducer.loading ? (
+                    <Loading />
+                ) : (
+                    drawer
+                )}
             </Drawer>
         </nav>
     );

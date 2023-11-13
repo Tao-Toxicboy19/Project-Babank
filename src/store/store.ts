@@ -8,7 +8,7 @@ import cargoCraneReducer from './slices/CargoCrane/cargocrane.slice';
 import carrierReducer from './slices/Carrier/carrier.slice';
 import carrierEditReducer from './slices/Carrier/carrier.edit.slice';
 import cargoCraneEditReducer from './slices/CargoCrane/cargocrane.edit.slice'
-import loginReducer from './slices/login.slice'
+import loginReducer from './slices/auth/login.slice'
 import FTSCraneSlice from './slices/FTS/FTS.slice';
 import FTSCraneCargoSlice from './slices/FTS/FTSCraneCargo.slice';
 import FTSsolutionSlice from './slices/FTS/FTSsolution.slice';
@@ -17,9 +17,8 @@ import FTSsolutionV2Slice from './slices/FTS/FTSsolutionV2.slice';
 import FTSEditSlice from './slices/FTS/FTS.edit.slice';
 import craneSlice from './slices/Cargo/crane.slice';
 import craneEditSlice from './slices/Cargo/crane.edit.slice';
-import registerReducer from './slices/register.slice'
+import registerReducer from './slices/auth/register.slice'
 import SolutionscheduleSlice from './slices/Solution/sollution_schedule.slice'
-import statusSlice from './slices/status.slice'
 import reportReducer from './slices/report/reportSlice'
 import reportCraneReducer from './slices/report/reportCraneSlice'
 import mainTainReducer from './slices/MainTain/CraneSlice'
@@ -27,7 +26,8 @@ import mainTainFTSReducer from './slices/MainTain/FTSSlice'
 import managePlansSlice from './slices/managePlansSlice'
 import CarneSolutionV2Slice from './slices/Solution/craneSolutionV2Slice'
 import Solution_carrier_orderReducer from './slices/Solution/solution_carrier_orderSlice'
-import rolesReducer from './slices/rolesSlice'
+import rolesReducer from './slices/auth/rolesSlice'
+import usersReducer from './slices/auth/userSlice'
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -46,7 +46,6 @@ export const store = configureStore({
     Crane: craneSlice,
     CraneEdit: craneEditSlice,
     Solutionschedule: SolutionscheduleSlice,
-    status: statusSlice,
     carrier: carrierReducer,
     carrierEdit: carrierEditReducer,
     order: orderReducer,
@@ -63,6 +62,7 @@ export const store = configureStore({
     carneSolutionV2Reducer: CarneSolutionV2Slice,
     Solution_carrier_orderReducer: Solution_carrier_orderReducer,
     rolesReducer: rolesReducer,
+    usersReducer: usersReducer,
   },
   middleware: middleware,
 });

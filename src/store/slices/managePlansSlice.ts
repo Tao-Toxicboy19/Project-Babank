@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { httpClient } from "../../utils/httpclient";
 import { RootState } from "../store";
-import { apiManagePlans } from "../../Constants";
+import { apiManagePlans, SUCCESS } from "../../Constants";
 import { loadFTSsolution } from "./FTS/FTSsolution.slice";
 import { loadFtsSolutionV2 } from "./FTS/FTSsolutionV2.slice";
 import { loadCraneSolution } from "./Solution/craneSolution.slice";
@@ -75,8 +75,7 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
         dispatch(loadSolution_carrier_order())
         handleClose()
         handleCloseV2()
-        toast.success('ประมวลผลเรียบร้อย')
-
+        toast.success(SUCCESS)
     } catch (error) {
         dispatch(setManagePlanFailed())
         handleClose()

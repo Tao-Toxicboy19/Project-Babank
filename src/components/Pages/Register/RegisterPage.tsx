@@ -2,7 +2,7 @@ import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createT
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Logo1 from '../../../assets/images/logo/logo1.png' // จากตรงนี้
 import { useDispatch, useSelector } from 'react-redux';
-import { registerLocal } from '../../../store/slices/register.slice';
+import { registerLocal } from '../../../store/slices/auth/register.slice';
 import { RootState } from '../../../store/store';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
