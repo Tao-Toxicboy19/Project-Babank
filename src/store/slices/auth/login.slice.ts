@@ -63,7 +63,7 @@ export const login = (user: FieldValues, navigate: any, setSubmitting: any): Thu
         }
     } catch (error) {
         setSubmitting(false);
-        toast.warn('ไม่พบผู้ใช้งาน');
+        toast.warn('ชื่อผู้ใช้หรือรหัสผ่านผิด');
         dispatch(setLoginFailed());
     }
 };

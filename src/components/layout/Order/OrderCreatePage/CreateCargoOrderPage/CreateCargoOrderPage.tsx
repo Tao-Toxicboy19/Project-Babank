@@ -145,6 +145,7 @@ const CargoOrderForm: React.FC = () => {
                                 variant="outlined"
                                 type="number"
                                 value={item.load}
+                                defaultValue={1}
                                 onChange={(e) =>
                                     handleCargoChange(index, 'load', Number(e.target.value))
                                 }
@@ -158,6 +159,7 @@ const CargoOrderForm: React.FC = () => {
                                 variant="outlined"
                                 type="number"
                                 value={item.bulk}
+                                defaultValue={1}
                                 onChange={(e) =>
                                     handleCargoChange(index, 'bulk', Number(e.target.value))
                                 }

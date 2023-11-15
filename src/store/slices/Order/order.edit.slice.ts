@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../../utils/httpclient"
-import { server } from "../../../Constants"
+import { SUCCESS, server } from "../../../Constants"
 import { Orders, OrderEditState } from "../../../types/Order.type"
 import { loadOrder } from "./order.slice"
+import { toast } from "react-toastify"
 
 const initialState: OrderEditState = {
   result: null,
@@ -43,6 +44,7 @@ export const updateOrder = (id: any, values: any, navigate: any, setIsSubmitting
       const result = await httpClient.patch(`${server.ORDER}/${id}`, values);
       dispatch(loadOrder())
       dispatch(setOrderEditSuccess(result.data));
+      toast.success(SUCCESS)
       navigate(`/orders`)
     } catch (error) {
       dispatch(setOrderEditFailure('Failed to update floating data'));

@@ -53,8 +53,13 @@ export default function OrderEditPageV2({ }: Props) {
         return (
             <form
                 onSubmit={handleSubmit(async (data) => {
+                    const formattedValues = {
+                        ...data,
+                        latitude: parseFloat(data.latitude),
+                        longitude: parseFloat(data.longitude),
+                    };
                     setIsSubmitting(true);
-                    dispatch(updateOrder(id, data, navigate, setIsSubmitting));
+                    dispatch(updateOrder(id, formattedValues, navigate, setIsSubmitting));
                 })}>
                 <Box className='grid grid-cols-2 gap-x-5 mt-5'>
                     <Stack direction='column' spacing={4}>
@@ -119,12 +124,18 @@ export default function OrderEditPageV2({ }: Props) {
 
                         <Box>
                             <TextField
-                                label='ละติจูด'
                                 id='latitude'
-                                type='number'
+                                label='ละติจูด'
+                                type='text' // Change type to text
                                 fullWidth
                                 className='font-kanit'
-                                {...register('latitude', { required: true, valueAsNumber: true },)}
+                                {...register('latitude', {
+                                    required: true,
+                                    pattern: {
+                                        value: /^[0-9]*\.?[0-9]*$/, // Regular expression for numeric input with optional decimal
+                                        message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                                    },
+                                })}
                                 defaultValue={data.latitude}
                             />
                             {errors.latitude &&
@@ -137,10 +148,16 @@ export default function OrderEditPageV2({ }: Props) {
                             <TextField
                                 id='longitude'
                                 label='ลองจิจูด'
-                                type='number'
+                                type='text' // Change type to text
                                 fullWidth
                                 className='font-kanit'
-                                {...register('longitude', { required: true, valueAsNumber: true })}
+                                {...register('longitude', {
+                                    required: true,
+                                    pattern: {
+                                        value: /^[0-9]*\.?[0-9]*$/, // Regular expression for numeric input with optional decimal
+                                        message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                                    },
+                                })}
                                 defaultValue={data.longitude}
                             />
                             {errors.longitude &&
@@ -186,7 +203,7 @@ export default function OrderEditPageV2({ }: Props) {
                         <Box>
                             <TextField
                                 id='penalty_rate'
-                                label='ค่าปรับ (บาท/วัน)'
+                                label='ค่าปรับ (บาท/ชม)'
                                 type='number'
                                 fullWidth
                                 className='font-kanit'
@@ -202,7 +219,7 @@ export default function OrderEditPageV2({ }: Props) {
                         <Box>
                             <TextField
                                 id='reward_rate'
-                                label='รางวัล (บาท/วัน)'
+                                label='รางวัล (บาท/ชม)'
                                 type='number'
                                 fullWidth
                                 className='font-kanit'

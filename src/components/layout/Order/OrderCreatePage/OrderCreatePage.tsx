@@ -30,6 +30,8 @@ export default function OrderCreatePage({ }: Props) {
           setIsSubmitting(true);
           const formattedValues = {
             ...data,
+            latitude: parseFloat(data.latitude),
+            longitude: parseFloat(data.longitude),
             arrival_time: format(new Date(data.arrival_time), 'yyyy-MM-dd HH:mm:ss'),
             deadline_time: format(new Date(data.deadline_time), 'yyyy-MM-dd HH:mm:ss'),
           };
@@ -100,12 +102,18 @@ export default function OrderCreatePage({ }: Props) {
 
             <Box>
               <TextField
-                label='ละติจูด'
                 id='latitude'
-                type='number'
+                label='ละติจูด'
+                type='text' // Change type to text
                 fullWidth
                 className='font-kanit'
-                {...register('latitude', { required: true, valueAsNumber: true },)}
+                {...register('latitude', {
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]*\.?[0-9]*$/, // Regular expression for numeric input with optional decimal
+                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                  },
+                })}
               />
               {errors.latitude &&
                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -117,10 +125,16 @@ export default function OrderCreatePage({ }: Props) {
               <TextField
                 id='longitude'
                 label='ลองจิจูด'
-                type='number'
+                type='text' // Change type to text
                 fullWidth
                 className='font-kanit'
-                {...register('longitude', { required: true, valueAsNumber: true })}
+                {...register('longitude', {
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]*\.?[0-9]*$/, // Regular expression for numeric input with optional decimal
+                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                  },
+                })}
               />
               {errors.longitude &&
                 <Alert variant="outlined" severity="error" className='mt-2'>
