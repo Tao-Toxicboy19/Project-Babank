@@ -1,5 +1,4 @@
 import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
-import { btnColor } from '../../../../style/Styles'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { useDispatch } from 'react-redux';
@@ -7,8 +6,6 @@ import { useState } from 'react';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 import { Cargo } from '../../../../types/Cargo.type';
-import SaveIcon from '@mui/icons-material/Save';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { RiEditLine } from 'react-icons/ri';
 import { updateCargo } from '../../../../store/slices/Cargo/cargo.edit.slice';
 import { setUpdateCargo } from '../../../../store/slices/Cargo/cargo.slice';
@@ -56,7 +53,6 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                     <Button
                         variant="outlined"
                         onClick={() => setOpen(false)}
-                        startIcon={<ArrowBackIosIcon />}
                         className='font-kanit'
                     >
                         กลับ
@@ -64,10 +60,8 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
                     <Button
                         variant="contained"
                         type="submit"
-                        style={btnColor}
                         disabled={isSubmitting}
-                        startIcon={<SaveIcon />}
-                        className='font-kanit'
+                        className='font-kanit bg-[#66BB6A] hover:bg-[#1B5E20]'
                     >
                         บันทึก
                     </Button>

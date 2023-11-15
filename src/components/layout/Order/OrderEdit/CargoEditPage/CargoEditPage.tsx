@@ -164,7 +164,6 @@ const CargoEditPage: React.FC = () => {
                                 <Stack spacing={2} direction='row'>
                                     <Button
                                         variant="outlined"
-                                        onClick={handleSubmit}
                                         component={Link}
                                         to={'/orders'}
                                         className='font-kanit'
@@ -173,11 +172,11 @@ const CargoEditPage: React.FC = () => {
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        className='bg-[#1976d2] hover:bg-[#1563bc] font-kanit'
+                                        className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit'
                                         onClick={handleSubmit}
                                         disabled={isSubmitting}
                                     >
-                                        เพิ่มสินค้า
+                                        ยืนยันเเก้ไข
                                     </Button>
                                 </Stack>
                             </Stack>

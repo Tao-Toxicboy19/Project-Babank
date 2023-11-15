@@ -204,7 +204,7 @@ export default function CarrierEditPage({ }: Props) {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
+                            className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit text-lg py-3'
                             disabled={isSubmitting}
                         >
                             บันทึก
