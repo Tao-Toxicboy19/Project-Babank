@@ -130,14 +130,6 @@ export default function CraneEditPage({ }: Props) {
 
                     <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
                         <Button
-                            fullWidth
-                            variant="outlined"
-                            onClick={() => navigate('/transferstation')}
-                            className='font-kanit text-lg py-3'
-                        >
-                            กลับ
-                        </Button>
-                        <Button
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -145,6 +137,14 @@ export default function CraneEditPage({ }: Props) {
                             disabled={isSubmitting}
                         >
                             ยืนยันเเก้ไข
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            onClick={() => navigate('/transferstation')}
+                            className='font-kanit text-lg py-3'
+                        >
+                            กลับ
                         </Button>
                     </Stack>
                 </Box>

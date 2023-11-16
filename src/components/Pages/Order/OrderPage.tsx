@@ -85,7 +85,7 @@ export default function OrderPage({ }: Props) {
                     key={cargo.order_id}
                     align="center"
                   >
-                    {cargo.load}
+                    {(cargo.load).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Typography>
                 ))}
               </TableCell>

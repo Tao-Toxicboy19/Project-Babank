@@ -98,6 +98,16 @@ export default function FTSCreatePage({ }: Props) {
         />
         <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
           <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit'
+            disabled={isSubmitting}
+          >
+            เพิ่มทุ่น
+          </Button>
+          <Button
             fullWidth
             variant="outlined"
             sx={{ mt: 3, mb: 2 }}
@@ -105,16 +115,6 @@ export default function FTSCreatePage({ }: Props) {
             className='font-kanit'
           >
             กลับ
-          </Button>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
-            disabled={isSubmitting}
-          >
-            เพิ่มเครน
           </Button>
         </Stack>
       </Form>
