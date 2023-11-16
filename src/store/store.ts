@@ -28,10 +28,11 @@ import CarneSolutionV2Slice from './slices/Solution/craneSolutionV2Slice'
 import Solution_carrier_orderReducer from './slices/Solution/solution_carrier_orderSlice'
 import rolesReducer from './slices/auth/rolesSlice'
 import usersReducer from './slices/auth/userSlice'
+import solution_orderSlice from './slices/Solution/solutionOrderSlice'
 
 const middleware = [...getDefaultMiddleware()];
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'production') {
   middleware.push(logger);
 }
 
@@ -63,6 +64,7 @@ export const store = configureStore({
     Solution_carrier_orderReducer: Solution_carrier_orderReducer,
     rolesReducer: rolesReducer,
     usersReducer: usersReducer,
+    solution_orderReducer: solution_orderSlice,
   },
   middleware: middleware,
 });

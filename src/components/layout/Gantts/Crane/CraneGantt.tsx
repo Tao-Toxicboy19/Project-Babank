@@ -29,7 +29,7 @@ export default function CraneGantts() {
 
     return (
         <>
-            {data.length === 1 ? (
+            {data && data.length === 1 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -48,13 +48,18 @@ export default function CraneGantts() {
                     ไม่มีข้อมูล
                 </Typography>
             ) : (
-                <Chart
-                    chartType="Timeline"
-                    data={datav2}
-                    width="100%"
-                    height="800px"
-                />
+                data && (
+                    <div>
+                        <Chart
+                            chartType="Timeline"
+                            data={datav2}
+                            width="100%"
+                            height="800px"
+                        />
+                    </div>
+                )
             )}
         </>
     );
+
 }

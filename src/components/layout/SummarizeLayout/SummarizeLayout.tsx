@@ -12,6 +12,7 @@ import { loadSolution } from '../../../store/slices/Solution/sollution_schedule.
 import DescriptionMenu from '../../layout/DescriptionMenu/DescriptionMenu';
 import { Typography } from '@mui/material';
 import TreeTable from './TreeTable/TreeTable';
+import { loadSolution_order } from '../../../store/slices/Solution/solutionOrderSlice';
 
 
 export default function SummarizeLayout() {
@@ -28,6 +29,7 @@ export default function SummarizeLayout() {
         dispatch(loadSolution())
         dispatch(loadFTSsolution())
         dispatch(loadFtsSolutionV2())
+        dispatch(loadSolution_order())
     }, []);
 
     return (

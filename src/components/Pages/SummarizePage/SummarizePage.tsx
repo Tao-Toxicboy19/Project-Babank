@@ -12,6 +12,7 @@ import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
 import FTSsingle from '../../layout/FTSsingle/FTSsingle';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import SummarizaCarrier from '../../layout/SummarizaCarrier/SummarizaCarrier';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -82,9 +83,10 @@ export default function SummarizePage() {
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                 <Tab label="สรุปภาพรวมต้นทุน" className="font-kanit" {...a11yProps(0)} />
                                 <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
-                                <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(2)} />
-                                <Tab label="สรุปตารางเวลาเเบบทุ่น" className="font-kanit" {...a11yProps(3)} />
-                                <Tab label="สรุปตารางเวลาเเบบเรือสินค้า" className="font-kanit" {...a11yProps(4)} />
+                                <Tab label="สรุปต้นทุนเรือ" className="font-kanit" {...a11yProps(2)} />
+                                <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(3)} />
+                                <Tab label="สรุปตารางเวลาเเบบทุ่น" className="font-kanit" {...a11yProps(4)} />
+                                <Tab label="สรุปตารางเวลาเเบบเรือสินค้า" className="font-kanit" {...a11yProps(5)} />
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
@@ -94,14 +96,17 @@ export default function SummarizePage() {
                             <FTSsingle />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
-                            <RouteLayout />
+                            <SummarizaCarrier />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
+                            <RouteLayout />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={4}>
                             <Box>
                                 <FTSGantts />
                             </Box>
                         </CustomTabPanel>
-                        <CustomTabPanel value={value} index={4}>
+                        <CustomTabPanel value={value} index={5}>
                             <Box>
                                 <CraneGantts />
                             </Box>

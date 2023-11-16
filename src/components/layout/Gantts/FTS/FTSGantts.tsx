@@ -9,9 +9,9 @@ export default function FTSGantts() {
     (state: RootState) => state.Solutionschedule
   );
 
-  const filteredData = (SolutionscheduleReducer.solution_schedule).filter((item: any) => item.carrier_name !== null);
+  const filteredData = SolutionscheduleReducer.solution_schedule.filter((item: any) => item.carrier_name !== null);
   let data = [filteredData[0]]
-  data = data.concat(filteredData)
+  data = data.concat(filteredData);
   const datav2 = data.map((item: any) => {
     const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date());
     const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date());
@@ -29,7 +29,7 @@ export default function FTSGantts() {
 
   return (
     <>
-      {data.length === 1 ? (
+      {data && data.length === 1 ? (
         <Typography
           sx={{
             mr: 2,
@@ -48,12 +48,16 @@ export default function FTSGantts() {
           ไม่มีข้อมูล
         </Typography>
       ) : (
-        <Chart
-          chartType="Timeline"
-          data={datav2}
-          width="100%"
-          height="800px"
-        />
+        data && (
+          <div>
+            <Chart
+              chartType="Timeline"
+              data={datav2}
+              width="100%"
+              height="800px"
+            />
+          </div>
+        )
       )}
     </>
   );

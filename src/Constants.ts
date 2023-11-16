@@ -98,6 +98,7 @@ export const server = {
     MAINTAIN_FTS_URL: `maintain_fts`,
     CRANESOLUTIONTABLEV2_URL: `cranesolutiontableV2`,
     UPDATESTATUS: `updatestatus`,
+    SOLUTION_CARRIER_ORDER_URL: `solution_carrier_order`,
     SOLUTION_CARRIER_ORDER_SUM: `solution_carrier_order_sum`,
     ROLES_URL: `roles`,
     USERALL_URL: `userall`,

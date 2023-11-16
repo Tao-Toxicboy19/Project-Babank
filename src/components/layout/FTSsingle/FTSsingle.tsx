@@ -46,7 +46,6 @@ function a11yProps(index: number) {
 export default function FTSsingle() {
     const [value, setValue] = React.useState(0);
     const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
-    // const loadSolution_carrier_orderReducer = useSelector((state: RootState) => state.Solution_carrier_orderReducer);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
