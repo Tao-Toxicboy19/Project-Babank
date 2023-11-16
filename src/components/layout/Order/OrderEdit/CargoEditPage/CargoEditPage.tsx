@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Button, Stack, Typography } from '@mui/material';
+import { Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Button, Stack, Typography, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RootState } from '../../../../../store/store';
@@ -10,7 +10,6 @@ import { httpClient } from '../../../../../utils/httpclient';
 import { updateCargoOrder } from '../../../../../store/slices/Order/cargoOrder.slice';
 import Loading from '../../../../layout/Loading/Loading';
 
-
 const CargoEditPage: React.FC = () => {
     const { id } = useParams()
     const dispatch = useDispatch<any>()
@@ -18,6 +17,7 @@ const CargoEditPage: React.FC = () => {
     const navigate = useNavigate()
     const [loading, setloading] = useState<boolean>(false);
     const [cargo, setCargo] = useState<CargoItem[]>([
+        { cargo_id: 0, load: 0, bulk: 0 },
         { cargo_id: 0, load: 0, bulk: 0 },
     ]);
     const CargoReducer = useSelector((state: RootState) => state.cargo);
@@ -35,8 +35,6 @@ const CargoEditPage: React.FC = () => {
         };
         fetchCraneData();
     }, [id]);
-
-
 
     const handleAddCargo = () => {
         setCargo([...cargo, { cargo_id: 0, load: 0, bulk: 0 }]);
@@ -66,15 +64,31 @@ const CargoEditPage: React.FC = () => {
                 bulk: item.bulk,
             }));
 
+            const bulk_values: any[] = [];
+            cargo.forEach((item, _) => {
+                const bulk_item_values: { [key: string]: number } = {}; // ใช้ object แทน array
+                for (let i = 0; i < item.bulk; i++) {
+                    const fieldName = `b${i + 1}`;
+                    const elements = document.getElementsByName(fieldName);
+                    if (elements.length > 0) {
+                        const valueString = (elements[0] as HTMLInputElement).value;
+                        const valueNumber = parseFloat(valueString.replace(/,/g, '')); // ลบ comma และแปลงเป็น number
+                        bulk_item_values[fieldName] = valueNumber;
+                    }
+                }
+                bulk_values.push(bulk_item_values);
+            });
+
             const idNumber = Number(id);
             const values = {
                 order_id: idNumber,
                 cargo: cargoData,
+                bulk_values: bulk_values,
             };
             setIsSubmitting(true);
-            dispatch(updateCargoOrder(id, values, navigate, setIsSubmitting))
+            dispatch(updateCargoOrder(id, values, navigate, setIsSubmitting));
         } catch (error) {
-            throw new Error()
+            throw new Error();
         }
     };
 
@@ -131,17 +145,38 @@ const CargoEditPage: React.FC = () => {
                                             handleCargoChange(index, 'load', Number(e.target.value))
                                         }
                                     />
-                                    <TextField
-                                        fullWidth
-                                        id="bulk"
-                                        label="Bulk:"
-                                        variant="outlined"
-                                        type="number"
-                                        value={item.bulk}
-                                        onChange={(e) =>
-                                            handleCargoChange(index, 'bulk', Number(e.target.value))
-                                        }
-                                    />
+                                    {cargo.map((item: any, index: any) => (
+                                        <>
+                                            <TextField
+                                                fullWidth
+                                                id="bulk"
+                                                label="Bulk:"
+                                                variant="outlined"
+                                                type="number"
+                                                value={item.bulk}
+                                                onChange={(e) =>
+                                                    handleCargoChange(index, 'bulk', Number(e.target.value))
+                                                }
+                                            />
+                                            <Box key={index} className='grid grid-cols-4 gap-5'>
+                                                {item.bulk > 0 && (
+                                                    Array.from({ length: item.bulk }).map((_, i) => (
+                                                        <TextField
+                                                            key={i}
+                                                            fullWidth
+                                                            id={`bulk_${i}`}
+                                                            label={`Bulk ${i + 1}:`}
+                                                            variant="outlined"
+                                                            type="text"
+                                                            name={`b${i + 1}`}
+                                                            defaultValue={(item.load / item.bulk).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                            onChange={(e) => console.log(index, i, Number(e.target.value))}
+                                                        />
+                                                    ))
+                                                )}
+                                            </Box>
+                                        </>
+                                    ))}
                                     <Stack spacing={2} direction='row'>
                                         <Button
                                             onClick={() => handleRemoveCargo(index)}

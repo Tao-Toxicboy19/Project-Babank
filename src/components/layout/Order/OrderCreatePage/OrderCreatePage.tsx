@@ -75,7 +75,7 @@ export default function OrderCreatePage({ }: Props) {
                   label="สถานะสินค้า (ขาเข้า/ขาออก)"
                   {...register('category', { required: true })}
                 >
-                  <MenuItem value='Import' className='font-kanit'>import</MenuItem>
+                  <MenuItem value='import' className='font-kanit'>import</MenuItem>
                   <MenuItem value='export' className='font-kanit'>export</MenuItem>
                 </Select>
               </FormControl>
