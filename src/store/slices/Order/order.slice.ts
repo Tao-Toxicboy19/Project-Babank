@@ -1,7 +1,7 @@
 // orderSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { Orders, OrderState } from '../../../types/Order.type';
-import { server, SUCCESS } from '../../../Constants';
+import { Failure, server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ import { FieldValues } from 'react-hook-form';
 const initialState: OrderState = {
   orders: [],
   loading: false,
-  error: null,
+  error: false,
 };
 
 const orderSlice = createSlice({
@@ -19,15 +19,15 @@ const orderSlice = createSlice({
   reducers: {
     setOrderStart: (state) => {
       state.loading = true
-      state.error = null
+      state.error = false
     },
     setOrderSuccess: (state, action: PayloadAction<Orders[]>) => {
       state.orders = action.payload
       state.loading = false
     },
-    setOrdersFailure: (state, action: PayloadAction<string>) => {
+    setOrdersFailure: (state) => {
       state.loading = false
-      state.error = action.payload
+      state.error = false
     },
     setInsertOrder: (state, action: PayloadAction<Orders>) => {
       state.orders.push(action.payload)
@@ -51,7 +51,7 @@ export const loadOrder = (): ThunkAction<void, RootState, unknown, any> => async
     dispatch(setOrderSuccess(result.data))
   }
   catch (error) {
-    dispatch(setOrdersFailure("Failed to fetch CARRIER data"))
+    dispatch(setOrdersFailure())
   }
 }
 
@@ -81,15 +81,20 @@ export const deleteOrder = (id: any, setOpen: any) => {
 };
 
 
-export const updateStatus = (id: number, data: FieldValues, handleClose: () => void) => {
+export const updateStatus = (id: number, setIsSubmitting: any, data: FieldValues, handleClose: () => void) => {
   return async (dispatch: any) => {
     try {
-      await httpClient.patch(`${server.UPDATESTATUS}/${id}`, data)
-      await dispatch(loadOrder())
-      toast.success(SUCCESS)
-      handleClose()
+      await httpClient.patch(`${server.UPDATESTATUS}/${id}`, data);
+      await dispatch(loadOrder());
+      toast.success(SUCCESS);
+      handleClose();
     } catch (error: any) {
-      dispatch(setOrdersFailure(error.message));
+      if (error.response && error.response.status === 500) {
+        toast.warn(Failure);
+        setIsSubmitting(false);
+      }
+      dispatch(setOrdersFailure());
+      setIsSubmitting(false);
     }
   };
 };

@@ -7,7 +7,7 @@ export interface OrderEditState {
 export interface OrderState {
     orders: Orders[];
     loading: boolean
-    error: string | null
+    error: boolean
 }
 
 export interface Orders {

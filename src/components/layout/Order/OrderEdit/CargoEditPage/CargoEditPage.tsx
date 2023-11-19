@@ -146,13 +146,14 @@ const CargoEditPage: React.FC = () => {
                                         }
                                     />
                                     {cargo.map((item: any, index: any) => (
-                                        <>
+                                        <Box key={index}>
                                             <TextField
                                                 fullWidth
                                                 id="bulk"
                                                 label="Bulk:"
                                                 variant="outlined"
                                                 type="number"
+                                                className='my-5'
                                                 value={item.bulk}
                                                 onChange={(e) =>
                                                     handleCargoChange(index, 'bulk', Number(e.target.value))
@@ -175,7 +176,7 @@ const CargoEditPage: React.FC = () => {
                                                     ))
                                                 )}
                                             </Box>
-                                        </>
+                                        </Box>
                                     ))}
                                     <Stack spacing={2} direction='row'>
                                         <Button

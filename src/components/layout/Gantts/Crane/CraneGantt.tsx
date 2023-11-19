@@ -29,7 +29,7 @@ export default function CraneGantts() {
 
     return (
         <>
-            {data && data.length === 1 ? (
+            {datav2.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
