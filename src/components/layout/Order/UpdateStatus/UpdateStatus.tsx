@@ -2,23 +2,59 @@ import { DialogTitle, DialogContent, DialogContentText, Button, Dialog, TextFiel
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { Orders } from '../../../../types/Order.type';
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateStatus } from '../../../../store/slices/Order/order.slice';
+import { loadOrder } from '../../../../store/slices/Order/order.slice';
 import { RootState } from '../../../../store/store';
 import { httpClient } from '../../../../utils/httpclient';
 import { toast } from 'react-toastify';
-import { Failure, SUCCESS } from '../../../../Constants';
+import { SUCCESS } from '../../../../Constants';
+
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Loading from '../../Loading/Loading';
 
 type Props = {
     items: Orders
+}
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
 }
 
 export default function UpdateStatus({ items }: Props) {
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false); // เพิ่ม state สำหรับการกำลัง submit
     const dispatch = useDispatch<any>();
-    const [selectedStatus, setSelectedStatus] = useState('Approved');
     const FTSReducer = useSelector((state: RootState) => state.FTS)
     const {
         register,
@@ -38,6 +74,12 @@ export default function UpdateStatus({ items }: Props) {
         totalLoad += cargoOrder.load;
     }
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -49,65 +91,166 @@ export default function UpdateStatus({ items }: Props) {
 
     const AssignForm = () => {
         return (
+            <form
+                onSubmit={handleSubmit((data) => {
+                    setIsSubmitting(true);
+                    console.log(data)
+                    setIsSubmitting(true);
+
+                    httpClient.patch(`/updatestatus/${items.or_id}`, data)
+                        .then(() => {
+                            dispatch(loadOrder())
+                            handleClose()
+                            toast.success(SUCCESS)
+                        })
+                        .catch(() => {
+                            setIsSubmitting(false);
+                        });
+                })}
+            >
+                <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
+                    {Array.from({ length: totalBulk }, (_, index) => (
+                        <Box key={index} className='grid grid-cols-4 gap-5'>
+                            <Box>
+                                <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
+
+                                <TextField
+                                    key={`load${index + 1}`}
+                                    fullWidth
+                                    id={`load${index + 1}`}
+                                    variant="outlined"
+                                    className='font-kanit'
+                                    type='number'
+                                    disabled={true}
+                                    defaultValue={totalLoad}
+                                />
+                            </Box>
+                            <Box>
+                                <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
+                                <TextField
+                                    key={`bulk${index + 1}`}
+                                    fullWidth
+                                    id={`bulk${index + 1}`}
+                                    label={`ระวาง ${index + 1}`}
+                                    variant="outlined"
+                                    className='font-kanit'
+                                    type='number'
+                                    defaultValue={index + 1}
+                                    value={index + 1}
+                                    {...register(`bulk${index + 1}`, { valueAsNumber: true })}
+                                />
+                            </Box>
+                            <Box>
+                                <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
+                                <FormControl fullWidth>
+                                    <InputLabel id={`demo-simple-select-label-${index + 1}`}>เลือกทุ่น</InputLabel>
+                                    <Select
+                                        labelId={`demo-simple-select-label-${index + 1}`}
+                                        id={`FTS_id${index + 1}`}
+                                        label="เลือกทุ่น"
+                                        {...register(`FTS_id${index + 1}`, { required: true, valueAsNumber: true })}
+                                    >
+                                        {(FTSReducer.FTS).map((items) => (
+                                            <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
+                                                {items.FTS_name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                {errors[`FTS_id${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
+                            </Box>
+                            <Box>
+                                <label htmlFor="">เวลาเริ่ม</label>
+
+                                <TextField
+                                    fullWidth
+                                    id={`real_start_time${index + 1}`}
+                                    variant="outlined"
+                                    className='font-kanit'
+                                    type='datetime-local'
+                                    defaultValue={items.arrival_time}
+                                    {...register(`real_start_time${index + 1}`, { required: true })}
+                                />
+                                {errors[`real_start_time${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
+                            </Box>
+                        </Box>
+                    ))}
+                    <Stack direction='row' spacing={2}>
+                        <Button
+                            fullWidth
+                            onClick={handleClose}
+                            variant="outlined"
+                            className='font-kanit text-lg'
+                        >
+                            cancel
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg'
+                            type="submit"
+                        // disabled={isSubmitting}
+                        >
+                            confirm
+                        </Button>
+                    </Stack>
+                </Stack>
+            </form>
+        )
+    }
+
+    const ApprovedForm = () => {
+        return (
             <DialogContentText id="alert-dialog-description">
                 <form
                     onSubmit={handleSubmit((data) => {
                         setIsSubmitting(true);
 
-                        dispatch(updateStatus(items.or_id, setIsSubmitting, data, () => {
-                            handleClose();
-                            setIsSubmitting(false);
-                        }));
+                        httpClient.patch(`/updatestatus-approved/${items.or_id}`, data)
+                            .then(() => {
+                                handleClose()
+                                dispatch(loadOrder())
+                                toast.success(SUCCESS)
+                            })
+                            .catch(() => {
+                                setIsSubmitting(false);
+                            });
                     })}
                 >
                     <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
-                        <Stack direction='row' spacing={2} className=''>
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='สถานะ'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={"Assign"}
-                            />
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='ชื่อเรือ'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={items.carrier.carrier_name}
-                            />
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='วัน-เวลา มาถึง'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={items.arrival_time ? moment(items.arrival_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
-                            />
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='วัน-เวลา สิ้นสุด'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={items.deadline_time ? moment(items.deadline_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
-                            />
-                        </Stack>
-
-                        {Array.from({ length: items.maxFTS }, (_, index) => (
-                            <Box key={index} className='grid grid-cols-4 gap-5'>
+                        {Array.from({ length: totalBulk }, (_, index) => (
+                            <Box key={index} className='grid grid-cols-5 gap-5'>
                                 <Box>
-                                    <label htmlFor="" className='opacity-0'>ฟหก</label>
+                                    <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
+
+                                    <TextField
+                                        key={`load${index + 1}`}
+                                        fullWidth
+                                        id={`load${index + 1}`}
+                                        variant="outlined"
+                                        className='font-kanit'
+                                        type='number'
+                                        disabled={true}
+                                        defaultValue={totalLoad}
+                                    />
+                                </Box>
+                                <Box>
+                                    <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
+                                    <TextField
+                                        key={`bulk${index + 1}`}
+                                        fullWidth
+                                        id={`bulk${index + 1}`}
+                                        label={`ระวาง ${index + 1}`}
+                                        variant="outlined"
+                                        className='font-kanit'
+                                        type='number'
+                                        defaultValue={index + 1}
+                                        value={index + 1}
+                                        {...register(`bulk${index + 1}`, { valueAsNumber: true })}
+                                    />
+                                </Box>
+                                <Box>
+                                    <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
                                     <FormControl fullWidth>
                                         <InputLabel id={`demo-simple-select-label-${index + 1}`}>เลือกทุ่น</InputLabel>
                                         <Select
@@ -126,45 +269,31 @@ export default function UpdateStatus({ items }: Props) {
                                     {errors[`FTS_id${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
                                 </Box>
                                 <Box>
-                                    <label htmlFor="" className='opacity-0'>ฟหก</label>
-
-                                    <TextField
-                                        key={`load${index + 1}`}
-                                        fullWidth
-                                        id={`load${index + 1}`}
-                                        variant="outlined"
-                                        className='font-kanit'
-                                        type='number'
-                                        disabled={true}
-                                        defaultValue={totalLoad}
-                                    />
-                                </Box>
-                                <Box>
-                                    <label htmlFor="" className='opacity-0'>ฟหก</label>
-                                    <TextField
-                                        key={`bulk${index + 1}`}
-                                        fullWidth
-                                        id={`bulk${index + 1}`}
-                                        label={`ระวาง ${index + 1}`}
-                                        variant="outlined"
-                                        className='font-kanit'
-                                        type='number'
-                                        {...register(`bulk${index + 1}`, { required: true, valueAsNumber: true })}
-                                    />
-                                    {errors[`bulk${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
-
-                                </Box>
-                                <Box>
                                     <label htmlFor="">เวลาเริ่ม</label>
+
                                     <TextField
                                         fullWidth
                                         id={`real_start_time${index + 1}`}
                                         variant="outlined"
                                         className='font-kanit'
                                         type='datetime-local'
+                                        defaultValue={items.arrival_time}
                                         {...register(`real_start_time${index + 1}`, { required: true })}
                                     />
                                     {errors[`real_start_time${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
+                                </Box>
+                                <Box>
+                                    <label htmlFor="">เวลาเสร็จ</label>
+                                    <TextField
+                                        fullWidth
+                                        id={`real_end_time${index + 1}`}
+                                        variant="outlined"
+                                        className='font-kanit'
+                                        type='datetime-local'
+                                        defaultValue={items.deadline_time}
+                                        {...register(`real_end_time${index + 1}`, { required: true })}
+                                    />
+                                    {errors[`real_end_time${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
                                 </Box>
                             </Box>
                         ))}
@@ -193,170 +322,9 @@ export default function UpdateStatus({ items }: Props) {
         )
     }
 
-    const ApprovedForm = () => {
+    if (items === null) {
         return (
-            <DialogContentText id="alert-dialog-description">
-                <form
-                    onSubmit={handleSubmit((data) => {
-                        setIsSubmitting(true);
-                        console.log(data);
-                        httpClient.patch(`/updatestatus-approved/${items.or_id}`, data)
-                            .then(() => {
-                                handleClose()
-                                toast.success(SUCCESS)
-                            })
-                            .catch((error) => {
-                                if (error.response && error.response.status === 500) {
-                                    toast.warn(Failure);
-                                    setIsSubmitting(false);
-                                }
-                                setIsSubmitting(false);
-                            });
-                    })}
-                >
-                    <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
-                        <Stack direction='row' spacing={2} className=''>
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='สถานะ'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={"Approved"}
-                            />
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='ชื่อเรือ'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={items.carrier.carrier_name}
-                            />
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='วัน-เวลา มาถึง'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={items.arrival_time ? moment(items.arrival_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
-                            />
-                            <TextField
-                                fullWidth
-                                id={`real_start_time`}
-                                label='วัน-เวลา สิ้นสุด'
-                                variant="outlined"
-                                className='font-kanit'
-                                type='text'
-                                disabled={true}
-                                defaultValue={items.deadline_time ? moment(items.deadline_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
-                            />
-                        </Stack>
-
-                        {Array.from({ length: items.maxFTS }, (_, index) => (
-                            <Box key={index} className='grid grid-cols-5 gap-5'>
-                                <Box>
-                                    <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
-                                    <FormControl fullWidth>
-                                        <InputLabel id={`demo-simple-select-label-${index + 1}`}>เลือกทุ่น</InputLabel>
-                                        <Select
-                                            labelId={`demo-simple-select-label-${index + 1}`}
-                                            id={`FTS_id${index + 1}`}
-                                            label="เลือกทุ่น"
-                                            {...register(`FTS_id${index + 1}`, { required: true, valueAsNumber: true })}
-                                        >
-                                            {(FTSReducer.FTS).map((items) => (
-                                                <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
-                                                    {items.FTS_name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    {errors[`FTS_id${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
-                                </Box>
-                                <Box>
-                                    <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
-
-                                    <TextField
-                                        key={`load${index + 1}`}
-                                        fullWidth
-                                        id={`load${index + 1}`}
-                                        variant="outlined"
-                                        className='font-kanit'
-                                        type='number'
-                                        disabled={true}
-                                        defaultValue={totalLoad}
-                                    />
-                                </Box>
-                                <Box>
-                                    <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
-                                    <TextField
-                                        key={`bulk${index + 1}`}
-                                        fullWidth
-                                        id={`bulk${index + 1}`}
-                                        label={`ระวาง ${index + 1}`}
-                                        variant="outlined"
-                                        className='font-kanit'
-                                        type='number'
-                                        {...register(`bulk${index + 1}`, { required: true, valueAsNumber: true })}
-                                    />
-                                    {errors[`bulk${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
-
-                                </Box>
-                                <Box>
-                                    <label htmlFor="">เวลาเริ่ม</label>
-
-                                    <TextField
-                                        fullWidth
-                                        id={`real_start_time${index + 1}`}
-                                        variant="outlined"
-                                        className='font-kanit'
-                                        type='datetime-local'
-                                        {...register(`real_start_time${index + 1}`, { required: true })}
-                                    />
-                                    {errors[`real_start_time${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
-                                </Box>
-                                <Box>
-                                    <label htmlFor="">เวลาเสร็จ</label>
-                                    <TextField
-                                        fullWidth
-                                        id={`real_end_time${index + 1}`}
-                                        variant="outlined"
-                                        className='font-kanit'
-                                        type='datetime-local'
-                                        {...register(`real_end_time${index + 1}`, { required: true })}
-                                    />
-                                    {errors[`real_end_time${index + 1}`] && <Alert severity="error">กรอกข้อมูล</Alert>}
-                                </Box>
-                            </Box>
-                        ))}
-                        <Stack direction='row' spacing={2}>
-                            <Button
-                                fullWidth
-                                onClick={handleClose}
-                                variant="outlined"
-                                className='font-kanit text-lg'
-                            >
-                                cancel
-                            </Button>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg'
-                                type="submit"
-                            // disabled={isSubmitting}
-                            >
-                                confirm
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </form>
-            </DialogContentText>
+            <Loading />
         )
     }
 
@@ -397,19 +365,93 @@ export default function UpdateStatus({ items }: Props) {
                         className='text-slate-900 font-kanit'
                     >
                         ยืนยันข้อมูลการขนถ่านสินค้า
-
                     </Typography>
                     <hr />
                 </DialogTitle>
                 <DialogContent>
-                    <Box className='flex flex-row gap-x-2'>
-                        <Button variant="outlined" onClick={() => setSelectedStatus('Approved')}>Approved</Button>
-                        <Button variant="outlined" onClick={() => setSelectedStatus('Assign')}>Assign</Button>
+                    <Typography
+                        variant='h5'
+                        component='h1'
+                        noWrap
+                        sx={{
+                            mr: 2,
+                            fontSize: 26,
+                            display: { xs: "none", md: "flex" },
+                            fontFamily: "monospace",
+                            fontWeight: 600,
+                            letterSpacing: ".1rem",
+                            color: "inherit",
+                            textDecoration: "none",
+                        }}
+                        className='text-slate-900 font-kanit'
+                    >
+                        {items.carrier.carrier_name}
+                    </Typography>
+                    <hr />
+                    <Box sx={{ width: '100%' }} className='mt-2'>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="Approved" {...a11yProps(0)} />
+                                <Tab label="Assign" {...a11yProps(1)} />
+                                <Tab label="Newer" {...a11yProps(2)} />
+                            </Tabs>
+                        </Box>
+                        <CustomTabPanel value={value} index={0}>
+                            {ApprovedForm()}
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={1}>
+                            {AssignForm()}
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2}>
+                            <Box className='min-w-[1200px] min-h-[20vh] '>
+                                <Typography
+                                    variant='h5'
+                                    component='h1'
+                                    noWrap
+                                    sx={{
+                                        mr: 2,
+                                        fontSize: 26,
+                                        display: { xs: "none", md: "flex" },
+                                        fontFamily: "monospace",
+                                        fontWeight: 600,
+                                        letterSpacing: ".1rem",
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                    }}
+                                    className='text-slate-900 font-kanit flex justify-center mb-5'
+                                >
+                                    เปลี่ยนสถานะเป็น Newer
+                                </Typography>
+                                <Stack direction='row' spacing={2}>
+                                    <Button
+                                        fullWidth
+                                        onClick={handleClose}
+                                        variant="outlined"
+                                        className='font-kanit text-lg'
+                                    >
+                                        cancel
+                                    </Button>
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg'
+                                        onClick={() => {
+                                            setIsSubmitting(true);
+                                            httpClient.patch(`/update-status-order/${items.or_id}`, {})
+                                                .then(() => {
+                                                    dispatch(loadOrder())
+                                                    setIsSubmitting(false);
+                                                })
+                                                .catch(() => setIsSubmitting(false))
+                                        }}
+                                        disabled={isSubmitting}
+                                    >
+                                        confirm
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        </CustomTabPanel>
                     </Box>
-
-                    {selectedStatus === 'Approved' && ApprovedForm()}
-                    {selectedStatus === 'Assign' && AssignForm()}
-
                 </DialogContent>
             </Dialog >
         </>
