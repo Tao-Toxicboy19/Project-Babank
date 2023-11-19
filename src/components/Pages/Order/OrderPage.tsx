@@ -94,7 +94,7 @@ export default function OrderPage({ }: Props) {
                 className="font-kanit"
               >
                 <Typography
-                  className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${items.category !== 'export' ? 'bg-emerald-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
+                  className={`flex justify-center w-[110px] h-fit mx-auto  rounded-lg ${items.category !== 'export' ? 'bg-yellow-100 text-emerald-950' : 'bg-red-100 text-red-950'}`}
                 >
                   {items.category}
                 </Typography>
