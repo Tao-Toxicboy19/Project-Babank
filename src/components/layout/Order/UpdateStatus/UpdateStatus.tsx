@@ -48,10 +48,11 @@ export default function UpdateStatus({ items }: Props) {
 
     return (
         <>
-            <Tooltip title={items.status_order !== 'Assign' ? "" : "เปลี่ยนสถานะ"}>
+            <Tooltip title={items.status_order === 'In Plan' || items.status_order === 'Newer' ? "" : "เปลี่ยนสถานะ"}>
+            {/* <Tooltip title={items.status_order !== 'In Plan' ? "เปลี่ยนสถานะ" : ""}> */}
                 <Typography
-                    className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950 cursor-pointer' : items.status_order === 'Assign' ? 'bg-purple-100 text-indigo-900 cursor-pointer' : 'bg-slate-200 text-gray-700 cursor-pointer'} ${items.status_order === 'Approved' ? 'disabled' : ''}`}
-                    onClick={handleClickOpen}
+                    className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950 cursor-pointer' : items.status_order === 'Assign' ? 'bg-purple-100 text-indigo-900 cursor-pointer' : 'bg-slate-200 text-gray-700 cursor-pointer'} ${items.status_order === 'Approved' ? 'disabled' : ''} ${items.status_order === 'In Plan' || items.status_order === 'Newer' ? 'cursor-no-drop' : ''}`}
+                    onClick={items.status_order === 'In Plan' || items.status_order === 'Newer' ? undefined : handleClickOpen}
                 >
                     {items.status_order}
                 </Typography>
