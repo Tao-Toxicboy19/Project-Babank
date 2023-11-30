@@ -1,7 +1,7 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
-import { Crane_Solution, Crane_SolutionState } from "../../../types/craneSolution.type";
+import { Crane_Solution, Crane_SolutionState } from "../../../type/craneSolution.type";
 import { httpClient } from "../../../utils/httpclient";
 
 const initialState: Crane_SolutionState = {

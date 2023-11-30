@@ -1,7 +1,7 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
-import { FTS_Solution, FTS_SolutionState } from "../../../types/FTS_solution.type";
+import { FTS_Solution, FTS_SolutionState } from "../../../type/FTS_solution.type";
 import { httpClient } from "../../../utils/httpclient";
 
 const initialState: FTS_SolutionState = {

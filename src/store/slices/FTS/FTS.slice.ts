@@ -2,7 +2,7 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
-import { FTSCrane, FTSCraneState } from "../../../types/FloatingCrane.type";
+import { FTSCrane, FTSCraneState } from "../../../type/FloatingCrane.type";
 import { toast } from "react-toastify";
 
 const initialState: FTSCraneState = {

@@ -32,7 +32,7 @@ import solution_orderSlice from './slices/Solution/solutionOrderSlice'
 
 const middleware = [...getDefaultMiddleware()];
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   middleware.push(logger);
 }
 

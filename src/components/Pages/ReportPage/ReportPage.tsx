@@ -3,9 +3,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ReportFTS from '../../layout/ReportLayout/ReportFTS/ReportFTS';
 import { Card, CardContent } from '@mui/material';
-import ReportCrane from '../../layout/ReportLayout/ReportCrane/ReportCrane';
+import ReportFTS from './ReportFTS/ReportFTS';
+import ReportCrane from './ReportCrane/ReportCrane';
 
 interface TabPanelProps {
     children?: React.ReactNode;

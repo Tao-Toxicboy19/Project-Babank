@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../../utils/httpclient"
 import { SUCCESS, server } from "../../../Constants"
-import { CargoCrane, CargoCraneEditState } from "../../../types/CargoCrane.type"
+import { CargoCrane, CargoCraneEditState } from "../../../type/CargoCrane.type"
 import { toast } from "react-toastify"
 
 const initialState: CargoCraneEditState = {

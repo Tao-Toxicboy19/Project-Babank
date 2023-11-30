@@ -6,13 +6,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { RiEditLine } from "react-icons/ri";
 import { useState } from "react";
-import OrderDeletePage from "../../layout/Order/OrderDelete/OrderDeletePage";
 import TableTitles from "../../layout/TableTitles/TableTitles";
 import Loading from "../../layout/Loading/Loading";
 import Titles from "../../layout/Titles/Titles";
-import SearchTerms from "../../layout/SearchTerms/SearchTerms";
-import UpdateStatus from "../../layout/Order/UpdateStatus/UpdateStatus";
 import moment from "moment";
+import OrderDeletePage from "./OrderDelete/OrderDeletePage";
+import UpdateStatus from "./UpdateStatus/UpdateStatus";
 
 type Props = {}
 
@@ -20,20 +19,21 @@ type Props = {}
 
 export default function OrderPage({ }: Props) {
   const OrderReducer = useSelector((state: RootState) => state.order);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  // const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
   const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
 
 
-  const filteredData = OrderReducer.orders.filter((order) =>
-    order.cargo_order.some((cargoOrder) =>
-      cargoOrder.cargo.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  // const filteredData = OrderReducer.orders.filter((order) =>
+  //   order.cargo_order.some((cargoOrder) =>
+  //     cargoOrder.cargo.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
+  //   )
+  // );
 
-
-  const arrivalTimeV2 = filteredData.map(item => {
+  const filteredOrders = OrderReducer.orders.filter((group) => group.group === rolesReducer.result?.group);
+  
+  const arrivalTimeV2 = filteredOrders.map(item => {
     const date = new Date(item.arrival_time);
     const month = date.getMonth();
     return monthNames[month];
@@ -41,7 +41,7 @@ export default function OrderPage({ }: Props) {
 
   const uniqueMonths = Array.from(new Set(arrivalTimeV2));
 
-  let displayData = selectedMonth === "ทุกเดือน" ? filteredData : filteredData.filter(item => {
+  let displayData = selectedMonth === "ทุกเดือน" ? filteredOrders : filteredOrders.filter(item => {
     const date = new Date(item.arrival_time);
     const month = date.getMonth();
     return monthNames[month] === selectedMonth;
@@ -230,8 +230,8 @@ export default function OrderPage({ }: Props) {
                     ))}
                   </Select>
                 </FormControl>
-                <Box className='w-[600px] flex gap-x-5'>
-                  <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                <Box className='w-[600px] flex gap-x-5 justify-end'>
+                  {/* <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> */}
                   {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
                     <></>
                   ) : (
@@ -255,7 +255,7 @@ export default function OrderPage({ }: Props) {
                       <TableTitles Titles={TitleOrder} />
                     </TableHead>
                     <TableBody>
-                      {filteredData.length === 0 ? (
+                      {filteredOrders.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={13}>
                             <Typography

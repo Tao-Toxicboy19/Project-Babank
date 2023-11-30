@@ -5,7 +5,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Link } from 'react-router-dom';
 import { RiEditLine } from "react-icons/ri";
-import { FTSCrane } from '../../../types/FloatingCrane.type';
+import { FTSCrane } from '../../../type/FloatingCrane.type';
 import FTSDelete from '../../Pages/FTSPage/FTSDelete/FTSDelete';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';

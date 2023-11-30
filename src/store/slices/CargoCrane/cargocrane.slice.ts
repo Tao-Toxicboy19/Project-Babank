@@ -4,7 +4,7 @@ import { server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
-import { CargoCrane, craneCargoState } from '../../../types/CargoCrane.type';
+import { CargoCrane, craneCargoState } from '../../../type/CargoCrane.type';
 
 const initialState: craneCargoState = {
   result: [],

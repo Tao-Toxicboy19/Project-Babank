@@ -1,6 +1,6 @@
 // orderSlice.ts
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-import { Orders, OrderState } from '../../../types/Order.type';
+import { Orders, OrderState } from '../../../type/Order.type';
 import { Failure, server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';

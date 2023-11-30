@@ -2,7 +2,7 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
-import { report_solution_crane, report_solution_craneState } from "../../../types/Solution_schedule.type";
+import { report_solution_crane, report_solution_craneState } from "../../../type/Solution_schedule.type";
 
 const initialState: report_solution_craneState = {
     result: [],

@@ -2,7 +2,7 @@ import { Button, Box, Select, MenuItem, FormControl, InputLabel, createTheme, Ca
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { Link, useNavigate } from 'react-router-dom';
-import { FTS } from '../../../../types/FloatingCrane.type';
+import { FTS } from '../../../../type/FloatingCrane.type';
 import { addCrane } from '../../../../store/slices/Cargo/crane.edit.slice';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { server } from "../../../Constants";
 import { RootState } from "../../store";
-import { LoginResult } from "../../../types/User.type";
+import { LoginResult } from "../../../type/User.type";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from 'react-toastify';
 import { FieldValues } from "react-hook-form";

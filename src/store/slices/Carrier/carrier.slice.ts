@@ -1,5 +1,5 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
-import { Carrier, carrierState } from "../../../types/Carrier.type";
+import { Carrier, carrierState } from "../../../type/Carrier.type";
 import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";

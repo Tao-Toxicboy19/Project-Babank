@@ -2,7 +2,7 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { httpClient } from "../../../utils/httpclient";
 import { server } from "../../../Constants";
 import { RootState } from "../../store";
-import { Solution_carrier_order, Solution_carrier_orderState } from "../../../types/Solution_schedule.type";
+import { Solution_carrier_order, Solution_carrier_orderState } from "../../../type/Solution_schedule.type";
 
 const initialState: Solution_carrier_orderState = {
     result: {

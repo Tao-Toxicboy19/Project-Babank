@@ -5,7 +5,7 @@ import { server } from '../../../../Constants';
 import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
 import { RootState } from '../../../../store/store';
 import { useSelector } from 'react-redux';
-import { FTS } from '../../../../types/FloatingCrane.type';
+import { FTS } from '../../../../type/FloatingCrane.type';
 import { toast } from 'react-toastify';
 import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';

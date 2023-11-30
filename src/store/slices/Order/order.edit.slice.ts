@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../../utils/httpclient"
 import { SUCCESS, server } from "../../../Constants"
-import { Orders, OrderEditState } from "../../../types/Order.type"
+import { Orders, OrderEditState } from "../../../type/Order.type"
 import { loadOrder } from "./order.slice"
 import { toast } from "react-toastify"
 

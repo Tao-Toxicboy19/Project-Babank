@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { SUCCESS, server } from "../../../Constants";
-import { Crane, CraneEditState, } from "../../../types/crane.type";
+import { Crane, CraneEditState, } from "../../../type/crane.type";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from "react-toastify";
 import { FieldValues } from "react-hook-form";

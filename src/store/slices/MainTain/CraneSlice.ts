@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { MainTain } from "../../../types/mainTain.type";
+import { MainTain } from "../../../type/mainTain.type";
 import { server, SUCCESS } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";

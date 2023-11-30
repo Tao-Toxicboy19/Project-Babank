@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { CarneSolutionV2 } from "../../../types/mainTain.type";
+import { CarneSolutionV2 } from "../../../type/mainTain.type";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";

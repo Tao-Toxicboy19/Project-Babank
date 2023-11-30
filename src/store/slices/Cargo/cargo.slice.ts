@@ -2,7 +2,7 @@ import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { SUCCESS, server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
-import { Cargo, CargoState } from "../../../types/Cargo.type";
+import { Cargo, CargoState } from "../../../type/Cargo.type";
 import { toast } from "react-toastify";
 
 const initialState: CargoState = {
