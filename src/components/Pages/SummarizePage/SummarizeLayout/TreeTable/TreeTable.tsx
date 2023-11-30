@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
+import { RootState } from '../../../../../store/store';
 
 type Props = {
 
@@ -65,8 +65,8 @@ export default function TreeTable({ }: Props) {
                                 {(items.solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0)
                                     + items.solutions.reduce((total, solution) => total + solution.total_wage_cost, 0)
                                     + items.solutions.reduce((max, solution) => Math.max(max, solution.penality_cost), -Infinity)
-                                    )
-                                        .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                )
+                                    .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 {/* {items.solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
                             </TableCell>
                             <TableCell

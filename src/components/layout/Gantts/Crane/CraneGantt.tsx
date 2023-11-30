@@ -8,6 +8,10 @@ export default function CraneGantts() {
     const SolutionscheduleReducer = useSelector(
         (state: RootState) => state.Solutionschedule.solution_schedule
     );
+    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+
+    const filteredSolutionscheduleReducer = SolutionscheduleReducer.filter((group) => group.solution_id === rolesReducer.result?.group);
+
     const filteredData = SolutionscheduleReducer.filter((item: any) => item.carrier_name !== null);
     let data = [filteredData[0]]
     data = data.concat(filteredData)
@@ -29,7 +33,7 @@ export default function CraneGantts() {
 
     return (
         <>
-            {datav2.length === 0 ? (
+            {filteredSolutionscheduleReducer.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -48,18 +52,41 @@ export default function CraneGantts() {
                     ไม่มีข้อมูล
                 </Typography>
             ) : (
-                data && (
-                    <div>
-                        <Chart
-                            chartType="Timeline"
-                            data={datav2}
-                            width="100%"
-                            height="800px"
-                        />
-                    </div>
-                )
+                <>
+                    {
+                        datav2.length === 0 ? (
+                            <Typography
+                                sx={{
+                                    mr: 2,
+                                    fontSize: 33,
+                                    display: { xs: "none", md: "flex" },
+                                    fontFamily: "monospace",
+                                    fontWeight: 700,
+                                    letterSpacing: ".1rem",
+                                    color: "inherit",
+                                    textDecoration: "none",
+                                }}
+                                className='text-cyan-800 flex justify-center items-center'
+                                variant='h4'
+                                component='h2'
+                            >
+                                ไม่มีข้อมูล
+                            </Typography>
+                        ) : (
+                            data && (
+                                <div>
+                                    <Chart
+                                        chartType="Timeline"
+                                        data={datav2}
+                                        width="100%"
+                                        height="800px"
+                                    />
+                                </div>
+                            )
+                        )
+                    }
+                </>
             )}
         </>
     );
-
 }

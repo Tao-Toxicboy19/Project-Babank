@@ -4,11 +4,11 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import { RootState } from '../../../store/store';
-import SummarizaCard from '../SummarizaCard/SummarizaCard';
 import { Card, Typography } from '@mui/material';
 import Tables from './Table/Tables';
-import { BarCharts } from '../BarCharts/BarCharts';
+import { RootState } from '../../../../store/store';
+import { BarCharts } from '../../../layout/BarCharts/BarCharts';
+import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 
 interface TabPanelProps {
     children?: React.ReactNode;

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
 import { Typography } from '@mui/material';
+import { RootState } from '../../../../../store/store';
 
 type Props = {
     value: any

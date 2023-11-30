@@ -4,15 +4,15 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Card, CardContent, Stack } from '@mui/material';
-import SummarizeLayout from '../../layout/SummarizeLayout/SummarizeLayout';
 import RouteLayout from '../../layout/RouteLayout/RouteLayout';
 import DialogLoading from '../../layout/DialogLoading/DialogLoading';
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts';
 import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
-import FTSsingle from '../../layout/FTSsingle/FTSsingle';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import SummarizaCarrier from '../../layout/SummarizaCarrier/SummarizaCarrier';
+import SummarizeLayout from './SummarizeLayout/SummarizeLayout';
+import FTSsingle from './FTSsingle/FTSsingle';
 
 interface TabPanelProps {
     children?: React.ReactNode;
