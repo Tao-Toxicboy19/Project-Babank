@@ -72,17 +72,46 @@ function Tables({ filteredData }: any) {
 export default function SummarizaCarrier() {
   const solutionCarrierOrderReducer = useSelector((state: RootState) => state.solution_orderReducer.result);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+
+  const filteredCarrierOrderReducer = solutionCarrierOrderReducer.filter((group) => group.s_id === rolesReducer.result?.group);
+
   // search
-  const filteredData = (solutionCarrierOrderReducer).filter((item) =>
+  const filteredData = (filteredCarrierOrderReducer).filter((item) =>
     item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+
   return (
-    <Box
-      className='w-full'
-      sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}
-    >
-      {/* <Tabs
+
+    <>{filteredData.length === 0 ? (
+      <>
+        <Typography
+          sx={{
+            mr: 2,
+            fontSize: 33,
+            display: { xs: "none", md: "flex" },
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".1rem",
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          className='text-cyan-800 flex justify-center items-center'
+          variant='h4'
+          component='h2'
+        >
+          ไม่มีข้อมูล
+        </Typography>
+      </>
+
+    ) : (
+      <Box
+        className='w-full'
+        sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}
+      >
+        {/* <Tabs
         variant="scrollable"
         orientation="vertical"
         value={value}
@@ -102,33 +131,35 @@ export default function SummarizaCarrier() {
         ))}
       </Tabs> */}
 
-      <Box className='w-full flex flex-col justify-center min-w-[76.5vw]'>
-        <Box className='w-3/12 mb-5'>
-          <Tooltip
-            title="ค้นหา"
-            className='flex justify-end'
-          >
-            <TextField
-              fullWidth
-              id="standard-basic"
-              variant="outlined"
-              placeholder='Search'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Tooltip>
-        </Box>
-        <Tables filteredData={filteredData} />
+        <Box className='w-full flex flex-col justify-center min-w-[76.5vw]'>
+          <Box className='w-3/12 mb-5'>
+            <Tooltip
+              title="ค้นหา"
+              className='flex justify-end'
+            >
+              <TextField
+                fullWidth
+                id="standard-basic"
+                variant="outlined"
+                placeholder='Search'
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Tooltip>
+          </Box>
+          <Tables filteredData={filteredData} />
 
+        </Box>
       </Box>
-    </Box>
+    )}
+    </>
   );
 }
 
