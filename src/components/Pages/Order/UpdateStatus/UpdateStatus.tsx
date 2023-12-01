@@ -77,8 +77,6 @@ function AssignForm({ items, handleClose }: any) {
         <form
             onSubmit={handleSubmit((data) => {
                 setIsSubmitting(true);
-                console.log(data)
-                setIsSubmitting(true);
 
                 httpClient.patch(`/updatestatus/${items.or_id}`, data)
                     .then(() => {
