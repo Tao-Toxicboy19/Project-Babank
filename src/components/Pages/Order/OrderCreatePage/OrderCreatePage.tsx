@@ -216,7 +216,7 @@ export default function OrderCreatePage({ }: Props) {
               className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
               disabled={isSubmitting}
             >
-              เพิ่มทุ่น
+              เพิ่มสินค้า
             </Button>
             <Button
               fullWidth
