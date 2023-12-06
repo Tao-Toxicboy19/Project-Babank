@@ -15,6 +15,7 @@ import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { BiUser } from 'react-icons/bi';
 import { RootState } from '../../../store/store';
 import Loading from '../Loading/Loading';
+import { PiUserListLight } from "react-icons/pi";
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const dispatch = useDispatch<any>();
@@ -146,6 +147,17 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                         primary={
                             <Typography variant="body1" className="font-kanit">
                                 รายงาน
+                            </Typography>
+                        } />
+                </ListItem>
+                <ListItem button component={MyNavLink} to="/employee" activeClassName="Mui-selected" exact>
+                    <ListItemIcon>
+                        <PiUserListLight className='text-3xl ml-[-4px]' />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                พนักงาน
                             </Typography>
                         } />
                 </ListItem>

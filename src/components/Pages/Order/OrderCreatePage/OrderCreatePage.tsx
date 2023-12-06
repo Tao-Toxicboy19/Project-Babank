@@ -65,7 +65,8 @@ export default function OrderCreatePage({ }: Props) {
               {errors.cargo_id &&
                 <Alert variant="outlined" severity="error" className='mt-2'>
                   กรุณากรอกข้อมูล
-                </Alert>}
+                </Alert>
+              }
             </Box>
 
             <Box>

@@ -39,6 +39,7 @@ import CreateCargoOrderPage from './components/Pages/Order/OrderCreatePage/Creat
 import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
 import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2';
 import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
+import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
 
 const drawerWidth = 240;
 
@@ -78,6 +79,7 @@ export default function ResponsiveDrawer() {
               <Route path="/summarize" element={< SummarizePage />} />
               <Route path="/report" element={< ReportPage />} />
               <Route path="/cargocrane" element={<CargocranePage />} />
+              <Route path="/employee" element={<EmployeePage />} />
               <Route path="*" element={<Navigate to="/home" />} />
 
               <Route element={<AdminRoute />}>
@@ -105,6 +107,7 @@ export default function ResponsiveDrawer() {
                 <Route path="/maintain/:id" element={< EditFTS />} />
                 <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
                 <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
+                <Route path="/employee" element={<EmployeePage />} />
               </Route>
 
 
