@@ -148,7 +148,7 @@ function AlertDialog({ rows, loadData }: { rows: Employee, loadData: () => void 
                                         type='datetime-local'
                                         fullWidth
                                         className='font-kanit'
-                                        {...register('end_datetime', { required: true })}
+                                        {...register('end_datetime')}
                                     />
                                     {errors.start_datetime &&
                                         <Alert variant="outlined" severity="error" className='mt-2'>
