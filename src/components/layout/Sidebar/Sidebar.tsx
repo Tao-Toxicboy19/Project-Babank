@@ -1,15 +1,13 @@
-import { Box, Divider, Drawer, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
+import { Box, Divider, Drawer, ListItem, ListItemIcon, ListItemText, Stack, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import DirectionsBoatFilledIcon from '@mui/icons-material/DirectionsBoatFilled';
 import SupportIcon from '@mui/icons-material/Support';
 import LayersIcon from '@mui/icons-material/Layers';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, NavLink } from 'react-router-dom';
 import GridViewIcon from '@mui/icons-material/GridView';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../store/slices/auth/login.slice';
+import { useSelector } from 'react-redux';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { BiUser } from 'react-icons/bi';
@@ -18,7 +16,6 @@ import Loading from '../Loading/Loading';
 import { PiUserListLight } from "react-icons/pi";
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
-    const dispatch = useDispatch<any>();
     const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
     const MyNavLink = React.forwardRef<any, any>((props, ref) => {
@@ -186,23 +183,13 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
             ) : (
                 <></>
             )}
-            <Stack sx={{ position: 'absolute', bottom: 10, width: '100%' }}>
-                <ListItemButton
-                    onClick={() => dispatch(logout())}
-                >
-                    <ListItemIcon>
-                        <LogoutIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </ListItemButton>
-            </Stack>
         </div >
     );
 
     return (
         <nav
+            className={`min-[600px]:w-[240px]`}
             style={{
-                width: drawerWidth,
                 flexShrink: 0,
             }}
         >

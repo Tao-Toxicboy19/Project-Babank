@@ -40,6 +40,12 @@ import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreat
 import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2';
 import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
+import { loadSolution } from './store/slices/Solution/sollution_schedule.slice';
+import { loadCarrier } from './store/slices/Carrier/carrier.slice';
+import { loadOrder } from './store/slices/Order/order.slice';
+import { loadCrane } from './store/slices/Cargo/crane.slice';
+import StatusFTSRoute from './utils/StatusFTSRoute';
+import StatusFTSPage from './components/Pages/StatusFTSPage/StatusFTSPage';
 
 const drawerWidth = 240;
 
@@ -49,9 +55,15 @@ export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    dispatch(loadCarrier())
     dispatch(restoreLogin());
     dispatch(roles())
+    dispatch(loadSolution())
+    dispatch(loadOrder())
+    dispatch(loadCrane())
   }, []);
+
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -68,7 +80,9 @@ export default function ResponsiveDrawer() {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Box sx={{ marginTop: 6 }}>
+
           <Routes>
+
             <Route element={<PrivateRoute />}>
 
               <Route path="/home" element={<HomePage />} />
@@ -110,13 +124,16 @@ export default function ResponsiveDrawer() {
                 <Route path="/employee" element={<EmployeePage />} />
               </Route>
 
-
               <Route element={<AdminRouteV2 />}>
                 <Route path="/management/user" element={<ManagementUserPage />} />
               </Route>
 
-
             </Route>
+            
+            <Route element={<StatusFTSRoute />}>
+              <Route path="/management/carrier" element={<StatusFTSPage />} />
+            </Route>
+
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
@@ -125,6 +142,6 @@ export default function ResponsiveDrawer() {
           </Routes>
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 }

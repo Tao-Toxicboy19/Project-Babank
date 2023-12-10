@@ -7,7 +7,6 @@ import TreeTable from './TreeTable/TreeTable';
 import { loadFTSsolution } from '../../../../store/slices/FTS/FTSsolution.slice';
 import { loadFtsSolutionV2 } from '../../../../store/slices/FTS/FTSsolutionV2.slice';
 import { loadCraneSolution } from '../../../../store/slices/Solution/craneSolution.slice';
-import { loadSolution } from '../../../../store/slices/Solution/sollution_schedule.slice';
 import { loadSolution_order } from '../../../../store/slices/Solution/solutionOrderSlice';
 import { RootState } from '../../../../store/store';
 import DescriptionMenu from '../../../layout/DescriptionMenu/DescriptionMenu';
@@ -28,7 +27,6 @@ export default function SummarizeLayout() {
 
     useEffect(() => {
         dispatch(loadCraneSolution())
-        dispatch(loadSolution())
         dispatch(loadFTSsolution())
         dispatch(loadFtsSolutionV2())
         dispatch(loadSolution_order())

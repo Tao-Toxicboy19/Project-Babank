@@ -9,11 +9,8 @@ import { TbListDetails } from "react-icons/tb";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { RootState } from "../../../store/store";
-import { loadCarrier } from "../../../store/slices/Carrier/carrier.slice";
 import { loadCargo } from "../../../store/slices/Cargo/cargo.slice";
-import { loadOrder } from "../../../store/slices/Order/order.slice";
 import Loading from "../../layout/Loading/Loading";
-import { loadCrane } from "../../../store/slices/Cargo/crane.slice";
 import { loadCargoCrane } from "../../../store/slices/CargoCrane/cargocrane.slice";
 import { loadReport } from "../../../store/slices/report/reportSlice";
 import { loadReportCrane } from "../../../store/slices/report/reportCraneSlice";
@@ -36,10 +33,7 @@ export default function HomePage({ }: Props) {
 
   useEffect(() => {
     dispatch(loadFTS())
-    dispatch(loadCarrier())
     dispatch(loadCargo())
-    dispatch(loadOrder())
-    dispatch(loadCrane())
     dispatch(loadCargoCrane())
     dispatch(loadReport());
     dispatch(loadReportCrane());

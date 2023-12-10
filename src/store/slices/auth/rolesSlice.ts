@@ -8,6 +8,7 @@ interface Users {
     id: number;
     name: string;
     role: string
+    ftsId:number;
     group:number
 }
 
