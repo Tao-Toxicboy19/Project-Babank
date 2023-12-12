@@ -40,16 +40,16 @@ const CargoEditPage: React.FC = () => {
         setCargo([...cargo, { cargo_id: 0, load: 0, bulk: 0 }]);
     };
 
-    const handleRemoveCargo = (index: number) => {
+    const handleRemoveCargo = (index: any) => {
         const updatedCargo = [...cargo];
         updatedCargo.splice(index, 1);
         setCargo(updatedCargo);
     };
 
     const handleCargoChange = (
-        index: number,
+        index: any,
         field: keyof CargoItem,
-        value: number
+        value: any
     ) => {
         const updatedCargo = [...cargo];
         updatedCargo[index][field] = value;
@@ -60,8 +60,8 @@ const CargoEditPage: React.FC = () => {
         try {
             const cargoData = cargo.map((item) => ({
                 cargo_id: item.cargo_id,
-                load: item.load,
-                bulk: item.bulk,
+                load: +item.load,
+                bulk: +item.bulk,
             }));
 
             const bulk_values: any[] = [];
@@ -72,7 +72,7 @@ const CargoEditPage: React.FC = () => {
                     const elements = document.getElementsByName(fieldName);
                     if (elements.length > 0) {
                         const valueString = (elements[0] as HTMLInputElement).value;
-                        const valueNumber = parseFloat(valueString.replace(/,/g, '')); // ลบ comma และแปลงเป็น number
+                        const valueNumber = parseFloat(valueString.replace(/,/g, ''));
                         bulk_item_values[fieldName] = valueNumber;
                     }
                 }
@@ -142,7 +142,7 @@ const CargoEditPage: React.FC = () => {
                                         type="number"
                                         value={item.load}
                                         onChange={(e) =>
-                                            handleCargoChange(index, 'load', Number(e.target.value))
+                                            handleCargoChange(index, 'load', e.target.value)
                                         }
                                     />
                                     {cargo.map((item: any, index: any) => (
@@ -156,7 +156,7 @@ const CargoEditPage: React.FC = () => {
                                                 className='my-5'
                                                 value={item.bulk}
                                                 onChange={(e) =>
-                                                    handleCargoChange(index, 'bulk', Number(e.target.value))
+                                                    handleCargoChange(index, 'bulk', e.target.value)
                                                 }
                                             />
                                             <Box key={index} className='grid grid-cols-4 gap-5'>
@@ -171,7 +171,7 @@ const CargoEditPage: React.FC = () => {
                                                             type="text"
                                                             name={`b${i + 1}`}
                                                             defaultValue={(item.load / item.bulk).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                                            onChange={(e) => console.log(index, i, Number(e.target.value))}
+                                                            onChange={(e) => console.log(index, i, e.target.value)}
                                                         />
                                                     ))
                                                 )}

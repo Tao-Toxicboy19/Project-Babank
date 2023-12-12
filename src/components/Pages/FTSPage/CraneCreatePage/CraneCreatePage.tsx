@@ -27,7 +27,6 @@ export default function CraneCreatePage({ }: Props) {
             <form
                 className="w-[750px]"
                 onSubmit={handleSubmit(async (data) => {
-                    console.log(data)
                     setIsSubmitting(true);
                     try {
                         await dispatch(addCrane(data, navigate))
@@ -77,10 +76,16 @@ export default function CraneCreatePage({ }: Props) {
                         <TextField
                             label='เวลาเตรียมความพร้อม (นาที)'
                             id='setuptime_crane'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
-                            {...register('setuptime_crane', { required: true, valueAsNumber: true })}
+                            {...register('setuptime_crane', {
+                                required: true,
+                                pattern: {
+                                    value: /^[0-9]*\.?[0-9]*$/,
+                                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                                },
+                            })}
                         />
                         {errors.setuptime_crane &&
                             <Alert variant="outlined" severity="error" className='mt-2'>
@@ -91,10 +96,16 @@ export default function CraneCreatePage({ }: Props) {
                         <TextField
                             label='ค่าแรง (เดือน)'
                             id='wage_month_cost'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
-                            {...register('wage_month_cost', { required: true, valueAsNumber: true })}
+                            {...register('wage_month_cost', {
+                                required: true,
+                                pattern: {
+                                    value: /^[0-9]*\.?[0-9]*$/,
+                                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                                },
+                            })}
                         />
                         {errors.wage_month_cost &&
                             <Alert variant="outlined" severity="error" className='mt-2'>
@@ -105,10 +116,16 @@ export default function CraneCreatePage({ }: Props) {
                         <TextField
                             label='ค่ารางวัล (บาท/ตัน)'
                             id='premium_rate'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
-                            {...register('premium_rate', { required: true, valueAsNumber: true })}
+                            {...register('premium_rate', {
+                                required: true,
+                                pattern: {
+                                    value: /^[0-9]*\.?[0-9]*$/,
+                                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                                },
+                            })}
                         />
                         {errors.premium_rate &&
                             <Alert variant="outlined" severity="error" className='mt-2'>
@@ -130,7 +147,7 @@ export default function CraneCreatePage({ }: Props) {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+                            className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit'
                             disabled={isSubmitting}
                         >
                             เพิ่มเครน

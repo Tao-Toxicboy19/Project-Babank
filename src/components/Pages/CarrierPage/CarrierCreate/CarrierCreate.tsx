@@ -165,7 +165,7 @@ export default function CarrierCreate({ }: Props) {
               <RadioGroup
                 row
                 aria-labelledby="demo-form-control-label-placement"
-                defaultValue="has"
+                defaultValue="no"
                 {...register('has_crane')}
               >
                 <FormControlLabel value="has" control={<Radio />} label="มี" />

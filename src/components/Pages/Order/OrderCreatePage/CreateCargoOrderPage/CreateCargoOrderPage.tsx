@@ -34,28 +34,34 @@ const CargoOrderForm: React.FC = () => {
         setCargo([...cargo, { cargo_id: 0, load: 0, bulk: 0 }]);
     };
 
-    const handleRemoveCargo = (index: number) => {
+    const handleRemoveCargo = (index: any) => {
         const updatedCargo = [...cargo];
         updatedCargo.splice(index, 1);
         setCargo(updatedCargo);
     };
 
     const handleCargoChange = (
-        index: number,
+        index: any,
         field: keyof CargoItem,
-        value: number
+        value: any
     ) => {
         const updatedCargo = [...cargo];
         updatedCargo[index][field] = value;
         setCargo(updatedCargo);
     };
 
+    // const handleBulkChange = (index: any, subIndex: any, value: any) => {
+    //     const updatedCargo = [...cargo];
+    //     updatedCargo[index].bulk[subIndex] = value;
+    //     setCargo(updatedCargo);
+    // };
+
     const handleSubmit = async () => {
         try {
             const cargoData = cargo.map((item) => ({
                 cargo_id: item.cargo_id,
-                load: item.load,
-                bulk: item.bulk,
+                load: +item.load,
+                bulk: +item.bulk,
             }));
 
             const values = {
@@ -64,6 +70,7 @@ const CargoOrderForm: React.FC = () => {
             };
             setIsSubmitting(true);
             dispatch(addCargoOrder(values, navigate, setIsSubmitting))
+
         } catch (error) {
             console.error(error);
         }
@@ -147,7 +154,7 @@ const CargoOrderForm: React.FC = () => {
                                 value={item.load}
                                 defaultValue={1}
                                 onChange={(e) =>
-                                    handleCargoChange(index, 'load', Number(e.target.value))
+                                    handleCargoChange(index, 'load', e.target.value)
                                 }
                             />
                         </Box>
@@ -161,12 +168,27 @@ const CargoOrderForm: React.FC = () => {
                                 value={item.bulk}
                                 defaultValue={1}
                                 onChange={(e) =>
-                                    handleCargoChange(index, 'bulk', Number(e.target.value))
+                                    handleCargoChange(index, 'bulk', e.target.value)
                                 }
                             />
                         </Box>
-                        <Stack spacing={2} direction='row'>
+                        {
+                            <div className="grid grid-cols-3 gap-3">
+                                {Array.from({ length: item.bulk }).map((_, subIndex) => (
+                                    <React.Fragment key={subIndex}>
+                                        <TextField
+                                            fullWidth
+                                            label={`ระวาง ${subIndex + 1}`}
+                                            defaultValue={(item.load / item.bulk)}
+                                        // value={item.bulk[subIndex]}
+                                        // onChange={(e) => handleBulkChange(index, subIndex, e.target.value)}
 
+                                        />
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        }
+                        <Stack spacing={2} direction='row'>
                             <Button
                                 className='font-kanit'
                                 onClick={() => handleRemoveCargo(index)}

@@ -93,10 +93,10 @@ const TreeTableNode: React.FC<FTSCrane> = ({
                     <Typography className='font-kanit'>เวลาเตรียมความพร้อม (นาที)</Typography>
                 </Grid>
                 <Grid item xs={1} sx={{ marginLeft: -1 }}>
-                    <Typography className='font-kanit'>ค่าแรง (เดือน)</Typography>
+                    <Typography className='font-kanit'>ค่าเเรง (บาท/เดือน)</Typography>
                 </Grid>
                 <Grid item xs={1} >
-                    <Typography className='font-kanit'>ค่ารางวัล (บาท/ตัน)</Typography>
+                    <Typography className='font-kanit'>ค่าหัวตัน (บาท/ตัน)</Typography>
                 </Grid>
             </Grid >
             }

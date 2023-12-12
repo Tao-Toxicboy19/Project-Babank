@@ -20,8 +20,10 @@ export default function CarrierPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
+  const filteredCarrier = (carrierReducer.carrier).filter((group) => group.group === rolesReducer.result?.group); 
+
   // search
-  const filteredData = (carrierReducer.carrier).filter((item) =>
+  const filteredData = (filteredCarrier).filter((item) =>
     item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
