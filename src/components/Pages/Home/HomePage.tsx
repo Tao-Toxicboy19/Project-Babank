@@ -27,8 +27,11 @@ export default function HomePage({ }: Props) {
   const CargoReducer = useSelector((state: RootState) => state.cargo);
   const OrderReducer = useSelector((state: RootState) => state.order);
   const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
+  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
 
   const isLoading = FTSReducer.loading && CarrierReducer.loading && CargoReducer.cargo && OrderReducer.orders && CargoCraneReducer.result
+  const filteredOrder = (OrderReducer.orders).filter((group) => group.group === rolesReducer.result?.group); 
+  const filteredCarrier = (CarrierReducer.carrier).filter((group) => group.group === rolesReducer.result?.group); 
 
 
   useEffect(() => {
@@ -59,7 +62,7 @@ export default function HomePage({ }: Props) {
               <StockCard
                 icon={GiCargoShip}
                 title="เรือขนสินค้า"
-                subtitle={`${(CarrierReducer.carrier).length} ลำ`}
+                subtitle={`${(filteredCarrier).length} ลำ`}
                 color="bg-[#f39c12]/75"
                 path={'/carrier'}
               />
@@ -80,7 +83,7 @@ export default function HomePage({ }: Props) {
               <StockCard
                 icon={HiOutlineClipboardDocumentList}
                 title="ขนถ่ายสินค้า"
-                subtitle={`${(OrderReducer.orders).length} รายการ`}
+                subtitle={`${(filteredOrder).length} รายการ`}
                 color="bg-[#00c0ef]/75"
                 path={'/orders'}
               />
