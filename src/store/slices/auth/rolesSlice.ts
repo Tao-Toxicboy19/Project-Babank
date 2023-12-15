@@ -67,25 +67,5 @@ const rolesSlice = createSlice({
 })
 
 export const { } = rolesSlice.actions
-export const roleSelector = (store: RootState) => store.roleReducer;
-export default rolesSlice.reducer;
-
-// export const { setrolesStart, setrolesSuccess, setrolesFailed } = rolesSlice.actions
-// export default rolesSlice.reducer;
-
-// export const roles = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-//     try {
-//         dispatch(setrolesStart());
-//         const token = localStorage.getItem("token");
-//         const config = {
-//             headers: {
-//                 Authorization: token
-//             }
-//         };
-//         const result = await httpClient.post(server.ROLES_URL, {}, config);
-//         console.log(result.data)
-//         dispatch(setrolesSuccess(result.data));
-//     } catch (error) {
-//         dispatch(setrolesFailed());
-//     }
-// };
+export const roleSelector = (store: RootState) => store.roleReducer
+export default rolesSlice.reducer

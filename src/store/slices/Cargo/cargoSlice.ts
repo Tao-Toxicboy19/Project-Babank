@@ -59,53 +59,5 @@ const cargoSlice = createSlice({
 })
 
 export const { } = cargoSlice.actions
-export const cargoSelector = (store: RootState) => store.cargoReducer;
-export default cargoSlice.reducer;
-
-// export const { setCargoStart, setCargoSuccess, setCargoFailure, setInsertCargo, setUpdateCargo, setDeleteCargo } = cargoSlice.actions
-// export default cargoSlice.reducer
-
-// export const loadCargo = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-//   try {
-//     dispatch(setCargoStart())
-//     const result = await httpClient.get(server.CARGO)
-//     dispatch(setCargoSuccess(result.data))
-//   }
-//   catch (error) {
-//     dispatch(setCargoFailure("Failed to fetch CARGO data"))
-//   }
-// }
-
-// export const addCargo = (values: any, setOpen: any) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.post(server.CARGO, values);
-//       const result = await httpClient.get(server.CARGO)
-//       dispatch(setCargoSuccess(result.data))
-//       toast.success(SUCCESS)
-//       setOpen(false)
-//     } catch (error) {
-//       dispatch(setCargoFailure("Failed"));
-//     }
-//   };
-// };
-
-// export const deleteCargo = (id: any, setOpen: any) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.delete(`${server.CARGO}/${id}`)
-//       toast.success(SUCCESS)
-//       dispatch(setDeleteCargo(id));
-//     } catch (error: any) {
-//       if (error.response && error.response.status === 500) {
-//         toast.warn(`
-//         ไม่สามารถลบข้อมูลได้ เนื่องจากมี
-//         ข้อมูลอยู่ที่ ออเดอร์
-//         `);
-//         setOpen(false)
-//       } else {
-//         dispatch(setCargoFailure(error.message));
-//       }
-//     }
-//   };
-// };
+export const cargoSelector = (store: RootState) => store.cargoReducer
+export default cargoSlice.reducer

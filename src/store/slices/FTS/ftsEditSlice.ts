@@ -41,12 +41,12 @@ export const ftsEditAsync = createAsyncThunk(
     async ({ id, data, submitting, navigate }: { id: string | undefined, data: FieldValues, submitting: () => void, navigate: NavigateFunction }) => {
         try {
             const result = await httpClient.put(`${server.FLOATING}/${id}`, data)
+            toast.success(SUCCESS)
             submitting()
-            toast.success(SUCCESS);
             navigate('/transferstation')
             return result.data;
         } catch (error) {
-            throw error;
+            throw error
         }
     }
 )
@@ -79,27 +79,3 @@ const ftsEditSlice = createSlice({
 export const { } = ftsEditSlice.actions
 export const ftsEditSelector = (store: RootState) => store.ftsEditReducer
 export default ftsEditSlice.reducer
-// export const { setFTSEditStart, setFTSEditSuccess, setFTSEditFailure } = FTSEditSlice.actions
-// export default FTSEditSlice.reducer
-
-// export const updateFTS = (formData: FormData, navigate: any, id: any) => {
-//     return async () => {
-//         await httpClient.put(`${server.FLOATING}/${id}`, formData)
-//         toast.success(SUCCESS)
-//         navigate('/transferstation')
-//     }
-// }
-
-// export const getFTSById = (id: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             dispatch(setFTSEditStart())
-//             const result = await httpClient.get(`${server.FLOATING}/${id}`)
-//             await dispatch(setFTSEditSuccess(result.data))
-//         }
-//         catch (error) {
-//             toast.success(JSON.stringify(error))
-//             dispatch(setFTSEditFailure("hello"))
-//         }
-//     }
-// }

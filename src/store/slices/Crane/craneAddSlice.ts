@@ -30,8 +30,8 @@ export const craneAddAsync = createAsyncThunk(
     async ({ data, submitting, navigate }: { data: FieldValues, submitting: () => void, navigate: NavigateFunction }) => {
         try {
             const result = await httpClient.post(server.CRANE, data)
+            toast.success(SUCCESS)
             submitting()
-            toast.success(SUCCESS);
             navigate('/transferstation')
             return result.data;
         } catch (error) {
@@ -68,42 +68,3 @@ const craneAddSlice = createSlice({
 export const { } = craneAddSlice.actions
 export const craneAddSelector = (store: RootState) => store.craneAddReducer
 export default craneAddSlice.reducer
-
-// export const { setCraneAddState, setcraneAddSuccess, setcraneAddFailure } = craneAddSlice.actions
-// export default craneAddSlice.reducer
-
-
-// export const addCrane = (formData: FieldValues, navigate: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             await httpClient.post(server.CRANE, formData);
-//             toast.success(SUCCESS)
-//             navigate('/transferstation')
-//         } catch (error) {
-//             dispatch(setcraneAddFailure("hello"))
-//         }
-//     };
-// };
-
-// export const getCraneById = (id: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             dispatch(setCraneAddState())
-//             const result = await httpClient.get(`${server.CRANE}/${id}`)
-//             dispatch(setcraneAddSuccess(result.data))
-//         }
-//         catch (error) {
-//             alert(JSON.stringify(error))
-//             dispatch(setcraneAddFailure("hello"))
-//         }
-//     }
-// }
-
-
-// export const updateCrane = (formData: FormData, navigate: any, id: any) => {
-//     return async () => {
-//         await httpClient.put(`${server.CRANE}/${id}`, formData)
-//         toast.success(SUCCESS)
-//         navigate('/transferstation')
-//     }
-// }

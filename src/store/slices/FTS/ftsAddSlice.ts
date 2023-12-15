@@ -41,11 +41,11 @@ export const ftsAddAsync = createAsyncThunk(
     async ({ values, navigate }: { values: FieldValues, navigate: NavigateFunction }) => {
         try {
             const result = await httpClient.post(server.FLOATING, values)
-            toast.success(SUCCESS);
+            toast.success(SUCCESS)
             navigate('/transferstation')
             return result.data;
         } catch (error) {
-            throw error;
+            throw error
         }
     }
 )

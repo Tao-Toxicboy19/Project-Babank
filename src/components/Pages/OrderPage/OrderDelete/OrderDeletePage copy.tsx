@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteOrder } from '../../../../store/slices/Order/order.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 
 export default function OrderDeletePage({ id }: any) {
@@ -11,7 +10,7 @@ export default function OrderDeletePage({ id }: any) {
     const handleDeleteConfirm = async () => {
         setIsSubmitting(true);
         try {
-            await dispatch(deleteOrder(id, setOpen))
+            // await dispatch(deleteOrder(id, setOpen))
             setIsSubmitting(false);
         } catch (error) {
             setIsSubmitting(false)

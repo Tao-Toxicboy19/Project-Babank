@@ -75,22 +75,3 @@ const carrierEditSlice = createSlice({
 export const { } = carrierEditSlice.actions
 export const carrierEditSelector = (store: RootState) => store.carrierEditReducer
 export default carrierEditSlice.reducer
-
-// export const { setCarrierStart, setCarrierSuccess, setCarrierFailure } = carrierEditSlice.actions
-// export default carrierEditSlice.reducer
-
-// export const updateCarrier = (id: any, formData: any, navigate: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             dispatch(setCarrierStart());
-//             const result = await httpClient.put(`${server.CARRIER}/${id}`, formData);
-//             dispatch(setCarrierSuccess(result.data));
-//             dispatch(loadCarrier())
-//             toast.success(SUCCESS)
-//             navigate('/carrier');
-//         } catch (error) {
-//             toast.success(JSON.stringify(error));
-//             dispatch(setCarrierFailure('Failed to update floating data'));
-//         }
-//     };
-// };

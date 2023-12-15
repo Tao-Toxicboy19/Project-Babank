@@ -68,28 +68,5 @@ const cargoDeleteSlice = createSlice({
 })
 
 export const { } = cargoDeleteSlice.actions
-export const cargoDeleteSelector = (store: RootState) => store.cargoDeleteReducer;
-export default cargoDeleteSlice.reducer;
-
-// export const { setCargoStart, setCargoSuccess, setCargoFailure, setInsertCargo, setUpdateCargo, setDeleteCargo } = cargoSlice.actions
-// export default cargoSlice.reducer
-
-// export const deleteCargo = (id: any, setOpen: any) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.delete(`${server.CARGO}/${id}`)
-//       toast.success(SUCCESS)
-//       dispatch(setDeleteCargo(id));
-//     } catch (error: any) {
-//       if (error.response && error.response.status === 500) {
-//         toast.warn(`
-//         ไม่สามารถลบข้อมูลได้ เนื่องจากมี
-//         ข้อมูลอยู่ที่ ออเดอร์
-//         `);
-//         setOpen(false)
-//       } else {
-//         dispatch(setCargoFailure(error.message));
-//       }
-//     }
-//   };
-// };
+export const cargoDeleteSelector = (store: RootState) => store.cargoDeleteReducer
+export default cargoDeleteSlice.reducer

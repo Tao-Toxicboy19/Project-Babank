@@ -28,12 +28,12 @@ export const craneDeleteAsync = createAsyncThunk(
     async ({ id, handleClose, fetch }: { id: any, handleClose: () => void, fetch: () => void }) => {
         try {
             const result = await httpClient.delete(`${server.CRANE}/${id}`)
+            toast.success(SUCCESS)
             fetch()
             handleClose()
-            toast.success(SUCCESS);
-            return result.data;
+            return result.data
         } catch (error) {
-            throw error;
+            throw error
         }
     }
 )
@@ -66,42 +66,3 @@ const craneDeleteSlice = createSlice({
 export const { } = craneDeleteSlice.actions
 export const craneDeleteSelector = (store: RootState) => store.craneDeleteReducer
 export default craneDeleteSlice.reducer
-
-// export const { setCraneDeleteState, setcraneDeleteSuccess, setcraneDeleteFailure } = craneDeleteSlice.actions
-// export default craneDeleteSlice.reducer
-
-
-// export const addCrane = (formData: FieldValues, navigate: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             await httpClient.post(server.CRANE, formData);
-//             toast.success(SUCCESS)
-//             navigate('/transferstation')
-//         } catch (error) {
-//             dispatch(setcraneDeleteFailure("hello"))
-//         }
-//     };
-// };
-
-// export const getCraneById = (id: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             dispatch(setCraneDeleteState())
-//             const result = await httpClient.get(`${server.CRANE}/${id}`)
-//             dispatch(setcraneDeleteSuccess(result.data))
-//         }
-//         catch (error) {
-//             alert(JSON.stringify(error))
-//             dispatch(setcraneDeleteFailure("hello"))
-//         }
-//     }
-// }
-
-
-// export const updateCrane = (formData: FormData, navigate: any, id: any) => {
-//     return async () => {
-//         await httpClient.put(`${server.CRANE}/${id}`, formData)
-//         toast.success(SUCCESS)
-//         navigate('/transferstation')
-//     }
-// }

@@ -39,10 +39,10 @@ export const ftsDeleteAsync = createAsyncThunk(
     async ({ id, handleClose, fetch }: { id: string | undefined | number, handleClose: () => void, fetch: () => void }) => {
         try {
             const result = await httpClient.delete(`${server.FLOATING}/${id}`)
-            toast.success(SUCCESS);
+            toast.success(SUCCESS)
             fetch()
             handleClose()
-            return result.data;
+            return result.data
         } catch (error) {
             throw error
         }
@@ -77,23 +77,3 @@ const ftsDeleteSlice = createSlice({
 export const { } = ftsDeleteSlice.actions
 export const ftsDeleteSelector = (store: RootState) => store.ftsDeleteReducer
 export default ftsDeleteSlice.reducer
-
-// export const deleteFTS = (id: any, setOpen: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             await httpClient.delete(`${server.FLOATING}/${id}`);
-//             dispatch(setDeleteFTS(id));
-//             toast.success(SUCCESS);
-//         } catch (error: any) {
-//             if (error.response && error.response.status === 500) {
-//                 toast.warn(`
-//                 ไม่สามารถลบข้อมูลได้ เนื่องจากมี
-//                 ข้อมูลอยู่ที่ ข้อมูลสินค้าและเครน
-//                 `);
-//                 setOpen(false)
-//             } else {
-//                 dispatch(setFTSFailure("Failed"));
-//             }
-//         }
-//     };
-// };

@@ -73,7 +73,7 @@ export const deleteMainTainFTS = (id: any, setOpen: any) => {
             await httpClient.delete(`${server.MAINTAIN_FTS_URL}/${id}`)
             setOpen(false)
             dispatch(loadMainTainFTS())
-            toast.success(SUCCESS)
+            // toast.success(SUCCESS)
         } catch (error: any) {
             dispatch(setMainTainFTSFailed())
         }

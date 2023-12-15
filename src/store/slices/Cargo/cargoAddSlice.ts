@@ -62,42 +62,5 @@ const cargoAddSlice = createSlice({
 })
 
 export const { } = cargoAddSlice.actions
-export const cargoAddSelector = (store: RootState) => store.cargoAddReducer;
-export default cargoAddSlice.reducer;
-
-// export const { setCargoStart, setCargoSuccess, setCargoFailure, setInsertCargo, setUpdateCargo, setDeleteCargo } = cargoSlice.actions
-// export default cargoSlice.reducer
-
-// export const addCargo = (values: any, setOpen: any) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.post(server.CARGO, values);
-//       const result = await httpClient.get(server.CARGO)
-//       dispatch(setCargoSuccess(result.data))
-//       toast.success(SUCCESS)
-//       setOpen(false)
-//     } catch (error) {
-//       dispatch(setCargoFailure("Failed"));
-//     }
-//   };
-// };
-
-// export const deleteCargo = (id: any, setOpen: any) => {
-//   return async (dispatch: any) => {
-//     try {
-//       await httpClient.delete(`${server.CARGO}/${id}`)
-//       toast.success(SUCCESS)
-//       dispatch(setDeleteCargo(id));
-//     } catch (error: any) {
-//       if (error.response && error.response.status === 500) {
-//         toast.warn(`
-//         ไม่สามารถลบข้อมูลได้ เนื่องจากมี
-//         ข้อมูลอยู่ที่ ออเดอร์
-//         `);
-//         setOpen(false)
-//       } else {
-//         dispatch(setCargoFailure(error.message));
-//       }
-//     }
-//   };
-// };
+export const cargoAddSelector = (store: RootState) => store.cargoAddReducer
+export default cargoAddSlice.reducer

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { RootState } from '../../../../store/store';
 import { server } from '../../../../Constants';
 import { httpClient } from '../../../../utils/httpclient';
-import { updateOrder } from '../../../../store/slices/Order/order.edit.slice';
+import { updateOrder } from '../../../../store/slices/Order/orderEditSlice';
 import Loading from '../../../layout/Loading/Loading';
 import Titles from '../../../layout/Titles/Titles';
 

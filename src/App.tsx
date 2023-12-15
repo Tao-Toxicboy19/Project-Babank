@@ -19,11 +19,10 @@ import FTSEditPage from './components/Pages/FTSPage/FTSEdit/FTSEditPage';
 import FTSPage from './components/Pages/FTSPage/FtsPage/FTSPage';
 import HomePage from './components/Pages/Home/HomePage';
 import LoginPage from './components/Pages/LoginPage/LoginPage';
-import OrderPage from './components/Pages/Order/OrderPage';
 import RegisterPage from './components/Pages/Register/RegisterPage';
 import ReportPage from './components/Pages/ReportPage/ReportPage';
 import SummarizePage from './components/Pages/SummarizePage/SummarizePage';
-import CargocranePage from './components/Pages/CargoCranePage/CargoCranePage';
+import CargocranePage from './components/Pages/CargoCranePage/CargoCranePage/CargoCranePage';
 import CargoCraneEditPageV2 from './components/Pages/CargoCranePage/CargoCraneEditPageV2/CargoCraneEditPageV2';
 import CargoCraneCreate from './components/Pages/CargoCranePage/CargoCraneAddPage/CargoCraneAddPage';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
@@ -32,13 +31,8 @@ import AdminRouteV2 from './utils/AdminRouteV2';
 import ManagementUserPage from './components/Pages/ManagementUserPage/ManagementUserPage';
 import CarrierCreate from './components/Pages/CarrierPage/CarrierAdd/CarrierAdd';
 import CarrierEditPage from './components/Pages/CarrierPage/CarrierEditPage/CarrierEditPage';
-import CreateCargoOrderPage from './components/Pages/Order/OrderCreatePage/CreateCargoOrderPage/CreateCargoOrderPage';
-import OrderCreatePage from './components/Pages/Order/OrderCreatePage/OrderCreatePage';
-import OrderEditPageV2 from './components/Pages/Order/OrderEdit/OrderEditPageV2';
-import CargoEditPage from './components/Pages/Order/OrderEdit/CargoEditPage/CargoEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
 import { loadSolution } from './store/slices/Solution/sollution_schedule.slice';
-import { loadOrder } from './store/slices/Order/order.slice';
 import StatusFTSRoute from './utils/StatusFTSRoute';
 import StatusFTSPage from './components/Pages/StatusFTSPage/StatusFTSPage';
 import { roleAsync } from './store/slices/auth/rolesSlice';
@@ -48,6 +42,9 @@ import { craneAsync } from './store/slices/Crane/craneSlice';
 import { cargoAsync } from './store/slices/Cargo/cargoSlice';
 import { cargoCraneAsync } from './store/slices/CargoCrane/cargoCraneSlice';
 import { ftsAsync } from './store/slices/FTS/ftsSlice';
+import { orderAsync } from './store/slices/Order/orderSlice';
+import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
+import OrderCreatePage from './components/Pages/OrderPage/OrderCreatePage/OrderCreatePage';
 
 const drawerWidth = 240;
 
@@ -57,11 +54,12 @@ export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(carrierAsync())
-    dispatch(restoreLogin());
-    dispatch(roleAsync())
     dispatch(loadSolution())
-    dispatch(loadOrder())
+    dispatch(restoreLogin())
+
+    dispatch(carrierAsync())
+    dispatch(roleAsync())
+    dispatch(orderAsync())
     dispatch(craneAsync())
     dispatch(ftsAsync())
     dispatch(cargoAsync())
@@ -106,6 +104,12 @@ export default function ResponsiveDrawer() {
 
             <Route path="/cargo" element={<CargoPage />} />
 
+            <Route path="/cargocrane" element={<CargocranePage />} />
+            <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
+            <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
+
+            <Route path="/orders" element={<OrderPage />} />
+            <Route path="/orders/create" element={<OrderCreatePage />} />
 
             {/* <Route element={<PrivateRoute />}>
 

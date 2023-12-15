@@ -27,9 +27,9 @@ export const craneAsync = createAsyncThunk(
     async () => {
         try {
             const result = await httpClient.get(server.CRANE)
-            return result.data;
+            return result.data
         } catch (error) {
-            throw error;
+            throw error
         }
     }
 )
@@ -62,17 +62,3 @@ const craneSlice = createSlice({
 export const { } = craneSlice.actions
 export const craneSelector = (store: RootState) => store.craneReducer
 export default craneSlice.reducer
-
-// export const { setCraneState, setCraneSuccess, setCraneFailure, setDeleteCrane } = CraneSlice.actions;
-// export default CraneSlice.reducer;
-
-// export const loadCrane = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-//     try {
-//         dispatch(setCraneState())
-//         const result = await httpClient.get(server.CRANE)
-//         dispatch(setCraneSuccess(result.data))
-//     }
-//     catch (error) {
-//         dispatch(setCraneFailure("Failed to fetch floating data"))
-//     }
-// }

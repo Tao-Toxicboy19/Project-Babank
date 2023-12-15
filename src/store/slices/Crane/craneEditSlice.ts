@@ -30,13 +30,13 @@ export const craneEditAsync = createAsyncThunk(
     async ({ id, data, submitting, navigate, fetch }: { id: string | undefined, data: FieldValues, submitting: () => void, navigate: NavigateFunction, fetch: () => void }) => {
         try {
             const result = await httpClient.put(`${server.CRANE}/${id}`, data)
+            toast.success(SUCCESS)
             submitting()
             fetch()
-            toast.success(SUCCESS);
             navigate('/transferstation')
-            return result.data;
+            return result.data
         } catch (error) {
-            throw error;
+            throw error
         }
     }
 )

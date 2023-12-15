@@ -1,21 +1,36 @@
-import { Box, Button, Card, CardContent, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material'
-import Loading from '../../layout/Loading/Loading'
-import Titles from '../../layout/Titles/Titles'
-import SearchTerms from '../../layout/SearchTerms/SearchTerms'
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography
+} from '@mui/material'
+import Loading from '../../../layout/Loading/Loading'
+import Titles from '../../../layout/Titles/Titles'
+import SearchTerms from '../../../layout/SearchTerms/SearchTerms'
 import Add from '@mui/icons-material/Add'
-import TableTitles from '../../layout/TableTitles/TableTitles'
-import { TitleCargoCrane } from '../../../Constants'
+import TableTitles from '../../../layout/TableTitles/TableTitles'
+import { TitleCargoCrane } from '../../../../Constants'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import { CargoCrane } from '../../../type/CargoCrane.type'
+import { CargoCrane } from '../../../../type/CargoCrane.type'
 import React from 'react'
 import { RiEditLine } from 'react-icons/ri'
 import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import { Link } from 'react-router-dom'
-import CargoCraneDeletePage from './CargoCraneDeletePage/CargoCraneDeletePage'
-import { cargoCraneSelector } from '../../../store/slices/CargoCrane/cargoCraneSlice'
-import { roleSelector } from '../../../store/slices/auth/rolesSlice'
+import CargoCraneDeletePage from '../CargoCraneDeletePage/CargoCraneDeletePage'
+import { cargoCraneSelector } from '../../../../store/slices/CargoCrane/cargoCraneSlice'
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice'
 
 type Props = {}
 

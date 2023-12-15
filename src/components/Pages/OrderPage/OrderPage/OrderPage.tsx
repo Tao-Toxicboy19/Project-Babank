@@ -1,29 +1,47 @@
-import { Box, Button, Card, CardContent, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
-import { TitleOrder, monthNames } from "../../../Constants"
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography
+} from "@mui/material"
+import { TitleOrder, monthNames } from "../../../../Constants"
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { RiEditLine } from "react-icons/ri";
 import { useState } from "react";
-import TableTitles from "../../layout/TableTitles/TableTitles";
-import Loading from "../../layout/Loading/Loading";
-import Titles from "../../layout/Titles/Titles";
+import TableTitles from "../../../layout/TableTitles/TableTitles";
+import Loading from "../../../layout/Loading/Loading";
+import Titles from "../../../layout/Titles/Titles";
 import moment from "moment";
-import OrderDeletePage from "./OrderDelete/OrderDeletePage";
-import UpdateStatus from "./UpdateStatus/UpdateStatus";
+import OrderDeletePage from "../OrderDelete/OrderDeletePage";
+import UpdateStatus from "../UpdateStatus/UpdateStatus";
+import { orderSelector } from "../../../../store/slices/Order/orderSlice";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 
 type Props = {}
 
 
 
 export default function OrderPage({ }: Props) {
-  const OrderReducer = useSelector((state: RootState) => state.order);
+  const orderReducer = useSelector(orderSelector)
+  const rolesReducer = useSelector(roleSelector)
+  const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน")
   // const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
-  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
-
-
 
   // const filteredData = OrderReducer.orders.filter((order) =>
   //   order.cargo_order.some((cargoOrder) =>
@@ -31,13 +49,13 @@ export default function OrderPage({ }: Props) {
   //   )
   // );
 
-  const filteredOrders = OrderReducer.orders.filter((group) => group.group === rolesReducer.result?.group);
-  
+  const filteredOrders = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
+
   const arrivalTimeV2 = filteredOrders.map(item => {
     const date = new Date(item.arrival_time);
     const month = date.getMonth();
     return monthNames[month];
-  });
+  })
 
   const uniqueMonths = Array.from(new Set(arrivalTimeV2));
 
@@ -45,10 +63,7 @@ export default function OrderPage({ }: Props) {
     const date = new Date(item.arrival_time);
     const month = date.getMonth();
     return monthNames[month] === selectedMonth;
-  });
-
-
-
+  })
 
   const showTbody = () => {
     return (
@@ -65,9 +80,7 @@ export default function OrderPage({ }: Props) {
                 className="font-kanit"
               >
 
-
                 <UpdateStatus items={items} />
-
 
               </TableCell>
               <TableCell align="center">
@@ -201,10 +214,10 @@ export default function OrderPage({ }: Props) {
     <>
       <Card className='min-h-[90vh]'>
         <CardContent className='flex flex-col gap-y-7'>
-          {OrderReducer.loading ? (
+          {orderReducer.loading ? (
             <Loading />
-          ) : OrderReducer.error ? (
-            <Typography>Error: {OrderReducer.error}</Typography>
+          ) : orderReducer.error ? (
+            <Typography>Error: {orderReducer.error}</Typography>
           ) : (
             <>
               <Box>
@@ -231,7 +244,6 @@ export default function OrderPage({ }: Props) {
                   </Select>
                 </FormControl>
                 <Box className='w-[600px] flex gap-x-5 justify-end'>
-                  {/* <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> */}
                   {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
                     <></>
                   ) : (

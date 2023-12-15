@@ -3,8 +3,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { Orders } from '../../../../type/Order.type';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadOrder } from '../../../../store/slices/Order/order.slice';
-import { RootState } from '../../../../store/store';
+import { RootState, useAppDispatch } from '../../../../store/store';
 import { httpClient } from '../../../../utils/httpclient';
 import { toast } from 'react-toastify';
 import { SUCCESS } from '../../../../Constants';
@@ -14,6 +13,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import moment from 'moment';
 import Loading from '../../../layout/Loading/Loading';
+import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
 
 type Props = {
     items: Orders
@@ -53,10 +53,9 @@ function a11yProps(index: number) {
 }
 
 function AssignForm({ items, handleClose }: any) {
-
-    const [isSubmitting, setIsSubmitting] = useState(false); // เพิ่ม state สำหรับการกำลัง submit
-    const FTSReducer = useSelector((state: RootState) => state.FTS)
-    const dispatch = useDispatch<any>();
+    const ftsReducer = useSelector(ftsSelector)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const dispatch = useAppDispatch()
 
     const {
         register,
@@ -78,16 +77,16 @@ function AssignForm({ items, handleClose }: any) {
             onSubmit={handleSubmit((data) => {
                 setIsSubmitting(true);
 
-                httpClient.patch(`/updatestatus/${items.or_id}`, data)
-                    .then(() => {
-                        dispatch(loadOrder())
-                        handleClose()
-                        reset()
-                        toast.success(SUCCESS)
-                    })
-                    .catch(() => {
-                        setIsSubmitting(false);
-                    });
+                // httpClient.patch(`/updatestatus/${items.or_id}`, data)
+                //     .then(() => {
+                //         dispatch(loadOrder())
+                //         handleClose()
+                //         reset()
+                //         toast.success(SUCCESS)
+                //     })
+                //     .catch(() => {
+                //         setIsSubmitting(false);
+                //     });
             })}
         >
             <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
@@ -132,7 +131,7 @@ function AssignForm({ items, handleClose }: any) {
                                     label="เลือกทุ่น"
                                     {...register(`FTS_id${index + 1}`, { required: true, valueAsNumber: true })}
                                 >
-                                    {(FTSReducer.FTS).map((items) => (
+                                    {(ftsReducer.result).map((items) => (
                                         <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
                                             {items.FTS_name}
                                         </MenuItem>
@@ -182,9 +181,9 @@ function AssignForm({ items, handleClose }: any) {
 }
 
 function ApprovedForm({ items, handleClose }: any) {
-    const [isSubmitting, setIsSubmitting] = useState(false); // เพิ่ม state สำหรับการกำลัง submit
-    const FTSReducer = useSelector((state: RootState) => state.FTS)
-    const dispatch = useDispatch<any>();
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const ftsReducer = useSelector(ftsSelector)
+    const dispatch = useAppDispatch()
 
     const {
         register,
@@ -207,16 +206,16 @@ function ApprovedForm({ items, handleClose }: any) {
             onSubmit={handleSubmit((data) => {
                 setIsSubmitting(true);
 
-                httpClient.patch(`/updatestatus-approved/${items.or_id}`, data)
-                    .then(() => {
-                        handleClose()
-                        dispatch(loadOrder())
-                        reset()
-                        toast.success(SUCCESS)
-                    })
-                    .catch(() => {
-                        setIsSubmitting(false);
-                    });
+                // httpClient.patch(`/updatestatus-approved/${items.or_id}`, data)
+                //     .then(() => {
+                //         handleClose()
+                //         dispatch(loadOrder())
+                //         reset()
+                //         toast.success(SUCCESS)
+                //     })
+                //     .catch(() => {
+                //         setIsSubmitting(false);
+                //     });
             })}
         >
             <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
@@ -261,7 +260,7 @@ function ApprovedForm({ items, handleClose }: any) {
                                     label="เลือกทุ่น"
                                     {...register(`FTS_id${index + 1}`, { required: true, valueAsNumber: true })}
                                 >
-                                    {(FTSReducer.FTS).map((items) => (
+                                    {(ftsReducer.result).map((items) => (
                                         <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
                                             {items.FTS_name}
                                         </MenuItem>
@@ -326,10 +325,10 @@ function ApprovedForm({ items, handleClose }: any) {
 }
 
 export default function UpdateStatus({ items }: Props) {
-    const [open, setOpen] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false); // เพิ่ม state สำหรับการกำลัง submit
-    const dispatch = useDispatch<any>();
-    let totalBulk = 0;
+    const [open, setOpen] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const dispatch = useAppDispatch()
+    let totalBulk = 0
 
     for (const cargoOrder of items.cargo_order) {
         totalBulk += cargoOrder.bulk;
@@ -464,12 +463,12 @@ export default function UpdateStatus({ items }: Props) {
                                         className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg'
                                         onClick={() => {
                                             setIsSubmitting(true);
-                                            httpClient.patch(`/update-status-order/${items.or_id}`, {})
-                                                .then(() => {
-                                                    dispatch(loadOrder())
-                                                    setIsSubmitting(false);
-                                                })
-                                                .catch(() => setIsSubmitting(false))
+                                            // httpClient.patch(`/update-status-order/${items.or_id}`, {})
+                                            //     .then(() => {
+                                            //         dispatch(loadOrder())
+                                            //         setIsSubmitting(false);
+                                            //     })
+                                            //     .catch(() => setIsSubmitting(false))
                                         }}
                                         disabled={isSubmitting}
                                     >

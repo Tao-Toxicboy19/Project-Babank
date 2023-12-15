@@ -2,7 +2,7 @@
 import { Action, ThunkAction, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { logger } from 'redux-logger';
 
-import orderReducer from './slices/Order/order.slice';
+import orderReducer from './slices/Order/orderSlice';
 import cargoReducer from './slices/Cargo/cargoSlice';
 import cargoCraneReducer from './slices/CargoCrane/cargoCraneSlice';
 import carrierReducer from './slices/Carrier/carrierSlice';

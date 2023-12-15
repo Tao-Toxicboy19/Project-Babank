@@ -31,6 +31,9 @@ import FtsSolutionReducer from "./slices/FtsSolution/ftsSolutionSlice";
 import mainTainFtsReducer from "./slices/mainTainFts/mainTainFtsSlice";
 import mainTainCraneReducer from "./slices/MainTainCrane/mainTainCraneSlice";
 import mainTainCraneDeleteReducer from "./slices/MainTainCrane/mainTainCraneDeleteSlice";
+import orderEditReducer from "./slices/Order/orderEditSlice";
+import orderReducer from "./slices/Order/orderSlice";
+import orderDeleteReducer from "./slices/Order/orderDeleteSlice";
 
 
 const reducer = {
@@ -64,6 +67,9 @@ const reducer = {
   mainTainFtsReducer,
   mainTainCraneReducer,
   mainTainCraneDeleteReducer,
+  orderEditReducer,
+  orderReducer,
+  orderDeleteReducer,
 };
 
 export const store = configureStore({

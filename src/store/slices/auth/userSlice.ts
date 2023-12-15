@@ -34,7 +34,7 @@ export const usersAsync = createAsyncThunk(
             const result = await httpClient.get(server.USERALL_URL, config)
             return result.data;
         } catch (error) {
-            throw error;
+            throw error
         }
     }
 )
@@ -60,48 +60,10 @@ const usersSlice = createSlice({
             state.result = []
             state.loading = true
             state.error = false
-        });
+        })
     },
 })
 
 export const { } = usersSlice.actions
-export const usersSelector = (store: RootState) => store.usersReducer;
-export default usersSlice.reducer;
-
-// export const { setusersStart, setusersSuccess, setusersFailure } = usersSlice.actions
-// export default usersSlice.reducer
-
-// export const loadUser = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-//     try {
-//         dispatch(setusersStart())
-//         const token = localStorage.getItem("token");
-//         const config = {
-//             headers: {
-//                 Authorization: token
-//             }
-//         };
-//         const result = await httpClient.get(server.USERALL_URL, config)
-//         dispatch(setusersSuccess(result.data))
-//     }
-//     catch (error) {
-//         dispatch(setusersFailure())
-//     }
-// }
-
-// export const GrantPermissions = (id: any, data: FieldValues) => {
-//     return async (dispatch: any) => {
-//         try {
-//             const token = localStorage.getItem("token");
-//             const config = {
-//                 headers: {
-//                     Authorization: token
-//                 }
-//             };
-//             await httpClient.patch(`${server.USER_URL}/${id}`, data, config);
-//             toast.success(SUCCESS)
-//             dispatch(loadUser())
-//         } catch (error) {
-//             dispatch(setusersFailure())
-//         }
-//     };
-// };
+export const usersSelector = (store: RootState) => store.usersReducer
+export default usersSlice.reducer

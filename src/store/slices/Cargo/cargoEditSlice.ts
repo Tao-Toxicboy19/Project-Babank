@@ -64,23 +64,5 @@ const cargoEditSlice = createSlice({
 })
 
 export const { } = cargoEditSlice.actions
-export const cargoEditSelector = (store: RootState) => store.cargoEditReducer;
-export default cargoEditSlice.reducer;
-
-// export const { setCargoStart, setCargoSuccess, setCargoFailure } = cargoEditSlice.actions
-// export default cargoEditSlice.reducer
-
-// export const updateCargo = (id: any, formData: FormData, setOpen: any) => {
-//   return async (dispatch: any) => {
-//     try {
-//       dispatch(setCargoStart());
-//       const result = await httpClient.put(`${server.CARGO}/${id}`, formData);
-//       dispatch(setCargoSuccess(result.data));
-//       toast.success(SUCCESS)
-//       setOpen(false)
-//     } catch (error) {
-//       alert(JSON.stringify(error));
-//       dispatch(setCargoFailure('Failed to update cargo data'));
-//     }
-//   };
-// };
+export const cargoEditSelector = (store: RootState) => store.cargoEditReducer
+export default cargoEditSlice.reducer

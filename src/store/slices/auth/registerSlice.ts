@@ -23,7 +23,7 @@ export const registerAsync = createAsyncThunk(
     async ({ data, navigate }: { data: FieldValues, navigate: NavigateFunction }) => {
         try {
             const result = await httpClient.post(server.REGISTER_URL, data);
-            toast.success(SUCCESS);
+            toast.success(SUCCESS)
             navigate('/login');
             return result.data;
         } catch (error) {
@@ -60,20 +60,3 @@ const registerSlice = createSlice({
 export const { } = registerSlice.actions
 export const registerSelector = (store: RootState) => store.registerReducer;
 export default registerSlice.reducer;
-
-// export const { registerStart, registerSuccess, registerFailed } = registerSlice.actions;
-// export default registerSlice.reducer;
-
-// export const registerLocal = (values: any, navigate: any) => {
-//     return async (dispatch: any) => {
-//         try {
-//             dispatch(registerStart());
-//             const result = await httpClient.post(server.REGISTER_URL, values);
-//             toast.success(SUCCESS);
-//             navigate('/login');
-//             dispatch(registerSuccess(result.data));
-//         } catch (error: any) {
-//             dispatch(registerFailed());
-//         }
-//     };
-// };

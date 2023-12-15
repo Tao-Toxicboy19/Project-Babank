@@ -42,7 +42,7 @@ export const updateMainTainFTS = (id: any, valuse: any, navigate: any): ThunkAct
         const result = await httpClient.put(`${server.MAINTAIN_FTS_URL}/${id}`, valuse)
         dispatch(setFTSSuccess(result.data))
         dispatch(loadMainTainFTS())
-        toast.success(SUCCESS);
+        // toast.success(SUCCESS);
         navigate('/transferstation')
     } catch (error) {
         dispatch(setFTSFailure('Failed to update cargo data'))
