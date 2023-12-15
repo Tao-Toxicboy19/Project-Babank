@@ -1,15 +1,14 @@
-import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { server } from "../../../Constants";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { server, TOKEN } from "../../../Constants";
 import { RootState } from "../../store";
 import { httpClient } from "../../../utils/httpclient";
-
 
 interface Users {
     id: number;
     name: string;
     role: string
-    ftsId:number;
-    group:number
+    ftsId: number;
+    group: number
 }
 
 interface RolesState {
@@ -24,44 +23,69 @@ const initialState: RolesState = {
     result: null
 }
 
+export const roleAsync = createAsyncThunk(
+    'role/roleAsync',
+    async () => {
+        try {
+            const token = localStorage.getItem(TOKEN);
+            const config = {
+                headers: {
+                    Authorization: token
+                }
+            }
+            const result = await httpClient.post(server.ROLES_URL, {}, config);
+            return result.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+)
+
 const rolesSlice = createSlice({
     name: 'roles',
     initialState,
-    reducers: {
-        setrolesStart(state) {
-            state.result = null
-            state.loading = true
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(roleAsync.fulfilled, (state: RolesState, action: PayloadAction<any>) => {
+            state.result = action.payload;
+            state.loading = false;
             state.error = false
-        },
-        setrolesSuccess(state, action: PayloadAction<any>) {
-            state.result = action.payload
-            state.loading = false
-            state.error = false
-        },
-        setrolesFailed(state) {
-            state.result = null
+        });
+
+        builder.addCase(roleAsync.rejected, (state: RolesState) => {
+            state.result = null;
+            state.loading = false;
             state.error = true
-            state.loading = false
-        },
-    }
+        });
+
+        builder.addCase(roleAsync.pending, (state: RolesState) => {
+            state.result = null
+            state.loading = true;
+            state.error = false
+        });
+    },
 })
 
-export const { setrolesStart, setrolesSuccess, setrolesFailed } = rolesSlice.actions
+export const { } = rolesSlice.actions
+export const roleSelector = (store: RootState) => store.roleReducer;
 export default rolesSlice.reducer;
 
-export const roles = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-    try {
-        dispatch(setrolesStart());
-        const token = localStorage.getItem("token");
-        const config = {
-            headers: {
-                Authorization: token
-            }
-        };
-        const result = await httpClient.post(server.ROLES_URL, {}, config);
-        console.log(result.data)
-        dispatch(setrolesSuccess(result.data));
-    } catch (error) {
-        dispatch(setrolesFailed());
-    }
-};
+// export const { setrolesStart, setrolesSuccess, setrolesFailed } = rolesSlice.actions
+// export default rolesSlice.reducer;
+
+// export const roles = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+//     try {
+//         dispatch(setrolesStart());
+//         const token = localStorage.getItem("token");
+//         const config = {
+//             headers: {
+//                 Authorization: token
+//             }
+//         };
+//         const result = await httpClient.post(server.ROLES_URL, {}, config);
+//         console.log(result.data)
+//         dispatch(setrolesSuccess(result.data));
+//     } catch (error) {
+//         dispatch(setrolesFailed());
+//     }
+// };

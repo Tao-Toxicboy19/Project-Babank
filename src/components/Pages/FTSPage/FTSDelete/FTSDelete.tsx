@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { deleteFTS } from '../../../../store/slices/FTS/FTS.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
+import { ftsDeleteAsync } from '../../../../store/slices/FTS/ftsDeleteSlice';
+import { ftsAsync } from '../../../../store/slices/FTS/ftsSlice';
 
 
 type Props = {
@@ -13,16 +14,6 @@ export default function FTSDelete({ id }: Props) {
     const dispatch = useDispatch<any>();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleDeleteConfirm = async () => {
-        setIsSubmitting(true);
-        try {
-            await dispatch(deleteFTS(id, setOpen))
-            setIsSubmitting(false);
-        } catch (error) {
-            setIsSubmitting(false)
-        }
-    }
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -30,6 +21,17 @@ export default function FTSDelete({ id }: Props) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const fetch = () => dispatch(ftsAsync())
+    const handleDeleteConfirm = async () => {
+        setIsSubmitting(true);
+        try {
+            await dispatch(ftsDeleteAsync({ id, handleClose, fetch }))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false)
+        }
+    }
 
     return (
         <DeleteDialog

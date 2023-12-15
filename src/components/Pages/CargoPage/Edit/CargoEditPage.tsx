@@ -1,14 +1,13 @@
 import { Button, Box, Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { TransitionProps } from '@mui/material/transitions';
 import React from 'react';
 import { Cargo } from '../../../../type/Cargo.type';
 import { RiEditLine } from 'react-icons/ri';
-import { updateCargo } from '../../../../store/slices/Cargo/cargo.edit.slice';
-import { setUpdateCargo } from '../../../../store/slices/Cargo/cargo.slice';
+import { useAppDispatch } from '../../../../store/store';
+import { cargoEditAsync } from '../../../../store/slices/Cargo/cargoEditSlice';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -21,14 +20,14 @@ const Transition = React.forwardRef(function Transition(
 
 export default function CargoEditPage({ id, result }: { id: any; result: any }) {
     const [open, setOpen] = useState(false);
-    const dispatch = useDispatch<any>();
-    const handleClose = () => setOpen(false);
+    const dispatch = useAppDispatch()
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     const handleSubmit = (values: any) => {
         try {
-            dispatch(updateCargo(id, values, setOpen))
-            dispatch(setUpdateCargo(values))
+            dispatch(cargoEditAsync({id, values, handleClose}))
         } catch (error) {
             setIsSubmitting(false);
         }
@@ -74,7 +73,7 @@ export default function CargoEditPage({ id, result }: { id: any; result: any }) 
         <div>
             <Tooltip title="แก้ไข">
                 <IconButton
-                    onClick={() => setOpen(true)}
+                    onClick={handleOpen}
                 >
                     <RiEditLine className="text-[#135812]" />
                 </IconButton>

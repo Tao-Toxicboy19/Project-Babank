@@ -1,18 +1,19 @@
 import { Box, Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GrantPermissions, loadUser } from '../../../store/slices/auth/userSlice';
-import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../store/store';
 import { useForm } from 'react-hook-form';
 import React from 'react';
 import { RiEditLine } from 'react-icons/ri';
 import Loading from '../../layout/Loading/Loading';
+import { permissionsAsync } from '../../../store/slices/auth/permissionSlice';
+import { usersAsync, usersSelector } from '../../../store/slices/auth/userSlice';
 
 type Props = {}
 
 function AlertDialog({ roles, id }: { roles: string, id: number }) {
     const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch<any>()
+    const dispatch = useAppDispatch()
     const {
         register,
         handleSubmit,
@@ -41,7 +42,7 @@ function AlertDialog({ roles, id }: { roles: string, id: number }) {
                 fullWidth
             >
                 <form onSubmit={handleSubmit((data) => {
-                    dispatch(GrantPermissions(id, data))
+                    dispatch(permissionsAsync({ id, data }))
                 })}>
                     <DialogTitle id="alert-dialog-title">
                         อนุญาตสิทธิ์
@@ -78,12 +79,12 @@ function AlertDialog({ roles, id }: { roles: string, id: number }) {
 }
 
 export default function ManagementUserPage({ }: Props) {
-    const dispatch = useDispatch<any>()
-    const usersReducer = useSelector((state: RootState) => state.usersReducer)
+    const dispatch = useAppDispatch()
+    const usersReducer = useSelector(usersSelector)
 
 
     useEffect(() => {
-        dispatch(loadUser())
+        dispatch(usersAsync())
     }, []);
 
     return (

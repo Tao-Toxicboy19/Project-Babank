@@ -11,12 +11,11 @@ import { useSelector } from 'react-redux';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { BiUser } from 'react-icons/bi';
-import { RootState } from '../../../store/store';
 import Loading from '../Loading/Loading';
-import { PiUserListLight } from "react-icons/pi";
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const rolesReducer = useSelector(roleSelector)
 
     const MyNavLink = React.forwardRef<any, any>((props, ref) => {
         return (
@@ -147,7 +146,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                             </Typography>
                         } />
                 </ListItem>
-                <ListItem button component={MyNavLink} to="/employee" activeClassName="Mui-selected" exact>
+                {/* <ListItem button component={MyNavLink} to="/employee" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <PiUserListLight className='text-3xl ml-[-4px]' />
                     </ListItemIcon>
@@ -157,7 +156,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                                 พนักงาน
                             </Typography>
                         } />
-                </ListItem>
+                </ListItem> */}
             </Stack>
             <Divider />
             {rolesReducer.result ? (

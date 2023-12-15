@@ -2,14 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
 import { Alert, Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
-import { RootState } from '../../../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../../store/store';
+import { useSelector } from 'react-redux';
 import { CargoCrane } from '../../../../type/CargoCrane.type';
 import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
 import Titles from '../../../layout/Titles/Titles';
 import { useForm } from 'react-hook-form';
-import { updateCargoCrane } from '../../../../store/slices/CargoCrane/cargocrane.edit.slice';
+import { cargoCraneEditAsync } from '../../../../store/slices/CargoCrane/cargoCraneEditSlice';
+import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
+import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
+import { craneSelector } from '../../../../store/slices/Crane/craneSlice';
 
 type Props = {}
 
@@ -19,10 +22,10 @@ const defaultTheme = createTheme();
 export default function CargoCraneEditPageV2({ }: Props) {
     const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const FTSReducer = useSelector((state: RootState) => state.FTS);
-    const CraneReducer = useSelector((state: RootState) => state.Crane);
-    const CargoReducer = useSelector((state: RootState) => state.cargo);
-    const dispatch = useDispatch<any>()
+    const FTSReducer = useSelector(ftsSelector)
+    const CraneReducer = useSelector(craneSelector)
+    const CargoReducer = useSelector(cargoSelector)
+    const dispatch = useAppDispatch()
     const { id } = useParams()
     const [data, setData] = useState<CargoCrane>();
     const {
@@ -50,7 +53,7 @@ export default function CargoCraneEditPageV2({ }: Props) {
                 onSubmit={handleSubmit(async (data) => {
                     setIsSubmitting(true);
                     try {
-                        await dispatch(updateCargoCrane(id, data, navigate))
+                        await dispatch(cargoCraneEditAsync({ id, data, navigate }))
                         setIsSubmitting(false);
                     } catch (error) {
                         setIsSubmitting(false)
@@ -68,7 +71,7 @@ export default function CargoCraneEditPageV2({ }: Props) {
                                     {...register('FTS_id', { required: true, valueAsNumber: true })}
                                     defaultValue={data?.FTS_id}
                                 >
-                                    {(FTSReducer.FTS).map((items) => (
+                                    {(FTSReducer.result).map((items) => (
                                         <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
                                             {items.FTS_name}
                                         </MenuItem>
@@ -92,7 +95,7 @@ export default function CargoCraneEditPageV2({ }: Props) {
                                     {...register('cargo_id', { required: true, valueAsNumber: true })}
                                     defaultValue={data?.cargo_id}
                                 >
-                                    {(CargoReducer.cargo).map((items) => (
+                                    {(CargoReducer.result).map((items) => (
                                         <MenuItem key={items.cargo_id} value={items.cargo_id} className='font-kanit'>
                                             {items.cargo_name}
                                         </MenuItem>

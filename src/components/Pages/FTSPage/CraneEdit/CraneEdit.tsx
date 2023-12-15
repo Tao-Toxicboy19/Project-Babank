@@ -3,14 +3,14 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
 import { Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
-import { RootState } from '../../../../store/store';
+import { useAppDispatch } from '../../../../store/store';
 import { useSelector } from 'react-redux';
 import { FTS } from '../../../../type/FloatingCrane.type';
-import { toast } from 'react-toastify';
-import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
 import { useForm } from 'react-hook-form';
 import Titles from '../../../layout/Titles/Titles';
+import { craneEditAsync } from '../../../../store/slices/Crane/craneEditSlice';
+import { ftsAsync, ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
 
 type Props = {};
 
@@ -20,21 +20,25 @@ export default function CraneEditPage({ }: Props) {
     const [craneData, setCraneData] = useState<any>();
     const { id } = useParams();
     const navigate = useNavigate()
-    const FTSSlice = useSelector((state: RootState) => state.FTS);
+    const dispatch = useAppDispatch()
+    const ftsRuducer = useSelector(ftsSelector)
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {
         register,
         handleSubmit,
-    } = useForm();
+    } = useForm()
 
     const fetchCraneData = async () => {
         try {
-            const response = await axios.get(`${server.CRANE}/${id}`);
+            const response = await axios.get(`${server.CRANE}/${id}`)
             setCraneData(response.data);
         } catch (error) {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล Crane:', error);
         }
     };
+    const submitting = () => setIsSubmitting(false);
+    const fetch = () => dispatch(ftsAsync())
+
 
     useEffect(() => {
         fetchCraneData();
@@ -46,10 +50,7 @@ export default function CraneEditPage({ }: Props) {
                 onSubmit={handleSubmit(async (data) => {
                     setIsSubmitting(true);
                     try {
-                        await httpClient.put(`${server.CRANE}/${id}`, data);
-                        setIsSubmitting(false);
-                        toast.success('แก้ไขเครนรรีนยร้อย');
-                        navigate('/transferstation')
+                        await dispatch(craneEditAsync({ id, data, submitting, navigate, fetch }))
                     } catch (error) {
                         setIsSubmitting(false);
                     }
@@ -79,7 +80,7 @@ export default function CraneEditPage({ }: Props) {
                                     {...register('cr_id', { required: true, valueAsNumber: true })}
                                     defaultValue={craneData.FTS_id}
                                 >
-                                    {(FTSSlice.FTS).map((item: FTS) => (
+                                    {(ftsRuducer.result).map((item: FTS) => (
                                         <MenuItem key={item.fts_id} value={item.fts_id}>
                                             {item.FTS_name}
                                         </MenuItem>
@@ -113,20 +114,7 @@ export default function CraneEditPage({ }: Props) {
                                 fullWidth
                             />
                         </Box>
-                        <Box>
-                            <TextField
-                                variant="outlined"
-                                type="number"
-                                label='ค่ารางวัล (บาท/ตัน)'
-                                id="premium_rate"
-                                className='font-kanit'
-                                {...register('premium_rate', { required: true, valueAsNumber: true })}
-                                defaultValue={craneData.premium_rate}
-                                fullWidth
-                            />
-                        </Box>
                     </Stack>
-
 
                     <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
                         <Button

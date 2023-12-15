@@ -1,23 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteCarrier } from '../../../../store/slices/Carrier/carrier.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
+import { carrieDeleteAsync } from '../../../../store/slices/Carrier/carriceDeleteSlice';
+import { carrierAsync } from '../../../../store/slices/Carrier/carrierSlice';
 
 export default function CarrierDeletePage({ id }: any) {
   const dispatch = useDispatch<any>();
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-  const handleDeleteConfirm = async () => {
-    setIsSubmitting(true);
-    try {
-      dispatch(deleteCarrier(id, setOpen))
-      setIsSubmitting(false);
-    } catch (error) {
-      setIsSubmitting(false)
-    }
-  }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -25,6 +16,18 @@ export default function CarrierDeletePage({ id }: any) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const fetch = () => dispatch(carrierAsync())
+
+  const handleDeleteConfirm = async () => {
+    setIsSubmitting(true);
+    try {
+      dispatch(carrieDeleteAsync({ id, handleClose, fetch }))
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <DeleteDialog

@@ -1,16 +1,16 @@
 import { TableCell, TableRow } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 
 type Props = {
     Titles: string[];
 };
 
 export default function TableTitles(props: Props) {
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const rolesReducer = useSelector(roleSelector)
 
     const filteredTitles = rolesReducer.result && rolesReducer.result.role === 'Viewer'
-        ? props.Titles.slice(0, -1) 
+        ? props.Titles.slice(0, -1)
         : props.Titles;
 
     return (

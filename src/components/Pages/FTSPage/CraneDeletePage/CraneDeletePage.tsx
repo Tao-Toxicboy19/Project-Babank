@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { deleteCrane } from '../../../../store/slices/FTS/FTS.slice';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
-
+import { useAppDispatch } from '../../../../store/store';
+import { craneDeleteAsync } from '../../../../store/slices/Crane/craneDeleteSlice';
+import { mainTainAsync } from '../../../../store/slices/mainTainFts/mainTainFtsSlice';
 
 type Props = {
     id: number
@@ -10,19 +10,8 @@ type Props = {
 
 export default function CraneDalete({ id }: Props) {
     const [open, setOpen] = React.useState(false);
-    const dispatch = useDispatch<any>();
+    const dispatch = useAppDispatch()
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-
-    const handleDeleteConfirm = async () => {
-        setIsSubmitting(true);
-        try {
-            await dispatch(deleteCrane(id, setOpen))
-            setIsSubmitting(false);
-        } catch (error) {
-            setIsSubmitting(false)
-        }
-    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,6 +20,18 @@ export default function CraneDalete({ id }: Props) {
     const handleClose = () => {
         setOpen(false);
     };
+    const fetch = () => dispatch(mainTainAsync())
+
+
+    const handleDeleteConfirm = async () => {
+        setIsSubmitting(true);
+        try {
+            await dispatch(craneDeleteAsync({ id, handleClose, fetch }))
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false)
+        }
+    }
 
     return (
         <DeleteDialog

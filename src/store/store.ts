@@ -1,74 +1,76 @@
-// store.ts
-import { Action, ThunkAction, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { logger } from 'redux-logger';
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
-import orderReducer from './slices/Order/order.slice';
-import cargoReducer from './slices/Cargo/cargo.slice';
-import cargoCraneReducer from './slices/CargoCrane/cargocrane.slice';
-import carrierReducer from './slices/Carrier/carrier.slice';
-import carrierEditReducer from './slices/Carrier/carrier.edit.slice';
-import cargoCraneEditReducer from './slices/CargoCrane/cargocrane.edit.slice'
-import loginReducer from './slices/auth/login.slice'
-import FTSCraneSlice from './slices/FTS/FTS.slice';
-import FTSCraneCargoSlice from './slices/FTS/FTSCraneCargo.slice';
-import FTSsolutionSlice from './slices/FTS/FTSsolution.slice';
-import craneSolutionSlice from './slices/Solution/craneSolution.slice';
-import FTSsolutionV2Slice from './slices/FTS/FTSsolutionV2.slice';
-import FTSEditSlice from './slices/FTS/FTS.edit.slice';
-import craneSlice from './slices/Cargo/crane.slice';
-import craneEditSlice from './slices/Cargo/crane.edit.slice';
-import registerReducer from './slices/auth/register.slice'
-import SolutionscheduleSlice from './slices/Solution/sollution_schedule.slice'
-import reportReducer from './slices/report/reportSlice'
-import reportCraneReducer from './slices/report/reportCraneSlice'
-import mainTainReducer from './slices/MainTain/CraneSlice'
-import mainTainFTSReducer from './slices/MainTain/FTSSlice'
-import managePlansSlice from './slices/managePlansSlice'
-import CarneSolutionV2Slice from './slices/Solution/craneSolutionV2Slice'
-import Solution_carrier_orderReducer from './slices/Solution/solution_carrier_orderSlice'
-import rolesReducer from './slices/auth/rolesSlice'
-import usersReducer from './slices/auth/userSlice'
-import solution_orderSlice from './slices/Solution/solutionOrderSlice'
+import loginReducer from "./slices/auth/loginSlice";
+import registerReducer from "./slices/auth/registerSlice";
+import roleReducer from "./slices/auth/rolesSlice";
+import usersReducer from "./slices/auth/userSlice";
+import permissionsReducer from "./slices/auth/permissionSlice";
+import cargoEditReducer from "./slices/Cargo/cargoEditSlice";
+import cargoReducer from "./slices/Cargo/cargoSlice";
+import cargoAddReducer from "./slices/Cargo/cargoAddSlice";
+import cargoDeleteReducer from "./slices/Cargo/cargoDeleteSlice";
+import cargoCraneEditReducer from "./slices/CargoCrane/cargoCraneEditSlice";
+import cargoCraneAddReducer from "./slices/CargoCrane/cargoCraneAddSlice";
+import cargoCraneReducer from "./slices/CargoCrane/cargoCraneSlice";
+import cargoCraneDeleteReducer from "./slices/CargoCrane/cargoCraneSlice";
+import carrierEditReducer from "./slices/Carrier/carrierEditSlice";
+import carrierReducer from "./slices/Carrier/carrierSlice";
+import carrierAddReducer from "./slices/Carrier/carrierAddSlice";
+import carrieDeleteReducer from "./slices/Carrier/carriceDeleteSlice";
+import craneEditReducer from "./slices/Crane/craneEditSlice";
+import craneReducer from "./slices/Crane/craneSlice";
+import craneAddReducer from "./slices/Crane/craneAddSlice";
+import craneDeleteReducer from "./slices/Crane/craneDeleteSlice";
+import ftsEditReducer from "./slices/FTS/ftsEditSlice";
+import ftsReducer from "./slices/FTS/ftsSlice";
+import ftsAddReducer from "./slices/FTS/ftsAddSlice";
+import ftsDeleteReducer from "./slices/FTS/ftsDeleteSlice";
+import craneSolutionTableReducer from "./slices/FtsSolution/craneSolutionTableSlice";
+import FtsSolutionReducer from "./slices/FtsSolution/ftsSolutionSlice";
+import mainTainFtsReducer from "./slices/mainTainFts/mainTainFtsSlice";
+import mainTainCraneReducer from "./slices/MainTainCrane/mainTainCraneSlice";
+import mainTainCraneDeleteReducer from "./slices/MainTainCrane/mainTainCraneDeleteSlice";
 
-const middleware = [...getDefaultMiddleware()];
 
-if (process.env.NODE_ENV !== 'production') {
-  middleware.push(logger);
-}
+const reducer = {
+  loginReducer,
+  registerReducer,
+  roleReducer,
+  usersReducer,
+  permissionsReducer,
+  cargoEditReducer,
+  cargoReducer,
+  cargoAddReducer,
+  cargoDeleteReducer,
+  cargoCraneEditReducer,
+  cargoCraneReducer,
+  cargoCraneAddReducer,
+  cargoCraneDeleteReducer,
+  carrierEditReducer,
+  carrierReducer,
+  carrierAddReducer,
+  carrieDeleteReducer,
+  craneEditReducer,
+  craneReducer,
+  craneAddReducer,
+  craneDeleteReducer,
+  ftsEditReducer,
+  ftsReducer,
+  ftsAddReducer,
+  ftsDeleteReducer,
+  craneSolutionTableReducer,
+  FtsSolutionReducer,
+  mainTainFtsReducer,
+  mainTainCraneReducer,
+  mainTainCraneDeleteReducer,
+};
 
 export const store = configureStore({
-  reducer: {
-    FTS: FTSCraneSlice,
-    FTSCraneCargo: FTSCraneCargoSlice,
-    FTSsolution: FTSsolutionSlice,
-    craneSolution: craneSolutionSlice,
-    FTSSolutionV2: FTSsolutionV2Slice,
-    FTSEdit: FTSEditSlice,
-    Crane: craneSlice,
-    CraneEdit: craneEditSlice,
-    Solutionschedule: SolutionscheduleSlice,
-    carrier: carrierReducer,
-    carrierEdit: carrierEditReducer,
-    order: orderReducer,
-    cargo: cargoReducer,
-    cargoCrane: cargoCraneReducer,
-    cargoCraneEdit: cargoCraneEditReducer,
-    login: loginReducer,
-    register: registerReducer,
-    reportReducer: reportReducer,
-    reportCraneReducer: reportCraneReducer,
-    mainTainReducer: mainTainReducer,
-    mainTainFTSReducer: mainTainFTSReducer,
-    manMgePlanReducer: managePlansSlice,
-    carneSolutionV2Reducer: CarneSolutionV2Slice,
-    Solution_carrier_orderReducer: Solution_carrier_orderReducer,
-    rolesReducer: rolesReducer,
-    usersReducer: usersReducer,
-    solution_orderReducer: solution_orderSlice,
-  },
-  middleware: middleware,
+  reducer,
+  devTools: process.env.NODE_ENV === "development",
 });
 
-export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();

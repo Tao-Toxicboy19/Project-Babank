@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { loadFTS } from "../../../store/slices/FTS/FTS.slice";
+import { ftsAsync, ftsSelector } from "../../../store/slices/FTS/ftsSlice";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import StockCard from "../../layout/StockCard/StockCard";
 import { GiCargoShip, GiCargoCrane, GiCrane } from "react-icons/gi"
@@ -9,39 +9,44 @@ import { TbListDetails } from "react-icons/tb";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { RootState } from "../../../store/store";
-import { loadCargo } from "../../../store/slices/Cargo/cargo.slice";
+import { cargoAsync, cargoSelector } from "../../../store/slices/Cargo/cargoSlice";
 import Loading from "../../layout/Loading/Loading";
-import { loadCargoCrane } from "../../../store/slices/CargoCrane/cargocrane.slice";
+import { cargoCraneAsync, cargoCraneSelector } from "../../../store/slices/CargoCrane/cargoCraneSlice";
 import { loadReport } from "../../../store/slices/report/reportSlice";
 import { loadReportCrane } from "../../../store/slices/report/reportCraneSlice";
 import { loadCarneSolutionV2 } from "../../../store/slices/Solution/craneSolutionV2Slice";
 import { Link } from "react-router-dom";
 import { loadSolution_carrier_order } from "../../../store/slices/Solution/solution_carrier_orderSlice";
+import { carrierSelector } from "../../../store/slices/Carrier/carrierSlice";
+import { roleSelector } from "../../../store/slices/auth/rolesSlice";
 
 type Props = {}
 
 export default function HomePage({ }: Props) {
   const dispatch = useDispatch<any>();
-  const FTSReducer = useSelector((state: RootState) => state.FTS);
-  const CarrierReducer = useSelector((state: RootState) => state.carrier);
-  const CargoReducer = useSelector((state: RootState) => state.cargo);
-  const OrderReducer = useSelector((state: RootState) => state.order);
-  const CargoCraneReducer = useSelector((state: RootState) => state.cargoCrane);
-  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+  const ftsReducer = useSelector(ftsSelector)
+  const carrierReducer = useSelector(carrierSelector);
+  const cargoReducer = useSelector(cargoSelector);
+  // const OrderReducer = useSelector((state: RootState) => state.order);
+  const CargoCraneReducer = useSelector(cargoCraneSelector)
+  const rolesReducer = useSelector(roleSelector)
 
-  const isLoading = FTSReducer.loading && CarrierReducer.loading && CargoReducer.cargo && OrderReducer.orders && CargoCraneReducer.result
-  const filteredOrder = (OrderReducer.orders).filter((group) => group.group === rolesReducer.result?.group); 
-  const filteredCarrier = (CarrierReducer.carrier).filter((group) => group.group === rolesReducer.result?.group); 
+  const isLoading = ftsReducer.loading && carrierReducer.loading && CargoCraneReducer.result
+
+
+  // const isLoading = FTSReducer.loading && CarrierReducer.loading && CargoReducer.cargo && OrderReducer.orders && CargoCraneReducer.result
+  // const filteredOrder = (OrderReducer.orders).filter((group) => group.group === rolesReducer.result?.group);
+  // const filteredCarrier = (CarrierReducer.result).filter((group) => group.group === rolesReducer.result?.group);
 
 
   useEffect(() => {
-    dispatch(loadFTS())
-    dispatch(loadCargo())
-    dispatch(loadCargoCrane())
-    dispatch(loadReport());
-    dispatch(loadReportCrane());
-    dispatch(loadCarneSolutionV2());
-    dispatch(loadSolution_carrier_order())
+    dispatch(ftsAsync())
+    dispatch(cargoAsync())
+    dispatch(cargoCraneAsync())
+    // dispatch(loadReport());
+    // dispatch(loadReportCrane());
+    // dispatch(loadCarneSolutionV2());
+    // dispatch(loadSolution_carrier_order())
   }, []);
 
   return (
@@ -55,35 +60,35 @@ export default function HomePage({ }: Props) {
               <StockCard
                 icon={GiCargoCrane}
                 title="ทุ่น"
-                subtitle={`${(FTSReducer.FTS).length} ลำ`}
+                subtitle={`${(ftsReducer.result).length} ลำ`}
                 color="bg-[#00a65a]/75"
                 path={'/transferstation'}
               />
               <StockCard
                 icon={GiCargoShip}
                 title="เรือขนสินค้า"
-                subtitle={`${(filteredCarrier).length} ลำ`}
+                subtitle={`${(carrierReducer.result).length} ลำ`}
                 color="bg-[#f39c12]/75"
                 path={'/carrier'}
               />
               <StockCard
                 icon={BsBoxSeam}
                 title="สินค้า"
-                subtitle={`${(CargoReducer.cargo).length} ประเภท`}
+                subtitle={`${(cargoReducer.result).length} ประเภท`}
                 color="bg-[#dd4b39]/75"
                 path={'/cargo'}
               />
               <StockCard
                 icon={GiCrane}
                 title="ข้อมูลสินค้าและเครน"
-                subtitle={`${(CargoCraneReducer.result).length} รายการ`}
+                subtitle={`${([]).length} รายการ`}
                 color="bg-[#7b2cbf]/75"
                 path={'/cargocrane'}
               />
               <StockCard
                 icon={HiOutlineClipboardDocumentList}
                 title="ขนถ่ายสินค้า"
-                subtitle={`${(filteredOrder).length} รายการ`}
+                subtitle={`${([]).length} รายการ`}
                 color="bg-[#00c0ef]/75"
                 path={'/orders'}
               />

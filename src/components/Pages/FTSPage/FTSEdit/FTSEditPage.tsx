@@ -3,10 +3,11 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../../Constants';
 import { Box, Button, Card, CardContent, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
-import { toast } from 'react-toastify';
 import Loading from '../../../layout/Loading/Loading';
 import { useForm } from 'react-hook-form';
 import Titles from '../../../layout/Titles/Titles';
+import { useAppDispatch } from '../../../../store/store';
+import { ftsEditAsync } from '../../../../store/slices/FTS/ftsEditSlice';
 
 type Props = {
 };
@@ -17,6 +18,7 @@ export default function FTSEditPage({ }: Props) {
   const [FTSData, setFTSData] = useState<any>();
   const { id } = useParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -36,18 +38,17 @@ export default function FTSEditPage({ }: Props) {
     fetchFTSData();
   }, []);
 
+  const submitting = () => setIsSubmitting(false)
+
   const showForm = () => {
     return (
       <form
         onSubmit={handleSubmit(async (data) => {
           setIsSubmitting(true);
           try {
-            await axios.put(`${server.FLOATING}/${id}`, data);
-            setIsSubmitting(false);
-            toast.success('แก้ไขทุ่นเรียบร้อย');
+            await dispatch(ftsEditAsync({ id, data, submitting, navigate }))
             navigate('/transferstation')
           } catch (error) {
-            console.log(error);
             setIsSubmitting(false);
             throw error;
           }

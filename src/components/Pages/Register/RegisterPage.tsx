@@ -1,11 +1,11 @@
 import { Button, Box, Container, CssBaseline, ThemeProvider, Typography, createTheme, Grid, Card, CardContent, Stack, Alert, TextField } from '@mui/material'
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Logo1 from '../../../assets/images/logo/logo1.png' // จากตรงนี้
-import { useDispatch, useSelector } from 'react-redux';
-import { registerLocal } from '../../../store/slices/auth/register.slice';
-import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../store/store';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { registerAsync, registerSelector } from '../../../store/slices/auth/registerSlice';
 
 
 type Props = {}
@@ -13,10 +13,10 @@ type Props = {}
 const defaultTheme = createTheme();
 
 export default function RegisterPage({ }: Props) {
-  const RegisterReducer = useSelector((state: RootState) => state.register);
+  const RegisterReducer = useSelector(registerSelector);
   const { register, handleSubmit } = useForm();
   const navigate: NavigateFunction = useNavigate();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch()
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
@@ -24,10 +24,9 @@ export default function RegisterPage({ }: Props) {
     return (
       <form
         onSubmit={handleSubmit((data) => {
-          console.log(data);
           setIsSubmitting(true);
           try {
-            dispatch(registerLocal(data, navigate))
+            dispatch(registerAsync({ data, navigate }))
             setIsSubmitting(false);
 
           } catch (error) {

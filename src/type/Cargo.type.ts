@@ -11,9 +11,9 @@ export interface CargoState {
 }
 
 export interface CargoEditState {
-    cargo: Cargo | null
+    result: Cargo | null
     loading: boolean
-    error: null | string
+    error: boolean
 }
 
 export interface ColumnCargo {

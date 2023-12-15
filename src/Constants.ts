@@ -79,6 +79,8 @@ export const apiManagePlans = "http://154.49.243.54:5011/route";
 export const SUCCESS = 'Successfully'
 export const Failure = 'ทุ่นซ้ำกัน'
 
+export const TOKEN = 'token'
+
 export const server = {
     LOGIN_URL: `login`,
     REGISTER_URL: `register`,

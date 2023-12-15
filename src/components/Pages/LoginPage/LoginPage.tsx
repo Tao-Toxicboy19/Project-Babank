@@ -3,18 +3,19 @@ import Logo1 from '../../../assets/images/logo/logo1.png'
 import Logo2 from '../../../assets/images/logo/logo2.png'
 import Logo3 from '../../../assets/images/logo/logo3.png'
 import { useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
 import { NavigateFunction, useNavigate } from "react-router-dom"
-import { login } from "../../../store/slices/auth/login.slice"
 import { useState } from "react"
+import { loginAsync } from "../../../store/slices/auth/loginSlice"
+import { useAppDispatch } from "../../../store/store"
 
 type Props = {}
 
 export default function LoginPage({ }: Props) {
   const { register, handleSubmit } = useForm();
   const navigate: NavigateFunction = useNavigate();
-  const dispatch = useDispatch<any>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useAppDispatch()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const sunmitting = () => setIsSubmitting(false)
   return (
     <>
 
@@ -44,9 +45,7 @@ export default function LoginPage({ }: Props) {
                 className="w-full"
                 onSubmit={handleSubmit((data) => {
                   setIsSubmitting(true);
-                  dispatch(login(data, navigate, () => {
-                    setIsSubmitting(false);
-                  }));
+                  dispatch(loginAsync({ data, navigate, sunmitting }))
                 })}
               >
                 <div id="input" className="flex flex-col w-full my-5">

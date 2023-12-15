@@ -6,11 +6,13 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../store/store';
 import { Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logout } from '../../../store/slices/auth/login.slice';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
+import { logout } from '../../../store/slices/auth/loginSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   drawerWidth: number;
@@ -18,8 +20,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
-  const dispatch = useDispatch<any>();
-  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const rolesReducer = useSelector(roleSelector)
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -78,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
               <Tooltip title="logout">
                 <IconButton
                   className='text-white'
-                  onClick={() => dispatch(logout())}
+                  onClick={() => dispatch(logout(navigate))}
                 >
                   <LogoutIcon />
                 </IconButton>
