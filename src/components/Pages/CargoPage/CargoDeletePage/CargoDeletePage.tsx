@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DeleteDialog from '../../../layout/DeleteDialog/DeleteDialog';
 import { cargoDeleteAsync } from '../../../../store/slices/Cargo/cargoDeleteSlice';
 import { useAppDispatch } from '../../../../store/store';
+import { cargoAsync } from '../../../../store/slices/Cargo/cargoSlice';
 
 export default function CargoDeletePage({ id }: any) {
     const dispatch = useAppDispatch()
@@ -16,10 +17,11 @@ export default function CargoDeletePage({ id }: any) {
         setOpen(false);
     };
 
+    const fetch = () => dispatch(cargoAsync())
     const handleDeleteConfirm = async () => {
         setIsSubmitting(true);
         try {
-            dispatch(cargoDeleteAsync({ id, handleClose, }))
+            dispatch(cargoDeleteAsync({ id, handleClose, fetch }))
             setIsSubmitting(false);
         } catch (error) {
             setIsSubmitting(false)

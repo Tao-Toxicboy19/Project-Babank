@@ -23,10 +23,11 @@ const initialState: CargoState = {
 
 export const cargoDeleteAsync = createAsyncThunk(
     'cargoDelete/cargoDeleteAsync',
-    async ({ id, handleClose }: { id: number, handleClose: () => void }) => {
+    async ({ id, handleClose, fetch }: { id: number, handleClose: () => void, fetch: () => void }) => {
         try {
             const result = await httpClient.delete(`${server.CARGO}/${id}`)
             toast.success(SUCCESS)
+            fetch()
             handleClose()
             return result.data;
         } catch (error: any) {

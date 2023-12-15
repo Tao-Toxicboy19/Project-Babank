@@ -21,14 +21,15 @@ import Titles from '../../../layout/Titles/Titles';
 import SearchTerms from '../../../layout/SearchTerms/SearchTerms';
 import Add from '@mui/icons-material/Add';
 import CargoCreatePage from '../CargoAddPage/CargoAddPage';
-import CargoDeletePage from '../Delete/CargoDeletePage';
-import CargoEditPage from '../Edit/CargoEditPage';
+import CargoDeletePage from '../CargoDeletePage/CargoDeletePage';
+import CargoEditPage from '../CargoEditPage/CargoEditPage';
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 
 interface Cargo {
-  cargo_id?: number;
-  cargo_name: string;
+  cargo_id?: number
+  cargo_name: string
+  premium_rate: number
 }
 
 type Props = {
@@ -123,7 +124,7 @@ function BodyTable({ row, rolesReducer }: { row: Cargo, rolesReducer: any }) {
         {row.cargo_name}
       </TableCell>
       <TableCell component="th" scope="row">
-        {row.cargo_name}
+        {row.premium_rate}
       </TableCell>
       {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
         <></>
@@ -131,7 +132,7 @@ function BodyTable({ row, rolesReducer }: { row: Cargo, rolesReducer: any }) {
         <TableCell align="center">
           <Stack direction='row' className="flex justify-end">
             <CargoEditPage id={row.cargo_id} result={row} />
-            <CargoDeletePage id={row.cargo_id} result={row.cargo_name} />
+            <CargoDeletePage id={row.cargo_id} />
           </Stack>
         </TableCell>
       )}

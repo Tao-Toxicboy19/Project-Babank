@@ -23,10 +23,11 @@ const initialState: CargoState = {
 
 export const cargoAddAsync = createAsyncThunk(
     'cargoAdd/cargoAddAsync',
-    async ({ data, handleClose }: { data: any, handleClose: () => void }) => {
+    async ({ data, handleClose, fetch }: { data: any, handleClose: () => void, fetch: () => void }) => {
         try {
             const result = await httpClient.post(server.CARGO, data);
             toast.success(SUCCESS)
+            fetch()
             handleClose()
             return result.data;
         } catch (error) {

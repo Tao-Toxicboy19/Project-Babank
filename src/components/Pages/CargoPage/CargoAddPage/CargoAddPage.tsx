@@ -18,6 +18,7 @@ import { Typography } from '@mui/material';
 import { cargoAddAsync } from '../../../../store/slices/Cargo/cargoAddSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
+import { cargoAsync } from '../../../../store/slices/Cargo/cargoSlice';
 
 type Props = {
     open: boolean
@@ -27,7 +28,7 @@ type Props = {
 interface FormData {
     inputs: {
         cargo_names: string
-        premium_rate: number
+        premium_rate: number | null
     }[];
 }
 
@@ -51,18 +52,18 @@ function ShowFrom({ handleClose }: { handleClose: () => void }) {
         formState: { errors },
     } = useForm<FormData>({
         defaultValues: {
-            inputs: [{ cargo_names: '', premium_rate: 0 }],
+            inputs: [{ cargo_names: '', premium_rate: null }],
         },
     });
     const { fields, append, remove } = useFieldArray({
         control,
         name: 'inputs',
     });
-
+    const fetch = () => dispatch(cargoAsync())
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         setIsSubmitting(true)
         try {
-            await dispatch(cargoAddAsync({ data, handleClose }))
+            await dispatch(cargoAddAsync({ data, handleClose, fetch }))
             setIsSubmitting(false)
         } catch (error) {
             setIsSubmitting(false)
@@ -71,7 +72,7 @@ function ShowFrom({ handleClose }: { handleClose: () => void }) {
 
     const handleReset = () => {
         reset({
-            inputs: [{ cargo_names: '', premium_rate: 0 }],
+            inputs: [{ cargo_names: '', premium_rate: null }],
         })
     }
     return (
@@ -165,7 +166,7 @@ function ShowFrom({ handleClose }: { handleClose: () => void }) {
                     <Button
                         type="button"
                         variant='outlined'
-                        onClick={() => append({ cargo_names: '', premium_rate: 0 })}
+                        onClick={() => append({ cargo_names: '', premium_rate: null })}
                     >
                         เพิ่มสินค้า
                     </Button>

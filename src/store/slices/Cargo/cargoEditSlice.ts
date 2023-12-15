@@ -3,6 +3,7 @@ import { httpClient } from "../../../utils/httpclient";
 import { SUCCESS, server } from "../../../Constants";
 import { toast } from "react-toastify";
 import { RootState } from "../../store";
+import { FieldValues } from "react-hook-form";
 
 
 interface Cargo {
@@ -24,10 +25,11 @@ const initialState: CargoEditState = {
 
 export const cargoEditAsync = createAsyncThunk(
   'cargoEdit/cargoEditAsync',
-  async ({ id, values, handleClose }: { id: number, values: FormData, handleClose: () => void }) => {
+  async ({ id, data, handleClose, fetch }: { id: number, data: FieldValues, handleClose: () => void, fetch: () => void }) => {
     try {
-      const result = await httpClient.put(`${server.CARGO}/${id}`, values);
+      const result = await httpClient.put(`${server.CARGO}/${id}`, data);
       toast.success(SUCCESS)
+      fetch()
       handleClose()
       return result.data;
     } catch (error) {

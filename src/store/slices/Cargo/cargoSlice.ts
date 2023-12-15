@@ -4,13 +4,14 @@ import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
 
 interface Cargo {
-  cargo_id?: number;
-  cargo_name: string;
+  cargo_id?: number
+  cargo_name: string
+  premium_rate: number
 }
 
 interface CargoState {
-  result: Cargo[];
-  loading: boolean;
+  result: Cargo[]
+  loading: boolean
   error: boolean
 }
 
