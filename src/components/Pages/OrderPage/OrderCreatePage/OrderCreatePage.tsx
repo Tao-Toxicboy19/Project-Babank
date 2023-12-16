@@ -14,7 +14,7 @@ import {
   ThemeProvider,
   createTheme
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -22,15 +22,25 @@ import Titles from '../../../layout/Titles/Titles';
 import { carrierSelector } from '../../../../store/slices/Carrier/carrierSlice';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { useAppDispatch } from '../../../../store/store';
-import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
+import { useForm, SubmitHandler, useFieldArray, useWatch } from 'react-hook-form'
 
 type Props = {}
 
 interface FormData {
   cr_id: string
   category: string
-  maxFTS: number
+  maxFTS: number | null
+  latitude: string
+  longitude: string
+  deadline_time: string | null | Date
+  arrival_time: string | null | Date
+  penalty_rate: string | null
+  reward_rate: string | null
   inputs: { value: string }[]
+  inputsCargo: {
+    cargo_names: string
+    premium_rate: number | null
+  }[];
 }
 
 const defaultTheme = createTheme();
@@ -42,15 +52,23 @@ function ShowForm() {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       cr_id: "",
       category: "",
-      maxFTS: 0,
+      maxFTS: null,
+      latitude: "",
+      longitude: "",
+      deadline_time: null,
+      arrival_time: null,
+      penalty_rate: null,
+      reward_rate: null,
       inputs: Array.from({ length: 5 }, (_, index) => ({ value: `Input ${index + 1}` })),
+      inputsCargo: [{ cargo_names: '', premium_rate: null }],
     },
-  })
+  });
 
   const { fields, append } = useFieldArray({
     control,
@@ -61,11 +79,245 @@ function ShowForm() {
     console.log(data)
   }
 
+  const cr_id = useWatch({ control, name: 'cr_id' });
+  const findMaxFts = (carrierReducer.result).find((result) => result.cr_id === +cr_id)
+
+  useEffect(() => {
+    if (findMaxFts) {
+      setValue('maxFTS', findMaxFts.carrier_max_FTS);
+    }
+  }, [findMaxFts, setValue]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Box>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">เลือกเรือ</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="เลือกเรือ"
+            {...register('cr_id', { required: true })}
+            onChange={(e: any) => setValue('cr_id', e.target.value)}
+          >
+            {(carrierReducer.result).map((items) => (
+              <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
+                {items.carrier_name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {errors.cr_id && (
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>
+        )}
+      </Box>
+
+      <Box>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="สถานะสินค้า (ขาเข้า/ขาออก)"
+            {...register('category', { required: true })}
+          >
+            <MenuItem value='import' className='font-kanit'>import</MenuItem>
+            <MenuItem value='export' className='font-kanit'>export</MenuItem>
+          </Select>
+        </FormControl>
+        {errors.category &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+
+      <Box>
+        <TextField
+          label='จำนวนทุ่นเข้าสูงสุด'
+          id='maxFTS'
+          type='number'
+          fullWidth
+          className='font-kanit'
+          defaultValue={findMaxFts?.carrier_max_FTS}
+          {...register('maxFTS', {
+            required: true,
+            valueAsNumber: true,
+            min: 1,
+            max: 5,
+          })}
+        />
+        {errors.maxFTS && (
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            {errors.maxFTS.type === 'min' && 'กรุณากรอกค่าที่มากกว่าหรือเท่ากับ 0'}
+            {errors.maxFTS.type === 'max' && `ทุ่นสามารถเข้าได้สูงสุดแค่ ${findMaxFts?.carrier_max_FTS} ทุ่น`}
+            {errors.maxFTS.type !== 'min' && errors.maxFTS.type !== 'max' && 'กรุณากรอกข้อมูล'}
+          </Alert>
+        )}
+      </Box>
+
+      <Box>
+        <TextField
+          id='latitude'
+          label='ละติจูด'
+          type='text'
+          fullWidth
+          className='font-kanit'
+          {...register('latitude', {
+            required: true,
+            pattern: {
+              value: /^[0-9]*\.?[0-9]*$/,
+              message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+            },
+          })}
+        />
+        {errors.latitude &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+
+      <Box>
+        <TextField
+          id='longitude'
+          label='ลองจิจูด'
+          type='text'
+          fullWidth
+          className='font-kanit'
+          {...register('longitude', {
+            required: true,
+            pattern: {
+              value: /^[0-9]*\.?[0-9]*$/,
+              message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+            },
+          })}
+        />
+        {errors.longitude &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+
+      <Box>
+        <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา มาถึง</label>
+        <TextField
+          id='arrival_time'
+          type='datetime-local'
+          fullWidth
+          className='font-kanit'
+          {...register('arrival_time', { required: true })}
+        />
+        {errors.arrival_time &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+
+      <Box>
+        <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด</label>
+        <TextField
+          id='deadline_time'
+          type='datetime-local'
+          fullWidth
+          className='font-kanit'
+          {...register('deadline_time', { required: true })}
+        />
+        {errors.deadline_time &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+
+      <Box>
+        <TextField
+          id='penalty_rate'
+          label='ค่าปรับ (บาท/วัน)'
+          type='number'
+          fullWidth
+          className='font-kanit'
+          {...register('penalty_rate', { required: true, valueAsNumber: true })}
+        />
+        {errors.penalty_rate &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+      <Box>
+        <TextField
+          id='reward_rate'
+          label='รางวัล (บาท/วัน)'
+          type='number'
+          fullWidth
+          className='font-kanit'
+          {...register('reward_rate', { required: true, valueAsNumber: true })}
+        />
+        {errors.reward_rate &&
+          <Alert variant="outlined" severity="error" className='mt-2'>
+            กรุณากรอกข้อมูล
+          </Alert>}
+      </Box>
+
+      {fields.map((field, index) => (
+        <div
+          key={index}
+        >
+          <div className='w-full'>
+            <input
+              key={index}
+              id={`inputsCargo.${index}.cargo_names`}
+              // label='ชื่อสินค้า'
+              type="text"
+              // defaultValue={field.cargo_names}
+              // fullWidth
+              {...register(`inputsCargo.${index}.cargo_names` as const, {
+                required: true
+              })}
+            />
+            {errors?.inputsCargo?.[index]?.cargo_names && (
+              <p className='mt-2'>
+                กรุณากรอกชื่อสินค้า
+              </p>
+            )}
+          </div>
+          <div className='w-full'>
+            <input
+              key={index}
+              id={`inputsCargo.${index}.premium_rate`}
+              // label='ค่าหัวตัน (บาท/ตัน)'
+              type="text"
+              // defaultValue={field.premium_rate}
+              // fullWidth
+              {...register(`inputsCargo.${index}.premium_rate` as const, {
+                required: true
+              })}
+            />
+            {errors?.inputsCargo?.[index]?.premium_rate && (
+              <p className='mt-2'>
+                กรุณากรอกชื่อสินค้า
+              </p>
+            )}
+          </div>
+          <button
+            type="button"
+            // onClick={() => remove(index)}
+            className=''
+          >
+            ลบสินค้า
+          </button>
+        </div>
+      ))}
+
       {fields.map((field, index) => (
         <div key={index}>
-          <input {...register(`inputs.${index}.value` as const)} defaultValue={field.value} />
+          <TextField
+            id={`bulk-${index + 1}`}
+            label={`ระวางที่ ${index + 1}`}
+            type='number'
+            fullWidth
+            className='font-kanit'
+            {...register(`inputs.${index}.value` as const)} defaultValue={field.value}
+          />
         </div>
       ))}
       <button type="button" onClick={() => append({ value: '' })}>
@@ -75,7 +327,6 @@ function ShowForm() {
     </form>
   );
 }
-
 
 export default function OrderCreatePage({ }: Props) {
   const dispatch = useAppDispatch()
