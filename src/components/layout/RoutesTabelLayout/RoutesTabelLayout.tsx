@@ -6,13 +6,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
 import { titles } from '../../../Constants';
 import moment from 'moment';
+import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice';
 
 export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
-    const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule.solution_schedule);
-    const filteredData = SolutionscheduleReducer.filter(item => item.carrier_name !== null);
+    const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
+    const filteredData = (solutionscheduleReducer.result).filter(item => item.carrier_name !== null);
 
     return (
         <>

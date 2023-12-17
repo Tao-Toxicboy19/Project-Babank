@@ -1,23 +1,24 @@
 import ListMenu from '../ListMenu/ListMenu'
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { craneSolutionSelector } from '../../../store/slices/Solution/craneSolutionSlice';
+import { ftsSolutionV2Selector } from '../../../store/slices/Solution/ftsSolutionV2Slice';
 
 
 export default function TimeList({ }: any) {
-    const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution.result);
-    const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2.result);
-    const result = CraneSolutionSlice.total_preparation_crane_time + FtsSolutionV2Slice.total_preparation_FTS_time
+    const CraneSolutionSlice = useSelector(craneSolutionSelector)
+    const FtsSolutionV2Slice = useSelector(ftsSolutionV2Selector)
+    const result = (CraneSolutionSlice.result).total_preparation_crane_time + (FtsSolutionV2Slice.result).total_preparation_FTS_time
 
     return (
         <ul className='h-[320px]'>
             <ListMenu
                 title='รวมวลาเสร็จหลังกำหนด'
-                price={CraneSolutionSlice.total_late_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                price={(CraneSolutionSlice.result).total_late_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 unit='นาที'
             />
             <ListMenu
                 title='รวมวลาเสร็จก่อนกำหนด'
-                price={CraneSolutionSlice.total_early_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                price={(CraneSolutionSlice.result).total_early_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 unit='นาที'
             />
             <ListMenu
@@ -27,12 +28,12 @@ export default function TimeList({ }: any) {
             />
             <ListMenu
                 title='รวมเวลาดำเนินการขนย้าย'
-                price={CraneSolutionSlice.total_operation_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                price={(CraneSolutionSlice.result).total_operation_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 unit='นาที'
             />
             <ListMenu
                 title='รวมเวลาเตรียมความพร้อม'
-                price={CraneSolutionSlice.total_operation_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                price={(CraneSolutionSlice.result).total_operation_time.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 unit='นาที'
             />
         </ul >

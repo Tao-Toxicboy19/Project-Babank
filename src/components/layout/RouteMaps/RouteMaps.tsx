@@ -1,8 +1,8 @@
 import { LoadScript, GoogleMap, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import { Marker } from '@react-google-maps/api';
 import Loading from "../Loading/Loading";
+import { sulutionScheduelSelector } from "../../../store/slices/Solution/sollutionScheduleSlice";
 
 // const google = window.google;
 
@@ -13,10 +13,10 @@ import Loading from "../Loading/Loading";
 
 
 export default function RouteMaps({ FTSsolutionSlice, value }: any) {
-    const SolutionscheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
+    const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
 
 
-    const datav2 = SolutionscheduleReducer.solution_schedule
+    const datav2 = solutionscheduleReducer.result
         .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
         .map((item) => ({
             lat: item.lat,
@@ -31,7 +31,7 @@ export default function RouteMaps({ FTSsolutionSlice, value }: any) {
 
     return (
         <div className="App">
-            {SolutionscheduleReducer.loading ? (
+            {solutionscheduleReducer.loading ? (
                 <Loading />
             ) : (
                 <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>

@@ -1,9 +1,8 @@
 import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import { httpClient } from "../../../utils/httpclient";
-import { SUCCESS, server } from "../../../Constants";
+import { server } from "../../../Constants";
 import { RootState } from "../../store";
 import { loadMainTainFTS } from "./FTSSlice";
-import { toast } from "react-toastify";
 
 const initialState: any = {
     result: null,

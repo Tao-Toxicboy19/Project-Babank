@@ -43,6 +43,7 @@ import craneSolutionReducer from "./slices/Solution/craneSolutionSlice";
 import ftsSolutionTableReducer from "./slices/Solution/ftsSolutionTableSlice";
 import craneSolutionTableV2Reducer from "./slices/Solution/craneSolutionTableSlice";
 import solutionOrderSReducer from "./slices/Solution/solutionOrderSlice";
+import ftsSolutionV2Reducer from "./slices/Solution/ftsSolutionV2Slice";
 
 
 
@@ -89,6 +90,7 @@ const reducer = {
   ftsSolutionTableReducer,
   craneSolutionTableV2Reducer,
   solutionOrderSReducer,
+  ftsSolutionV2Reducer,
 };
 
 export const store = configureStore({

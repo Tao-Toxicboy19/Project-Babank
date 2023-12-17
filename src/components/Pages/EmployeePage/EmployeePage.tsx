@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { httpClient } from "../../../utils/httpclient";
 import { TableContainer, TableHead, TableCell, Paper, Table, TableRow, TableBody, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, MenuItem, Select, Box, TextField, Alert, Typography, Card, CardContent } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { format } from 'date-fns';
 import Loading from "../../layout/Loading/Loading";
+import { ftsSelector } from "../../../store/slices/FTS/ftsSlice";
 
 type Props = {}
 
@@ -32,7 +32,7 @@ export interface EmployeeFTS {
 function AlertDialog({ rows, loadData }: { rows: Employee, loadData: () => void }) {
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState('ลา');
-    const FTSReducer = useSelector((state: RootState) => state.FTS);
+    const FTSReducer = useSelector(ftsSelector)
     const {
         register,
         handleSubmit,
@@ -116,7 +116,7 @@ function AlertDialog({ rows, loadData }: { rows: Employee, loadData: () => void 
                                                     {...register('cr_id', { required: true })}
                                                     defaultValue={rows.employee_FTS?.ftsId}
                                                 >
-                                                    {(FTSReducer.FTS).map((items) => (
+                                                    {(FTSReducer.result).map((items) => (
                                                         <MenuItem key={items.fts_id} value={items.fts_id} className='font-kanit'>
                                                             {items.FTS_name}
                                                         </MenuItem>
@@ -330,7 +330,7 @@ function FromData({ loadData }: { loadData: () => void }) {
 
 function TableEmployee({ }: Props) {
     const [data, setdata] = useState<Employee[]>([]);
-    const FTSReducer = useSelector((state: RootState) => state.FTS);
+    const FTSReducer = useSelector(ftsSelector)
     const [loading, setLoading] = useState<boolean>(true);
     const fetchResult = async () => {
         try {
@@ -413,7 +413,7 @@ function TableEmployee({ }: Props) {
                                                 {
                                                     row.employee_FTS?.ftsId !== null
                                                         ? row.employee_FTS !== null ? row.employee_FTS.ftsId
-                                                            ? FTSReducer.FTS.find(f => f.fts_id === row.employee_FTS?.ftsId)?.FTS_name
+                                                            ? FTSReducer.result.find(f => f.fts_id === row.employee_FTS?.ftsId)?.FTS_name
                                                             : "ไม่มีทุ่น"
                                                             : "ไม่มีทุ่น"
                                                         : "ไม่มีทุ่น"
@@ -474,7 +474,7 @@ function TableEmployee({ }: Props) {
                                                 <TableCell align="right">{row.frist_name}</TableCell>
                                                 <TableCell align="right">{row.last_name}</TableCell>
                                                 <TableCell align="right">
-                                                    {row.employee_FTS?.ftsId !== null ? FTSReducer.FTS.filter(f => f.fts_id === row.employee_FTS?.ftsId)[0]?.FTS_name : "ไม่มีทุ่น"}
+                                                    {row.employee_FTS?.ftsId !== null ? FTSReducer.result.filter((f: any) => f.fts_id === row.employee_FTS?.ftsId)[0]?.FTS_name : "ไม่มีทุ่น"}
                                                 </TableCell>
                                                 <TableCell align="right">{row.employee_FTS?.donkey}</TableCell>
                                                 <TableCell align="right">{row.employee_FTS?.start_datetime !== null ? row.employee_FTS?.start_datetime : undefined}</TableCell>

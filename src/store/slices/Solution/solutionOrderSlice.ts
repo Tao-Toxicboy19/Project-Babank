@@ -1,5 +1,4 @@
-import { PayloadAction, ThunkAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";

@@ -10,7 +10,8 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { labels } from '../../../Constants';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { craneSolutionSelector } from '../../../store/slices/Solution/craneSolutionSlice';
+import { ftsSolutionV2Selector } from '../../../store/slices/Solution/ftsSolutionV2Slice';
 
 
 ChartJS.register(
@@ -23,8 +24,8 @@ ChartJS.register(
 );
 
 export function Charts() {
-    const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution);
-    const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2);
+    const CraneSolutionSlice = useSelector(craneSolutionSelector)
+    const FtsSolutionV2Slice = useSelector(ftsSolutionV2Selector)
 
     const datas = [
         (CraneSolutionSlice.result)?.total_reward,
