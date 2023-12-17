@@ -2,8 +2,8 @@ import { DialogTitle, DialogContent, Button, Dialog, TextField, Tooltip, Typogra
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { Orders } from '../../../../type/Order.type';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../../../../store/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../../../store/store';
 import { httpClient } from '../../../../utils/httpclient';
 import { toast } from 'react-toastify';
 import { SUCCESS } from '../../../../Constants';
@@ -14,6 +14,7 @@ import Tab from '@mui/material/Tab';
 import moment from 'moment';
 import Loading from '../../../layout/Loading/Loading';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
+import { orderAsync } from '../../../../store/slices/Order/orderSlice';
 
 type Props = {
     items: Orders
@@ -77,16 +78,16 @@ function AssignForm({ items, handleClose }: any) {
             onSubmit={handleSubmit((data) => {
                 setIsSubmitting(true);
 
-                // httpClient.patch(`/updatestatus/${items.or_id}`, data)
-                //     .then(() => {
-                //         dispatch(loadOrder())
-                //         handleClose()
-                //         reset()
-                //         toast.success(SUCCESS)
-                //     })
-                //     .catch(() => {
-                //         setIsSubmitting(false);
-                //     });
+                httpClient.patch(`/updatestatus/${items.or_id}`, data)
+                    .then(() => {
+                        dispatch(orderAsync())
+                        handleClose()
+                        reset()
+                        toast.success(SUCCESS)
+                    })
+                    .catch(() => {
+                        setIsSubmitting(false);
+                    });
             })}
         >
             <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
@@ -206,16 +207,16 @@ function ApprovedForm({ items, handleClose }: any) {
             onSubmit={handleSubmit((data) => {
                 setIsSubmitting(true);
 
-                // httpClient.patch(`/updatestatus-approved/${items.or_id}`, data)
-                //     .then(() => {
-                //         handleClose()
-                //         dispatch(loadOrder())
-                //         reset()
-                //         toast.success(SUCCESS)
-                //     })
-                //     .catch(() => {
-                //         setIsSubmitting(false);
-                //     });
+                httpClient.patch(`/updatestatus-approved/${items.or_id}`, data)
+                    .then(() => {
+                        handleClose()
+                        dispatch(orderAsync())
+                        reset()
+                        toast.success(SUCCESS)
+                    })
+                    .catch(() => {
+                        setIsSubmitting(false);
+                    });
             })}
         >
             <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
@@ -463,12 +464,12 @@ export default function UpdateStatus({ items }: Props) {
                                         className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg'
                                         onClick={() => {
                                             setIsSubmitting(true);
-                                            // httpClient.patch(`/update-status-order/${items.or_id}`, {})
-                                            //     .then(() => {
-                                            //         dispatch(loadOrder())
-                                            //         setIsSubmitting(false);
-                                            //     })
-                                            //     .catch(() => setIsSubmitting(false))
+                                            httpClient.patch(`/update-status-order/${items.or_id}`, {})
+                                                .then(() => {
+                                                    dispatch(orderAsync())
+                                                    setIsSubmitting(false);
+                                                })
+                                                .catch(() => setIsSubmitting(false))
                                         }}
                                         disabled={isSubmitting}
                                     >

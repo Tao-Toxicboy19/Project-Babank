@@ -34,6 +34,16 @@ import mainTainCraneDeleteReducer from "./slices/MainTainCrane/mainTainCraneDele
 import orderEditReducer from "./slices/Order/orderEditSlice";
 import orderReducer from "./slices/Order/orderSlice";
 import orderDeleteReducer from "./slices/Order/orderDeleteSlice";
+import reportFtsReducer from "./slices/report/reportFtsSlice";
+import reportCraneReducer from "./slices/report/reportCraneSlice";
+import sulutionScheduelReducer from "./slices/Solution/sollutionScheduleSlice";
+import ftsSulutionReducer from "./slices/Solution/ftsSulutionSlice";
+import solutionCarrierOrderReducer from "./slices/Solution/solutionCarrierOrderSlice";
+import craneSolutionReducer from "./slices/Solution/craneSolutionSlice";
+import ftsSolutionTableReducer from "./slices/Solution/ftsSolutionTableSlice";
+import craneSolutionTableV2Reducer from "./slices/Solution/craneSolutionTableSlice";
+import solutionOrderSReducer from "./slices/Solution/solutionOrderSlice";
+
 
 
 const reducer = {
@@ -70,6 +80,15 @@ const reducer = {
   orderEditReducer,
   orderReducer,
   orderDeleteReducer,
+  reportFtsReducer,
+  reportCraneReducer,
+  sulutionScheduelReducer,
+  ftsSulutionReducer,
+  solutionCarrierOrderReducer,
+  craneSolutionReducer,
+  ftsSolutionTableReducer,
+  craneSolutionTableV2Reducer,
+  solutionOrderSReducer,
 };
 
 export const store = configureStore({

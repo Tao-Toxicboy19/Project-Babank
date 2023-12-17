@@ -1,7 +1,8 @@
-import { PayloadAction, ThunkAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, ThunkAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../store";
 import { server } from "../../../Constants";
+import { httpClient } from "../../../utils/httpclient";
 
 interface SolutionOrder {
     s_id: number;
@@ -47,37 +48,43 @@ const initialState: SolutionOrderState = {
     error: false
 }
 
-const solution_orderSlice = createSlice({
-    name: 'solution_order',
+export const solutionOrderAsync = createAsyncThunk(
+    'solutionOrder/solutionOrderAsync',
+    async () => {
+        try {
+            const result = await httpClient.get<SolutionOrder[]>(server.SOLUTION_CARRIER_ORDER_URL)
+            return result.data
+        } catch (error) {
+            throw error
+        }
+    }
+)
+
+const solutionOrderSlice = createSlice({
+    name: 'solutionOrder',
     initialState,
-    reducers: {
-        setsolution_orderStart: (state) => {
-            state.result = []
-            state.loading = true
-            state.error = false
-        },
-        setsolution_orderSuccess: (state, action: PayloadAction<SolutionOrder[]>) => {
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(solutionOrderAsync.fulfilled, (state: SolutionOrderState, action: PayloadAction<SolutionOrder[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = false
-        },
-        setsolution_orderFailure: (state) => {
-            state.result = []
-            state.error = true
-            state.loading = false
-        }
-    }
-})
-export const { setsolution_orderStart, setsolution_orderSuccess, setsolution_orderFailure } = solution_orderSlice.actions
-export default solution_orderSlice.reducer
+        });
 
-export const loadSolution_order = (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
-    try {
-        dispatch(setsolution_orderStart())
-        const result = await axios.get<SolutionOrder[]>(server.SOLUTION_CARRIER_ORDER_URL)
-        dispatch(setsolution_orderSuccess(result.data))
-    }
-    catch (error) {
-        dispatch(setsolution_orderFailure())
-    }
-}
+        builder.addCase(solutionOrderAsync.rejected, (state: SolutionOrderState) => {
+            state.result = []
+            state.loading = false
+            state.error = true
+        });
+
+        builder.addCase(solutionOrderAsync.pending, (state: SolutionOrderState) => {
+            state.result = []
+            state.loading = true
+            state.error = false
+        });
+    },
+})
+
+export const { } = solutionOrderSlice.actions
+export const solutionOrderSSelector = (store: RootState) => store.solutionOrderSReducer
+export default solutionOrderSlice.reducer

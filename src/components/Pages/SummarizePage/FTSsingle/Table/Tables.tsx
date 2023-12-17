@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
-import { RootState } from '../../../../../store/store';
+import { craneSolutionTableV2Selector } from '../../../../../store/slices/Solution/craneSolutionTableSlice';
 
 type Props = {
     value: any
@@ -10,9 +10,9 @@ type Props = {
 
 
 export default function Tables({ Name }: Props) {
-    const CraneSolutionV2Reducer = useSelector((state: RootState) => state.carneSolutionV2Reducer.result);
+    const CraneSolutionV2Reducer = useSelector(craneSolutionTableV2Selector)
 
-    const filteredData = CraneSolutionV2Reducer.filter(item => item.fts.FTS_name === Name);
+    const filteredData = (CraneSolutionV2Reducer.result).filter(item => item.fts.FTS_name === Name);
 
     return (
         <>

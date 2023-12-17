@@ -3,11 +3,11 @@ import { toast } from "react-toastify";
 import { httpClient } from "../../utils/httpclient";
 import { RootState } from "../store";
 import { apiManagePlans, SUCCESS } from "../../Constants";
-import { loadFTSsolution } from "./FTS/FTSsolution.slice";
-import { loadFtsSolutionV2 } from "./FTS/FTSsolutionV2.slice";
-import { loadCraneSolution } from "./Solution/craneSolution.slice";
-import { loadSolution } from "./Solution/sollution_schedule.slice";
-import { loadSolution_carrier_order } from "./Solution/solution_carrier_orderSlice";
+import { craneSolutionAsync } from "./Solution/craneSolutionSlice";
+import { sulutionScheduelAsync } from "./Solution/sollutionScheduleSlice";
+import { solutionCarrierOrderAsync } from "./Solution/solutionCarrierOrderSlice";
+import { ftsSulutionAsync } from "./Solution/ftsSulutionSlice";
+import { ftsSolutionTableAsync } from "./Solution/ftsSolutionTableSlice";
 
 
 export interface ManagePlans {
@@ -65,15 +65,13 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
             order: order
         };
         handleClickOpen();
-        // console.log(values);
         const result = await httpClient.post(apiManagePlans, values)
         dispatch(setManagePlansuccess(result.data));
-        dispatch(loadCraneSolution())
-        dispatch(loadSolution())
-        dispatch(loadFTSsolution())
-        dispatch(loadFtsSolutionV2())
-        dispatch(loadCraneSolution());
-        dispatch(loadSolution_carrier_order())
+        dispatch(craneSolutionAsync())
+        dispatch(sulutionScheduelAsync())
+        dispatch(ftsSulutionAsync())
+        dispatch(ftsSolutionTableAsync())
+        dispatch(solutionCarrierOrderAsync())
         handleClose()
         handleCloseV2()
         toast.success(SUCCESS)

@@ -4,10 +4,12 @@ import Checkbox from '@mui/material/Checkbox';
 import { useForm } from 'react-hook-form';
 import { Box, Button, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
 import { ManagePlans } from '../../../../store/slices/managePlansSlice';
 import LoadingTest from './loading/LoadinTest';
 import { Typography } from '@mui/material';
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
+import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
+import { orderSelector } from '../../../../store/slices/Order/orderSlice';
 
 type Props = {
     handleCloseV2: any
@@ -21,7 +23,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         setValue, // เพิ่ม setValue
     } = useForm();
     const [selectAll, setSelectAll] = React.useState(true);
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const rolesReducer = useSelector(roleSelector)
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -33,13 +35,13 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     };
 
     const dispatch = useDispatch<any>();
-    const FTSReducer = useSelector((state: RootState) => state.FTS)
-    const orderRucer = useSelector((state: RootState) => state.order)
-    const orderRucerV2 = (orderRucer.orders).filter((order) => order.status_order !== "Approved");
+    const ftsReducer = useSelector(ftsSelector)
+    const orderRucer = useSelector(orderSelector)
+    const orderRucerV2 = (orderRucer.result).filter((order) => order.status_order !== "Approved");
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
-        (FTSReducer.FTS).forEach((item) => {
+        (ftsReducer.result).forEach((item) => {
             setValue(`FTS-${item.fts_id}`, !selectAll);
         });
 
@@ -49,7 +51,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     };
 
     const onSubmit = (formData: any) => {
-        const fts = (FTSReducer.FTS)
+        const fts = (ftsReducer.result)
             .filter((item) => formData[`FTS-${item.fts_id}`])
             .map((item) => ({
                 fts_id: item.fts_id,
@@ -62,7 +64,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                 cr_id: item.carrier.cr_id,
                 // เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการในออบเจ็กต์นี้
             }));
-        dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData.computetime,rolesReducer.result?.group))
+        dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData.computetime, rolesReducer.result?.group))
     };
 
     return (
@@ -127,7 +129,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                 <Box>
                     <Typography>เลือกทุ่น</Typography>
 
-                    {(FTSReducer.FTS).map((item) => (
+                    {(ftsReducer.result).map((item) => (
                         <Box key={item.fts_id}>
                             {(!selectAll) ? (
                                 <>

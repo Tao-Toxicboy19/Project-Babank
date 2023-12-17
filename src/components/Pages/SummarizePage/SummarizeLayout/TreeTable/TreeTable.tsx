@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../../../store/store';
+import { ftsSolutionTableSelector } from '../../../../../store/slices/Solution/ftsSolutionTableSlice';
 
 type Props = {
 
@@ -29,7 +29,7 @@ const showThead = () => {
 
 
 export default function TreeTable({ }: Props) {
-    const FTSsolutionReducer = useSelector((state: RootState) => state.FTSsolution);
+    const FTSsolutionReducer = useSelector(ftsSolutionTableSelector)
 
 
     return (

@@ -4,10 +4,11 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
 import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
 import { Card } from '@mui/material';
 import RouteMaps from '../RouteMaps/RouteMaps';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
+import { ftsSolutionTableSelector } from '../../../store/slices/Solution/ftsSolutionTableSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -44,19 +45,19 @@ function a11yProps(index: number) {
 
 export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
-    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
+    const rolesReducer = useSelector(roleSelector)
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
     };
 
-    const filteredFTSsolutionSlice = FTSsolutionSlice.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
+    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
     return (
         <>
-            {filteredFTSsolutionSlice.length === 0 ? (
+            {filteredftsSolutionReducer.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -76,7 +77,7 @@ export default function RouteLayout() {
                 </Typography>
             ) : (
                 <>
-                    {FTSsolutionSlice.result.length === 0 ? (
+                    {ftsSolutionReducer.result.length === 0 ? (
                         <Typography
                             sx={{
                                 mr: 2,
@@ -104,7 +105,7 @@ export default function RouteLayout() {
                                     onChange={handleChange}
                                     aria-label="Vertical tabs example"
                                 >
-                                    {FTSsolutionSlice.result.map((items, index) => (
+                                    {ftsSolutionReducer.result.map((items, index) => (
                                         <Tab
                                             // className='font-kanit'
                                             className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
@@ -129,13 +130,13 @@ export default function RouteLayout() {
                                                 textDecoration: "none",
                                             }}
                                         >
-                                            {FTSsolutionSlice.result[value]?.fts.FTS_name}
+                                            {ftsSolutionReducer.result[value]?.fts.FTS_name}
                                         </Typography>
                                         <Box className='flex-grow mt-[-1rem]'> {/* ใช้ flex-grow เพื่อให้ส่วนนี้ขยายตามพื้นที่ที่เหลือ */}
-                                            <RoutesTabelLayout FTSsolutionSlice={FTSsolutionSlice.result} value={value} />
+                                            <RoutesTabelLayout ftsSolutionReducer={ftsSolutionReducer.result} value={value} />
                                         </Box>
                                         <Box> {/* ส่วนนี้อยู่ด้านล่าง จะตรงนี้เลื่อนขึ้นลง */}
-                                            <RouteMaps FTSsolutionSlice={FTSsolutionSlice.result} value={value} />
+                                            <RouteMaps ftsSolutionReducer={ftsSolutionReducer.result} value={value} />
                                         </Box>
                                     </Box>
                                 </TabPanel>

@@ -1,30 +1,31 @@
 import { useSelector } from "react-redux";
 import { Box, Card, CardContent, FormControl, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState, } from "react";
-import { RootState } from "../../../../store/store";
 import { report_solutions } from "../../../../type/Solution_schedule.type";
 import { TitleReportFTS } from "../../../../Constants";
 import moment from "moment";
 import Loading from "../../../layout/Loading/Loading";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
+import { reportFtsSelector } from "../../../../store/slices/report/reportFtsSlice";
+import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
 
 export default function ReportFTS() {
-    const reportReducer = useSelector((state: RootState) => state.reportReducer);
-    const FtsReducer = useSelector((state: RootState) => state.FTS.FTS)
-    const [filteredData, setFilteredData] = useState<report_solutions[]>(reportReducer.result);
+    const reportFtsReducer = useSelector(reportFtsSelector)
+    const ftsReducer = useSelector(ftsSelector)
+    const [filteredData, setFilteredData] = useState<report_solutions[]>(reportFtsReducer.result);
     const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
 
     useEffect(() => {
-        const filteredData = reportReducer.result.filter((item: any) => item.FTS_id === selectedFtsId);
+        const filteredData = reportFtsReducer.result.filter((item: any) => item.FTS_id === selectedFtsId);
         setFilteredData(filteredData);
-    }, [selectedFtsId, reportReducer.result]);
+    }, [selectedFtsId, reportFtsReducer.result]);
 
     return (
         <>
             <Card className="bg-[#fff]/75 min-h-[72.3vh]">
                 <CardContent>
-                    {reportReducer.loading ? (
+                    {reportFtsReducer.loading ? (
                         <Loading />
                     ) : (
                         <>
@@ -66,7 +67,7 @@ export default function ReportFTS() {
                                             onChange={(e) => setSelectedFtsId(e.target.value)}
                                         >
                                             <MenuItem className="font-kanit" value="ทั้งหมด">ทั้งหมด</MenuItem>
-                                            {FtsReducer.map((items) => (
+                                            {(ftsReducer.result).map((items) => (
                                                 <MenuItem className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
                                             ))}
                                         </Select>
@@ -81,7 +82,7 @@ export default function ReportFTS() {
                                     <TableBody>
                                         <>
                                             {selectedFtsId === "ทั้งหมด" ? (
-                                                reportReducer.result.map((item, index) => {
+                                                reportFtsReducer.result.map((item, index) => {
                                                     const itemMonth = new Date(item.deadline_time).getMonth();
                                                     const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');

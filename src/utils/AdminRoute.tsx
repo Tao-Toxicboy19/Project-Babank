@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { RootState } from "../store/store";
+import { roleSelector } from "../store/slices/auth/rolesSlice";
 
 type Props = {};
 
 export default function AdminRoute({ }: Props) {
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const rolesReducer = useSelector(roleSelector)
 
     const allowedRoles = ['Administrator', 'Contributor'];
 

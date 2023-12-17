@@ -22,8 +22,6 @@ import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { useForm, SubmitHandler, useFieldArray, useWatch } from 'react-hook-form'
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
-import { httpClient } from '../../../../utils/httpclient';
-import { server } from '../../../../Constants';
 import { orderAddAsync } from '../../../../store/slices/Order/orderAddSlice';
 import { orderAsync } from '../../../../store/slices/Order/orderSlice';
 
@@ -81,9 +79,9 @@ function ShowForm() {
   const bulkArray = watch('bulkArray', []);
 
   const totalBulk = bulkArray.reduce((acc, value) => {
-    const parsedValue = +(value);
+    const parsedValue = +(value)
     return !isNaN(parsedValue) ? acc + parsedValue : acc;
-  }, 0);
+  }, 0)
 
   const { fields, append } = useFieldArray({
     control,
@@ -91,30 +89,26 @@ function ShowForm() {
   })
   const fetch = () => dispatch(orderAsync())
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     const values = {
       ...data,
       group: rolesReducer.result?.group,
       load: totalBulk
     }
     try {
-      httpClient.post(server.ORDER, values)
-        .then(() => console.log('hello'))
-        .catch(err => console.log(err))
       await dispatch(orderAddAsync({ values, navigate, fetch }))
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     } catch (error) {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-
   }
 
-  const cr_id = useWatch({ control, name: 'cr_id' });
+  const cr_id = useWatch({ control, name: 'cr_id' })
   const findMaxFts = (carrierReducer.result).find((result) => result.cr_id === +cr_id)
 
   useEffect(() => {
     if (findMaxFts) {
-      setValue('maxFTS', findMaxFts.carrier_max_FTS);
+      setValue('maxFTS', findMaxFts.carrier_max_FTS)
     }
   }, [findMaxFts, setValue]);
 

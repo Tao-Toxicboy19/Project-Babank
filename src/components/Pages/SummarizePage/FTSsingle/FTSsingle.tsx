@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { Card, Typography } from '@mui/material';
 import Tables from './Table/Tables';
-import { RootState } from '../../../../store/store';
 import { BarCharts } from '../../../layout/BarCharts/BarCharts';
 import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
+import { craneSolutionTableSelector } from '../../../../store/slices/FtsSolution/craneSolutionTableSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -44,20 +45,20 @@ function a11yProps(index: number) {
 }
 
 export default function FTSsingle() {
-    const [value, setValue] = React.useState(0);
-    const FTSsolutionSlice = useSelector((state: RootState) => state.FTSsolution);
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const [value, setValue] = React.useState(0)
+    const ftsSolutionReducer = useSelector(craneSolutionTableSelector)
+    const rolesReducer = useSelector(roleSelector)
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
     };
-    const filteredFTSsolutionSlice = FTSsolutionSlice.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
+    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
 
     return (
         <>
-            {filteredFTSsolutionSlice.length === 0 ? (
+            {filteredftsSolutionReducer.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -78,7 +79,7 @@ export default function FTSsingle() {
             ) : (
                 <>
                     {
-                        FTSsolutionSlice.result.length === 0 ? (
+                        ftsSolutionReducer.result.length === 0 ? (
                             <Typography
                                 sx={{
                                     mr: 2,
@@ -106,7 +107,7 @@ export default function FTSsingle() {
                                         onChange={handleChange}
                                         aria-label="Vertical tabs example"
                                     >
-                                        {FTSsolutionSlice.result.map((items, index) => (
+                                        {ftsSolutionReducer.result.map((items, index) => (
                                             <Tab
                                                 key={index}
                                                 className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
@@ -131,15 +132,15 @@ export default function FTSsingle() {
                                                     textDecoration: "none",
                                                 }}
                                             >
-                                                {FTSsolutionSlice.result[value]?.fts.FTS_name}
+                                                {ftsSolutionReducer.result[value]?.fts.FTS_name}
                                             </Typography>
 
-                                            {FTSsolutionSlice.result[value] && (
+                                            {ftsSolutionReducer.result[value] && (
                                                 <Box className='col-span-12 grid grid-cols-6 gap-x-5'>
                                                     <Box></Box>
                                                     <SummarizaCard
                                                         title={'ต้นทุนรวม'}
-                                                        price={FTSsolutionSlice.result[value].solutions.reduce((_, solution) =>
+                                                        price={ftsSolutionReducer.result[value].solutions.reduce((_, solution) =>
                                                             // total + solution.total_cost
                                                             solution.total_consumption_cost
                                                             + solution.total_wage_cost
@@ -153,14 +154,14 @@ export default function FTSsingle() {
                                                     />
                                                     <SummarizaCard
                                                         title={'ค่าเชื้อเพลิงรวม'}
-                                                        price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        price={ftsSolutionReducer.result[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
                                                         color='bg-[#00a6fb]/50'
                                                     />
                                                     <SummarizaCard
                                                         title={'ค่าแรง'}
-                                                        price={FTSsolutionSlice.result[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        price={ftsSolutionReducer.result[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
                                                         color='bg-[#00a6fb]/50'
@@ -168,7 +169,7 @@ export default function FTSsingle() {
                                                     <SummarizaCard
                                                         title={'ค่าปรับล่าช้า'}
                                                         price={(
-                                                            FTSsolutionSlice.result[value].solutions.reduce(
+                                                            ftsSolutionReducer.result[value].solutions.reduce(
                                                                 (max, solution) => Math.max(max, solution.penality_cost),
                                                                 -Infinity
                                                             )
@@ -180,7 +181,7 @@ export default function FTSsingle() {
                                                     <SummarizaCard
                                                         title={'รางวัล'}
                                                         price={(
-                                                            FTSsolutionSlice.result[value].solutions.reduce(
+                                                            ftsSolutionReducer.result[value].solutions.reduce(
                                                                 (min, solution) => Math.min(min, solution.total_reward),
                                                                 Infinity
                                                             )
@@ -192,10 +193,10 @@ export default function FTSsingle() {
                                                 </Box>
                                             )}
                                             <Box className="col-span-12">
-                                                <Tables Name={FTSsolutionSlice.result[value]?.fts.FTS_name} value={value} />
+                                                <Tables Name={ftsSolutionReducer.result[value]?.fts.FTS_name} value={value} />
                                             </Box>
                                             <Card className="col-span-12">
-                                                <BarCharts FTSsolutionSlice={FTSsolutionSlice.result} value={value} />
+                                                <BarCharts ftsSolutionReducer={ftsSolutionReducer.result} value={value} />
                                             </Card>
                                         </Box>
                                     </TabPanel>

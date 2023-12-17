@@ -1,18 +1,17 @@
 import { Chart } from "react-google-charts";
 import { parse, format } from 'date-fns';
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
 import { Typography } from "@mui/material";
+import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 
 export default function CraneGantts() {
-    const SolutionscheduleReducer = useSelector(
-        (state: RootState) => state.Solutionschedule.solution_schedule
-    );
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
+    const rolesReducer = useSelector(roleSelector);
 
-    const filteredSolutionscheduleReducer = SolutionscheduleReducer.filter((group) => group.solution_id === rolesReducer.result?.group);
+    const filteredSolutionscheduleReducer = (SolutionscheduleReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
 
-    const filteredData = SolutionscheduleReducer.filter((item: any) => item.carrier_name !== null);
+    const filteredData = (SolutionscheduleReducer.result).filter((item: any) => item.carrier_name !== null);
     let data = [filteredData[0]]
     data = data.concat(filteredData)
 

@@ -1,19 +1,18 @@
 import { Chart } from "react-google-charts";
 import { parse, format } from 'date-fns';
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
 import { Typography } from "@mui/material";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
+import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
 
 export default function FTSGantts() {
-  const SolutionscheduleReducer = useSelector(
-    (state: RootState) => state.Solutionschedule
-  );
-  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+  const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
+  const rolesReducer = useSelector(roleSelector)
 
 
-  const filteredSolutionscheduleReducer = SolutionscheduleReducer.solution_schedule.filter((group) => group.solution_id === rolesReducer.result?.group);
+  const filteredSolutionscheduleReducer = (SolutionscheduleReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
 
-  const filteredData = SolutionscheduleReducer.solution_schedule.filter((item: any) => item.carrier_name !== null);
+  const filteredData = (SolutionscheduleReducer.result).filter((item: any) => item.carrier_name !== null);
   let data = [filteredData[0]]
   data = data.concat(filteredData);
   const datav2 = data.map((item: any) => {

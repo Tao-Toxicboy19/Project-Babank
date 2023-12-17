@@ -4,32 +4,32 @@ import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { useEffect } from 'react';
 import { Typography } from '@mui/material';
 import TreeTable from './TreeTable/TreeTable';
-import { loadFTSsolution } from '../../../../store/slices/FTS/FTSsolution.slice';
-import { loadFtsSolutionV2 } from '../../../../store/slices/FTS/FTSsolutionV2.slice';
-import { loadCraneSolution } from '../../../../store/slices/Solution/craneSolution.slice';
-import { loadSolution_order } from '../../../../store/slices/Solution/solutionOrderSlice';
-import { RootState } from '../../../../store/store';
 import DescriptionMenu from '../../../layout/DescriptionMenu/DescriptionMenu';
 import Loading from '../../../layout/Loading/Loading';
 import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
+import { ftsSulutionAsync, ftsSulutionSelector } from '../../../../store/slices/Solution/ftsSulutionSlice';
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
+import { solutionCarrierOrderSelector } from '../../../../store/slices/Solution/solutionCarrierOrderSlice';
+import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/slices/Solution/craneSolutionSlice';
+import { solutionOrderAsync } from '../../../../store/slices/Solution/solutionOrderSlice';
+import { ftsSolutionAsync } from '../../../../store/slices/FtsSolution/ftsSolutionSlice';
 
 
 export default function SummarizeLayout() {
     const dispatch = useDispatch<any>();
-    const CraneSolutionSlice = useSelector((state: RootState) => state.craneSolution);
-    const FtsSolutionV2Slice = useSelector((state: RootState) => state.FTSSolutionV2);
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const CraneSolutionSlice = useSelector(craneSolutionSelector)
+    const FtsSolutionV2Slice = useSelector(ftsSulutionSelector)
+    const rolesReducer = useSelector(roleSelector)
+    const Solution_carrier_orderReducer = useSelector(solutionCarrierOrderSelector)
 
 
-    const Solution_carrier_orderReducer = useSelector((state: RootState) => state.Solution_carrier_orderReducer);
     const isLoading = CraneSolutionSlice.loading || FtsSolutionV2Slice.loading;
 
-
     useEffect(() => {
-        dispatch(loadCraneSolution())
-        dispatch(loadFTSsolution())
-        dispatch(loadFtsSolutionV2())
-        dispatch(loadSolution_order())
+        dispatch(craneSolutionAsync())
+        dispatch(ftsSulutionAsync())
+        dispatch(ftsSolutionAsync())
+        dispatch(solutionOrderAsync())
     }, []);
 
     return (
@@ -113,7 +113,6 @@ export default function SummarizeLayout() {
                                     />
                                     <SummarizaCard
                                         title={'รางวัล'}
-                                        // price={(((CraneSolutionSlice.result)?.total_reward)+Solution_carrier_orderReducer.result.reward).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         price={(Solution_carrier_orderReducer.result.reward).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         icon={CurrencyBitcoinIcon}
                                         unit={'บาท'}
@@ -159,3 +158,4 @@ export default function SummarizeLayout() {
         </>
     );
 }
+

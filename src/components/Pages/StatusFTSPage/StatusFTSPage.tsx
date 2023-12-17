@@ -3,16 +3,19 @@ import React, { useState } from 'react'
 import { httpClient } from '../../../utils/httpclient'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
+import { craneSelector } from '../../../store/slices/Crane/craneSlice';
+import { orderSelector } from '../../../store/slices/Order/orderSlice';
+import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice';
 
 type Props = {}
 
 export default function StatusFTSPage({ }: Props) {
     const [selectedButtons, setSelectedButtons] = useState<any>([]);
-    const solution_scheduleReducer = useSelector((state: RootState) => state.Solutionschedule);
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
-    const OrderReducer = useSelector((state: RootState) => state.order);
-    const craneReducer = useSelector((state: RootState) => state.Crane)
+    const solution_scheduleReducer = useSelector(sulutionScheduelSelector)
+    const rolesReducer = useSelector(roleSelector)
+    const OrderReducer = useSelector(orderSelector);
+    const craneReducer = useSelector(craneSelector)
     const findCrane = (craneReducer.result).filter(crane => crane.FTS_id === rolesReducer.result?.ftsId)
 
     const {
@@ -22,12 +25,12 @@ export default function StatusFTSPage({ }: Props) {
     } = useForm();
 
 
-    const findSolution = (solution_scheduleReducer.solution_schedule).filter((fts) => fts.FTS_id === rolesReducer.result?.ftsId)
+    const findSolution = (solution_scheduleReducer.result).filter((fts) => fts.FTS_id === rolesReducer.result?.ftsId)
     const findSolution2 = (findSolution).filter((fts) => fts.carrier_name !== null)
     return (
         <Box className="flex flex-col gap-3">
             {(findSolution2).map((rows, index) => {
-                const findCarrier = (OrderReducer.orders).filter((items) => items.cr_id === findSolution2[index].carrier_id)
+                const findCarrier = (OrderReducer.result).filter((items) => items.cr_id === findSolution2[index].carrier_id)
                 return (
                     <>
                         {findCarrier[0].cargo_order.map((item, index) => (

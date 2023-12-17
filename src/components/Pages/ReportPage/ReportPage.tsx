@@ -6,6 +6,9 @@ import Box from '@mui/material/Box';
 import { Card, CardContent } from '@mui/material';
 import ReportFTS from './ReportFTS/ReportFTS';
 import ReportCrane from './ReportCrane/ReportCrane';
+import { useAppDispatch } from '../../../store/store';
+import { reportFtsAsync } from '../../../store/slices/report/reportFtsSlice';
+import { reportCraneAsync } from '../../../store/slices/report/reportCraneSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -41,12 +44,17 @@ function a11yProps(index: number) {
 }
 
 export default function ReportPage() {
-    const [value, setValue] = React.useState(0);
-
+    const [value, setValue] = React.useState(0)
+    const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
         setValue(newValue);
     };
+
+    React.useEffect(() => {
+        dispatch(reportFtsAsync())
+        dispatch(reportCraneAsync())
+    }, []);
 
     return (
         <Card>

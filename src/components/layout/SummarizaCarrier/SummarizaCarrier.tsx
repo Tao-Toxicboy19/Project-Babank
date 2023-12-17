@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TableContainer, TableHead, TableCell, Paper, TableRow, Table, TableBody, Tooltip, InputAdornment, TextField } from '@mui/material';
 import moment from 'moment';
 import Search from '@mui/icons-material/Search';
+import { solutionOrderSSelector } from '../../../store/slices/Solution/solutionOrderSlice';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 
 function Tables({ filteredData }: any) {
 
@@ -70,11 +71,11 @@ function Tables({ filteredData }: any) {
 
 
 export default function SummarizaCarrier() {
-  const solutionCarrierOrderReducer = useSelector((state: RootState) => state.solution_orderReducer.result);
+  const solutionCarrierOrderReducer = useSelector(solutionOrderSSelector)
   const [searchTerm, setSearchTerm] = React.useState<string>("");
-  const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+  const rolesReducer = useSelector(roleSelector)
 
-  const filteredCarrierOrderReducer = solutionCarrierOrderReducer.filter((group) => group.s_id === rolesReducer.result?.group);
+  const filteredCarrierOrderReducer = (solutionCarrierOrderReducer.result).filter((group) => group.s_id === rolesReducer.result?.group);
 
   // search
   const filteredData = (filteredCarrierOrderReducer).filter((item) =>

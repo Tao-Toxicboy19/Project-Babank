@@ -32,7 +32,7 @@ import ManagementUserPage from './components/Pages/ManagementUserPage/Management
 import CarrierCreate from './components/Pages/CarrierPage/CarrierAdd/CarrierAdd';
 import CarrierEditPage from './components/Pages/CarrierPage/CarrierEditPage/CarrierEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
-import { loadSolution } from './store/slices/Solution/sollution_schedule.slice';
+import { sulutionScheduelAsync } from './store/slices/Solution/sollutionScheduleSlice';
 import StatusFTSRoute from './utils/StatusFTSRoute';
 import StatusFTSPage from './components/Pages/StatusFTSPage/StatusFTSPage';
 import { roleAsync } from './store/slices/auth/rolesSlice';
@@ -45,6 +45,7 @@ import { ftsAsync } from './store/slices/FTS/ftsSlice';
 import { orderAsync } from './store/slices/Order/orderSlice';
 import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderCreatePage/OrderCreatePage';
+import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 
 const drawerWidth = 240;
 
@@ -54,7 +55,7 @@ export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(loadSolution())
+    dispatch(sulutionScheduelAsync())
     dispatch(restoreLogin())
 
     dispatch(carrierAsync())
@@ -85,7 +86,7 @@ export default function ResponsiveDrawer() {
         <Box sx={{ marginTop: 6 }}>
 
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/transferstation" element={<FTSPage />} />
             <Route path="/home" element={<HomePage />} />
@@ -110,8 +111,9 @@ export default function ResponsiveDrawer() {
 
             <Route path="/orders" element={<OrderPage />} />
             <Route path="/orders/create" element={<OrderCreatePage />} />
+            <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} /> */}
 
-            {/* <Route element={<PrivateRoute />}>
+            <Route element={<PrivateRoute />}>
 
               <Route path="/home" element={<HomePage />} />
               <Route path="/cargo" element={<CargoPage />} />
@@ -141,12 +143,11 @@ export default function ResponsiveDrawer() {
                 <Route path="/carrier/create" element={<CarrierCreate />} />
                 <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
                 <Route path="/orders/create" element={<OrderCreatePage />} />
-                <Route path="/orders/create/cargo" element={<CreateCargoOrderPage />} />
                 <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} />
-                <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} />
+                {/* <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} /> */}
                 <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
                 <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
-                <Route path="/maintain/:id" element={< EditFTS />} />
+                {/* <Route path="/maintain/:id" element={<EditFTS />} /> */}
                 <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
                 <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
                 <Route path="/employee" element={<EmployeePage />} />
@@ -166,7 +167,7 @@ export default function ResponsiveDrawer() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="*" element={<Navigate to="/login" />} />
-            </Route> */}
+            </Route>
           </Routes>
         </Box>
       </Box>

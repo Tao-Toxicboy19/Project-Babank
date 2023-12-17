@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { RootState } from "../store/store";
+import { roleSelector } from "../store/slices/auth/rolesSlice";
 
 type Props = {};
 
 export default function StatusFTS({ }: Props) {
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const rolesReducer = useSelector(roleSelector)
 
     return rolesReducer.result?.ftsId ? <Outlet /> : <Navigate to='/' />;
 }

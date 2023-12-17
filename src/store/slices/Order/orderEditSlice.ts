@@ -3,6 +3,7 @@ import { httpClient } from "../../../utils/httpclient"
 import { SUCCESS, server } from "../../../Constants"
 import { toast } from "react-toastify"
 import { RootState } from "../../store"
+import { NavigateFunction } from "react-router-dom"
 
 interface Cargo {
   cargo_id: number;
@@ -86,10 +87,12 @@ const initialState: OrderEditState = {
 
 export const orderEditAsync = createAsyncThunk(
   'orderEdit/orderEditAsync',
-  async ({ id, values }: { id: string | undefined, values: any }) => {
+  async ({ id, values, navigate, fetch }: { id: string | undefined, values: any, navigate: NavigateFunction, fetch: () => void }) => {
     try {
       const result = await httpClient.patch(`${server.ORDER}/${id}`, values)
       toast.success(SUCCESS)
+      fetch()
+      navigate('/orders')
       return result.data
     } catch (error) {
       throw error

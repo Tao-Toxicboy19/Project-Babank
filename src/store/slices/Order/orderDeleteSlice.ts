@@ -86,10 +86,12 @@ const initialState: orderDeleteState = {
 
 export const orderDeleteAsync = createAsyncThunk(
     'orderDelete/orderDeleteAsync',
-    async (id: number) => {
+    async ({ id, handleClose, fetch }: { id: number, handleClose: () => void, fetch: () => void }) => {
         try {
             const result = await httpClient.delete(`${server.ORDER}/${id}`)
             toast.success(SUCCESS)
+            fetch()
+            handleClose()
             return result.data
         } catch (error) {
             throw error

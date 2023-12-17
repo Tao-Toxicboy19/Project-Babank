@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
 import { TableContainer, TableHead, TableCell, Paper, Table, TableRow, TableBody, MenuItem, FormControl, Box, Select, Card, CardContent } from "@mui/material";
 import { useState, useEffect } from "react";
 import { report_solution_crane } from "../../../../type/Solution_schedule.type";
@@ -7,13 +6,16 @@ import { TitleReportCrane } from "../../../../Constants";
 import moment from 'moment';
 import Loading from "../../../layout/Loading/Loading";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
+import { reportCraneSelector } from "../../../../store/slices/report/reportCraneSlice";
+import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
+import { craneSelector } from "../../../../store/slices/Crane/craneSlice";
 
 type Props = {}
 
 export default function ReportCrane({ }: Props) {
-    const reportCraneReducer = useSelector((state: RootState) => state.reportCraneReducer);
-    const FtsReducer = useSelector((state: RootState) => state.FTS.FTS)
-    const craneReducer = useSelector((state: RootState) => state.Crane.result)
+    const reportCraneReducer = useSelector(reportCraneSelector)
+    const ftsReducer = useSelector(ftsSelector)
+    const craneReducer = useSelector(craneSelector)
     const [filteredData, setFilteredData] = useState<report_solution_crane[]>(reportCraneReducer.result);
     const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [selectedCrane, setSelectedCrane] = useState("ทั้งหมด");
@@ -74,7 +76,7 @@ export default function ReportCrane({ }: Props) {
                                             onChange={(e) => setSelectedFtsId(e.target.value)}
                                         >
                                             <MenuItem className="font-kanit" value="ทั้งหมด">ทั้งหมด</MenuItem>
-                                            {FtsReducer.map((items) => (
+                                            {(ftsReducer.result).map((items) => (
                                                 <MenuItem className="font-kanit" key={items.fts_id} value={items.fts_id}>{items.FTS_name}</MenuItem>
                                             ))}
                                         </Select>
@@ -91,7 +93,7 @@ export default function ReportCrane({ }: Props) {
                                             onChange={(e) => setSelectedCrane(e.target.value)}
                                         >
                                             <MenuItem className="font-kanit" value="ทั้งหมด">ทั้งหมด</MenuItem>
-                                            {craneReducer.map((items) => (
+                                            {(craneReducer.result).map((items) => (
                                                 <MenuItem className="font-kanit" key={items.id} value={items.id}>{items.crane_name}</MenuItem>
                                             ))}
                                         </Select>

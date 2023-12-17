@@ -9,10 +9,10 @@ import DialogLoading from '../../layout/DialogLoading/DialogLoading';
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts';
 import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
 import SummarizaCarrier from '../../layout/SummarizaCarrier/SummarizaCarrier';
 import SummarizeLayout from './SummarizeLayout/SummarizeLayout';
 import FTSsingle from './FTSsingle/FTSsingle';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -49,7 +49,7 @@ function a11yProps(index: number) {
 
 export default function SummarizePage() {
     const [value, setValue] = React.useState(0);
-    const rolesReducer = useSelector((state: RootState) => state.rolesReducer);
+    const rolesReducer = useSelector(roleSelector)
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
