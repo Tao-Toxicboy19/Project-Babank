@@ -58,7 +58,7 @@ export default function LoginPage({ }: Props) {
                     type="text"
                     id="username"
                     placeholder="Please insert your username"
-                    className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
+                    className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:shadow-lg"
                     {...register('username')}
                   />
                 </div>
@@ -70,7 +70,7 @@ export default function LoginPage({ }: Props) {
                     type="password"
                     id="password"
                     placeholder="Please insert your password"
-                    className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
+                    className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:shadow-lg"
                     {...register('password')}
 
                   />
