@@ -282,7 +282,7 @@ function Shwoform({ rows, id }: any) {
                                     <>
                                         <TextField
                                             key={index}
-                                            label={`b${index + 1}`}
+                                            label={`ระวางที่ ${index + 1}`}
                                             type='number'
                                             fullWidth
                                             className='font-kanit'

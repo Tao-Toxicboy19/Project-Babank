@@ -72,14 +72,14 @@ export default function HomePage({ }: Props) {
               <StockCard
                 icon={GiCrane}
                 title="ข้อมูลสินค้าและเครน"
-                subtitle={`${(filteredOrder).length} รายการ`}
+                subtitle={`${(cargoCraneReducer.result).length} รายการ`}
                 color="bg-[#7b2cbf]/75"
                 path={'/cargocrane'}
               />
               <StockCard
                 icon={HiOutlineClipboardDocumentList}
                 title="ขนถ่ายสินค้า"
-                subtitle={`${(orderReducer.result).length} รายการ`}
+                subtitle={`${(filteredOrder).length} รายการ`}
                 color="bg-[#00c0ef]/75"
                 path={'/orders'}
               />

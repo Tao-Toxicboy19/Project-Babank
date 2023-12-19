@@ -23,7 +23,6 @@ export default function CarrierPage({ }: Props) {
   const rolesReducer = useSelector(roleSelector)
   const disapatch = useAppDispatch()
 
-
   const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group);
 
   // search
@@ -39,7 +38,7 @@ export default function CarrierPage({ }: Props) {
     return (
       <>
         {
-          (carrierReducer.result).map((items) => (
+          (filteredData).map((items) => (
             <TableRow
               key={items.cr_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

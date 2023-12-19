@@ -92,7 +92,9 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('burden', { required: true, valueAsNumber: true })}
+              {...register('burden', { required: true, valueAsNumber: true 
+              
+              })}
             />
             {errors.burden &&
               <Alert variant="outlined" severity="error" className='mt-2'>

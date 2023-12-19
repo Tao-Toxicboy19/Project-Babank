@@ -373,7 +373,7 @@ function ShowForm() {
             <>
               <TextField
                 key={`additional-input-${index}`}
-                label='ปริมาณสินค้า (ตัน)'
+                label={`ระวางที่ ${index + 1}`}
                 type='number'
                 fullWidth
                 className='font-kanit'
