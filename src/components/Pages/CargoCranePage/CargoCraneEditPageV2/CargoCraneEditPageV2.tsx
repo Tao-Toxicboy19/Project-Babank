@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { server } from '../../../../Constants';
+import { CLOSE, EDIT, server } from '../../../../Constants';
 import { Alert, Box, Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
 import { useAppDispatch } from '../../../../store/store';
 import { useSelector } from 'react-redux';
@@ -193,10 +193,10 @@ export default function CargoCraneEditPageV2({ }: Props) {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit text-lg py-3'
+                            className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
                             disabled={isSubmitting}
                         >
-                            บันทึก
+                            {EDIT}
                         </Button>
                         <Button
                             fullWidth
@@ -204,7 +204,7 @@ export default function CargoCraneEditPageV2({ }: Props) {
                             onClick={() => navigate('/cargocrane')}
                             className='font-kanit text-lg py-3'
                         >
-                            กลับ
+                            {CLOSE}
                         </Button>
                     </Stack>
                 </Box>

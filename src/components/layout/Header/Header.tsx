@@ -88,11 +88,10 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
               </Tooltip>
             </Box>
           </Box>
-
         </Toolbar>
       </AppBar>
     </Box>
-  );
-};
+  )
+}
 
 export default Header;

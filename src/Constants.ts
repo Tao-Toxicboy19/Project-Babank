@@ -81,6 +81,10 @@ export const Failure = 'ทุ่นซ้ำกัน'
 
 export const TOKEN = 'token'
 
+export const SAVE = 'เพิ่มข้อมูล'
+export const EDIT = 'ยืนยัน'
+export const CLOSE = 'กลับ'
+
 export const server = {
     LOGIN_URL: `login`,
     REGISTER_URL: `register`,

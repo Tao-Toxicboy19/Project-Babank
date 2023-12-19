@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../../store/store";
 import { addMainTainCrane } from "../../../../store/slices/MainTain/CraneSlice";
 import { craneSelector } from "../../../../store/slices/Crane/craneSlice";
+import { CLOSE, SAVE } from "../../../../Constants";
 
 type Props = {}
 
@@ -97,6 +98,15 @@ export default function MainTainCraneAddCrane({ }: Props) {
                         </Box>
                         <Stack spacing={2} direction='row'>
                             <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                className='bg-blue-600 hover:bg-blue-700 font-kanit'
+                            >
+                                {SAVE}
+                            </Button>
+                            <Button
                                 fullWidth
                                 variant="outlined"
                                 sx={{ mt: 3, mb: 2 }}
@@ -104,16 +114,7 @@ export default function MainTainCraneAddCrane({ }: Props) {
                                 to={'/transferstation'}
                                 className='font-kanit'
                             >
-                                กลับ
-                            </Button>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
-                            >
-                                บันทึก
+                                {CLOSE}
                             </Button>
                         </Stack>
                     </Stack>

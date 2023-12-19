@@ -37,6 +37,7 @@ function ShowFrom({ id, result, handleClose }: any) {
             onSubmit={handleSubmit(async (data) => {
                 setIsSubmitting(true)
                 try {
+                    console.log(data)
                     const fetch = () => dispatch(cargoAsync())
                     await dispatch(cargoEditAsync({ id, data, handleClose, fetch }))
                     setIsSubmitting(false)
@@ -74,7 +75,7 @@ function ShowFrom({ id, result, handleClose }: any) {
                     fullWidth
                     variant="contained"
                     type="submit"
-                    className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+                    className='bg-blue-600 hover:bg-blue-700 font-kanit py-2.5'
                     disabled={isSubmitting}
                 >
                     บันทึก

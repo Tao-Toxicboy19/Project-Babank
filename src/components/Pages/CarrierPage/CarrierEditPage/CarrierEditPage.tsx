@@ -2,7 +2,7 @@ import { Alert, Box, Button, Card, CardContent, FormControl, FormControlLabel, F
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { server } from '../../../../Constants';
+import { CLOSE, EDIT, server } from '../../../../Constants';
 import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
 import Titles from '../../../layout/Titles/Titles';
@@ -177,7 +177,7 @@ function ShowFrom({ data }: any) {
                         <RadioGroup
                             row
                             aria-labelledby="demo-form-control-label-placement"
-                            defaultValue={data.has_crane}
+                            defaultValue={data.has_crane !== null ? data.has_crane : 'no'}
                             {...register('has_crane')}
                         >
                             <FormControlLabel value="has" control={<Radio />} label="มี" />
@@ -190,10 +190,10 @@ function ShowFrom({ data }: any) {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit text-lg py-3'
+                        className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
                         disabled={isSubmitting}
                     >
-                        บันทึก
+                        {EDIT}
                     </Button>
                     <Button
                         fullWidth
@@ -201,7 +201,7 @@ function ShowFrom({ data }: any) {
                         onClick={() => navigate('/carrier')}
                         className='font-kanit text-lg py-3'
                     >
-                        กลับ
+                        {CLOSE}
                     </Button>
                 </Stack>
             </Box>

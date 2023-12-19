@@ -7,6 +7,7 @@ import Titles from '../../../layout/Titles/Titles';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { carrierAddAsync } from '../../../../store/slices/Carrier/carrierAddSlice';
+import { CLOSE, SAVE } from '../../../../Constants';
 
 type Props = {}
 
@@ -77,14 +78,19 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('maxcapacity', { required: true, valueAsNumber: true },)}
+              {...register('maxcapacity', {
+                required: true,
+                valueAsNumber: true,
+                min: 0
+              })}
             />
             {errors.maxcapacity &&
               <Alert variant="outlined" severity="error" className='mt-2'>
+                {errors.maxcapacity.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                {errors.maxcapacity.type !== 'min' && 'กรุณากรอกข้อมูล'}
                 กรุณากรอกข้อมูล
               </Alert>}
           </Box>
-
           <Box>
             <TextField
               id='burden'
@@ -92,14 +98,20 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('burden', { required: true, valueAsNumber: true 
-              
+              {...register('burden', {
+                required: true,
+                valueAsNumber: true,
+                min: 2,
+                max: 12
               })}
             />
-            {errors.burden &&
+            {errors.burden && (
               <Alert variant="outlined" severity="error" className='mt-2'>
-                กรุณากรอกข้อมูล
-              </Alert>}
+                {errors.burden.type === 'min' && 'ต้องไม่น้อยกว่า 2 ระวาง'}
+                {errors.burden.type === 'max' && `ต้องไม่เกิน 12 ระวาง`}
+                {errors.burden.type !== 'min' && errors.burden.type !== 'max' && 'กรุณากรอกข้อมูล'}
+              </Alert>
+            )}
           </Box>
         </Stack>
 
@@ -111,11 +123,16 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('carrier_max_FTS', { required: true, valueAsNumber: true })}
+              {...register('carrier_max_FTS', {
+                required: true,
+                valueAsNumber: true,
+                min: 0
+              })}
             />
             {errors.carrier_max_FTS &&
               <Alert variant="outlined" severity="error" className='mt-2'>
-                กรุณากรอกข้อมูล
+                {errors.carrier_max_FTS.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                {errors.carrier_max_FTS.type !== 'min' && 'กรุณากรอกข้อมูล'}
               </Alert>}
           </Box>
 
@@ -126,11 +143,16 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('carrier_max_crane', { required: true, valueAsNumber: true })}
+              {...register('carrier_max_crane', {
+                required: true,
+                valueAsNumber: true,
+                min: 0
+              })}
             />
             {errors.carrier_max_crane &&
               <Alert variant="outlined" severity="error" className='mt-2'>
-                กรุณากรอกข้อมูล
+                {errors.carrier_max_crane.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                {errors.carrier_max_crane.type !== 'min' && 'กรุณากรอกข้อมูล'}
               </Alert>}
           </Box>
 
@@ -141,11 +163,16 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('Width', { required: true, valueAsNumber: true })}
+              {...register('Width', {
+                required: true,
+                valueAsNumber: true,
+                min: 0
+              })}
             />
             {errors.Width &&
               <Alert variant="outlined" severity="error" className='mt-2'>
-                กรุณากรอกข้อมูล
+                {errors.Width.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                {errors.Width.type !== 'min' && 'กรุณากรอกข้อมูล'}
               </Alert>}
           </Box>
 
@@ -156,11 +183,16 @@ function ShowFrom() {
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('length', { required: true, valueAsNumber: true })}
+              {...register('length', {
+                required: true,
+                valueAsNumber: true,
+                min: 0
+              })}
             />
             {errors.length &&
               <Alert variant="outlined" severity="error" className='mt-2'>
-                กรุณากรอกข้อมูล
+                {errors.length.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                {errors.length.type !== 'min' && 'กรุณากรอกข้อมูล'}
               </Alert>}
           </Box>
 
@@ -185,10 +217,10 @@ function ShowFrom() {
             type="submit"
             fullWidth
             variant="contained"
-            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
+            className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
             disabled={isSubmitting}
           >
-            เพิ่มข้อมูล
+            {SAVE}
           </Button>
           <Button
             fullWidth
@@ -196,7 +228,7 @@ function ShowFrom() {
             onClick={() => navigate('/carrier')}
             className='font-kanit text-lg py-3'
           >
-            กลับ
+            {CLOSE}
           </Button>
         </Stack>
       </Box>

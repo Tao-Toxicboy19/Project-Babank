@@ -10,6 +10,7 @@ import { useState } from 'react';
 import NotFound from '../../../layout/ERR_REPORT/PageNotFound';
 import Loading from '../../../layout/Loading/Loading';
 import { ftsAddAsync } from '../../../../store/slices/FTS/ftsAddSlice';
+import { CLOSE, SAVE } from '../../../../Constants';
 
 
 type Props = {}
@@ -102,10 +103,10 @@ export default function FTSAddPage({ }: Props) {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit'
+            className='bg-blue-600 hover:bg-blue-700 font-kanit'
             disabled={isSubmitting}
           >
-            เพิ่มทุ่น
+            {SAVE}
           </Button>
           <Button
             fullWidth
@@ -114,7 +115,7 @@ export default function FTSAddPage({ }: Props) {
             onClick={() => navigate('/transferstation')}
             className='font-kanit'
           >
-            กลับ
+            {CLOSE}
           </Button>
         </Stack>
       </Form>

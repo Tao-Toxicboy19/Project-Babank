@@ -9,6 +9,7 @@ import { cargoCraneAddAsync } from '../../../../store/slices/CargoCrane/cargoCra
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
 import { craneSelector } from '../../../../store/slices/Crane/craneSlice';
+import { CLOSE, SAVE } from '../../../../Constants';
 
 type Props = {}
 
@@ -168,10 +169,10 @@ export default function CargoCraneCreate({ }: Props) {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
+                            className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
                             disabled={isSubmitting}
                         >
-                            เพิ่มข้อมูล
+                            {SAVE}
                         </Button>
                         <Button
                             fullWidth
@@ -179,7 +180,7 @@ export default function CargoCraneCreate({ }: Props) {
                             onClick={() => navigate('/cargocrane')}
                             className='font-kanit text-lg py-3'
                         >
-                            กลับ
+                            {CLOSE}
                         </Button>
                     </Stack>
                 </Box>

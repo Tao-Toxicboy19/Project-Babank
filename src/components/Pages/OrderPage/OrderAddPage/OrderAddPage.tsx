@@ -24,19 +24,21 @@ import { useForm, SubmitHandler, useFieldArray, useWatch } from 'react-hook-form
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { orderAddAsync } from '../../../../store/slices/Order/orderAddSlice';
 import { orderAsync } from '../../../../store/slices/Order/orderSlice';
+import { CLOSE, SAVE } from '../../../../Constants';
 
 type Props = {}
 
 interface FormData {
   cr_id: string
   category: string
-  maxFTS: number | null
-  latitude: string
-  longitude: string
+  burden: number
+  maxFTS: number
+  latitude: number | null
+  longitude: number | null
   deadline_time: string | null | Date
   arrival_time: string | null | Date
-  penalty_rate: string | null
-  reward_rate: string | null
+  penalty_rate: number | null
+  reward_rate: number | null
   inputs: {
     cargo_names: string
   }[]
@@ -65,17 +67,21 @@ function ShowForm() {
     defaultValues: {
       cr_id: "",
       category: "",
+      burden: 0,
       maxFTS: 0,
-      latitude: "",
-      longitude: "",
+      latitude: 13.1,
+      longitude: 100.8,
       deadline_time: null,
       arrival_time: null,
-      penalty_rate: null,
-      reward_rate: null,
+      penalty_rate: 0,
+      reward_rate: 0,
       inputs: [{ cargo_names: '' }],
       bulkArray: [],
     },
-  });
+  })
+
+  const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
+
   const bulkArray = watch('bulkArray', []);
 
   const totalBulk = bulkArray.reduce((acc, value) => {
@@ -104,13 +110,15 @@ function ShowForm() {
   }
 
   const cr_id = useWatch({ control, name: 'cr_id' })
-  const findMaxFts = (carrierReducer.result).find((result) => result.cr_id === +cr_id)
+  const findMaxFts = carrierReducer.result.find((result) => result.cr_id === +cr_id)
 
   useEffect(() => {
     if (findMaxFts) {
       setValue('maxFTS', findMaxFts.carrier_max_FTS)
+      setValue('burden', findMaxFts.burden)
     }
-  }, [findMaxFts, setValue]);
+  }, [findMaxFts, cr_id, setValue])
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -138,9 +146,11 @@ function ShowForm() {
                   id="demo-simple-select"
                   label="เลือกเรือ"
                   {...register('cr_id', { required: true })}
-                  onChange={(e: any) => setValue('cr_id', e.target.value)}
+                  onChange={(e: any) => {
+                    setValue('cr_id', e.target.value)
+                  }}
                 >
-                  {(carrierReducer.result).map((items) => (
+                  {(filteredCarrier).map((items) => (
                     <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
                       {items.carrier_name}
                     </MenuItem>
@@ -183,7 +193,7 @@ function ShowForm() {
                   required: true,
                   valueAsNumber: true,
                   min: 1,
-                  max: 5,
+                  max: 15,
                 })}
               />
               {errors.maxFTS && (
@@ -277,7 +287,13 @@ function ShowForm() {
                 type='number'
                 fullWidth
                 className='font-kanit'
-                {...register('penalty_rate', { required: true, valueAsNumber: true })}
+                {...register('penalty_rate', {
+                  valueAsNumber: true,
+                  min: {
+                    value: 0,
+                    message: 'ต้องไม่ต่ำกว่า 0',
+                  },
+                })}
               />
               {errors.penalty_rate &&
                 <Alert variant="outlined" severity="error" className='mt-2'>
@@ -291,13 +307,22 @@ function ShowForm() {
                 type='number'
                 fullWidth
                 className='font-kanit'
-                {...register('reward_rate', { required: true, valueAsNumber: true })}
+                {...register('reward_rate', {
+                  valueAsNumber: true,
+                  min: {
+                    value: 0,
+                    message: 'ต้องไม่ต่ำกว่า 0',
+                  },
+                })}
+                helperText={errors.reward_rate?.message || ''}
               />
-              {errors.reward_rate &&
+              {errors.reward_rate && !errors.reward_rate.message && (
                 <Alert variant="outlined" severity="error" className='mt-2'>
                   กรุณากรอกข้อมูล
-                </Alert>}
+                </Alert>
+              )}
             </Box>
+
           </Stack>
         </Stack>
 
@@ -338,16 +363,20 @@ function ShowForm() {
             className='w-full'
           >
             <TextField
-              id='bulk'
               label='จำนวนระวาง'
+              id='burden'
               type='number'
               fullWidth
               className='font-kanit'
-              {...register('bulk', {
+              defaultValue={findMaxFts?.burden}
+              {...register('burden', {
+                min: 0,
+                max: 20,
                 onChange: (e) => {
-                  setBulk(+(e.target.value) || 0);
-                },
-              })} />
+                  setBulk(+(e.target.value) || findMaxFts?.burden || 0)
+                }
+              })}
+            />
             {errors.reward_rate &&
               <Alert variant="outlined" severity="error" className='mt-2'>
                 กรุณากรอกข้อมูล
@@ -369,7 +398,7 @@ function ShowForm() {
               รวมปริมาณสินค้า (ตัน): {totalBulk}
             </span>
           </Box>
-          {[...Array(bulk)].map((_, index) => (
+          {[...Array(bulk || findMaxFts?.burden)].map((_, index) => (
             <>
               <TextField
                 key={`additional-input-${index}`}
@@ -392,10 +421,10 @@ function ShowForm() {
             type="submit"
             fullWidth
             variant="contained"
-            className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
+            className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
             disabled={isSubmitting}
           >
-            เพิ่มสินค้า
+            {SAVE}
           </Button>
           <Button
             fullWidth
@@ -403,7 +432,7 @@ function ShowForm() {
             onClick={() => navigate('/orders')}
             className='font-kanit text-lg py-3'
           >
-            กลับ
+            {CLOSE}
           </Button>
         </Stack>
       </Stack>
@@ -411,7 +440,7 @@ function ShowForm() {
   );
 }
 
-export default function OrderCreatePage({ }: Props) {
+export default function OrderAddPage({ }: Props) {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Card className='min-h-[90vh]'>

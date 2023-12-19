@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../../../store/store';
-import { server } from '../../../../Constants';
+import { CLOSE, EDIT, server } from '../../../../Constants';
 import { httpClient } from '../../../../utils/httpclient';
 import Loading from '../../../layout/Loading/Loading';
 import { carrierSelector } from '../../../../store/slices/Carrier/carrierSlice';
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { orderAsync } from '../../../../store/slices/Order/orderSlice';
 import { orderEditAsync } from '../../../../store/slices/Order/orderEditSlice';
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 
 type Props = {}
 
@@ -22,18 +23,25 @@ function Shwoform({ rows, id }: any) {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [bulk, setBulk] = useState<number>(0)
+    const rolesReducer = useSelector(roleSelector)
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm();
+    } = useForm()
 
-    const bulkArray = watch('bulkArray', []);
-    const totalBulk = bulkArray.reduce((acc: any, value: any) => {
-        const parsedValue = +(value)
-        return !isNaN(parsedValue) ? acc + parsedValue : acc;
+    const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
+
+    const sumBulkArray = Array.from({ length: bulk }).reduce((acc: any, _, index) => {
+        const value = +watch(`bulkArray.${index}`);
+        return !isNaN(value) ? acc + value : acc;
     }, 0)
+
+    useEffect(() => {
+        setBulk(rows.cargo_order[0].bulk)
+    }, [])
 
     const fetch = () => dispatch(orderAsync())
 
@@ -42,10 +50,9 @@ function Shwoform({ rows, id }: any) {
             setIsSubmitting(true)
             const values = {
                 ...data,
-                load: totalBulk
+                load: sumBulkArray
             }
             try {
-                httpClient.patch(`${server.ORDER}/${id}`, values)
                 await dispatch(orderEditAsync({ id, values, navigate, fetch }))
                 setIsSubmitting(false)
             } catch (error) {
@@ -77,7 +84,7 @@ function Shwoform({ rows, id }: any) {
                                     defaultValue={rows.cr_id}
                                     {...register('cr_id', { required: true })}
                                 >
-                                    {(carrierReducer.result).map((items) => (
+                                    {(filteredCarrier).map((items) => (
                                         <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
                                             {items.carrier_name}
                                         </MenuItem>
@@ -269,12 +276,28 @@ function Shwoform({ rows, id }: any) {
                                     ))}
                                 </Select>
                             </FormControl>
-                            <span
-                                className='text-xl my-auto pl-2'
-                            >
-                                รวมปริมาณสินค้า (ตัน): {totalBulk}
-                            </span>
-                            {[...Array(row.bulk)].map((_, index) => {
+                            <Box className='w-full flex '>
+                                <TextField
+                                    label='จำนวนระวาง'
+                                    id='burden'
+                                    type='number'
+                                    className='font-kanit w-4/5'
+                                    defaultValue={row.bulk || bulk}
+                                    {...register('burden', {
+                                        min: 0,
+                                        max: 20,
+                                        onChange: (e) => {
+                                            setBulk(+(e.target.value) || 0)
+                                        }
+                                    })}
+                                />
+                                <span
+                                    className='w-full text-xl my-auto pl-2'
+                                >
+                                    รวมปริมาณสินค้า (ตัน): {sumBulkArray as number !== 0 ? sumBulkArray as number : row.load}
+                                </span>
+                            </Box>
+                            {[...Array(bulk)].map((_, index) => {
                                 const filteredCargoOrder = rows.cargo_order.map((order: any) => {
                                     return Object.fromEntries(Object.entries(order).filter(([_, value]) => value !== null));
                                 })
@@ -296,7 +319,6 @@ function Shwoform({ rows, id }: any) {
                                     </>
                                 )
                             })}
-
                         </>
                     ))}
                 </Box>
@@ -310,10 +332,10 @@ function Shwoform({ rows, id }: any) {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit text-lg py-3'
+                    className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
                     disabled={isSubmitting}
                 >
-                    เพิ่มสินค้า
+                    {EDIT}
                 </Button>
                 <Button
                     fullWidth
@@ -321,7 +343,7 @@ function Shwoform({ rows, id }: any) {
                     onClick={() => navigate('/orders')}
                     className='font-kanit text-lg py-3'
                 >
-                    กลับ
+                    {CLOSE}
                 </Button>
             </Stack>
         </form>
@@ -335,7 +357,6 @@ export default function OrderEditPageV2({ }: Props) {
     const fetchFTSData = async () => {
         try {
             const response = await httpClient.get(`${server.ORDER}/${id}`);
-            console.log(response.data)
             setData(response.data)
         } catch (error) {
             throw error;

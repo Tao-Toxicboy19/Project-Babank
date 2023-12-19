@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 import { loginSelector, restoreLogin } from './store/slices/auth/loginSlice';
 import PublicRoute from './utils/PublicRoute';
 import { ToastContainer } from 'react-toastify';
-import CreateFTS from './components/layout/MainTain/MainTainFtsAdd/MainTainFtsAdd';
-import CreateCrane from './components/layout/MainTain/MainTainCraneAddCrane/MainTainCraneAddCrane';
+import MainTainFtsAdd from './components/layout/MainTain/MainTainFtsAdd/MainTainFtsAdd';
+import MainTainCraneAddCrane from './components/layout/MainTain/MainTainCraneAddCrane/MainTainCraneAddCrane';
 import CargoPage from './components/Pages/CargoPage/CargoPage/CargoPage';
 import CraneCreatePage from './components/Pages/FTSPage/CraneAddPage/CraneAddPage';
 import CraneEdit from './components/Pages/FTSPage/CraneEdit/CraneEdit';
@@ -44,7 +44,7 @@ import { cargoCraneAsync } from './store/slices/CargoCrane/cargoCraneSlice';
 import { ftsAsync } from './store/slices/FTS/ftsSlice';
 import { orderAsync } from './store/slices/Order/orderSlice';
 import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
-import OrderCreatePage from './components/Pages/OrderPage/OrderCreatePage/OrderCreatePage';
+import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 
 const drawerWidth = 240;
@@ -86,32 +86,6 @@ export default function ResponsiveDrawer() {
         <Box sx={{ marginTop: 6 }}>
 
           <Routes>
-            {/* <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/transferstation" element={<FTSPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/transferstation/create" element={<FTSCreatePage />} />
-            <Route path="/transferstation/edit/:id" element={<FTSEditPage />} />
-            <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
-
-            <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
-            <Route path="/transferstation/create/crane" element={<CraneCreatePage />} />
-            <Route path="/transferstation/crane/edit/:id" element={<CraneEdit />} />
-
-
-            <Route path="/carrier" element={<CarrierPage />} />
-            <Route path="/carrier/create" element={<CarrierCreate />} />
-            <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
-
-            <Route path="/cargo" element={<CargoPage />} />
-
-            <Route path="/cargocrane" element={<CargocranePage />} />
-            <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
-            <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
-
-            <Route path="/orders" element={<OrderPage />} />
-            <Route path="/orders/create" element={<OrderCreatePage />} />
-            <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} /> */}
 
             <Route element={<PrivateRoute />}>
 
@@ -144,12 +118,10 @@ export default function ResponsiveDrawer() {
                 <Route path="/carrier/edit/:id" element={<CarrierEditPage />} />
                 <Route path="/orders/create" element={<OrderCreatePage />} />
                 <Route path="/orders/edit/:id" element={<OrderEditPageV2 />} />
-                {/* <Route path="/orders/cargo/edit/:id" element={<CargoEditPage />} /> */}
                 <Route path="/cargocrane/create" element={<CargoCraneCreate />} />
                 <Route path="/cargocrane/edit/:id" element={<CargoCraneEditPageV2 />} />
-                {/* <Route path="/maintain/:id" element={<EditFTS />} /> */}
-                <Route path="/transferstation/maintain/create" element={<CreateFTS />} />
-                <Route path="/transferstation/maintain/crane/create" element={<CreateCrane />} />
+                <Route path="/transferstation/maintain/create" element={<MainTainFtsAdd />} />
+                <Route path="/transferstation/maintain/crane/create" element={<MainTainCraneAddCrane />} />
                 <Route path="/employee" element={<EmployeePage />} />
               </Route>
 

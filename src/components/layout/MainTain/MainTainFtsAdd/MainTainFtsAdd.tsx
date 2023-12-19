@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { addMainTainFTS } from "../../../../store/slices/MainTain/FTSSlice";
 import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
 import { useAppDispatch } from "../../../../store/store";
+import { CLOSE, SAVE } from "../../../../Constants";
 
 type Props = {}
 
@@ -96,6 +97,15 @@ export default function MainTainFtsAdd({ }: Props) {
                         </Box>
                         <Stack spacing={2} direction='row'>
                             <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                className='bg-blue-600 hover:bg-blue-700 font-kanit'
+                            >
+                                {SAVE}
+                            </Button>
+                            <Button
                                 fullWidth
                                 variant="outlined"
                                 sx={{ mt: 3, mb: 2 }}
@@ -103,16 +113,7 @@ export default function MainTainFtsAdd({ }: Props) {
                                 to={'/transferstation'}
                                 className='font-kanit'
                             >
-                                กลับ
-                            </Button>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
-                            >
-                                บันทึก
+                                {CLOSE}
                             </Button>
                         </Stack>
                     </Stack>

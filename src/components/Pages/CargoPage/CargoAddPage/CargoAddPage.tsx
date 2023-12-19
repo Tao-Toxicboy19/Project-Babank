@@ -19,6 +19,7 @@ import { cargoAddAsync } from '../../../../store/slices/Cargo/cargoAddSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { cargoAsync } from '../../../../store/slices/Cargo/cargoSlice';
+import { CLOSE, SAVE } from '../../../../Constants';
 
 type Props = {
     open: boolean
@@ -145,10 +146,10 @@ function ShowFrom({ handleClose }: { handleClose: () => void }) {
                         fullWidth
                         variant="contained"
                         type="submit"
-                        className='bg-[#1976D2] hover:bg-[#1563BC] font-kanit'
+                        className='bg-blue-600 hover:bg-blue-700 font-kanit py-2.5'
                         disabled={isSubmitting}
                     >
-                        บันทึก
+                        {SAVE}
                     </Button>
                     <Button
                         type="button"
@@ -156,7 +157,7 @@ function ShowFrom({ handleClose }: { handleClose: () => void }) {
                         onClick={() => { handleClose(); handleReset(); }}
                         fullWidth
                     >
-                        ยกเลิก
+                        {CLOSE}
                     </Button>
                 </Stack>
                 <Stack

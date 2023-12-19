@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { craneAddAsync } from '../../../../store/slices/Crane/craneAddSlice';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
+import { CLOSE, SAVE } from '../../../../Constants';
 
 type Props = {}
 
@@ -118,23 +119,23 @@ export default function CraneCreatePage({ }: Props) {
                     </Box>
                     <Stack direction='row' spacing={2} sx={{ marginTop: 2 }}>
                         <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            className='bg-blue-600 hover:bg-blue-700 font-kanit'
+                            disabled={isSubmitting}
+                        >
+                            {SAVE}
+                        </Button>
+                        <Button
                             fullWidth
                             variant="outlined"
                             sx={{ mt: 3, mb: 2 }}
                             onClick={() => navigate('/transferstation')}
                             className='font-kanit'
                         >
-                            กลับ
-                        </Button>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            className='bg-[#66BB6A] hover:bg-[#1B5E20] font-kanit'
-                            disabled={isSubmitting}
-                        >
-                            เพิ่มเครน
+                            {CLOSE}
                         </Button>
                     </Stack>
                 </Stack>
