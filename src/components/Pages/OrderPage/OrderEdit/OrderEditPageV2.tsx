@@ -323,10 +323,6 @@ function Shwoform({ rows, id }: any) {
                     ))}
                 </Box>
             </Stack>
-
-
-
-
             <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
                 <Button
                     type="submit"
