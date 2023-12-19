@@ -22,12 +22,13 @@ const initialState: LoginState = {
 
 export const loginAsync = createAsyncThunk(
     'login/loginAsync',
-    async ({ data, navigate, sunmitting }: { data: FieldValues, navigate: NavigateFunction, sunmitting: () => void }) => {
+    async ({ data, navigate, sunmitting, fetchRole }: { data: FieldValues, navigate: NavigateFunction, sunmitting: () => void, fetchRole: () => void }) => {
         try {
             const result = await httpClient.post(server.LOGIN_URL, data);
             if (result.data.token) {
                 localStorage.setItem(TOKEN, result.data.token);
             }
+            fetchRole()
             sunmitting()
             navigate('/home')
             return result.data;

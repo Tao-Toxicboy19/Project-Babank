@@ -7,6 +7,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { loginAsync } from "../../../store/slices/auth/loginSlice"
 import { useAppDispatch } from "../../../store/store"
+import { roleAsync } from "../../../store/slices/auth/rolesSlice"
 
 type Props = {}
 
@@ -44,8 +45,9 @@ export default function LoginPage({ }: Props) {
               <form
                 className="w-full"
                 onSubmit={handleSubmit((data) => {
-                  setIsSubmitting(true);
-                  dispatch(loginAsync({ data, navigate, sunmitting }))
+                  setIsSubmitting(true)
+                  const fetchRole = () => dispatch(roleAsync())
+                  dispatch(loginAsync({ data, navigate, sunmitting, fetchRole }))
                 })}
               >
                 <div id="input" className="flex flex-col w-full my-5">
