@@ -34,11 +34,17 @@ const initialState: CarrierAddState = {
 
 export const carrierAddAsync = createAsyncThunk(
     'carrierAdd/carrierAddAsync',
-    async ({ values, navigate }: { values: FieldValues, navigate: NavigateFunction }) => {
+    async ({ values, navigate, handleClose, fetch }: { values: FieldValues, navigate: NavigateFunction, handleClose?: () => void, fetch?: () => void }) => {
         try {
             const result = await httpClient.post(server.CARRIER, values);
             toast.success(SUCCESS)
-            navigate('/carrier')
+            if (handleClose && fetch) {
+                fetch()
+                handleClose()
+            }
+            else {
+                navigate('/carrier')
+            }
             return result.data;
         } catch (error) {
             throw error;

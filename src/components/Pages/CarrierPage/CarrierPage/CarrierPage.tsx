@@ -23,10 +23,10 @@ export default function CarrierPage({ }: Props) {
   const rolesReducer = useSelector(roleSelector)
   const disapatch = useAppDispatch()
 
-  const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group);
+  // const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group);
 
   // search
-  const filteredData = (filteredCarrier).filter((item) =>
+  const filteredData = (carrierReducer.result).filter((item) =>
     item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

@@ -1,12 +1,21 @@
 import {
   Alert,
+  Autocomplete,
   Box,
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   Stack,
   TextField,
@@ -17,7 +26,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Titles from '../../../layout/Titles/Titles';
-import { carrierSelector } from '../../../../store/slices/Carrier/carrierSlice';
+import { carrierAsync, carrierSelector } from '../../../../store/slices/Carrier/carrierSlice';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { useForm, SubmitHandler, useFieldArray, useWatch } from 'react-hook-form'
@@ -25,6 +34,8 @@ import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { orderAddAsync } from '../../../../store/slices/Order/orderAddSlice';
 import { orderAsync } from '../../../../store/slices/Order/orderSlice';
 import { CLOSE, SAVE } from '../../../../Constants';
+import React from 'react';
+import { carrierAddAsync } from '../../../../store/slices/Carrier/carrierAddSlice';
 
 type Props = {}
 
@@ -46,7 +57,288 @@ interface FormData {
   bulkArray: number[]
 }
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme()
+
+function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [open, setOpen] = useState(false)
+  const rolesReducer = useSelector(roleSelector)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm()
+
+  const handleClickOpen = () => {
+    setSubmit(false)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    reset()
+    setOpen(false)
+    // setSubmit(0)
+  }
+
+  const fetch = () => dispatch(carrierAsync())
+
+  return (
+    <React.Fragment>
+      <Button
+        variant='outlined'
+        className='w-1/4'
+        type='button'
+        onClick={handleClickOpen}
+      >
+        Add Carrier
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth='xl'
+      >
+
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            setIsSubmitting(true)
+            try {
+              const values = {
+                ...data,
+                group: rolesReducer.result?.group
+              }
+              await dispatch(carrierAddAsync({ values, navigate, handleClose, fetch }))
+              setIsSubmitting(false);
+            } catch (error) {
+              setIsSubmitting(false);
+            }
+          })}
+          className='w-[750px]'
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"เพิ่มข้อมูลเรือสินค้า"}
+          </DialogTitle>
+          <DialogContent>
+            <Box className='grid grid-cols-2 gap-x-5 mt-5'>
+              <Stack
+                className='w-full'
+                direction='column'
+                spacing={4}
+              >
+                <Box
+                  className='w-full'
+                >
+                  <TextField
+                    id='carrier_name'
+                    type='text'
+                    label='ชื่อเรือ'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('carrier_name', { required: true })}
+                  />
+                  {errors.carrier_name &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      กรุณากรอกข้อมูล
+                    </Alert>
+                  }
+                </Box>
+
+                <Box>
+                  <TextField
+                    label='ชื่อบริษัท'
+                    id='holder'
+                    type='text'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('holder', { required: true })}
+                  />
+                  {errors.holder &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      กรุณากรอกข้อมูล
+                    </Alert>}
+                </Box>
+
+                <Box>
+                  <TextField
+                    label='ความจุสูงสุด (ตัน)'
+                    id='maxcapacity'
+                    type='number'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('maxcapacity', {
+                      required: true,
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
+                  {errors.maxcapacity &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      {errors.maxcapacity.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                      {errors.maxcapacity.type !== 'min' && 'กรุณากรอกข้อมูล'}
+                      กรุณากรอกข้อมูล
+                    </Alert>}
+                </Box>
+                <Box>
+                  <TextField
+                    id='burden'
+                    label='จำนวนระวาง'
+                    type='number'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('burden', {
+                      required: true,
+                      valueAsNumber: true,
+                      min: 2,
+                      max: 12
+                    })}
+                  />
+                  {errors.burden && (
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      {errors.burden.type === 'min' && 'ต้องไม่น้อยกว่า 2 ระวาง'}
+                      {errors.burden.type === 'max' && `ต้องไม่เกิน 12 ระวาง`}
+                      {errors.burden.type !== 'min' && errors.burden.type !== 'max' && 'กรุณากรอกข้อมูล'}
+                    </Alert>
+                  )}
+                </Box>
+              </Stack>
+
+              <Stack
+                direction='column'
+                spacing={4}
+                className='w-full'
+              >
+                <Box>
+                  <TextField
+                    id='carrier_max_FTS'
+                    label='จำนวนทุ่นเข้าได้สูงสุด'
+                    type='number'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('carrier_max_FTS', {
+                      required: true,
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
+                  {errors.carrier_max_FTS &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      {errors.carrier_max_FTS.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                      {errors.carrier_max_FTS.type !== 'min' && 'กรุณากรอกข้อมูล'}
+                    </Alert>}
+                </Box>
+
+                <Box>
+                  <TextField
+                    id='carrier_max_crane'
+                    label='จำนวนเครนเข้าได้สูงสุด'
+                    type='number'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('carrier_max_crane', {
+                      required: true,
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
+                  {errors.carrier_max_crane &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      {errors.carrier_max_crane.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                      {errors.carrier_max_crane.type !== 'min' && 'กรุณากรอกข้อมูล'}
+                    </Alert>}
+                </Box>
+
+                <Box>
+                  <TextField
+                    id='Width'
+                    label='กว้าง (เมตร)'
+                    type='number'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('Width', {
+                      required: true,
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
+                  {errors.Width &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      {errors.Width.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                      {errors.Width.type !== 'min' && 'กรุณากรอกข้อมูล'}
+                    </Alert>}
+                </Box>
+
+                <Box>
+                  <TextField
+                    id='length'
+                    label='ยาว (เมตร)'
+                    type='number'
+                    fullWidth
+                    className='font-kanit'
+                    {...register('length', {
+                      required: true,
+                      valueAsNumber: true,
+                      min: 0
+                    })}
+                  />
+                  {errors.length &&
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      {errors.length.type === 'min' && 'ไม่สามารถกรอกค่าต่ำกว่า 0 ได้'}
+                      {errors.length.type !== 'min' && 'กรุณากรอกข้อมูล'}
+                    </Alert>}
+                </Box>
+
+              </Stack>
+
+              <Box className='col-span-2 flex justify-start my-3'>
+                <FormControl>
+                  <FormLabel id="demo-form-control-label-placement" className='text-md'>เครนบนเรือ</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-form-control-label-placement"
+                    defaultValue="no"
+                    {...register('has_crane')}
+                  >
+                    <FormControlLabel value="has" control={<Radio />} label="มี" />
+                    <FormControlLabel value="no" control={<Radio />} label="ไม่มี" />
+                  </RadioGroup>
+                </FormControl>
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Stack
+              className='w-full'
+              direction='row'
+              spacing={2}
+            >
+              <Button
+                fullWidth
+                variant="contained"
+                type="submit"
+                className='bg-blue-600 hover:bg-blue-700 font-kanit py-2.5'
+                disabled={isSubmitting}
+              >
+                {SAVE}
+              </Button>
+              <Button
+                type="button"
+                variant='outlined'
+                onClick={handleClose}
+                fullWidth
+              >
+                {CLOSE}
+              </Button>
+            </Stack>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </React.Fragment>
+  );
+}
 
 function ShowForm() {
   const [bulk, setBulk] = useState<number>(0)
@@ -56,6 +348,8 @@ function ShowForm() {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+  const [submit, setSubmit] = useState<boolean>(true)
   const {
     register,
     control,
@@ -79,8 +373,6 @@ function ShowForm() {
       bulkArray: [],
     },
   })
-
-  const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
   const bulkArray = watch('bulkArray', []);
 
@@ -119,6 +411,12 @@ function ShowForm() {
     }
   }, [findMaxFts, cr_id, setValue])
 
+  const handleChange = (_: any, newValue: any) => {
+    setSelectedOption(newValue)
+    setValue('cr_id', newValue?.cr_id || '')
+  }
+
+  const options = carrierReducer.result || []
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -139,26 +437,35 @@ function ShowForm() {
             className='w-full'
           >
             <Box>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">เลือกเรือ</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="เลือกเรือ"
-                  {...register('cr_id', { required: true })}
-                  onChange={(e: any) => {
-                    setValue('cr_id', e.target.value)
-                  }}
-                >
-                  {(filteredCarrier).map((items) => (
-                    <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
-                      {items.carrier_name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Box
+                className='flex flex-row gap-x-5'
+              >
+                <FormControl fullWidth>
+                  <Autocomplete
+                    id="demo-autocomplete"
+                    options={options}
+                    getOptionLabel={(option) => option.carrier_name}
+                    value={selectedOption}
+                    onChange={handleChange}
+                    noOptionsText="ไม่พบชื่อเรือ"
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="เลือกเรือ"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        {...register('cr_id', { required: true })}
+                      />
+                    )}
+                  />
+                </FormControl>
+
+                <AddCarrier setSubmit={setSubmit} />
+
+              </Box>
               {errors.cr_id && (
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>
               )}
@@ -177,7 +484,7 @@ function ShowForm() {
                 </Select>
               </FormControl>
               {errors.category &&
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>}
             </Box>
@@ -197,7 +504,7 @@ function ShowForm() {
                 })}
               />
               {errors.maxFTS && (
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   {errors.maxFTS.type === 'min' && 'กรุณากรอกค่าที่มากกว่าหรือเท่ากับ 0'}
                   {errors.maxFTS.type === 'max' && `ทุ่นสามารถเข้าได้สูงสุดแค่ ${findMaxFts?.carrier_max_FTS} ทุ่น`}
                   {errors.maxFTS.type !== 'min' && errors.maxFTS.type !== 'max' && 'กรุณากรอกข้อมูล'}
@@ -241,7 +548,7 @@ function ShowForm() {
                 })}
               />
               {errors.longitude &&
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>}
             </Box>
@@ -261,7 +568,7 @@ function ShowForm() {
                 {...register('arrival_time', { required: true })}
               />
               {errors.arrival_time &&
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>}
             </Box>
@@ -276,7 +583,7 @@ function ShowForm() {
                 {...register('deadline_time', { required: true })}
               />
               {errors.deadline_time &&
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>}
             </Box>
@@ -296,7 +603,7 @@ function ShowForm() {
                 })}
               />
               {errors.penalty_rate &&
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>}
             </Box>
@@ -317,7 +624,7 @@ function ShowForm() {
                 helperText={errors.reward_rate?.message || ''}
               />
               {errors.reward_rate && !errors.reward_rate.message && (
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>
               )}
@@ -353,7 +660,7 @@ function ShowForm() {
                 </Select>
               </FormControl>
               {errors?.inputs?.[index]?.cargo_names && (
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>
               )}
@@ -378,7 +685,7 @@ function ShowForm() {
               })}
             />
             {errors.reward_rate &&
-              <Alert variant="outlined" severity="error" className='mt-2'>
+              <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                 กรุณากรอกข้อมูล
               </Alert>}
           </Box>
@@ -409,7 +716,7 @@ function ShowForm() {
                 {...register(`bulkArray.${index}` as const)}
               />
               {errors.bulkArray &&
-                <Alert variant="outlined" severity="error" className='mt-2'>
+                <Alert variant="outlined" severity="error" className={`${submit ? 'mt-2' : 'hidden'}`}>
                   กรุณากรอกข้อมูล
                 </Alert>}
             </>
@@ -429,6 +736,7 @@ function ShowForm() {
           <Button
             fullWidth
             variant="outlined"
+            type="button"
             onClick={() => navigate('/orders')}
             className='font-kanit text-lg py-3'
           >
