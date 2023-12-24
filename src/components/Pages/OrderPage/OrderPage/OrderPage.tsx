@@ -32,6 +32,9 @@ import OrderDeletePage from "../OrderDelete/OrderDeletePage";
 import UpdateStatus from "../UpdateStatus/UpdateStatus";
 import { orderSelector } from "../../../../store/slices/Order/orderSlice";
 import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
+import { FiDownloadCloud } from "react-icons/fi";
+import { CSVLink } from "react-csv";
+import { exportOrderSelector } from "../../../../store/slices/Order/exportOrdersSlice";
 
 type Props = {}
 
@@ -41,13 +44,7 @@ export default function OrderPage({ }: Props) {
   const orderReducer = useSelector(orderSelector)
   const rolesReducer = useSelector(roleSelector)
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน")
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-
-  // const filteredData = OrderReducer.orders.filter((order) =>
-  //   order.cargo_order.some((cargoOrder) =>
-  //     cargoOrder.cargo.cargo_name.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  // );
+  const exportOrderReducer = useSelector(exportOrderSelector)
 
   const filteredOrders = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
@@ -221,7 +218,22 @@ export default function OrderPage({ }: Props) {
           ) : (
             <>
               <Box>
-                <Titles title='รายการขนถ่ายสินค้า' />
+
+                <Box
+                  className='flex flex-row justify-between'
+                >
+                  <Titles title='รายการขนถ่ายสินค้า' />
+
+                  <Box>
+                    <Tooltip title="Download" className="mx-5">
+                      <IconButton key="download-icon" className="text-3xl">
+                        <CSVLink data={exportOrderReducer.result} filename="orders.csv">
+                          <FiDownloadCloud />
+                        </CSVLink>
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
                 <hr />
               </Box>
               <Box className='w-full flex justify-between'>
