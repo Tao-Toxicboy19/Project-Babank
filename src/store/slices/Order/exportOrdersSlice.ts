@@ -16,6 +16,7 @@ export interface orders {
     bulk: number
     penalty_rate: number
     reward_rate: number
+    group: number
 }
 
 interface OrderState {

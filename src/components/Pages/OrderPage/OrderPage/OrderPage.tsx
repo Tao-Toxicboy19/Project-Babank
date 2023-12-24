@@ -27,7 +27,6 @@ import { useState } from "react";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
 import Loading from "../../../layout/Loading/Loading";
 import Titles from "../../../layout/Titles/Titles";
-import moment from "moment";
 import OrderDeletePage from "../OrderDelete/OrderDeletePage";
 import UpdateStatus from "../UpdateStatus/UpdateStatus";
 import { orderAsync, orderSelector } from "../../../../store/slices/Order/orderSlice";
@@ -52,6 +51,7 @@ export default function OrderPage({ }: Props) {
   const exportOrderReducer = useSelector(exportOrderSelector)
 
   const filteredOrders = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
+  const exportOrdersCSV = (exportOrderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
   const arrivalTimeV2 = filteredOrders.map(item => {
     const date = new Date(item.arrival_time);
@@ -118,13 +118,13 @@ export default function OrderPage({ }: Props) {
                 align="right"
                 className="font-kanit"
               >
-                {items.arrival_time ? moment(items.arrival_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
+                {items.arrival_time}
               </TableCell>
               <TableCell
                 align="right"
                 className="font-kanit"
               >
-                {items.deadline_time ? moment(items.deadline_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
+                {items.deadline_time}
               </TableCell>
               <TableCell
                 align="right"
@@ -172,13 +172,13 @@ export default function OrderPage({ }: Props) {
                 align="center"
                 className="font-kanit"
               >
-                {items.rel_start_time ? moment(items.rel_start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
+                {items.rel_start_time}
               </TableCell>
               <TableCell
                 align="center"
                 className="font-kanit"
               >
-                {items.rel_finish_time ? moment(items.rel_finish_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}
+                {items.rel_finish_time}
               </TableCell>
               <TableCell
                 align="center"
@@ -258,7 +258,7 @@ export default function OrderPage({ }: Props) {
                   <Tooltip title="Download">
                     <>
                       {exportOrderReducer.result ? (
-                        <CSVLink data={exportOrderReducer.result} filename="orders.csv">
+                        <CSVLink data={exportOrdersCSV} filename="orders.csv">
                           <Button
                             component="label"
                             variant="contained"

@@ -11,7 +11,7 @@ import { carrierSelector } from '../../../../store/slices/Carrier/carrierSlice';
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { orderAsync } from '../../../../store/slices/Order/orderSlice';
 import { orderEditAsync } from '../../../../store/slices/Order/orderEditSlice';
-import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
+import moment from 'moment';
 
 type Props = {}
 
@@ -24,7 +24,6 @@ function Shwoform({ rows, id }: any) {
     const dispatch = useAppDispatch()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [bulk, setBulk] = useState<number>(0)
-    const rolesReducer = useSelector(roleSelector)
     const {
         register,
         handleSubmit,
@@ -32,7 +31,7 @@ function Shwoform({ rows, id }: any) {
         formState: { errors },
     } = useForm()
 
-    const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
+    // const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
     const sumBulkArray = Array.from({ length: bulk }).reduce((acc: any, _, index) => {
         const value = +watch(`bulkArray.${index}`);
@@ -50,9 +49,12 @@ function Shwoform({ rows, id }: any) {
             setIsSubmitting(true)
             const values = {
                 ...data,
-                load: sumBulkArray
+                load: sumBulkArray,
+                arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss'),
+                deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')
             }
             try {
+                console.log(values)
                 await dispatch(orderEditAsync({ id, values, navigate, fetch }))
                 setIsSubmitting(false)
             } catch (error) {
@@ -84,7 +86,7 @@ function Shwoform({ rows, id }: any) {
                                     defaultValue={rows.cr_id}
                                     {...register('cr_id', { required: true })}
                                 >
-                                    {(filteredCarrier).map((items) => (
+                                    {(carrierReducer.result).map((items) => (
                                         <MenuItem key={items.cr_id} value={items.cr_id} className='font-kanit'>
                                             {items.carrier_name}
                                         </MenuItem>
@@ -185,7 +187,6 @@ function Shwoform({ rows, id }: any) {
                         spacing={2}
                         className='w-full'
                     >
-
                         <Box>
                             <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา มาถึง</label>
                             <TextField
@@ -201,7 +202,6 @@ function Shwoform({ rows, id }: any) {
                                     กรุณากรอกข้อมูล
                                 </Alert>}
                         </Box>
-
                         <Box>
                             <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด</label>
                             <TextField
@@ -297,28 +297,17 @@ function Shwoform({ rows, id }: any) {
                                     รวมปริมาณสินค้า (ตัน): {sumBulkArray as number !== 0 ? sumBulkArray as number : row.load}
                                 </span>
                             </Box>
-                            {[...Array(bulk)].map((_, index) => {
-                                const filteredCargoOrder = rows.cargo_order.map((order: any) => {
-                                    return Object.fromEntries(Object.entries(order).filter(([_, value]) => value !== null));
-                                })
-                                return (
-                                    <>
-                                        <TextField
-                                            key={index}
-                                            label={`ระวางที่ ${index + 1}`}
-                                            type='number'
-                                            fullWidth
-                                            className='font-kanit'
-                                            {...register(`bulkArray.${index}` as const)}
-                                            defaultValue={filteredCargoOrder[0][`b${index + 1}`]}
-                                        />
-                                        {errors.bulkArray &&
-                                            <Alert variant="outlined" severity="error" className='mt-2'>
-                                                กรุณากรอกข้อมูล
-                                            </Alert>}
-                                    </>
-                                )
-                            })}
+                            {row.Bulks.map((items: any, index: number) => (
+                                <TextField
+                                    key={index}
+                                    label={`ระวางที่ ${index + 1}`}
+                                    type='number'
+                                    fullWidth
+                                    className='font-kanit'
+                                    {...register(`bulkArray.${index}` as const)}
+                                    defaultValue={items.load_bulk}
+                                />
+                            ))}
                         </>
                     ))}
                 </Box>

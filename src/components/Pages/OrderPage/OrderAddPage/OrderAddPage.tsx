@@ -36,6 +36,7 @@ import { orderAsync } from '../../../../store/slices/Order/orderSlice';
 import { CLOSE, SAVE } from '../../../../Constants';
 import React from 'react';
 import { carrierAddAsync } from '../../../../store/slices/Carrier/carrierAddSlice';
+import moment from 'moment';
 
 type Props = {}
 
@@ -388,10 +389,14 @@ function ShowForm() {
   const fetch = () => dispatch(orderAsync())
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsSubmitting(true)
+    const findCarrier = await (carrierReducer.result).find(r => r.carrier_name === data.cr_id)
     const values = {
       ...data,
+      cr_id: findCarrier?.cr_id,
       group: rolesReducer.result?.group,
-      load: totalBulk
+      load: totalBulk,
+      arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss'),
+      deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')
     }
     try {
       await dispatch(orderAddAsync({ values, navigate, fetch }))
