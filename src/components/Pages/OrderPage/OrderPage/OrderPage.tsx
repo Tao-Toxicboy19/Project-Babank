@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { RiEditLine } from "react-icons/ri";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
 import Loading from "../../../layout/Loading/Loading";
 import Titles from "../../../layout/Titles/Titles";
@@ -32,7 +32,7 @@ import UpdateStatus from "../UpdateStatus/UpdateStatus";
 import { orderAsync, orderSelector } from "../../../../store/slices/Order/orderSlice";
 import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 import { CSVLink } from "react-csv";
-import { exportOrderSelector } from "../../../../store/slices/Order/exportOrdersSlice";
+import { exportOrderAsync, exportOrderSelector } from "../../../../store/slices/Order/exportOrdersSlice";
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -58,6 +58,11 @@ export default function OrderPage({ }: Props) {
     const month = date.getMonth();
     return monthNames[month];
   })
+
+  useEffect(() => {
+    dispatch(exportOrderAsync())
+
+  }, []);
 
   const uniqueMonths = Array.from(new Set(arrivalTimeV2));
 
