@@ -246,7 +246,6 @@ export default function OrderPage({ }: Props) {
     }
   };
 
-
   return (
     <>
       <Card className='min-h-[90vh]'>
@@ -260,19 +259,38 @@ export default function OrderPage({ }: Props) {
                 <Titles title='รายการขนถ่ายสินค้า' />
 
                 <Box className='flex flex-row gap-x-5'>
-                  <Tooltip title="Download">
+                  <Box>
                     <>
                       {exportOrderReducer.result ? (
-                        <CSVLink data={exportOrdersCSV} filename="orders.csv">
-                          <Button
-                            component="label"
-                            variant="contained"
-                            className="w-[180px] my-auto"
-                            startIcon={<FaCloudDownloadAlt />}
-                          >
-                            Download file
-                          </Button>
-                        </CSVLink>
+                        <>
+                          {
+                            exportOrdersCSV.length === 0 ? (
+                              <Box>
+                                <Button
+                                  component="label"
+                                  variant="contained"
+                                  className="w-[180px] my-auto"
+                                  startIcon={<FaCloudDownloadAlt />}
+                                  disabled
+                                >
+                                  Download file
+                                </Button>
+                              </Box>
+                            ) : (
+                              <CSVLink data={exportOrdersCSV} filename="orders.csv">
+                                <Tooltip title="Download">
+                                  <Button
+                                    component="label"
+                                    variant="contained"
+                                    className="w-[180px] my-auto"
+                                    startIcon={<FaCloudDownloadAlt />}
+                                  >
+                                    Download file
+                                  </Button>
+                                </Tooltip>
+                              </CSVLink>
+                            )}
+                        </>
                       ) : (
                         <Box>
                           <LoadingButton
@@ -288,8 +306,7 @@ export default function OrderPage({ }: Props) {
                         </Box>
                       )}
                     </>
-                  </Tooltip>
-
+                  </Box>
 
                   <Tooltip title="Import">
                     <Box>
@@ -404,7 +421,7 @@ export default function OrderPage({ }: Props) {
               </TableContainer>
             </Box>
           </>
-        </CardContent>
+        </CardContent >
       </Card >
     </>
   )
