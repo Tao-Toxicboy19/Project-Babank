@@ -111,4 +111,5 @@ export const server = {
     USERALL_URL: `userall`,
     USER_URL: `user`,
     EXPORTORDER:`exportorder`,
+    IMPORTORDER:`importcsv`,
 };

@@ -35,7 +35,6 @@ export const exportOrderAsync = createAsyncThunk(
     async () => {
         try {
             const result = await httpClient.get<orders[]>(server.EXPORTORDER)
-            console.log(result.data)
             return result.data
         } catch (error) {
             throw error
@@ -44,7 +43,7 @@ export const exportOrderAsync = createAsyncThunk(
 )
 
 const exportOrderSlice = createSlice({
-    name: 'order',
+    name: 'exportOrder',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

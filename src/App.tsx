@@ -25,7 +25,6 @@ import SummarizePage from './components/Pages/SummarizePage/SummarizePage';
 import CargocranePage from './components/Pages/CargoCranePage/CargoCranePage/CargoCranePage';
 import CargoCraneEditPageV2 from './components/Pages/CargoCranePage/CargoCraneEditPageV2/CargoCraneEditPageV2';
 import CargoCraneCreate from './components/Pages/CargoCranePage/CargoCraneAddPage/CargoCraneAddPage';
-import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
 import AdminRoute from './utils/AdminRoute';
 import AdminRouteV2 from './utils/AdminRouteV2';
 import ManagementUserPage from './components/Pages/ManagementUserPage/ManagementUserPage';
@@ -47,6 +46,7 @@ import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import { exportOrderAsync } from './store/slices/Order/exportOrdersSlice';
+import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
 
 const drawerWidth = 240;
 

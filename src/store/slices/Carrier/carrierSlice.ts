@@ -4,16 +4,16 @@ import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
 
 interface Carrier {
-    cr_id: number;
-    carrier_name: string;
-    holder: string;
-    maxcapacity: number;
-    burden: number;
-    carrier_max_FTS: number;
-    carrier_max_crane: number;
-    Width: number;
-    length: number;
-    has_crane: string;
+    cr_id: number
+    carrier_name: string
+    holder: string
+    maxcapacity: number
+    burden: number
+    carrier_max_FTS: number
+    carrier_max_crane: number
+    Width: number
+    length: number
+    has_crane: string
     group: number
 }
 

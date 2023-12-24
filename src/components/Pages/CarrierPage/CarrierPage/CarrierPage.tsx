@@ -22,9 +22,6 @@ export default function CarrierPage({ }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const rolesReducer = useSelector(roleSelector)
   const disapatch = useAppDispatch()
-
-  // const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group);
-
   // search
   const filteredData = (carrierReducer.result).filter((item) =>
     item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -45,7 +42,9 @@ export default function CarrierPage({ }: Props) {
             >
               <TableCell component="th" scope="row">{items.carrier_name}</TableCell>
               <TableCell align="center">{items.holder}</TableCell>
-              <TableCell align="center">{(items.maxcapacity).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</TableCell>
+              <TableCell align="center">
+                {items.maxcapacity !== null ? (items.maxcapacity).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : null}
+              </TableCell>
               <TableCell align="center">{items.burden}</TableCell>
               <TableCell align="center">{items.carrier_max_FTS}</TableCell>
               <TableCell align="center">{items.carrier_max_crane}</TableCell>

@@ -30,19 +30,24 @@ import Titles from "../../../layout/Titles/Titles";
 import moment from "moment";
 import OrderDeletePage from "../OrderDelete/OrderDeletePage";
 import UpdateStatus from "../UpdateStatus/UpdateStatus";
-import { orderSelector } from "../../../../store/slices/Order/orderSlice";
+import { orderAsync, orderSelector } from "../../../../store/slices/Order/orderSlice";
 import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
-import { FiDownloadCloud } from "react-icons/fi";
 import { CSVLink } from "react-csv";
 import { exportOrderSelector } from "../../../../store/slices/Order/exportOrdersSlice";
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useAppDispatch } from "../../../../store/store";
+import { importOrderAsync, importOrderSelector } from "../../../../store/slices/Order/importOrderSlice";
+import { FaCloudDownloadAlt } from "react-icons/fa";
 
 type Props = {}
 
-
-
 export default function OrderPage({ }: Props) {
+  const dispatch = useAppDispatch()
   const orderReducer = useSelector(orderSelector)
   const rolesReducer = useSelector(roleSelector)
+  const importOrderReducer = useSelector(importOrderSelector)
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน")
   const exportOrderReducer = useSelector(exportOrderSelector)
 
@@ -205,114 +210,195 @@ export default function OrderPage({ }: Props) {
     )
   }
 
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
+  const fetch = () => dispatch(orderAsync())
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+        const group: number | undefined = rolesReducer.result?.group
+        const formData = new FormData();
+        if (group !== undefined) {
+          formData.append('group', group.toString());
+        }
+        formData.append('file', file);
+
+        dispatch(importOrderAsync({ formData, fetch }))
+      } else {
+        alert('Please select a valid CSV file.');
+      }
+    }
+  };
 
 
   return (
     <>
       <Card className='min-h-[90vh]'>
         <CardContent className='flex flex-col gap-y-7'>
-          {orderReducer.loading ? (
-            <Loading />
-          ) : orderReducer.error ? (
-            <Typography>Error: {orderReducer.error}</Typography>
-          ) : (
-            <>
-              <Box>
+          <>
+            <Box>
 
-                <Box
-                  className='flex flex-row justify-between'
-                >
-                  <Titles title='รายการขนถ่ายสินค้า' />
+              <Box
+                className='flex flex-row justify-between'
+              >
+                <Titles title='รายการขนถ่ายสินค้า' />
 
-                  <Box>
-                    <Tooltip title="Download" className="mx-5">
-                      <IconButton key="download-icon" className="text-3xl">
+                <Box className='flex flex-row gap-x-5'>
+                  <Tooltip title="Download">
+                    <>
+                      {exportOrderReducer.result ? (
                         <CSVLink data={exportOrderReducer.result} filename="orders.csv">
-                          <FiDownloadCloud />
+                          <Button
+                            component="label"
+                            variant="contained"
+                            className="w-[180px] my-auto"
+                            startIcon={<FaCloudDownloadAlt />}
+                          >
+                            Download file
+                          </Button>
                         </CSVLink>
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </Box>
-                <hr />
-              </Box>
-              <Box className='w-full flex justify-between'>
-
-                <FormControl className="w-[200px]">
-                  <InputLabel id="demo-simple-select-label">เลือกเดือน</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={selectedMonth}
-                    onChange={(e) => setSelectedMonth(e.target.value)}
-                    label="เลือกเดือน"
-                  >
-                    <MenuItem value="ทุกเดือน">ทุกเดือน</MenuItem>
-                    {uniqueMonths.map((month) => (
-                      <MenuItem key={month} value={month}>
-                        {month}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Box className='w-[600px] flex gap-x-5 justify-end'>
-                  {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
-                    <></>
-                  ) : (
-                    <Button
-                      component={Link}
-                      to={'/orders/create'}
-                      variant="contained"
-                      className='w-[60%]  bg-blue-600 hover:bg-blue-800'
-                      startIcon={<AddIcon />}
-                    >
-                      Create
-                    </Button>
-                  )}
-                </Box>
-              </Box>
-              <Box>
-                <hr />
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                      <TableTitles Titles={TitleOrder} />
-                    </TableHead>
-                    <TableBody>
-                      {filteredOrders.length === 0 ? (
-                        <TableRow>
-                          <TableCell colSpan={13}>
-                            <Typography
-                              sx={{
-                                mr: 2,
-                                fontSize: 33,
-                                display: { xs: "none", md: "flex" },
-                                fontFamily: "monospace",
-                                fontWeight: 700,
-                                letterSpacing: ".1rem",
-                                color: "inherit",
-                                textDecoration: "none",
-                              }}
-                              className='text-cyan-800 flex justify-center items-center h-[59vh]'
-                              variant='h4'
-                              component='h2'
-                            >
-                              ไม่มีข้อมูล
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
                       ) : (
-                        <>
-                          {showTbody()}
-                        </>
+                        <Box>
+                          <LoadingButton
+                            className="w-[180px] my-auto"
+                            loading
+                            loadingPosition="start"
+                            component="label"
+                            variant="contained"
+                            startIcon={<FaCloudDownloadAlt />}
+                          >
+                            Download file
+                          </LoadingButton>
+                        </Box>
                       )}
-                    </TableBody>
+                    </>
+                  </Tooltip>
 
-                  </Table>
-                </TableContainer>
+
+                  <Tooltip title="Import">
+                    <Box>
+                      <LoadingButton
+                        className="w-[180px] my-auto"
+                        loading={importOrderReducer.loading}
+                        loadingPosition="start"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload file
+                        <VisuallyHiddenInput
+                          type="file"
+                          accept=".csv"
+                          onChange={handleFileChange}
+                        />
+                      </LoadingButton>
+                    </Box>
+                  </Tooltip>
+
+
+                </Box>
               </Box>
-            </>
-          )}
+              <hr />
+            </Box>
+            <Box className='w-full flex justify-between'>
+
+              <FormControl className="w-[200px]">
+                <InputLabel id="demo-simple-select-label">เลือกเดือน</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  label="เลือกเดือน"
+                >
+                  <MenuItem value="ทุกเดือน">ทุกเดือน</MenuItem>
+                  {uniqueMonths.map((month) => (
+                    <MenuItem key={month} value={month}>
+                      {month}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Box className='w-[600px] flex gap-x-5 justify-end'>
+                {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
+                  <></>
+                ) : (
+                  <Button
+                    component={Link}
+                    to={'/orders/create'}
+                    variant="contained"
+                    className='w-[60%]  bg-blue-600 hover:bg-blue-800'
+                    startIcon={<AddIcon />}
+                  >
+                    Create
+                  </Button>
+                )}
+              </Box>
+            </Box>
+            <Box>
+              <hr />
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableTitles Titles={TitleOrder} />
+                  </TableHead>
+                  <TableBody>
+                    {orderReducer.loading ? (
+                      <TableCell colSpan={13}>
+                        <Box className='flex justify-center'>
+                          <Loading />
+                        </Box>
+                      </TableCell>
+                    ) : (
+                      <>
+                        {
+                          filteredOrders.length === 0 ? (
+                            <TableRow>
+                              <TableCell colSpan={13}>
+                                <Typography
+                                  sx={{
+                                    mr: 2,
+                                    fontSize: 33,
+                                    display: { xs: "none", md: "flex" },
+                                    fontFamily: "monospace",
+                                    fontWeight: 700,
+                                    letterSpacing: ".1rem",
+                                    color: "inherit",
+                                    textDecoration: "none",
+                                  }}
+                                  className='text-cyan-800 flex justify-center items-center h-[59vh]'
+                                  variant='h4'
+                                  component='h2'
+                                >
+                                  ไม่มีข้อมูล
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                          ) : (
+                            <>
+                              {showTbody()}
+                            </>
+                          )
+                        }
+                      </>
+                    )}
+                  </TableBody>
+
+                </Table>
+              </TableContainer>
+            </Box>
+          </>
         </CardContent>
       </Card >
     </>
