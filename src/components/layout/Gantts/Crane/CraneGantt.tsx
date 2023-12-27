@@ -11,7 +11,7 @@ export default function CraneGantts() {
 
     const filteredSolutionscheduleReducer = (SolutionscheduleReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
 
-    const filteredData = (SolutionscheduleReducer.result).filter((item: any) => item.carrier_name !== null);
+    const filteredData = (filteredSolutionscheduleReducer).filter((item: any) => item.carrier_name !== null);
     let data = [filteredData[0]]
     data = data.concat(filteredData)
 

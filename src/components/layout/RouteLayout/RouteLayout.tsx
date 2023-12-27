@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
 import { Card } from '@mui/material';
 import RouteMaps from '../RouteMaps/RouteMaps';
-// import { roleSelector } from '../../../store/slices/auth/rolesSlice';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 import { ftsSolutionTableSelector } from '../../../store/slices/Solution/ftsSolutionTableSlice';
 import { useAppDispatch } from '../../../store/store';
 import { sulutionScheduelAsync } from '../../../store/slices/Solution/sollutionScheduleSlice';
@@ -48,7 +48,7 @@ function a11yProps(index: number) {
 export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
-    // const rolesReducer = useSelector(roleSelector)
+    const rolesReducer = useSelector(roleSelector)
     const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
@@ -59,11 +59,11 @@ export default function RouteLayout() {
         dispatch(sulutionScheduelAsync())
     }, []);
 
-    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
+    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
     return (
         <>
-            {ftsSolutionReducer.result.length === 0 ? (
+            {filteredftsSolutionReducer.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -83,7 +83,7 @@ export default function RouteLayout() {
                 </Typography>
             ) : (
                 <>
-                    {ftsSolutionReducer.result.length === 0 ? (
+                    {filteredftsSolutionReducer.length === 0 ? (
                         <Typography
                             sx={{
                                 mr: 2,

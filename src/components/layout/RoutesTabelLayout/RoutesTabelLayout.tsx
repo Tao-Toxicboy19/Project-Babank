@@ -9,10 +9,16 @@ import { useSelector } from 'react-redux';
 import { titles } from '../../../Constants';
 import moment from 'moment';
 import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice';
+import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 
 export default function RoutesTabelLayout({ ftsSolutionReducer, value }: any) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
     const filteredData = (solutionscheduleReducer.result).filter(item => item.carrier_name !== null);
+    const rolesReducer = useSelector(roleSelector)
+
+    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group: any) => group.solution_id === rolesReducer.result?.group);
+    const filteredftsSolutionReducer = filteredData.filter((group) => group.solution_id === rolesReducer.result?.group)
+
 
     return (
         <>
@@ -32,7 +38,7 @@ export default function RoutesTabelLayout({ ftsSolutionReducer, value }: any) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {(filteredData)
+                        {(filteredftsSolutionReducer)
                             .filter((items) => items.FTS_name === ftsSolutionReducer[value]?.fts.FTS_name)
                             .map((items, index) => {
                                 const formattedDate = moment(items.arrivaltime, 'M/D/YYYY, HH:mm:ss')

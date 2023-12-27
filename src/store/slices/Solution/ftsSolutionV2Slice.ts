@@ -13,7 +13,7 @@ interface FTS_Solution {
 
 
 interface FTS_SolutionState {
-    result: FTS_Solution
+    result: FTS_Solution[]
     loading: boolean
     error: boolean
 }
@@ -22,7 +22,7 @@ export const ftsSulutionV2Async = createAsyncThunk(
     'ftsSulutionV2/ftsSulutionV2Async',
     async () => {
         try {
-            const result = await httpClient.get<FTS_Solution>(server.FTSSOLUTION)
+            const result = await httpClient.get<FTS_Solution[]>(server.FTSSOLUTION)
             return result.data
         } catch (error) {
             throw error
@@ -31,13 +31,7 @@ export const ftsSulutionV2Async = createAsyncThunk(
 )
 
 const initialState: FTS_SolutionState = {
-    result: {
-        solution_id: 0,
-        FTS_id: 0,
-        total_preparation_FTS_time: 0,
-        total_travel_consumption_cost: 0,
-        total_travel_distance: 0,
-    },
+    result: [],
     loading: false,
     error: false,
 }
@@ -47,32 +41,20 @@ const ftsSolutionV2Slice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(ftsSulutionV2Async.fulfilled, (state: FTS_SolutionState, action: PayloadAction<FTS_Solution>) => {
+        builder.addCase(ftsSulutionV2Async.fulfilled, (state: FTS_SolutionState, action: PayloadAction<FTS_Solution[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = false
         });
 
         builder.addCase(ftsSulutionV2Async.rejected, (state: FTS_SolutionState) => {
-            state.result = {
-                solution_id: 0,
-                FTS_id: 0,
-                total_preparation_FTS_time: 0,
-                total_travel_consumption_cost: 0,
-                total_travel_distance: 0,
-            };
+            state.result = []
             state.loading = false
             state.error = true
         });
 
         builder.addCase(ftsSulutionV2Async.pending, (state: FTS_SolutionState) => {
-            state.result = {
-                solution_id: 0,
-                FTS_id: 0,
-                total_preparation_FTS_time: 0,
-                total_travel_consumption_cost: 0,
-                total_travel_distance: 0,
-            };
+            state.result = []
             state.loading = true
             state.error = false
         });

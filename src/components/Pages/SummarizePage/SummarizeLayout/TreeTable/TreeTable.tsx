@@ -34,7 +34,6 @@ export default function TreeTable({ }: Props) {
     const FTSsolutionReducer = useSelector(ftsSolutionTableSelector)
     const dispatch = useAppDispatch()
 
-
     useEffect(() => {
         dispatch(ftsSolutionTableAsync())
     }, []);
@@ -99,6 +98,7 @@ export default function TreeTable({ }: Props) {
                                 className='font-kanit text-lg'
                             >
                                 {items.solutions.reduce((min, solution) => Math.min(min, solution.total_reward), Infinity).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                {/* {items.solutions.} */}
                             </TableCell>
                         </TableBody>
                     ))}

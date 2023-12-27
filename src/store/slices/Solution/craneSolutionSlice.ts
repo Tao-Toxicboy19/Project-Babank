@@ -3,9 +3,10 @@ import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 
-interface CraneSolution {
+export interface CraneSolution {
     solution_id: number;
     FTS_id: number;
+    crane_id: number;
     total_cost: number;
     total_consumption_cost: number;
     total_wage_cost: number;
@@ -16,29 +17,17 @@ interface CraneSolution {
     total_operation_consumption_cost: number;
     total_operation_time: number;
     total_preparation_crane_time: number;
+    date: Date;
 }
 
 interface CraneSolutionState {
-    result: CraneSolution
+    result: CraneSolution[]
     loading: boolean
     error: boolean
 }
 
 const initialState: CraneSolutionState = {
-    result: {
-        solution_id: 0,
-        FTS_id: 0,
-        total_cost: 0,
-        total_consumption_cost: 0,
-        total_wage_cost: 0,
-        penality_cost: 0,
-        total_reward: 0,
-        total_late_time: 0,
-        total_early_time: 0,
-        total_operation_consumption_cost: 0,
-        total_operation_time: 0,
-        total_preparation_crane_time: 0,
-    },
+    result: [],
     loading: false,
     error: false
 }
@@ -47,7 +36,7 @@ export const craneSolutionAsync = createAsyncThunk(
     'craneSolution/craneSolutionAsync',
     async () => {
         try {
-            const result = await httpClient.get(server.CRANESOLUTION)
+            const result = await httpClient.get<CraneSolution[]>(server.CRANESOLUTION)
             return result.data
         } catch (error) {
             throw error
@@ -60,46 +49,20 @@ const craneSolutionSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(craneSolutionAsync.fulfilled, (state: CraneSolutionState, action: PayloadAction<CraneSolution>) => {
+        builder.addCase(craneSolutionAsync.fulfilled, (state: CraneSolutionState, action: PayloadAction<CraneSolution[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = false
         });
 
         builder.addCase(craneSolutionAsync.rejected, (state: CraneSolutionState) => {
-            state.result = {
-                solution_id: 0,
-                FTS_id: 0,
-                total_cost: 0,
-                total_consumption_cost: 0,
-                total_wage_cost: 0,
-                penality_cost: 0,
-                total_reward: 0,
-                total_late_time: 0,
-                total_early_time: 0,
-                total_operation_consumption_cost: 0,
-                total_operation_time: 0,
-                total_preparation_crane_time: 0,
-            },
+            state.result = [],
                 state.loading = false
             state.error = true
         });
 
         builder.addCase(craneSolutionAsync.pending, (state: CraneSolutionState) => {
-            state.result = {
-                solution_id: 0,
-                FTS_id: 0,
-                total_cost: 0,
-                total_consumption_cost: 0,
-                total_wage_cost: 0,
-                penality_cost: 0,
-                total_reward: 0,
-                total_late_time: 0,
-                total_early_time: 0,
-                total_operation_consumption_cost: 0,
-                total_operation_time: 0,
-                total_preparation_crane_time: 0,
-            },
+            state.result = [],
                 state.loading = true
             state.error = false
         });

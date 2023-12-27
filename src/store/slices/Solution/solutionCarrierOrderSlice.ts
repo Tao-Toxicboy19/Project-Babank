@@ -11,18 +11,13 @@ interface SolutionCarrierOrder {
 }
 
 interface SolutionCarrierOrderState {
-    result: SolutionCarrierOrder
+    result: SolutionCarrierOrder[]
     loading: boolean
     error: boolean
 }
 
 const initialState: SolutionCarrierOrderState = {
-    result: {
-        s_id: 0,
-        order_id: 0,
-        penalty_cost: 0,
-        reward: 0
-    },
+    result: [],
     loading: false,
     error: false
 }
@@ -31,7 +26,7 @@ export const solutionCarrierOrderAsync = createAsyncThunk(
     'solutionCarrierOrder/solutionCarrierOrderAsync',
     async () => {
         try {
-            const result = await httpClient.get<SolutionCarrierOrder>(server.SOLUTION_CARRIER_ORDER_SUM)
+            const result = await httpClient.get<SolutionCarrierOrder[]>(server.SOLUTION_CARRIER_ORDER_SUM)
             return result.data
         } catch (error) {
             throw error
@@ -44,31 +39,21 @@ const solutionCarrierOrderSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(solutionCarrierOrderAsync.fulfilled, (state: SolutionCarrierOrderState, action: PayloadAction<SolutionCarrierOrder>) => {
+        builder.addCase(solutionCarrierOrderAsync.fulfilled, (state: SolutionCarrierOrderState, action: PayloadAction<SolutionCarrierOrder[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = false
         });
 
         builder.addCase(solutionCarrierOrderAsync.rejected, (state: SolutionCarrierOrderState) => {
-            state.result = {
-                s_id: 0,
-                order_id: 0,
-                penalty_cost: 0,
-                reward: 0
-            },
-                state.loading = false
+            state.result = []
+            state.loading = false
             state.error = true
         });
 
         builder.addCase(solutionCarrierOrderAsync.pending, (state: SolutionCarrierOrderState) => {
-            state.result = {
-                s_id: 0,
-                order_id: 0,
-                penalty_cost: 0,
-                reward: 0
-            },
-                state.loading = true
+            state.result = []
+            state.loading = true
             state.error = false
         });
     },
