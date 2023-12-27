@@ -10,7 +10,7 @@ import { titles } from '../../../Constants';
 import moment from 'moment';
 import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice';
 
-export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
+export default function RoutesTabelLayout({ ftsSolutionReducer, value }: any) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
     const filteredData = (solutionscheduleReducer.result).filter(item => item.carrier_name !== null);
 
@@ -33,7 +33,7 @@ export default function RoutesTabelLayout({ FTSsolutionSlice, value }: any) {
                     </TableHead>
                     <TableBody>
                         {(filteredData)
-                            .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
+                            .filter((items) => items.FTS_name === ftsSolutionReducer[value]?.fts.FTS_name)
                             .map((items, index) => {
                                 const formattedDate = moment(items.arrivaltime, 'M/D/YYYY, HH:mm:ss')
                                     .add(12, 'hours')  // เพิ่ม 12 ชั่วโมง

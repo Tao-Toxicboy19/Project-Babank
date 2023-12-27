@@ -1,6 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { ftsSolutionTableSelector } from '../../../../../store/slices/Solution/ftsSolutionTableSlice';
+import { ftsSolutionTableAsync, ftsSolutionTableSelector } from '../../../../../store/slices/Solution/ftsSolutionTableSlice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../../../../store/store';
 
 type Props = {
 
@@ -30,7 +32,12 @@ const showThead = () => {
 
 export default function TreeTable({ }: Props) {
     const FTSsolutionReducer = useSelector(ftsSolutionTableSelector)
+    const dispatch = useAppDispatch()
 
+
+    useEffect(() => {
+        dispatch(ftsSolutionTableAsync())
+    }, []);
 
     return (
         <>
@@ -67,7 +74,6 @@ export default function TreeTable({ }: Props) {
                                     + items.solutions.reduce((max, solution) => Math.max(max, solution.penality_cost), -Infinity)
                                 )
                                     .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                {/* {items.solutions.reduce((total, solution) => total + solution.total_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
                             </TableCell>
                             <TableCell
                                 align="center"

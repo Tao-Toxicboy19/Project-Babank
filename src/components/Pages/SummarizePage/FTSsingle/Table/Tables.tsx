@@ -12,6 +12,7 @@ type Props = {
 export default function Tables({ Name }: Props) {
     const CraneSolutionV2Reducer = useSelector(craneSolutionTableV2Selector)
 
+
     const filteredData = (CraneSolutionV2Reducer.result).filter(item => item.fts.FTS_name === Name);
 
     return (

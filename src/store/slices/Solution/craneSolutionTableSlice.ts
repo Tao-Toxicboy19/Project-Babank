@@ -2,24 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 import { RootState } from "../../store";
-
-interface CraneV2 {
-    id: number;
-    crane_name: string;
-    FTS_id: number;
-    setuptime_crane: number;
-}
-
-interface FtsV2 {
-    id: number;
-    FTS_name: string;
-    lat: number;
-    lng: number;
-    setuptime_FTS: number;
-    speed: number;
-}
-
-interface CarneSolutionV2 {
+export interface CarneSolutionV2 {
     solution_id: number;
     FTS_id: number;
     crane_id: number;
@@ -34,8 +17,25 @@ interface CarneSolutionV2 {
     total_operation_time: number;
     total_preparation_crane_time: number;
     date: Date;
-    crane: CraneV2;
-    fts: FtsV2;
+    crane: Crane;
+    fts: Fts;
+}
+
+export interface Crane {
+    id: number;
+    crane_name: string;
+    FTS_id: number;
+    setuptime_crane: number;
+    wage_month_cost: number;
+}
+
+export interface Fts {
+    id: number;
+    FTS_name: string;
+    lat: number;
+    lng: number;
+    setuptime_FTS: number;
+    speed: number;
 }
 
 interface CarneSolutionV2State {

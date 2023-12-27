@@ -3,6 +3,12 @@ import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 
+interface SolutionCrane {
+    fts: Fts;
+    crane: Crane[];
+    solutions: Solution[];
+}
+
 interface Crane {
     id: number;
     crane_name: string;
@@ -31,13 +37,7 @@ interface Solution {
     total_operation_consumption_cost: number;
     total_operation_time: number;
     total_preparation_crane_time: number;
-    date: any;
-}
-
-interface SolutionCrane {
-    fts: Fts;
-    crane: Crane[];
-    solutions: Solution[];
+    date: Date;
 }
 
 interface FTSSolutionState {

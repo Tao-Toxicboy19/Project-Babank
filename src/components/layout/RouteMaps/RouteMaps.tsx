@@ -2,27 +2,17 @@ import { LoadScript, GoogleMap, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import { Marker } from '@react-google-maps/api';
 import Loading from "../Loading/Loading";
-import { sulutionScheduelSelector } from "../../../store/slices/Solution/sollutionScheduleSlice";
+import { sulutionScheduelSelector } from "../../../store/slices/Solution/sollutionScheduleSlice"
 
-// const google = window.google;
-
-// const blueMarkerIcon = {
-//     url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-//     scaledSize: new google.maps.Size(40, 40), // Adjust the size as needed
-// };
-
-
-export default function RouteMaps({ FTSsolutionSlice, value }: any) {
+export default function RouteMaps({ ftsSolutionReducer, value }: any) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
 
-
     const datav2 = solutionscheduleReducer.result
-        .filter((items) => items.FTS_name === FTSsolutionSlice[value]?.fts.FTS_name)
+        .filter((items) => items.FTS_name === ftsSolutionReducer[value]?.fts.FTS_name)
         .map((item) => ({
             lat: item.lat,
             lng: item.lng,
         }));
-
     const mapStyles: React.CSSProperties = {
         height: '50vh',
         width: '100%'

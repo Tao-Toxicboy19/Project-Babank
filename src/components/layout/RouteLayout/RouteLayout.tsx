@@ -7,8 +7,10 @@ import { useSelector } from 'react-redux';
 import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
 import { Card } from '@mui/material';
 import RouteMaps from '../RouteMaps/RouteMaps';
-import { roleSelector } from '../../../store/slices/auth/rolesSlice';
+// import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 import { ftsSolutionTableSelector } from '../../../store/slices/Solution/ftsSolutionTableSlice';
+import { useAppDispatch } from '../../../store/store';
+import { sulutionScheduelAsync } from '../../../store/slices/Solution/sollutionScheduleSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -46,18 +48,22 @@ function a11yProps(index: number) {
 export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
-    const rolesReducer = useSelector(roleSelector)
-
+    // const rolesReducer = useSelector(roleSelector)
+    const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
     };
 
-    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
+    React.useEffect(() => {
+        dispatch(sulutionScheduelAsync())
+    }, []);
+
+    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
     return (
         <>
-            {filteredftsSolutionReducer.length === 0 ? (
+            {ftsSolutionReducer.result.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,

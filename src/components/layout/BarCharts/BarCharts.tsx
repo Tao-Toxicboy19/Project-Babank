@@ -39,18 +39,19 @@ const labels = [
   'รางวัล',
 ];
 
-export function BarCharts({ FTSsolutionSlice, value }: any) {
+export function BarCharts({ ftsSolutionReducer, value }: any) {
+  console.log(ftsSolutionReducer)
   const data = {
     labels,
     datasets: [
       {
-        label: FTSsolutionSlice[value]?.fts.FTS_name,
+        label: ftsSolutionReducer[value]?.fts.FTS_name,
         data: [
-          FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.total_cost, 0),
-          FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.total_consumption_cost, 0),
-          FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.total_wage_cost, 0),
-          FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.penality_cost, 0),
-          FTSsolutionSlice[value].solutions.reduce((total: any, solution: any) => total + solution.total_reward, 0),
+          ftsSolutionReducer[value].solutions.reduce((total: any, solution: any) => total + solution.total_cost, 0),
+          ftsSolutionReducer[value].solutions.reduce((total: any, solution: any) => total + solution.total_consumption_cost, 0),
+          ftsSolutionReducer[value].solutions.reduce((total: any, solution: any) => total + solution.total_wage_cost, 0),
+          ftsSolutionReducer[value].solutions.reduce((total: any, solution: any) => total + solution.penality_cost, 0),
+          ftsSolutionReducer[value].solutions.reduce((total: any, solution: any) => total + solution.total_reward, 0),
           50],
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },

@@ -1,15 +1,13 @@
 import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import { Card, Typography } from '@mui/material';
+import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
 import Tables from './Table/Tables';
 import { BarCharts } from '../../../layout/BarCharts/BarCharts';
 import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
-import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
-import { craneSolutionTableSelector } from '../../../../store/slices/FtsSolution/craneSolutionTableSlice';
+import { ftsSolutionTableSelector } from '../../../../store/slices/Solution/ftsSolutionTableSlice';
+import { craneSolutionTableV2Async } from '../../../../store/slices/Solution/craneSolutionTableSlice';
+import { useAppDispatch } from '../../../../store/store';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -19,7 +17,6 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
-    // loadSolution_carrier_order
     return (
         <div
             role="tabpanel"
@@ -46,19 +43,23 @@ function a11yProps(index: number) {
 
 export default function FTSsingle() {
     const [value, setValue] = React.useState(0)
-    const ftsSolutionReducer = useSelector(craneSolutionTableSelector)
-    const rolesReducer = useSelector(roleSelector)
-
+    const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
+    // const rolesReducer = useSelector(roleSelector)
+    const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
     };
-    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
+
+    React.useEffect(() => {
+        dispatch(craneSolutionTableV2Async())
+    }, []);
+    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
 
     return (
         <>
-            {filteredftsSolutionReducer.length === 0 ? (
+            {ftsSolutionReducer.result.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
