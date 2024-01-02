@@ -51,7 +51,9 @@ export default function OrderPage({ }: Props) {
   const exportOrderReducer = useSelector(exportOrderSelector)
 
   const filteredOrders = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
-  const exportOrdersCSV = (exportOrderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
+  const exportOrdersCSV = exportOrderReducer.result
+    .filter((group) => group.group === rolesReducer.result?.group)
+    .map(({ group, ...rest }) => rest);
 
   const arrivalTimeV2 = filteredOrders.map(item => {
     const date = new Date(item.arrival_time);
