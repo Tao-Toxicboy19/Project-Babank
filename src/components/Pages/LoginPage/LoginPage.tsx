@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Button } from "@mui/material"
 import Logo1 from '../../../assets/images/logo/logo1.png'
 import Logo2 from '../../../assets/images/logo/logo2.png'
 import Logo3 from '../../../assets/images/logo/logo3.png'
@@ -52,8 +52,9 @@ export default function LoginPage({ }: Props) {
               >
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="username" className="text-gray-500 mb-2"
-                  >Username</label
                   >
+                    Username
+                  </label>
                   <input
                     type="text"
                     id="username"
@@ -64,8 +65,9 @@ export default function LoginPage({ }: Props) {
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="password" className="text-gray-500 mb-2"
-                  >Password</label
                   >
+                    Password
+                  </label>
                   <input
                     type="password"
                     id="password"
@@ -76,31 +78,30 @@ export default function LoginPage({ }: Props) {
                   />
                 </div>
                 <div id="button" className="flex flex-col w-full my-5">
-                  <button
+                  <Button
                     disabled={isSubmitting}
                     type="submit"
-                    className="w-full py-4 bg-[#2196F3] rounded-lg text-green-100"
+
+                    className={`w-full py-4 ${isSubmitting ? 'bg-[#303539] text-white' : 'bg-blue-600'} hover:bg-blue-800 rounded-lg text-white`}
                   >
-                    <div className="flex flex-row items-center justify-center">
-                      <div className="mr-2">
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                          ></path>
-                        </svg>
-                      </div>
-                      <div className="font-bold">Sigin</div>
+                    <div className="mr-2">
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                        ></path>
+                      </svg>
                     </div>
-                  </button>
+                    <span>sigin</span>
+                  </Button>
                 </div>
               </form>
             </div>
