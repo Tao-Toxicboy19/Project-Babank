@@ -246,6 +246,24 @@ export default function OrderPage({ }: Props) {
     }
   };
 
+  const handleFileChangeV2 = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+        const group: number | undefined = rolesReducer.result?.group
+        const formData = new FormData();
+        if (group !== undefined) {
+          formData.append('group', group.toString());
+        }
+        formData.append('file', file);
+        const overlay = 'overlay'
+        dispatch(importOrderAsync({ formData, fetch, overlay }))
+      } else {
+        alert('Please select a valid CSV file.');
+      }
+    }
+  };
+
   return (
     <>
       <Card className='min-h-[90vh]'>
@@ -308,10 +326,10 @@ export default function OrderPage({ }: Props) {
                     </>
                   </Box>
 
-                  <Tooltip title="Import">
+                  <Tooltip title="upload">
                     <Box>
                       <LoadingButton
-                        className="w-[180px] my-auto"
+                        className="w-full my-auto"
                         loading={importOrderReducer.loading}
                         loadingPosition="start"
                         component="label"
@@ -328,7 +346,25 @@ export default function OrderPage({ }: Props) {
                     </Box>
                   </Tooltip>
 
-
+                  <Tooltip title="upload">
+                    <Box>
+                      <LoadingButton
+                        className="w-full my-auto"
+                        loading={importOrderReducer.loading}
+                        loadingPosition="start"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload file (overlay)
+                        <VisuallyHiddenInput
+                          type="file"
+                          accept=".csv"
+                          onChange={handleFileChangeV2}
+                        />
+                      </LoadingButton>
+                    </Box>
+                  </Tooltip>
                 </Box>
               </Box>
               <hr />

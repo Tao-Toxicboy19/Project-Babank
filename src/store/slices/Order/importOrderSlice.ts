@@ -19,9 +19,12 @@ const initialState: OrderState = {
 
 export const importOrderAsync = createAsyncThunk(
     'importOrder/importOrderAsync',
-    async ({ formData, fetch }: { formData: FormData, fetch: () => void }) => {
+    async ({ formData, fetch, overlay }: { formData: FormData, fetch: () => void, overlay?: string }) => {
         try {
             const result = await httpClient.post(server.IMPORTORDER, formData)
+            if (overlay) {
+                await httpClient.delete('http://crane.otpzlab.com:7070/api/exportorder')
+            }
             fetch()
             toast.success(SUCCESS)
             return result.data
