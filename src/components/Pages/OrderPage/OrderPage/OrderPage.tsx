@@ -249,17 +249,16 @@ export default function OrderPage({ }: Props) {
   };
 
   const handleFileChangeV2 = (event: any) => {
+    const group: number | undefined = rolesReducer.result?.group
     const file = event.target.files[0];
     if (file) {
       if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
-        const group: number | undefined = rolesReducer.result?.group
         const formData = new FormData();
         if (group !== undefined) {
           formData.append('group', group.toString());
         }
         formData.append('file', file);
-        const overlay = 'overlay'
-        dispatch(importOrderAsync({ formData, fetch, overlay }))
+        dispatch(importOrderAsync({ formData, fetch, group }))
       } else {
         alert('Please select a valid CSV file.');
       }

@@ -50,11 +50,10 @@ function Shwoform({ rows, id }: any) {
             const values = {
                 ...data,
                 load: sumBulkArray,
-                arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss'),
-                deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')
+                arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
+                deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
             }
             try {
-                console.log(values)
                 await dispatch(orderEditAsync({ id, values, navigate, fetch }))
                 setIsSubmitting(false)
             } catch (error) {
@@ -130,7 +129,7 @@ function Shwoform({ rows, id }: any) {
                                     required: true,
                                     valueAsNumber: true,
                                     min: 1,
-                                    max: 5,
+                                    max: 15,
                                 })}
                             />
                             {errors.maxFTS && (

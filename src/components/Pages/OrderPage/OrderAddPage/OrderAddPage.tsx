@@ -395,8 +395,8 @@ function ShowForm() {
       cr_id: findCarrier?.cr_id,
       group: rolesReducer.result?.group,
       load: totalBulk,
-      arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss'),
-      deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss')
+      arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
+      deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
     }
     try {
       await dispatch(orderAddAsync({ values, navigate, fetch }))

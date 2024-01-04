@@ -19,12 +19,12 @@ const initialState: OrderState = {
 
 export const importOrderAsync = createAsyncThunk(
     'importOrder/importOrderAsync',
-    async ({ formData, fetch, overlay }: { formData: FormData, fetch: () => void, overlay?: string }) => {
+    async ({ formData, fetch, group }: { formData: FormData, fetch: () => void, group?: number | undefined }) => {
         try {
-            const result = await httpClient.post(server.IMPORTORDER, formData)
-            if (overlay) {
-                await httpClient.delete('http://crane.otpzlab.com:7070/api/exportorder')
+            if (group) {
+                await httpClient.delete(`http://crane.otpzlab.com:7070/api/exportorder/${group}`)
             }
+            const result = await httpClient.post(server.IMPORTORDER, formData)
             fetch()
             toast.success(SUCCESS)
             return result.data
