@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux';
-import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { TableContainer, TableHead, TableCell, Paper, TableRow, Table, TableBody, Tooltip, InputAdornment, TextField } from '@mui/material';
-import moment from 'moment';
-import Search from '@mui/icons-material/Search';
-import { solutionOrderSSelector } from '../../../store/slices/Solution/solutionOrderSlice';
+import { TableContainer, TableHead, TableCell, Paper, TableRow, Table, TableBody } from '@mui/material';
 import { roleSelector } from '../../../store/slices/auth/rolesSlice';
+import { reportCraneSelector } from '../../../store/slices/report/reportCraneSlice';
+import { carrierSelector } from '../../../store/slices/Carrier/carrierSlice';
 
 function Tables({ filteredData }: any) {
+  const carrierReducer = useSelector(carrierSelector)
 
   return (
     <TableContainer component={Paper} className='min-w-[85wh]'>
@@ -16,8 +15,8 @@ function Tables({ filteredData }: any) {
         <TableHead>
           <TableRow>
             <TableCell>ชื่อเรือ</TableCell>
-            <TableCell align="right">เวลาเริ่ม</TableCell>
-            <TableCell align="right">เวลาเสร็จ</TableCell>
+            <TableCell align="right">ค่าแรง (เดือน)</TableCell>
+            <TableCell align="right">อัตราการใช้เพลิง</TableCell>
             <TableCell align="right">ค่าปรับล่าช้า</TableCell>
             <TableCell align="right">รางวัล</TableCell>
           </TableRow>
@@ -47,20 +46,25 @@ function Tables({ filteredData }: any) {
             </TableRow>
           ) : (
             <>
-              {filteredData.map((row: any) => (
-                <TableRow
-                  key={row.or_id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.carrier_name}
-                  </TableCell>
-                  <TableCell align="right">{row.start_time ? moment(row.start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell>
-                  <TableCell align="right">{row.finish_time ? moment(row.finish_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell>
-                  <TableCell align="right">{row.penalty_cost}</TableCell>
-                  <TableCell align="right">{row.reward}</TableCell>
-                </TableRow>
-              ))}
+              {filteredData.map((row: any) => {
+                const nameCarrier = (carrierReducer.result).find((r) => r.cr_id === row.carrier_id)
+                return (
+                  <TableRow
+                    key={row.or_id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {nameCarrier?.carrier_name}
+                    </TableCell>
+                    <TableCell align="right">{row.wage_month_cost}</TableCell>
+                    <TableCell align="right">{row.consumption_rate}</TableCell>
+                    {/* <TableCell align="right">{row.start_time ? moment(row.start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
+                    {/* <TableCell align="right">{row.due_time ? moment(row.due_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
+                    <TableCell align="right">{row.penalty_cost}</TableCell>
+                    <TableCell align="right">{row.reward}</TableCell>
+                  </TableRow>
+                )
+              })}
             </>
           )}
         </TableBody>
@@ -71,22 +75,37 @@ function Tables({ filteredData }: any) {
 
 
 export default function SummarizaCarrier() {
-  const solutionCarrierOrderReducer = useSelector(solutionOrderSSelector)
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const reportCraneReducer = useSelector(reportCraneSelector)
   const rolesReducer = useSelector(roleSelector)
 
-  const filteredCarrierOrderReducer = (solutionCarrierOrderReducer.result).filter((group) => group.s_id === rolesReducer.result?.group);
+  const filteredCarrierOrderReducer = (reportCraneReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
 
-  // search
-  const filteredData = (filteredCarrierOrderReducer).filter((item) =>
-    item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const resultArray = Object.values(filteredCarrierOrderReducer.reduce((accumulator: any, currentValue: any) => {
+    const { carrier_id, consumption_rate, wage_month_cost, penalty_cost, reward } = currentValue;
 
+    // ในกรณี carrier_id ไม่มีใน accumulator ให้สร้าง key ใหม่
+    if (!accumulator[carrier_id]) {
+      accumulator[carrier_id] = {
+        carrier_id,
+        consumption_rate: 0,
+        wage_month_cost: 0,
+        penalty_cost: 0,
+        reward: 0
+      };
+    }
 
+    // บวกค่าเข้ากับ accumulator
+    accumulator[carrier_id].consumption_rate += consumption_rate;
+    accumulator[carrier_id].wage_month_cost += wage_month_cost;
+    accumulator[carrier_id].penalty_cost += penalty_cost;
+    accumulator[carrier_id].reward += reward;
+
+    return accumulator;
+  }, {}))
 
   return (
 
-    <>{filteredData.length === 0 ? (
+    <>{resultArray.length === 0 ? (
       <>
         <Typography
           sx={{
@@ -134,7 +153,7 @@ export default function SummarizaCarrier() {
 
         <Box className='w-full flex flex-col justify-center min-w-[76.5vw]'>
           <Box className='w-3/12 mb-5'>
-            <Tooltip
+            {/* <Tooltip
               title="ค้นหา"
               className='flex justify-end'
             >
@@ -153,9 +172,9 @@ export default function SummarizaCarrier() {
                   ),
                 }}
               />
-            </Tooltip>
+            </Tooltip> */}
           </Box>
-          <Tables filteredData={filteredData} />
+          <Tables filteredData={resultArray} />
 
         </Box>
       </Box>

@@ -505,7 +505,7 @@ function ShowForm() {
                   required: true,
                   valueAsNumber: true,
                   min: 1,
-                  max: 15,
+                  max: 4,
                 })}
               />
               {errors.maxFTS && (
@@ -683,7 +683,7 @@ function ShowForm() {
               defaultValue={findMaxFts?.burden}
               {...register('burden', {
                 min: 0,
-                max: 20,
+                max: 10,
                 onChange: (e) => {
                   setBulk(+(e.target.value) || findMaxFts?.burden || 0)
                 }

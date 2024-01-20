@@ -43,7 +43,7 @@ function Shwoform({ rows, id }: any) {
     }, [])
 
     const fetch = () => dispatch(orderAsync())
-
+    
     return (
         <form onSubmit={handleSubmit(async (data) => {
             setIsSubmitting(true)
@@ -129,7 +129,7 @@ function Shwoform({ rows, id }: any) {
                                     required: true,
                                     valueAsNumber: true,
                                     min: 1,
-                                    max: 15,
+                                    max: 5,
                                 })}
                             />
                             {errors.maxFTS && (
@@ -284,7 +284,7 @@ function Shwoform({ rows, id }: any) {
                                     defaultValue={row.bulk || bulk}
                                     {...register('burden', {
                                         min: 0,
-                                        max: 20,
+                                        max: 10,
                                         onChange: (e) => {
                                             setBulk(+(e.target.value) || 0)
                                         }

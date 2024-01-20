@@ -46,6 +46,7 @@ import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
+import { reportCraneAsync } from './store/slices/report/reportCraneSlice';
 
 const drawerWidth = 240;
 
@@ -58,6 +59,7 @@ export default function ResponsiveDrawer() {
     dispatch(sulutionScheduelAsync())
     dispatch(restoreLogin())
 
+    dispatch(reportCraneAsync())
     dispatch(carrierAsync())
     dispatch(roleAsync())
     dispatch(orderAsync())

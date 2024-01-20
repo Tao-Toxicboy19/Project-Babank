@@ -8,7 +8,6 @@ import ReportFTS from './ReportFTS/ReportFTS';
 import ReportCrane from './ReportCrane/ReportCrane';
 import { useAppDispatch } from '../../../store/store';
 import { reportFtsAsync } from '../../../store/slices/report/reportFtsSlice';
-import { reportCraneAsync } from '../../../store/slices/report/reportCraneSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -53,7 +52,6 @@ export default function ReportPage() {
 
     React.useEffect(() => {
         dispatch(reportFtsAsync())
-        dispatch(reportCraneAsync())
     }, []);
 
     return (

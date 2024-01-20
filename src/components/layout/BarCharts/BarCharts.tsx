@@ -40,7 +40,6 @@ const labels = [
 ];
 
 export function BarCharts({ ftsSolutionReducer, value }: any) {
-  console.log(ftsSolutionReducer)
   const data = {
     labels,
     datasets: [
