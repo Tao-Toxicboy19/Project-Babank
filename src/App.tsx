@@ -32,8 +32,6 @@ import CarrierCreate from './components/Pages/CarrierPage/CarrierAdd/CarrierAdd'
 import CarrierEditPage from './components/Pages/CarrierPage/CarrierEditPage/CarrierEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
 import { sulutionScheduelAsync } from './store/slices/Solution/sollutionScheduleSlice';
-import StatusFTSRoute from './utils/StatusFTSRoute';
-import StatusFTSPage from './components/Pages/StatusFTSPage/StatusFTSPage';
 import { roleAsync } from './store/slices/auth/rolesSlice';
 import { useAppDispatch } from './store/store';
 import { carrierAsync } from './store/slices/Carrier/carrierSlice';
@@ -131,10 +129,6 @@ export default function ResponsiveDrawer() {
                 <Route path="/management/user" element={<ManagementUserPage />} />
               </Route>
 
-            </Route>
-
-            <Route element={<StatusFTSRoute />}>
-              <Route path="/management/carrier" element={<StatusFTSPage />} />
             </Route>
 
             <Route element={<PublicRoute />}>
