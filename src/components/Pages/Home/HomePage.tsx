@@ -31,7 +31,6 @@ export default function HomePage({ }: Props) {
 
   const isLoading = ftsReducer.loading && carrierReducer.loading && cargoReducer.loading && orderReducer.loading && cargoCraneReducer.loading
   const filteredOrder = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
-  const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
 
   useEffect(() => {
@@ -58,7 +57,7 @@ export default function HomePage({ }: Props) {
               <StockCard
                 icon={GiCargoShip}
                 title="เรือขนสินค้า"
-                subtitle={`${(filteredCarrier).length} ลำ`}
+                subtitle={`${(carrierReducer.result).length} ลำ`}
                 color="bg-[#f39c12]/75"
                 path={'/carrier'}
               />
