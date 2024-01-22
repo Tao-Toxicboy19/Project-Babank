@@ -1,7 +1,6 @@
 import { DialogTitle, DialogContent, Button, Dialog, TextField, Tooltip, Typography, Alert, Stack, FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { Orders } from '../../../../type/Order.type';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../store/store';
 import { httpClient } from '../../../../utils/httpclient';
@@ -14,7 +13,7 @@ import Tab from '@mui/material/Tab';
 import moment from 'moment';
 import Loading from '../../../layout/Loading/Loading';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
-import { orderAsync } from '../../../../store/slices/Order/orderSlice';
+import { Orders, orderAsync } from '../../../../store/slices/Order/orderSlice';
 
 type Props = {
     items: Orders
@@ -64,15 +63,7 @@ function AssignForm({ items, handleClose }: any) {
         formState: { errors },
         reset,
     } = useForm();
-    let totalBulk = 0;
-    let totalLoad = 0;
-
-    for (const cargoOrder of items.cargo_order) {
-        totalLoad += cargoOrder.load;
-    }
-    for (const cargoOrder of items.cargo_order) {
-        totalBulk += cargoOrder.bulk;
-    }
+    
     return (
         <form
             onSubmit={handleSubmit((data) => {
@@ -91,7 +82,7 @@ function AssignForm({ items, handleClose }: any) {
             })}
         >
             <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
-                {Array.from({ length: totalBulk }, (_, index) => (
+                {Array.from({ length: items.cargo_order.bulk }, (_, index) => (
                     <Box key={index} className='grid grid-cols-4 gap-5'>
                         <Box>
                             <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
@@ -104,7 +95,7 @@ function AssignForm({ items, handleClose }: any) {
                                 className='font-kanit'
                                 type='number'
                                 disabled={true}
-                                defaultValue={totalLoad}
+                                defaultValue={items.cargo_order.Bulks[index].load_bulk}
                             />
                         </Box>
                         <Box>
@@ -192,15 +183,6 @@ function ApprovedForm({ items, handleClose }: any) {
         formState: { errors },
         reset,
     } = useForm();
-    let totalBulk = 0;
-    let totalLoad = 0;
-
-    for (const cargoOrder of items.cargo_order) {
-        totalLoad += cargoOrder.load;
-    }
-    for (const cargoOrder of items.cargo_order) {
-        totalBulk += cargoOrder.bulk;
-    }
 
     return (
         <form
@@ -220,7 +202,7 @@ function ApprovedForm({ items, handleClose }: any) {
             })}
         >
             <Stack direction='column' spacing={2} className='w-[1200px] my-5'>
-                {Array.from({ length: totalBulk }, (_, index) => (
+                {Array.from({ length: items.cargo_order.bulk }, (_, index) => (
                     <Box key={index} className='grid grid-cols-5 gap-5'>
                         <Box>
                             <label htmlFor="" className='opacity-0'>เวลาเริ่ม</label>
@@ -233,7 +215,7 @@ function ApprovedForm({ items, handleClose }: any) {
                                 className='font-kanit'
                                 type='number'
                                 disabled={true}
-                                defaultValue={totalLoad}
+                                defaultValue={items.cargo_order.Bulks[index].load_bulk}
                             />
                         </Box>
                         <Box>
@@ -331,8 +313,8 @@ export default function UpdateStatus({ items }: Props) {
     const dispatch = useAppDispatch()
     let totalBulk = 0
 
-    for (const cargoOrder of items.cargo_order) {
-        totalBulk += cargoOrder.bulk;
+    for (const cargoOrder of items.cargo_order.Bulks) {
+        totalBulk += cargoOrder.load_bulk
     }
 
     const [value, setValue] = React.useState(0);
@@ -358,7 +340,6 @@ export default function UpdateStatus({ items }: Props) {
     return (
         <>
             <Tooltip title={items.status_order === 'In Plan' || items.status_order === 'Newer' ? "" : "เปลี่ยนสถานะ"}>
-                {/* <Tooltip title={items.status_order !== 'In Plan' ? "เปลี่ยนสถานะ" : ""}> */}
                 <Typography
                     className={`w-[110px] h-fit px-[10px] py-[1px] rounded-lg ${items.status_order === 'Newer' ? 'bg-emerald-100 text-emerald-950 cursor-pointer' : items.status_order === 'Assign' ? 'bg-purple-100 text-indigo-900 cursor-pointer' : 'bg-slate-200 text-gray-700 cursor-pointer'} ${items.status_order === 'Approved' ? 'disabled' : ''} ${items.status_order === 'In Plan' || items.status_order === 'Newer' ? 'cursor-no-drop' : ''}`}
                     onClick={handleClickOpen}

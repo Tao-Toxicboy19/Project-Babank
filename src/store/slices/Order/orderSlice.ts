@@ -4,73 +4,74 @@ import { server } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 
-interface Cargo {
-  cargo_id: number;
-  cargo_name: string;
-}
-
-interface CargoOrder {
-  order_id: number
-  cargo_id: number
-  load: number
-  bulk: number
-  b1: number | null
-  b2: number | null
-  b3: number | null
-  b4: number | null
-  b5: number | null
-  b6: number | null
-  b7: null
-  b8: null
-  b9: null
-  b10: null
-  cargo: Cargo
-}
-
-interface Carrier {
-  cr_id: number
-  carrier_name: string
-  holder: string
-  maxcapacity: number
-  burden: number
-  Width: number
-  carrier_max_FTS: number
-  carrier_max_crane: number
-  length: number
-  has_crane: HasCrane | null
-}
-
-enum HasCrane {
-  Has = "has",
-  No = "no",
-}
-
-enum StatusOrder {
-  Approved = "Approved",
-  Assign = "Assign",
-  InPlan = "In Plan",
-  Newer = "Newer",
-}
-
-interface Orders {
+export interface Orders {
   or_id: number;
   cr_id: number;
   category: string;
-  arrival_time: string;
-  deadline_time: string;
+  arrival_time: any;
+  deadline_time: any;
   latitude: number;
   longitude: number;
   maxFTS: number;
   penalty_rate: number;
   reward_rate: number;
-  status_order: StatusOrder;
-  rel_start_time: null | string;
-  rel_finish_time: null | string;
-  reason: null | string;
+  status_order: string;
+  rel_start_time: null;
+  rel_finish_time: null;
+  reason: null;
   group: number;
   carrier: Carrier;
-  cargo_order: CargoOrder[];
+  cargo_order: CargoOrder;
 }
+
+export interface CargoOrder {
+  order_id: number;
+  cargo_id: number;
+  load: number;
+  bulk: number;
+  group: number;
+  cargo: Cargo;
+  Bulks: Bulk[];
+}
+
+export interface Bulk {
+  id: number;
+  load_bulk: number;
+  cargo_orderOrder_id: number;
+  group: number;
+}
+
+export interface Cargo {
+  cargo_id: number;
+  cargo_name: CargoName;
+  premium_rate: number;
+}
+
+export enum CargoName {
+  กากถั่ว = "กากถั่ว",
+  ถั่วเม็ด = "ถั่วเม็ด",
+  ถ่านหิน = "ถ่านหิน",
+  มันเส้น = "มันเส้น",
+}
+
+export interface Carrier {
+  cr_id: number;
+  carrier_name: string;
+  holder: null | string;
+  maxcapacity: number | null;
+  burden: number | null;
+  Width: number | null;
+  carrier_max_FTS: number;
+  carrier_max_crane: number | null;
+  length: number | null;
+  has_crane: HasCrane | null;
+}
+
+export enum HasCrane {
+  Has = "has",
+  No = "no",
+}
+
 
 interface OrderState {
   result: Orders[];

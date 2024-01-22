@@ -63,7 +63,6 @@ export default function OrderPage({ }: Props) {
 
   useEffect(() => {
     dispatch(exportOrderAsync())
-
   }, []);
 
   const uniqueMonths = Array.from(new Set(arrivalTimeV2));
@@ -73,6 +72,7 @@ export default function OrderPage({ }: Props) {
     const month = date.getMonth();
     return monthNames[month] === selectedMonth;
   })
+  console.log(displayData)
 
   const showTbody = () => {
     return (
@@ -83,33 +83,21 @@ export default function OrderPage({ }: Props) {
               key={items.or_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="left">{items.carrier.carrier_name}</TableCell>
+              <TableCell align="left">
+                {items.carrier.carrier_name}
+              </TableCell>
               <TableCell
                 align="center"
                 className="font-kanit"
               >
-
                 <UpdateStatus items={items} />
 
               </TableCell>
               <TableCell align="center">
-                {items.cargo_order.map((cargo) => (
-                  <>
-                    <Typography className='flex justify-center font-kanit'>
-                      {cargo.cargo.cargo_name}
-                    </Typography>
-                  </>
-                ))}
+                {items.cargo_order.cargo.cargo_name}
               </TableCell>
               <TableCell>
-                {items.cargo_order.map((cargo) => (
-                  <Typography
-                    key={cargo.order_id}
-                    align="center"
-                  >
-                    {(cargo.load).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </Typography>
-                ))}
+                {items.cargo_order.load}
               </TableCell>
               <TableCell
                 align="center"
@@ -147,15 +135,7 @@ export default function OrderPage({ }: Props) {
               </TableCell>
 
               <TableCell>
-                {items.cargo_order.map((cargo) => (
-                  <Typography
-                    className="font-kanit"
-                    align="center"
-                    key={cargo.order_id}
-                  >
-                    {cargo.bulk}
-                  </Typography>
-                ))}
+                {items.cargo_order.bulk}
               </TableCell>
               <TableCell
                 align="center"
