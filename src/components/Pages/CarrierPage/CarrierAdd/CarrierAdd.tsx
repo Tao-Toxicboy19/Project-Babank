@@ -1,10 +1,8 @@
 import { Alert, Box, Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField, ThemeProvider, createTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Titles from '../../../layout/Titles/Titles';
-import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { carrierAddAsync } from '../../../../store/slices/Carrier/carrierAddSlice';
 import { CLOSE, SAVE } from '../../../../Constants';
@@ -17,7 +15,6 @@ function ShowFrom() {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const rolesReducer = useSelector(roleSelector)
   const {
     register,
     handleSubmit,
@@ -30,7 +27,6 @@ function ShowFrom() {
         try {
           const values = {
             ...data,
-            group: rolesReducer.result?.group
           }
           await dispatch(carrierAddAsync({ values, navigate }));
           setIsSubmitting(false);

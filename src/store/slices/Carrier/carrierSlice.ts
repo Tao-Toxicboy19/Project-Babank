@@ -14,7 +14,6 @@ interface Carrier {
     Width: number
     length: number
     has_crane: string
-    group: number
 }
 
 interface carrierState {
