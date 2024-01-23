@@ -5,30 +5,50 @@ import { toast } from "react-toastify"
 import { RootState } from "../../store"
 import { NavigateFunction } from "react-router-dom"
 
-interface Cargo {
-  cargo_id: number;
-  cargo_name: string;
+export interface OrdersEdit {
+  or_id: number;
+  cr_id: number;
+  category: string;
+  arrival_time: any;
+  deadline_time: any;
+  latitude: number;
+  longitude: number;
+  maxFTS: number;
+  penalty_rate: number;
+  reward_rate: number;
+  status_order: string;
+  rel_start_time: null;
+  rel_finish_time: null;
+  reason: null;
+  group: number;
+  carrier: Carrier;
+  cargo_order: CargoOrder;
 }
 
-interface CargoOrder {
+export interface CargoOrder {
   order_id: number;
   cargo_id: number;
   load: number;
   bulk: number;
-  b1: number | null;
-  b2: number | null;
-  b3: number | null;
-  b4: number | null;
-  b5: number | null;
-  b6: number | null;
-  b7: null;
-  b8: null;
-  b9: null;
-  b10: null;
+  group: number;
   cargo: Cargo;
+  Bulks: Bulk[];
 }
 
-interface Carrier {
+export interface Bulk {
+  id: number;
+  load_bulk: number;
+  cargo_orderOrder_id: number;
+  group: number;
+}
+
+export interface Cargo {
+  cargo_id: number;
+  cargo_name: string;
+  premium_rate: number;
+}
+
+export interface Carrier {
   cr_id: number;
   carrier_name: string;
   holder: string;
@@ -38,43 +58,12 @@ interface Carrier {
   carrier_max_FTS: number;
   carrier_max_crane: number;
   length: number;
-  has_crane: HasCrane | null;
+  has_crane: null;
 }
 
-enum HasCrane {
-  Has = "has",
-  No = "no",
-}
-
-enum StatusOrder {
-  Approved = "Approved",
-  Assign = "Assign",
-  InPlan = "In Plan",
-  Newer = "Newer",
-}
-
-interface Orders {
-  or_id: number;
-  cr_id: number;
-  category: string;
-  arrival_time: string;
-  deadline_time: string;
-  latitude: number;
-  longitude: number;
-  maxFTS: number;
-  penalty_rate: number;
-  reward_rate: number;
-  status_order: StatusOrder;
-  rel_start_time: null | string;
-  rel_finish_time: null | string;
-  reason: null | string;
-  group: number;
-  carrier: Carrier;
-  cargo_order: CargoOrder[];
-}
 
 interface OrderEditState {
-  result: Orders | null
+  result: OrdersEdit | null
   loading: boolean
   error: boolean
 }
@@ -105,7 +94,7 @@ const orderEditSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(orderEditAsync.fulfilled, (state: OrderEditState, action: PayloadAction<Orders>) => {
+    builder.addCase(orderEditAsync.fulfilled, (state: OrderEditState, action: PayloadAction<OrdersEdit>) => {
       state.result = action.payload
       state.loading = false
       state.error = false

@@ -72,7 +72,6 @@ export default function OrderPage({ }: Props) {
     const month = date.getMonth();
     return monthNames[month] === selectedMonth;
   })
-  console.log(displayData)
 
   const showTbody = () => {
     return (

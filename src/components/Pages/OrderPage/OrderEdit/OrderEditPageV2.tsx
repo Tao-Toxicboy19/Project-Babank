@@ -10,14 +10,14 @@ import Loading from '../../../layout/Loading/Loading';
 import { carrierSelector } from '../../../../store/slices/Carrier/carrierSlice';
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { orderAsync } from '../../../../store/slices/Order/orderSlice';
-import { orderEditAsync } from '../../../../store/slices/Order/orderEditSlice';
+import { OrdersEdit, orderEditAsync } from '../../../../store/slices/Order/orderEditSlice';
 import moment from 'moment';
 
 type Props = {}
 
 const defaultTheme = createTheme();
 
-function Shwoform({ rows, id }: any) {
+function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
     const carrierReducer = useSelector(carrierSelector)
     const cargoReducer = useSelector(cargoSelector)
     const navigate = useNavigate()
@@ -27,29 +27,19 @@ function Shwoform({ rows, id }: any) {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm()
 
-    // const filteredCarrier = (carrierReducer.result).filter((group) => group.group === rolesReducer.result?.group)
-
-    const sumBulkArray = Array.from({ length: bulk }).reduce((acc: any, _, index) => {
-        const value = +watch(`bulkArray.${index}`);
-        return !isNaN(value) ? acc + value : acc;
-    }, 0)
-
-    useEffect(() => {
-        setBulk(rows.cargo_order[0].bulk)
-    }, [])
+    // const filteredCarrier = (carrierReducer.result).filter((group) => group === rolesReducer.result?.group)
 
     const fetch = () => dispatch(orderAsync())
-    
+
     return (
         <form onSubmit={handleSubmit(async (data) => {
             setIsSubmitting(true)
             const values = {
                 ...data,
-                load: sumBulkArray,
+                // load: sumBulkArray,
                 arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
                 deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
             }
@@ -252,7 +242,55 @@ function Shwoform({ rows, id }: any) {
                 <Box
                     className='grid grid-cols-2 gap-5'
                 >
-                    {(rows.cargo_order).map((row: any, index: any) => (
+
+                    <FormControl
+                        fullWidth
+                    >
+                        <InputLabel id="demo-simple-select-label">เลือกสินค้า</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id={`inputs.cargo_names`}
+                            label="เลือกสินค้า"
+                            defaultValue={rows.cargo_order.cargo_id}
+                            {...register(`inputs.cargo_names` as const, {
+                                required: true
+                            })}
+                        >
+                            {(cargoReducer.result).map((items) => (
+                                <MenuItem key={items.cargo_id} value={items.cargo_id} className='font-kanit'>
+                                    {items.cargo_name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        label='จำนวนระวาง'
+                        id='burden'
+                        type='number'
+                        className='font-kanit w-4/5'
+                        defaultValue={rows.cargo_order.bulk || bulk}
+                        {...register('burden', {
+                            min: 0,
+                            max: 10,
+                            onChange: (e) => {
+                                setBulk(+(e.target.value) || 0)
+                            }
+                        })}
+                    />
+
+
+                    {(rows.cargo_order.Bulks).map((item, index) => (
+                        <TextField
+                            key={index}
+                            label={`ระวางที่ ${index + 1}`}
+                            type='number'
+                            fullWidth
+                            className='font-kanit'
+                            {...register(`bulkArray.${index}` as const)}
+                            defaultValue={item.load_bulk}
+                        />
+                    ))}
+                    {/* {(rows.cargo_order).map((row: any, index: any) => (
                         <>
                             <FormControl
                                 fullWidth
@@ -308,7 +346,7 @@ function Shwoform({ rows, id }: any) {
                                 />
                             ))}
                         </>
-                    ))}
+                    ))} */}
                 </Box>
             </Stack>
             <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>

@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 import { craneSolutionTableV2Selector } from '../../../../../store/slices/Solution/craneSolutionTableSlice';
+import { roleSelector } from '../../../../../store/slices/auth/rolesSlice';
 
 type Props = {
     value: any
@@ -9,12 +10,14 @@ type Props = {
 }
 
 
-export default function Tables({ Name }: Props) {
+export default function Tables({ Name, value }: Props) {
     const CraneSolutionV2Reducer = useSelector(craneSolutionTableV2Selector)
+    const rolesReducer = useSelector(roleSelector)
 
+    const filteredData = (CraneSolutionV2Reducer.result).filter(item => item.FTS_id === Name[value].fts_id)
+    const filteredRole = (filteredData).filter((group) => group.solution_id === rolesReducer.result?.group)
 
-    const filteredData = (CraneSolutionV2Reducer.result).filter(item => item.fts.FTS_name === Name);
-
+    // console.log(filteredData)
     return (
         <>
             <Box className='grid grid-cols-6 gap-3 mt-3'>
@@ -81,7 +84,7 @@ export default function Tables({ Name }: Props) {
                     รางวัล
                 </Typography>
                 <hr className='col-span-6' />
-                {(filteredData).map((items: any) => (
+                {(filteredRole).map((items: any) => (
                     <>
                         <Typography
                             align="left"

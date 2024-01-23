@@ -8,6 +8,7 @@ import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 import { ftsSolutionTableSelector } from '../../../../store/slices/Solution/ftsSolutionTableSlice';
 import { craneSolutionTableV2Async } from '../../../../store/slices/Solution/craneSolutionTableSlice';
 import { useAppDispatch } from '../../../../store/store';
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -44,7 +45,7 @@ function a11yProps(index: number) {
 export default function FTSsingle() {
     const [value, setValue] = React.useState(0)
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
-    // const rolesReducer = useSelector(roleSelector)
+    const rolesReducer = useSelector(roleSelector)
     const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
@@ -54,12 +55,13 @@ export default function FTSsingle() {
     React.useEffect(() => {
         dispatch(craneSolutionTableV2Async())
     }, []);
-    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
+
+    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
     return (
         <>
-            {ftsSolutionReducer.result.length === 0 ? (
+            {filteredftsSolutionReducer.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -80,7 +82,7 @@ export default function FTSsingle() {
             ) : (
                 <>
                     {
-                        ftsSolutionReducer.result.length === 0 ? (
+                        filteredftsSolutionReducer.length === 0 ? (
                             <Typography
                                 sx={{
                                     mr: 2,
@@ -194,7 +196,8 @@ export default function FTSsingle() {
                                                 </Box>
                                             )}
                                             <Box className="col-span-12">
-                                                <Tables Name={ftsSolutionReducer.result[value]?.fts.FTS_name} value={value} />
+                                                {/* <Tables Name={ftsSolutionReducer.result[value]?.fts.FTS_name} value={value} /> */}
+                                                <Tables Name={filteredftsSolutionReducer} value={value} />
                                             </Box>
                                             <Card className="col-span-12">
                                                 <BarCharts ftsSolutionReducer={ftsSolutionReducer.result} value={value} />
