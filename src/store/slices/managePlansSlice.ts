@@ -8,6 +8,15 @@ import { sulutionScheduelAsync } from "./Solution/sollutionScheduleSlice";
 import { solutionCarrierOrderAsync } from "./Solution/solutionCarrierOrderSlice";
 import { ftsSulutionAsync } from "./Solution/ftsSulutionSlice";
 import { ftsSolutionTableAsync } from "./Solution/ftsSolutionTableSlice";
+import { solutionOrderAsync } from "./Solution/solutionOrderSlice";
+import { reportCraneAsync } from "./report/reportCraneSlice";
+import { carrierAsync } from "./Carrier/carrierSlice";
+import { roleAsync } from "./auth/rolesSlice";
+import { orderAsync } from "./Order/orderSlice";
+import { craneAsync } from "./Crane/craneSlice";
+import { ftsAsync } from "./FTS/ftsSlice";
+import { cargoAsync } from "./Cargo/cargoSlice";
+import { cargoCraneAsync } from "./CargoCrane/cargoCraneSlice";
 
 
 export interface ManagePlans {
@@ -72,6 +81,15 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
         dispatch(ftsSulutionAsync())
         dispatch(ftsSolutionTableAsync())
         dispatch(solutionCarrierOrderAsync())
+        dispatch(solutionOrderAsync())
+        dispatch(reportCraneAsync())
+        dispatch(carrierAsync())
+        dispatch(roleAsync())
+        dispatch(orderAsync())
+        dispatch(craneAsync())
+        dispatch(ftsAsync())
+        dispatch(cargoAsync())
+        dispatch(cargoCraneAsync())
         handleClose()
         handleCloseV2()
         toast.success(SUCCESS)

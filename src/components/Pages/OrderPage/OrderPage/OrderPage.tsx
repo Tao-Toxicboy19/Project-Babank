@@ -209,7 +209,7 @@ export default function OrderPage({ }: Props) {
     width: 1,
   });
 
-  const fetch = () => dispatch(orderAsync())
+  const fetch = async () => await dispatch(orderAsync())
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
