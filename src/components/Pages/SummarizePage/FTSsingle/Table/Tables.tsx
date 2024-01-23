@@ -10,12 +10,12 @@ type Props = {
 }
 
 
-export default function Tables({ Name, value }: Props) {
+export default function Tables({ }: Props) {
     const CraneSolutionV2Reducer = useSelector(craneSolutionTableV2Selector)
     const rolesReducer = useSelector(roleSelector)
 
-    const filteredData = (CraneSolutionV2Reducer.result).filter(item => item.FTS_id === Name[value].fts_id)
-    const filteredRole = (filteredData).filter((group) => group.solution_id === rolesReducer.result?.group)
+    const filteredRole = (CraneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
+    // const filteredData = (filteredRole).filter(item => item.FTS_id === Name[value].fts_id)
 
     // console.log(filteredData)
     return (

@@ -196,8 +196,6 @@ export default function SummarizaCarrier() {
     return accumulator;
   }, {}))
 
-  console.log(resultArray)
-
   return (
 
     <>{resultArray.length === 0 ? (

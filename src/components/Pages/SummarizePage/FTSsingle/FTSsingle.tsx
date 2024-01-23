@@ -1,64 +1,64 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Tables from './Table/Tables';
-import { BarCharts } from '../../../layout/BarCharts/BarCharts';
-import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 import { ftsSolutionTableSelector } from '../../../../store/slices/Solution/ftsSolutionTableSlice';
 import { craneSolutionTableV2Async } from '../../../../store/slices/Solution/craneSolutionTableSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
+// interface TabPanelProps {
+//     children?: React.ReactNode;
+//     index: number;
+//     value: number;
+// }
 
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
+// function TabPanel(props: TabPanelProps) {
+//     const { children, value, index, ...other } = props;
+//     return (
+//         <div
+//             role="tabpanel"
+//             hidden={value !== index}
+//             id={`vertical-tabpanel-${index}`}
+//             aria-labelledby={`vertical-tab-${index}`}
+//             {...other}
+//         >
+//             {value === index && (
+//                 <Box sx={{ p: 3 }}>
+//                     <Typography>{children}</Typography>
+//                 </Box>
+//             )}
+//         </div>
+//     );
+// }
 
-function a11yProps(index: number) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
+// function a11yProps(index: number) {
+//     return {
+//         id: `vertical-tab-${index}`,
+//         'aria-controls': `vertical-tabpanel-${index}`,
+//     };
+// }
 
 export default function FTSsingle() {
-    const [value, setValue] = React.useState(0)
+    const [value, _] = React.useState(0)
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
     const rolesReducer = useSelector(roleSelector)
     const dispatch = useAppDispatch()
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        event.preventDefault();
-        setValue(newValue);
-    };
+    // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    //     event.preventDefault();
+    //     setValue(newValue);
+    // };
 
     React.useEffect(() => {
         dispatch(craneSolutionTableV2Async())
     }, []);
 
 
-    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
-    console.log(filteredftsSolutionReducer)
+    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)
+    // console.log(filteredftsSolutionReducer)
+    console.log(value)
+    console.log(ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group))
+
     return (
         <>
             {filteredftsSolutionReducer.length === 0 ? (
@@ -102,7 +102,10 @@ export default function FTSsingle() {
                             </Typography>
                         ) : (
                             <Box className='grid grid-cols-9'>
-                                <Card className='h-[100%]'>
+                                <Box className="col-span-9">
+                                    <Tables Name={ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)} value={value} />
+                                </Box>
+                                {/* <Card className='h-[100%]'>
                                     <Tabs
                                         orientation="vertical"
                                         variant="scrollable"
@@ -120,6 +123,9 @@ export default function FTSsingle() {
                                         ))}
                                     </Tabs>
                                 </Card>
+                                <Box>
+                                    {JSON.stringify(ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group))}
+                                </Box>
                                 <Box className='col-span-8'>
                                     <TabPanel value={value} index={value}>
                                         <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
@@ -143,11 +149,12 @@ export default function FTSsingle() {
                                                     <Box></Box>
                                                     <SummarizaCard
                                                         title={'ต้นทุนรวม'}
-                                                        price={filteredftsSolutionReducer.reduce((total, solution) =>
-                                                            total
-                                                            + solution.total_consumption_cost
-                                                            + solution.total_wage_cost
-                                                            + solution.penality_cost, 0)
+                                                        price={ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)
+                                                            .reduce((total, solution) =>
+                                                                total
+                                                                + solution.total_consumption_cost
+                                                                + solution.total_wage_cost
+                                                                + solution.penality_cost, 0)
                                                             .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
                                                         // price={ftsSolutionReducer.result[value].solutions.reduce((_, solution) =>
@@ -164,7 +171,12 @@ export default function FTSsingle() {
                                                     />
                                                     <SummarizaCard
                                                         title={'ค่าเชื้อเพลิงรวม'}
-                                                        price={filteredftsSolutionReducer.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        price={
+                                                            ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)
+                                                                .reduce((total, solution) => total + solution.total_consumption_cost, 0)
+                                                                .toFixed(2)
+                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        // price={filteredftsSolutionReducer.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         // price={ftsSolutionReducer.result[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
@@ -172,7 +184,12 @@ export default function FTSsingle() {
                                                     />
                                                     <SummarizaCard
                                                         title={'ค่าแรง'}
-                                                        price={filteredftsSolutionReducer.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        price={
+                                                            ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)
+                                                                .reduce((total, solution) => total + solution.total_wage_cost, 0)
+                                                                .toFixed(2)
+                                                                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        }
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
                                                         color='bg-[#00a6fb]/50'
@@ -180,10 +197,11 @@ export default function FTSsingle() {
                                                     <SummarizaCard
                                                         title={'ค่าปรับล่าช้า'}
                                                         price={(
-                                                            filteredftsSolutionReducer.reduce(
-                                                                (max, solution) => Math.max(max, solution.penality_cost),
-                                                                -Infinity
-                                                            )
+                                                            ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)
+                                                                .reduce(
+                                                                    (max, solution) => Math.max(max, solution.penality_cost),
+                                                                    -Infinity
+                                                                )
                                                         ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
@@ -192,10 +210,11 @@ export default function FTSsingle() {
                                                     <SummarizaCard
                                                         title={'รางวัล'}
                                                         price={(
-                                                            filteredftsSolutionReducer.reduce(
-                                                                (min, solution) => Math.min(min, solution.total_reward),
-                                                                Infinity
-                                                            )
+                                                            ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)
+                                                                .reduce(
+                                                                    (min, solution) => Math.min(min, solution.total_reward),
+                                                                    Infinity
+                                                                )
                                                         ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
@@ -204,15 +223,14 @@ export default function FTSsingle() {
                                                 </Box>
                                             )}
                                             <Box className="col-span-12">
-                                                {/* <Tables Name={ftsSolutionReducer.result[value]?.fts.FTS_name} value={value} /> */}
-                                                <Tables Name={filteredftsSolutionReducer} value={value} />
+                                                <Tables Name={ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group)} value={value} />
                                             </Box>
                                             <Card className="col-span-12">
                                                 <BarCharts ftsSolutionReducer={ftsSolutionReducer.result} value={value} />
                                             </Card>
                                         </Box>
                                     </TabPanel>
-                                </Box >
+                                </Box > */}
                             </Box>
                         )
                     }
