@@ -3,8 +3,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TableContainer, TableHead, TableCell, Paper, TableRow, Table, TableBody } from '@mui/material';
 import { roleSelector } from '../../../store/slices/auth/rolesSlice';
-import { reportCraneSelector } from '../../../store/slices/report/reportCraneSlice';
 import { carrierSelector } from '../../../store/slices/Carrier/carrierSlice';
+import { solutionOrderSSelector } from '../../../store/slices/Solution/solutionOrderSlice';
 
 function Tables({ filteredData }: any) {
   const carrierReducer = useSelector(carrierSelector)
@@ -14,11 +14,71 @@ function Tables({ filteredData }: any) {
       <Table aria-label="simple table" className='min-w-[85wh]'>
         <TableHead>
           <TableRow>
-            <TableCell>ชื่อเรือ</TableCell>
-            <TableCell align="right">ค่าแรง (เดือน)</TableCell>
-            <TableCell align="right">อัตราการใช้เพลิง</TableCell>
-            <TableCell align="right">ค่าปรับล่าช้า</TableCell>
-            <TableCell align="right">รางวัล</TableCell>
+            <TableCell
+              className='font-kanit'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              ชื่อเรือ
+            </TableCell>
+            <TableCell
+              align="right"
+              className='font-kanit'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              รายจ่าย
+            </TableCell>
+            {/* <TableCell
+              align="right"
+              className='font-kanit'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              ค่าเชื้อเพลิง
+            </TableCell> */}
+            <TableCell
+              align="right"
+              className='font-kanit'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              ค่าเชื้อเพลิง
+            </TableCell>
+            <TableCell
+              align="right"
+              className='font-kanit'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              ค่าปรับล่าช้า
+            </TableCell>
+            <TableCell
+              align="right"
+              className='font-kanit'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              รางวัล
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,21 +107,52 @@ function Tables({ filteredData }: any) {
           ) : (
             <>
               {filteredData.map((row: any) => {
-                const nameCarrier = (carrierReducer.result).find((r) => r.cr_id === row.carrier_id)
+                const nameCarrier = (carrierReducer.result).find((r) => r.cr_id === row.cr_id)
                 return (
                   <TableRow
-                    key={row.or_id}
+                    key={row.cr_id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      className='font-kanit text-lg'
+                    >
                       {nameCarrier?.carrier_name}
                     </TableCell>
-                    <TableCell align="right">{row.wage_month_cost}</TableCell>
-                    <TableCell align="right">{row.consumption_rate}</TableCell>
+                    <TableCell
+                      className='font-kanit text-lg'
+                      align="right"
+                    >
+                      {row.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {/* {(row.wage_month_cost + row.penalty_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
+                    </TableCell>
+                    {/* <TableCell
+                      className='font-kanit text-lg'
+                      align="right"
+                    >
+                      {row.wage_month_cost}
+                    </TableCell> */}
+                    <TableCell
+                      className='font-kanit text-lg'
+                      align="right"
+                    >
+                      {row.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    </TableCell>
                     {/* <TableCell align="right">{row.start_time ? moment(row.start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
                     {/* <TableCell align="right">{row.due_time ? moment(row.due_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
-                    <TableCell align="right">{row.penalty_cost}</TableCell>
-                    <TableCell align="right">{row.reward}</TableCell>
+                    <TableCell
+                      className='font-kanit text-lg'
+                      align="right"
+                    >
+                      {row.penalty_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    </TableCell>
+                    <TableCell
+                      className='font-kanit text-lg'
+                      align="right"
+                    >
+                      {row.reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    </TableCell>
                   </TableRow>
                 )
               })}
@@ -75,33 +166,37 @@ function Tables({ filteredData }: any) {
 
 
 export default function SummarizaCarrier() {
-  const reportCraneReducer = useSelector(reportCraneSelector)
+  const solutionOrderReducer = useSelector(solutionOrderSSelector)
   const rolesReducer = useSelector(roleSelector)
 
-  const filteredCarrierOrderReducer = (reportCraneReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
+  const filteredsolutionOrderReducer = (solutionOrderReducer.result).filter((group) => group.s_id === rolesReducer.result?.group);
 
-  const resultArray = Object.values(filteredCarrierOrderReducer.reduce((accumulator: any, currentValue: any) => {
-    const { carrier_id, consumption_rate, wage_month_cost, penalty_cost, reward } = currentValue;
+  const resultArray = Object.values(filteredsolutionOrderReducer.reduce((accumulator: any, currentValue: any) => {
+    const { cr_id, total_cost, total_consumption_cost, penalty_cost, reward, total_wage_cost } = currentValue;
 
-    // ในกรณี carrier_id ไม่มีใน accumulator ให้สร้าง key ใหม่
-    if (!accumulator[carrier_id]) {
-      accumulator[carrier_id] = {
-        carrier_id,
-        consumption_rate: 0,
-        wage_month_cost: 0,
+    // ในกรณี cr_id ไม่มีใน accumulator ให้สร้าง key ใหม่
+    if (!accumulator[cr_id]) {
+      accumulator[cr_id] = {
+        cr_id,
+        total_cost: 0,
+        total_consumption_cost: 0,
         penalty_cost: 0,
-        reward: 0
+        reward: 0,
+        total_wage_cost: 0
       };
     }
 
     // บวกค่าเข้ากับ accumulator
-    accumulator[carrier_id].consumption_rate += consumption_rate;
-    accumulator[carrier_id].wage_month_cost += wage_month_cost;
-    accumulator[carrier_id].penalty_cost += penalty_cost;
-    accumulator[carrier_id].reward += reward;
+    accumulator[cr_id].total_cost += total_cost;
+    accumulator[cr_id].total_consumption_cost += total_consumption_cost;
+    accumulator[cr_id].penalty_cost += penalty_cost;
+    accumulator[cr_id].reward += reward;
+    accumulator[cr_id].total_wage_cost += total_wage_cost;
 
     return accumulator;
   }, {}))
+
+  console.log(resultArray)
 
   return (
 

@@ -3,37 +3,47 @@ import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 
-interface SolutionOrder {
+export interface SolutionOrder {
     s_id: number;
     order_id: number;
     start_time: any;
     finish_time: any;
     penalty_cost: number;
     reward: number;
+    total_cost: number;
+    total_consumption_cost: number;
+    total_wage_cost: number;
     or_id: number;
     cr_id: number;
     category: string;
-    arrival_time: string;
-    deadline_time: string;
+    arrival_time: any;
+    deadline_time: any;
     latitude: number;
     longitude: number;
     maxFTS: number;
     penalty_rate: number;
     reward_rate: number;
     status_order: string;
-    rel_start_time: null | string;
-    rel_finish_time: null | string;
-    reason: string;
+    rel_start_time: null;
+    rel_finish_time: null;
+    reason: null;
+    group: number;
     carrier_name: string;
-    holder: string;
-    maxcapacity: number;
-    burden: number;
-    Width: number;
+    holder: null | string;
+    maxcapacity: number | null;
+    burden: number | null;
+    Width: number | null;
     carrier_max_FTS: number;
-    carrier_max_crane: number;
-    length: number;
-    has_crane: string;
+    carrier_max_crane: number | null;
+    length: number | null;
+    has_crane: HasCrane | null;
 }
+
+export enum HasCrane {
+    Has = "has",
+    No = "no",
+}
+
 
 interface SolutionOrderState {
     result: SolutionOrder[]
