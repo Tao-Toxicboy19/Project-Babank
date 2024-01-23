@@ -336,7 +336,7 @@ export default function OrderPage({ }: Props) {
                         variant="contained"
                         startIcon={<CloudUploadIcon />}
                       >
-                        Upload file (overlay)
+                        Upload file (Overwirte)
                         <VisuallyHiddenInput
                           type="file"
                           accept=".csv"

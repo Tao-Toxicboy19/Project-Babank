@@ -58,7 +58,7 @@ export default function FTSsingle() {
 
 
     const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
-
+    console.log(filteredftsSolutionReducer)
     return (
         <>
             {filteredftsSolutionReducer.length === 0 ? (
@@ -143,28 +143,36 @@ export default function FTSsingle() {
                                                     <Box></Box>
                                                     <SummarizaCard
                                                         title={'ต้นทุนรวม'}
-                                                        price={ftsSolutionReducer.result[value].solutions.reduce((_, solution) =>
-                                                            // total + solution.total_cost
-                                                            solution.total_consumption_cost
+                                                        price={filteredftsSolutionReducer.reduce((total, solution) =>
+                                                            total
+                                                            + solution.total_consumption_cost
                                                             + solution.total_wage_cost
-                                                            + solution.penality_cost
-                                                            , 0)
+                                                            + solution.penality_cost, 0)
                                                             .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                                         }
+                                                        // price={ftsSolutionReducer.result[value].solutions.reduce((_, solution) =>
+                                                        //     // total + solution.total_cost
+                                                        //     solution.total_consumption_cost
+                                                        //     + solution.total_wage_cost
+                                                        //     + solution.penality_cost
+                                                        //     , 0)
+                                                        //     .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                                        // }
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
                                                         color='bg-[#00a6fb]/50'
                                                     />
                                                     <SummarizaCard
                                                         title={'ค่าเชื้อเพลิงรวม'}
-                                                        price={ftsSolutionReducer.result[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        price={filteredftsSolutionReducer.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        // price={ftsSolutionReducer.result[value].solutions.reduce((total, solution) => total + solution.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
                                                         color='bg-[#00a6fb]/50'
                                                     />
                                                     <SummarizaCard
                                                         title={'ค่าแรง'}
-                                                        price={ftsSolutionReducer.result[value].solutions.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                        price={filteredftsSolutionReducer.reduce((total, solution) => total + solution.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                                         icon={CurrencyBitcoinIcon}
                                                         unit={'บาท'}
                                                         color='bg-[#00a6fb]/50'
@@ -172,7 +180,7 @@ export default function FTSsingle() {
                                                     <SummarizaCard
                                                         title={'ค่าปรับล่าช้า'}
                                                         price={(
-                                                            ftsSolutionReducer.result[value].solutions.reduce(
+                                                            filteredftsSolutionReducer.reduce(
                                                                 (max, solution) => Math.max(max, solution.penality_cost),
                                                                 -Infinity
                                                             )
@@ -184,7 +192,7 @@ export default function FTSsingle() {
                                                     <SummarizaCard
                                                         title={'รางวัล'}
                                                         price={(
-                                                            ftsSolutionReducer.result[value].solutions.reduce(
+                                                            filteredftsSolutionReducer.reduce(
                                                                 (min, solution) => Math.min(min, solution.total_reward),
                                                                 Infinity
                                                             )
