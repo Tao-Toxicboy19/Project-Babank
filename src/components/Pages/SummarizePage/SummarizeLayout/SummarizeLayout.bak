@@ -9,12 +9,12 @@ import Loading from '../../../layout/Loading/Loading';
 import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 import { ftsSulutionAsync, ftsSulutionSelector } from '../../../../store/slices/Solution/ftsSulutionSlice';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
+import { solutionCarrierOrderSelector } from '../../../../store/slices/Solution/solutionCarrierOrderSlice';
 import { solutionOrderAsync } from '../../../../store/slices/Solution/solutionOrderSlice';
 import { ftsSolutionAsync } from '../../../../store/slices/FtsSolution/ftsSolutionSlice';
 import { craneSolutionTableAsync } from '../../../../store/slices/FtsSolution/craneSolutionTableSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/slices/Solution/craneSolutionSlice';
-import { craneSolutionV2Async, craneSolutionV2Selector } from '../../../../store/slices/Solution/craneSolutionV2Slice';
 
 
 export default function SummarizeLayout() {
@@ -22,7 +22,7 @@ export default function SummarizeLayout() {
     const CraneSolutionReduer = useSelector(craneSolutionSelector)
     const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
     const rolesReducer = useSelector(roleSelector)
-    const craneSolutionV2Reducer = useSelector(craneSolutionV2Selector)
+    const Solution_carrier_orderReducer = useSelector(solutionCarrierOrderSelector)
 
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
 
@@ -32,45 +32,20 @@ export default function SummarizeLayout() {
         dispatch(ftsSolutionAsync())
         dispatch(craneSolutionTableAsync())
         dispatch(solutionOrderAsync())
-        dispatch(craneSolutionV2Async())
     }, []);
 
-    const craneSolutionV2 = (craneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
-    const totalConsumptionCost = craneSolutionV2.reduce((total, solution) => total + solution.total_consumption_cost, 0)
-    const totalPenality = craneSolutionV2.reduce((total, solution) => total + solution.penality_cost, 0)
-    const totalWageCost = craneSolutionV2.reduce((total, solution) => total + solution.total_wage_cost, 0)
-    const totalCost = totalConsumptionCost + totalWageCost + totalPenality
+    const filtered = (CraneSolutionReduer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
+    const filtereds = (Solution_carrier_orderReducer.result).filter((group) => group.s_id === rolesReducer.result?.group)
 
-
-    const filteredReward: any = {};
-    const filteredPenality: any = {};
-
-    craneSolutionV2.forEach((data) => {
-        const { FTS_id, total_reward } = data;
-
-        // ถ้า FTS_id ยังไม่มีใน filteredReward หรือ total_reward มากกว่าที่เคยเก็บไว้
-        if (!filteredReward[FTS_id] || total_reward < filteredReward[FTS_id].total_reward) {
-            // เก็บข้อมูลลงใน filteredReward โดยใช้ FTS_id เป็น key
-            filteredReward[FTS_id] = data;
-        }
-    });
-
-    craneSolutionV2.forEach((data) => {
-        const { FTS_id, penality_cost } = data;
-
-        // ถ้า FTS_id ยังไม่มีใน filteredPenality หรือ penality_cost มากกว่าที่เคยเก็บไว้
-        if (!filteredPenality[FTS_id] || penality_cost > filteredPenality[FTS_id].penality_cost) {
-            // เก็บข้อมูลลงใน filteredPenality โดยใช้ FTS_id เป็น key
-            filteredPenality[FTS_id] = data;
-        }
-    });
-
-    // แปลง Object ที่ได้เป็น array โดยใช้ Object.values
-    const filteredRewards = Object.values(filteredReward);
-    const filteredPenalitys = Object.values(filteredPenality);
-    const totalReward: any = filteredRewards.reduce((total, solution: any) => total + solution.total_reward, 0)
-    const totalPenalityV2: any = filteredPenalitys.reduce((total, solution: any) => total + solution.penality_cost, 0)
-
+    const total_consumption_cost = filtered.reduce((total, solutionItem) => total + solutionItem.total_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const total_wage_cost = filtered.reduce((total, solutionItem) => total + solutionItem.total_wage_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const penality_cost = filtered.reduce((total, solutionItem) => total + solutionItem.penality_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const total_reward = filtered.reduce((total, solutionItem) => total + solutionItem.total_reward, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const penalty_costSumTotal_wage_cost = (
+        filtereds.reduce((total, solutionItem) => total + solutionItem.penalty_cost, 0)
+        + filtered.reduce((total, solutionItem) => total + solutionItem.total_wage_cost, 0)
+        + filtered.reduce((total, solutionItem) => total + solutionItem.total_consumption_cost, 0)
+    ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     return (
         <>
@@ -120,35 +95,35 @@ export default function SummarizeLayout() {
                                 </Box>
                                 <SummarizaCard
                                     title={'ต้นทุนรวม'}
-                                    price={totalCost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    price={penalty_costSumTotal_wage_cost}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'ค่าเชื้อเพลิง'}
-                                    price={totalConsumptionCost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    price={total_consumption_cost}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'ค่าแรง'}
-                                    price={totalWageCost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    price={total_wage_cost}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'ค่าปรับล่าช้า'}
-                                    price={totalPenalityV2.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    price={penality_cost}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
                                 />
                                 <SummarizaCard
                                     title={'รางวัล'}
-                                    price={totalReward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    price={total_reward}
                                     icon={CurrencyBitcoinIcon}
                                     unit={'บาท'}
                                     color='bg-[#00a6fb]/50'
@@ -159,7 +134,7 @@ export default function SummarizeLayout() {
                                     <DescriptionMenu />
                                 </Box>
                                 <Box className='col-span-5 mt-5'>
-                                    <TreeTable rows={craneSolutionV2} />
+                                    <TreeTable />
                                 </Box>
                             </Box>
                         </Box>
