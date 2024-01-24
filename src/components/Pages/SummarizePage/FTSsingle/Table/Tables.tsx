@@ -1,23 +1,19 @@
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
-import { craneSolutionTableV2Selector } from '../../../../../store/slices/Solution/craneSolutionTableSlice';
-import { roleSelector } from '../../../../../store/slices/auth/rolesSlice';
+import { craneSelector } from '../../../../../store/slices/Crane/craneSlice';
 
 type Props = {
-    value: any
-    Name: any
+    value: number
+    rows: any[]
+    ftsName: number
 }
 
 
-export default function Tables({ }: Props) {
-    const CraneSolutionV2Reducer = useSelector(craneSolutionTableV2Selector)
-    const rolesReducer = useSelector(roleSelector)
+export default function Tables({ rows, ftsName }: Props) {
+    const craneReducer = useSelector(craneSelector)
+    const results = rows.filter(r => r.FTS_id === ftsName)
 
-    // const filteredRole = (CraneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
-    // const filteredData = (filteredRole).filter(item => item.FTS_id === Name[value].fts_id)
-
-    // console.log(filteredData)
     return (
         <>
             <Box className='grid grid-cols-6 gap-3 mt-3'>
@@ -39,7 +35,7 @@ export default function Tables({ }: Props) {
                         fontSize: 18
                     }}
                 >
-                    ต้นรวมทุน
+                    รายจ่าย
                 </Typography>
                 <Typography
                     className='font-kanit flex justify-center'
@@ -84,48 +80,63 @@ export default function Tables({ }: Props) {
                     รางวัล
                 </Typography>
                 <hr className='col-span-6' />
-                {/* {(filteredRole).map((items: any) => (
-                    <>
-                        <Typography
-                            align="left"
-                            className='font-kanit text-lg'
-                        >
-                            {items.crane.crane_name}
-                        </Typography>
-                        <Typography
-                            align="center"
-                            className='font-kanit text-lg'
-                        >
-                            {items.total_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        </Typography>
+                {results.map((row, index: number) => {
+                    const allCraneNames: any[] = [];
 
-                        <Typography
-                            align="center"
-                            className='font-kanit text-lg'
+                    results.forEach((row) => {
+                        const craneNames = (craneReducer.result).filter((item) => item.id === row.crane_id);
+                        allCraneNames.push(...craneNames);
+                    })
+
+                    return (
+                        <Box
+                            key={index}
+                            className='col-span-6 grid grid-cols-6'
                         >
-                            {items.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        </Typography>
-                        <Typography
-                            align="center"
-                            className='font-kanit text-lg'
-                        >
-                            {items.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        </Typography>
-                        <Typography
-                            align="center"
-                            className='font-kanit text-lg'
-                        >
-                            {items.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        </Typography>
-                        <Typography
-                            align="center"
-                            className='font-kanit text-lg'
-                        >
-                            {items.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        </Typography>
-                        <hr className='col-span-6' />
-                    </>
-                ))} */}
+                            <Typography
+                                align="left"
+                                className='font-kanit text-lg'
+                            >
+                                {allCraneNames[index].crane_name}
+                            </Typography>
+                            <Typography
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {(row.total_consumption_cost
+                                    + row.total_wage_cost
+                                    + row.penality_cost
+                                ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </Typography>
+
+                            <Typography
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {row.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </Typography>
+                            <Typography
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {row.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </Typography>
+                            <Typography
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {row.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </Typography>
+                            <Typography
+                                align="center"
+                                className='font-kanit text-lg'
+                            >
+                                {row.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </Typography>
+                        </Box>
+                    )
+                })}
+                <hr className='col-span-6' />
                 <hr className='col-span-6' />
             </Box>
         </>

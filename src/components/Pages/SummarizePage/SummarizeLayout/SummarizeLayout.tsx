@@ -23,6 +23,7 @@ export default function SummarizeLayout() {
     const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
     const rolesReducer = useSelector(roleSelector)
     const craneSolutionV2Reducer = useSelector(craneSolutionV2Selector)
+    console.log(craneSolutionV2Reducer.result)
 
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
 
