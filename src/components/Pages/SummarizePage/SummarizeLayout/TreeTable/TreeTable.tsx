@@ -76,8 +76,7 @@ export default function TreeTable({ rows }: Props) {
                     </TableHead>
                     {(combinedResultsArray).map((items: any, index) => {
                         const ftsResult = (ftsReducer.result).find((item: any) => item.fts_id === items.FTS_id);
-                        console.log(ftsResult)
-
+                        
                         return (
                             <TableBody key={index}>
                                 <TableCell align="center" className='font-kanit text-lg'>

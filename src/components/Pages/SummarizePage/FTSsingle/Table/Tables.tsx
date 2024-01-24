@@ -14,7 +14,7 @@ export default function Tables({ }: Props) {
     const CraneSolutionV2Reducer = useSelector(craneSolutionTableV2Selector)
     const rolesReducer = useSelector(roleSelector)
 
-    const filteredRole = (CraneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
+    // const filteredRole = (CraneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
     // const filteredData = (filteredRole).filter(item => item.FTS_id === Name[value].fts_id)
 
     // console.log(filteredData)
@@ -84,7 +84,7 @@ export default function Tables({ }: Props) {
                     รางวัล
                 </Typography>
                 <hr className='col-span-6' />
-                {(filteredRole).map((items: any) => (
+                {/* {(filteredRole).map((items: any) => (
                     <>
                         <Typography
                             align="left"
@@ -125,7 +125,7 @@ export default function Tables({ }: Props) {
                         </Typography>
                         <hr className='col-span-6' />
                     </>
-                ))}
+                ))} */}
                 <hr className='col-span-6' />
             </Box>
         </>
