@@ -25,7 +25,7 @@ const initialState: UsersState = {
 
 export const permissionsAsync = createAsyncThunk(
     'permissions/permissionsAsync',
-    async ({ id, data }: { id: number, data: FieldValues }) => {
+    async ({ id, data, handleClose, fetchUsers }: { id: number, data: FieldValues, handleClose: () => void, fetchUsers: () => void }) => {
         try {
             const token = localStorage.getItem(TOKEN);
             const config = {
@@ -35,7 +35,9 @@ export const permissionsAsync = createAsyncThunk(
             }
             const result = await httpClient.patch(`${server.USER_URL}/${id}`, data, config);
             // const result = await httpClient.get(server.USERALL_URL, config)
+            fetchUsers()
             toast.success(SUCCESS)
+            handleClose()
             return result.data;
         } catch (error) {
             throw error;

@@ -26,6 +26,7 @@ function AlertDialog({ roles, id }: { roles: string, id: number }) {
     const handleClose = () => {
         setOpen(false);
     };
+    const fetchUsers = () => dispatch(usersAsync())
 
     return (
         <React.Fragment>
@@ -42,7 +43,7 @@ function AlertDialog({ roles, id }: { roles: string, id: number }) {
                 fullWidth
             >
                 <form onSubmit={handleSubmit((data) => {
-                    dispatch(permissionsAsync({ id, data }))
+                    dispatch(permissionsAsync({ id, data, handleClose, fetchUsers }))
                 })}>
                     <DialogTitle id="alert-dialog-title">
                         อนุญาตสิทธิ์

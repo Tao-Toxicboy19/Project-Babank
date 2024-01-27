@@ -47,6 +47,7 @@ import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage'
 import { reportCraneAsync } from './store/slices/report/reportCraneSlice';
 import { solutionOrderAsync } from './store/slices/Solution/solutionOrderSlice';
 import { craneSolutionV2Async } from './store/slices/Solution/craneSolutionV2Slice';
+import { ftsSolutionTableAsync } from './store/slices/Solution/ftsSolutionTableSlice';
 
 const drawerWidth = 240;
 
@@ -61,6 +62,7 @@ export default function ResponsiveDrawer() {
 
 
     dispatch(craneSolutionV2Async())
+    dispatch(ftsSolutionTableAsync())
     dispatch(solutionOrderAsync())
     dispatch(reportCraneAsync())
     dispatch(carrierAsync())

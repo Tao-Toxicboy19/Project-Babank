@@ -211,7 +211,7 @@ export default function FTSsingle() {
                                             </Typography> */}
 
                                             <Box className='col-span-12 grid grid-cols-6 gap-x-5'>
-                                                <Box className='flex flex-row'>
+                                                {/* <Box className='flex flex-row'>
                                                     <Typography
                                                         sx={{
                                                             mr: 2,
@@ -229,7 +229,7 @@ export default function FTSsingle() {
                                                     >
                                                         {ftsReducer.result[value].FTS_name}
                                                     </Typography>
-                                                </Box>
+                                                </Box> */}
                                                 {result.map((row, index) => (
                                                     <Box
                                                         key={index}
