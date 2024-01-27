@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   FormControl,
   IconButton,
   InputLabel,
@@ -18,13 +19,12 @@ import {
   Tooltip,
   Typography
 } from "@mui/material"
-import { TitleOrder, monthNames } from "../../../../Constants"
+import { monthNames } from "../../../../Constants"
 import { useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { RiEditLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import TableTitles from "../../../layout/TableTitles/TableTitles";
 import Loading from "../../../layout/Loading/Loading";
 import Titles from "../../../layout/Titles/Titles";
 import OrderDeletePage from "../OrderDelete/OrderDeletePage";
@@ -46,6 +46,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Papa from 'papaparse';
 import { useForm } from "react-hook-form";
+import { httpClient } from "../../../../utils/httpclient";
+import DeleteDialog from "../../../layout/DeleteDialog/DeleteDialog";
 
 type Props = {}
 
@@ -330,6 +332,9 @@ export default function OrderPage({ }: Props) {
   const importOrderReducer = useSelector(importOrderSelector)
   const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน")
   const exportOrderReducer = useSelector(exportOrderSelector)
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [open, setOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const filteredOrders = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
   const exportOrdersCSV = exportOrderReducer.result
@@ -354,15 +359,59 @@ export default function OrderPage({ }: Props) {
     return monthNames[month] === selectedMonth;
   })
 
+  const handleCheckboxChange = (id: number) => {
+    if (selectedRows.includes(id)) {
+      setSelectedRows(selectedRows.filter((row) => row !== id));
+    } else {
+      setSelectedRows([...selectedRows, id]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectedRows.length === filteredOrders.length) {
+      // If all rows are selected, unselect all
+      setSelectedRows([]);
+    } else {
+      // If not all rows are selected, select all
+      const allCalories = filteredOrders.map((row) => row.or_id);
+      setSelectedRows(allCalories);
+    }
+  }
+
+  const handleClickOpen = () => setOpen(true)
+
+  const handleClose = () => setOpen(false)
+
+  const fetch = () => dispatch(orderAsync())
+
+  const handleDeleteConfirm = async () => {
+    setIsSubmitting(true);
+    try {
+      // const updatedRows = filteredOrders.filter((row) => !selectedRows.includes(row.or_id));
+      filteredOrders.filter((row) => !selectedRows.includes(row.or_id));
+      // console.log("Selected Rows to Delete:", selectedRows);
+      await httpClient.delete(`/delete/orders`, { data: selectedRows })
+      await fetch()
+      handleClose()
+      setSelectedRows([]);
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false)
+    }
+  }
+
   const showTbody = () => {
     return (
       <>
-        {(displayData).map((items) => (
+        {(displayData).map((items, index) => (
           <>
             <TableRow
               key={items.or_id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
+              <TableCell align="left">
+                {index + 1}
+              </TableCell>
               <TableCell align="left">
                 {items.carrier.carrier_name}
               </TableCell>
@@ -470,6 +519,12 @@ export default function OrderPage({ }: Props) {
                   </Box>
                 </TableCell>
               )}
+              <TableCell>
+                <Checkbox
+                  checked={selectedRows.includes(items.or_id)}
+                  onChange={() => handleCheckboxChange(items.or_id)}
+                />
+              </TableCell>
             </TableRow>
           </>
         ))}
@@ -542,7 +597,57 @@ export default function OrderPage({ }: Props) {
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
-                    <TableTitles Titles={TitleOrder} />
+                    <TableRow>
+                      {/* <TableCell>
+                        <Checkbox
+                          checked={selectedRows.length === rows.length}
+                          onChange={handleSelectAll}
+                        />
+                      </TableCell> */}
+                      {
+                        ['id', 'ชื่อเรือ', 'สถานะ', 'ประเภทสินค้า', 'ปริมาณสินค้า (ตัน)', 'สถานะสินค้า', 'วัน-เวลา มาถึง', 'วัน-เวลา สิ้นสุด', 'ละติจูด', 'ลองจิจูด', 'จำนวนระวาง', 'จำนวนทุ่นเข้าสูงสุด', 'ค่าปรับ (บาท/ชม)', 'รางวัล (บาท/ชม)', 'เวลาเริ่มจริง', 'เวลาเสร็จจริง', 'หมายเหตุ', 'แก้ไข้']
+                          .map((value, index) => (
+                            <TableCell
+                              className="font-kanit text-blue-900"
+                              sx={{
+                                backgroundColor: 'background.paper',
+                                fontWeight: 'Bold',
+                                fontSize: 16,
+                              }}
+                              key={index}
+                              align={index === 0 ? `left` : 'right'}
+                            >
+                              {value}
+                            </TableCell>
+                          ))
+                      }
+                      <TableCell>
+                        <Tooltip title="ลบทั้งหมด">
+                          <DeleteDialog
+                            open={open}
+                            handleClickOpen={handleClickOpen}
+                            handleClose={handleClose}
+                            handleDeleteConfirm={handleDeleteConfirm}
+                            isSubmitting={isSubmitting}
+                            maxWidth={'sm'}
+                            titles={'ต้องการลบสินค้าหรือไม่?'}
+                            description={'คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !'}
+                          />
+                          {/* <IconButton
+                            onClick={handleDeleteSelected}
+                          >
+                            <DeleteForever className='text-red-800' />
+                          </IconButton> */}
+                        </Tooltip>
+                        <Tooltip title="เลือกทั้งหมด">
+                          <Checkbox
+                            checked={selectedRows.length === filteredOrders.length}
+                            onChange={handleSelectAll}
+                          />
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+
                   </TableHead>
                   <TableBody>
                     {orderReducer.loading ? (
