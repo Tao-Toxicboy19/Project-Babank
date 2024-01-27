@@ -19,16 +19,21 @@ const initialState: OrderState = {
 
 export const importOrderAsync = createAsyncThunk(
     'importOrder/importOrderAsync',
-    async ({ formData, fetch, group }: { formData: FormData, fetch: () => void, group?: number | undefined }) => {
+    async ({ forms, fetch, group, handleClose, setIsSubmitting, chacks }: { forms: any, fetch: () => void, group?: number | undefined, handleClose: () => void, setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>, chacks: string }) => {
         try {
-            if (group) {
-                await httpClient.delete(`http://crane.otpzlab.com:7070/api/exportorder/${group}`)
+            setIsSubmitting(true)
+            if (chacks === 'Overwirte') {
+                if (group) {
+                    await httpClient.delete(`http://crane.otpzlab.com:7070/api/exportorder/${group}`)
+                }
             }
-            const result = await httpClient.post(server.IMPORTORDER, formData)
+            const result = await httpClient.post(server.IMPORTORDER, forms)
             fetch()
             toast.success(SUCCESS)
+            handleClose()
             return result.data
         } catch (error) {
+            setIsSubmitting(false)
             throw error
         }
     }

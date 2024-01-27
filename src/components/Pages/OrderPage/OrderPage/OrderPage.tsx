@@ -39,8 +39,289 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useAppDispatch } from "../../../../store/store";
 import { importOrderAsync, importOrderSelector } from "../../../../store/slices/Order/importOrderSlice";
 import { FaCloudDownloadAlt } from "react-icons/fa";
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Papa from 'papaparse';
+import { useForm } from "react-hook-form";
 
 type Props = {}
+
+function AlertDialog({ exportOrderReducer, exportOrdersCSV, importOrderReducer, dispatch, rolesReducer }: any) {
+  const [open, setOpen] = React.useState(false);
+  const [csvData, setCsvData] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [forms, setForms] = useState<any>(null);
+  const [chacks, setchacks] = useState("")
+  const {
+    handleSubmit,
+    formState: { },
+  } = useForm();
+  const fetch = async () => await dispatch(orderAsync())
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // useEffect(() => {
+  //   // ตรวจสอบว่า csvData มีข้อมูลหรือไม่
+  //   if (csvData.length > 0) {
+  //     handleClickOpen();
+  //   }
+  // }, [csvData]);
+
+  const handleFileChange = (event: any) => {
+    setIsSubmitting(false)
+    setchacks("NoOverwirte")
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+        const group: number | undefined = rolesReducer.result?.group;
+        const formData = new FormData();
+        if (group !== undefined) {
+          formData.append('group', group.toString());
+        }
+        formData.append('file', file);
+
+        // ใช้ Papaparse เพื่ออ่านข้อมูล CSV
+        Papa.parse(file, {
+          complete: (result: any) => {
+            // result.data เป็นข้อมูล CSV ที่ได้จากการอ่าน
+            setCsvData(result.data);
+
+            // ต่อไปคุณสามารถจัดการข้อมูลต่อไปได้ตามต้องการ
+          },
+          header: true, // ถ้า CSV มี header
+          skipEmptyLines: true,
+        });
+        handleClickOpen();
+        setForms(formData);
+      } else {
+        alert('Please select a valid CSV file.');
+      }
+    }
+  };
+
+
+  const handleFileChangeV2 = (event: any) => {
+    setIsSubmitting(false)
+    setchacks("Overwirte")
+    const group: number | undefined = rolesReducer.result?.group
+    const file = event.target.files[0]
+    if (file) {
+      if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+        const formData = new FormData()
+        if (group !== undefined) {
+          formData.append('group', group.toString())
+        }
+        formData.append('file', file)
+
+        // ใช้ Papaparse เพื่ออ่านข้อมูล CSV
+        Papa.parse(file, {
+          complete: (result: any) => {
+            // result.data เป็นข้อมูล CSV ที่ได้จากการอ่าน
+            setCsvData(result.data)
+
+            // ต่อไปคุณสามารถจัดการข้อมูลต่อไปได้ตามต้องการ
+            // handleClickOpen()
+          },
+          header: true, // ถ้า CSV มี header
+          skipEmptyLines: true,
+        });
+        handleClickOpen();
+        setForms(formData)
+      } else {
+        alert('Please select a valid CSV file.')
+      }
+    }
+  }
+
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
+  return (
+    <React.Fragment>
+      <Box className='flex flex-row gap-x-5'>
+        <Box>
+          <>
+            {exportOrderReducer.result ? (
+              <>
+                {
+                  exportOrdersCSV.length === 0 ? (
+                    <Box>
+                      <Button
+                        component="label"
+                        variant="contained"
+                        className="w-[180px] my-auto"
+                        startIcon={<FaCloudDownloadAlt />}
+                        disabled
+                      >
+                        Download file
+                      </Button>
+                    </Box>
+                  ) : (
+                    <CSVLink data={exportOrdersCSV} filename="orders.csv">
+                      <Tooltip title="Download">
+                        <Button
+                          component="label"
+                          variant="contained"
+                          className="w-[180px] my-auto"
+                          startIcon={<FaCloudDownloadAlt />}
+                        >
+                          Download file
+                        </Button>
+                      </Tooltip>
+                    </CSVLink>
+                  )}
+              </>
+            ) : (
+              <Box>
+                <LoadingButton
+                  className="w-[180px] my-auto"
+                  loading
+                  loadingPosition="start"
+                  component="label"
+                  variant="contained"
+                  startIcon={<FaCloudDownloadAlt />}
+                >
+                  Download file
+                </LoadingButton>
+              </Box>
+            )}
+          </>
+        </Box>
+
+        <Tooltip title="upload">
+          <Box>
+            <LoadingButton
+              className="w-full my-auto"
+              loading={importOrderReducer.loading}
+              loadingPosition="start"
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload file
+              <VisuallyHiddenInput
+                type="file"
+                accept=".csv"
+                onChange={handleFileChange}
+              />
+            </LoadingButton>
+          </Box>
+        </Tooltip>
+
+        <Tooltip title="upload">
+          <Box>
+            <LoadingButton
+              className="w-full my-auto"
+              loading={importOrderReducer.loading}
+              loadingPosition="start"
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload file (Overwirte)
+              <VisuallyHiddenInput
+                type="file"
+                accept=".csv"
+                onChange={handleFileChangeV2}
+              />
+            </LoadingButton>
+          </Box>
+        </Tooltip>
+      </Box>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth='xl'
+      >
+        <form onSubmit={handleSubmit(() => {
+          const group: number | undefined = rolesReducer.result?.group
+          dispatch(importOrderAsync({ forms, fetch, group, handleClose, setIsSubmitting, chacks }))
+        })}>
+          <DialogTitle id="alert-dialog-title">
+            {/* {"Use Google's location service?"} */}
+          </DialogTitle>
+          <DialogContent>
+            <div>
+              {/* แสดงข้อมูลที่ได้จาก CSV */}
+              {csvData.length > 0 && (
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        {Object.keys(csvData[0]).map((header, index) => (
+                          <TableCell align={index === 0 ? "left" : "right"} key={header}>
+                            {header}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {csvData.map((row, index) => (
+                        <TableRow
+                          key={index}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          {Object.values(row).map((value: any, index) => (
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              key={index}
+                              align={index === 0 ? "left" : "right"}
+                            >
+                              {value}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              type="button"
+              onClick={handleClose}
+              className='font-kanit text-md'
+            >
+              ยกเลิก
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              className='bg-blue-600 hover:bg-blue-700 font-kanit text-md'
+              disabled={isSubmitting}
+            >
+              บันทึก
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </React.Fragment>
+  );
+}
 
 export default function OrderPage({ }: Props) {
   const dispatch = useAppDispatch()
@@ -196,53 +477,6 @@ export default function OrderPage({ }: Props) {
     )
   }
 
-  const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
-
-  const fetch = async () => await dispatch(orderAsync())
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
-        const group: number | undefined = rolesReducer.result?.group
-        const formData = new FormData();
-        if (group !== undefined) {
-          formData.append('group', group.toString());
-        }
-        formData.append('file', file);
-
-        dispatch(importOrderAsync({ formData, fetch }))
-      } else {
-        alert('Please select a valid CSV file.');
-      }
-    }
-  };
-
-  const handleFileChangeV2 = (event: any) => {
-    const group: number | undefined = rolesReducer.result?.group
-    const file = event.target.files[0];
-    if (file) {
-      if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
-        const formData = new FormData();
-        if (group !== undefined) {
-          formData.append('group', group.toString());
-        }
-        formData.append('file', file);
-        dispatch(importOrderAsync({ formData, fetch, group }))
-      } else {
-        alert('Please select a valid CSV file.');
-      }
-    }
-  };
 
   return (
     <>
@@ -255,97 +489,16 @@ export default function OrderPage({ }: Props) {
                 className='flex flex-row justify-between'
               >
                 <Titles title='รายการขนถ่ายสินค้า' />
-
-                <Box className='flex flex-row gap-x-5'>
-                  <Box>
-                    <>
-                      {exportOrderReducer.result ? (
-                        <>
-                          {
-                            exportOrdersCSV.length === 0 ? (
-                              <Box>
-                                <Button
-                                  component="label"
-                                  variant="contained"
-                                  className="w-[180px] my-auto"
-                                  startIcon={<FaCloudDownloadAlt />}
-                                  disabled
-                                >
-                                  Download file
-                                </Button>
-                              </Box>
-                            ) : (
-                              <CSVLink data={exportOrdersCSV} filename="orders.csv">
-                                <Tooltip title="Download">
-                                  <Button
-                                    component="label"
-                                    variant="contained"
-                                    className="w-[180px] my-auto"
-                                    startIcon={<FaCloudDownloadAlt />}
-                                  >
-                                    Download file
-                                  </Button>
-                                </Tooltip>
-                              </CSVLink>
-                            )}
-                        </>
-                      ) : (
-                        <Box>
-                          <LoadingButton
-                            className="w-[180px] my-auto"
-                            loading
-                            loadingPosition="start"
-                            component="label"
-                            variant="contained"
-                            startIcon={<FaCloudDownloadAlt />}
-                          >
-                            Download file
-                          </LoadingButton>
-                        </Box>
-                      )}
-                    </>
-                  </Box>
-
-                  <Tooltip title="upload">
-                    <Box>
-                      <LoadingButton
-                        className="w-full my-auto"
-                        loading={importOrderReducer.loading}
-                        loadingPosition="start"
-                        component="label"
-                        variant="contained"
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload file
-                        <VisuallyHiddenInput
-                          type="file"
-                          accept=".csv"
-                          onChange={handleFileChange}
-                        />
-                      </LoadingButton>
-                    </Box>
-                  </Tooltip>
-
-                  <Tooltip title="upload">
-                    <Box>
-                      <LoadingButton
-                        className="w-full my-auto"
-                        loading={importOrderReducer.loading}
-                        loadingPosition="start"
-                        component="label"
-                        variant="contained"
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload file (Overwirte)
-                        <VisuallyHiddenInput
-                          type="file"
-                          accept=".csv"
-                          onChange={handleFileChangeV2}
-                        />
-                      </LoadingButton>
-                    </Box>
-                  </Tooltip>
+                <Box>
+                  <AlertDialog
+                    exportOrderReducer={exportOrderReducer}
+                    exportOrdersCSV={exportOrdersCSV}
+                    importOrderReducer={importOrderReducer}
+                    dispatch={dispatch}
+                    rolesReducer={rolesReducer}
+                  />
                 </Box>
+
               </Box>
               <hr />
             </Box>
