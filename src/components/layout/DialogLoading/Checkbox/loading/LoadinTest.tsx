@@ -12,13 +12,13 @@ type Props = {
 }
 
 
-export default function LoadingTest({ open, handleClose }: Props) {
+export default function LoadingTest({ open }: Props) {
 
     return (
         <React.Fragment>
             <Dialog
                 open={open}
-                onClose={handleClose}
+                // onClose={}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
