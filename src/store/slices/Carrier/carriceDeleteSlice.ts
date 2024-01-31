@@ -40,6 +40,8 @@ export const carrieDeleteAsync = createAsyncThunk(
             handleClose()
             return result.data;
         } catch (error) {
+            handleClose()
+            toast.warning("ไม่สามารถลบได้")
             throw error;
         }
     }

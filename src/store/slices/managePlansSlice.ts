@@ -17,6 +17,7 @@ import { craneAsync } from "./Crane/craneSlice";
 import { ftsAsync } from "./FTS/ftsSlice";
 import { cargoAsync } from "./Cargo/cargoSlice";
 import { cargoCraneAsync } from "./CargoCrane/cargoCraneSlice";
+import { craneSolutionV2Async } from "./Solution/craneSolutionV2Slice";
 
 
 export interface ManagePlans {
@@ -76,6 +77,7 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
         handleClickOpen();
         const result = await httpClient.post(apiManagePlans, values)
         dispatch(setManagePlansuccess(result.data));
+        dispatch(craneSolutionV2Async())
         dispatch(craneSolutionAsync())
         dispatch(sulutionScheduelAsync())
         dispatch(ftsSulutionAsync())

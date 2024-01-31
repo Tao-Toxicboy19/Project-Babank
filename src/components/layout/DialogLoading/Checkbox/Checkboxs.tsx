@@ -37,8 +37,8 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const dispatch = useDispatch<any>();
     const ftsReducer = useSelector(ftsSelector)
     const orderRucer = useSelector(orderSelector)
-    const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
-    const orderRucerV2 = (filteredOrders).filter((order) => order.status_order !== "Approved");
+    // const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
+    const orderRucerV2 = (orderRucer.result).filter((order) => order.status_order !== "Approved");
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
