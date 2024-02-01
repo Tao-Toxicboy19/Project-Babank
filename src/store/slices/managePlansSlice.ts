@@ -74,7 +74,6 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
             fts: fts,
             order: order
         };
-        console.log(values)
         handleClickOpen();
         const result = await httpClient.post(apiManagePlans, values)
         dispatch(setManagePlansuccess(result.data));
