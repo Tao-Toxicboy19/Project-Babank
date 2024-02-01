@@ -11,6 +11,28 @@ export default function CraneGantts() {
 
     const filteredSolutionscheduleReducer = (SolutionscheduleReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
 
+    if (filteredSolutionscheduleReducer.length === 0) {
+        return (
+            <Typography
+                sx={{
+                    mr: 2,
+                    fontSize: 33,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    letterSpacing: ".1rem",
+                    color: "inherit",
+                    textDecoration: "none",
+                }}
+                className='text-cyan-800 flex justify-center items-center'
+                variant='h4'
+                component='h2'
+            >
+                ไม่มีข้อมูล
+            </Typography>
+        )
+    }
+
     const filteredData = (filteredSolutionscheduleReducer).filter((item: any) => item.carrier_name !== null);
     let data = [filteredData[0]]
     data = data.concat(filteredData)

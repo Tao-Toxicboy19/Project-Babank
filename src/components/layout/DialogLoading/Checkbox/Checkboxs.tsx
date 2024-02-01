@@ -37,9 +37,8 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const dispatch = useDispatch<any>();
     const ftsReducer = useSelector(ftsSelector)
     const orderRucer = useSelector(orderSelector)
-    // const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
-    const orderRucerV2 = (orderRucer.result).filter((order) => order.status_order !== "Approved");
-
+    const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
+    const orderRucerV2 = (filteredOrders).filter((order) => order.status_order !== "Approved");
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         (ftsReducer.result).forEach((item) => {
@@ -107,21 +106,21 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                             ) : (
                                 <>
                                     <Box></Box>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                disabled checked
-                                                // defaultChecked={selectAll}
-                                                {...register(`Carrier-${item.carrier.cr_id}`)}
-                                                onChange={(e) => {
-                                                    if (selectAll) {
-                                                        setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked);
-                                                    }
-                                                }}
-                                            />
-                                        }
-                                        label={item.carrier.carrier_name}
-                                    />
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    disabled checked
+                                                    // defaultChecked={selectAll}
+                                                    {...register(`Carrier-${item.carrier.cr_id}`)}
+                                                    onChange={(e) => {
+                                                        if (selectAll) {
+                                                            setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked);
+                                                        }
+                                                    }}
+                                                />
+                                            }
+                                            label={item.carrier.carrier_name}
+                                        />
                                 </>
                             )}
                         </Box>
