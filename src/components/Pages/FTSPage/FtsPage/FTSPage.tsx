@@ -82,9 +82,30 @@ export default function FTSPage() {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            <Box>
-              <TreeTable FTSReducer={(FTSReducer.result)} />
-            </Box>
+            {FTSReducer.result.length === 0 ? (
+              <Typography
+                sx={{
+                  mr: 2,
+                  fontSize: 33,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+                className='text-cyan-800 flex justify-center items-center h-[59vh]'
+                variant='h4'
+                component='h2'
+              >
+                ไม่มีข้อมูล
+              </Typography>
+            ) : (
+              <Box>
+                <TreeTable FTSReducer={(FTSReducer.result)} />
+              </Box>
+            )}
+
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             <MainTainFts />
@@ -92,8 +113,9 @@ export default function FTSPage() {
           <CustomTabPanel value={value} index={2}>
             <MainTainCranes />
           </CustomTabPanel>
-        </Box>
-      )}
-    </Card>
+        </Box >
+      )
+      }
+    </Card >
   );
 }

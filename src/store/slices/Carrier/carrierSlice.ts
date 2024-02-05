@@ -33,7 +33,7 @@ export const carrierAsync = createAsyncThunk(
     async () => {
         try {
             const result = await httpClient.get(server.CARRIER)
-            return result.data;
+             return result.data;
         } catch (error) {
             throw error;
         }

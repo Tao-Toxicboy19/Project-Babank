@@ -37,7 +37,6 @@ function ShowFrom({ id, result, handleClose }: any) {
             onSubmit={handleSubmit(async (data) => {
                 setIsSubmitting(true)
                 try {
-                    console.log(data)
                     const fetch = () => dispatch(cargoAsync())
                     await dispatch(cargoEditAsync({ id, data, handleClose, fetch }))
                     setIsSubmitting(false)

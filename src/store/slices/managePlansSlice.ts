@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { httpClient } from "../../utils/httpclient";
 import { RootState } from "../store";
 import { apiManagePlans, SUCCESS } from "../../Constants";
 import { craneSolutionAsync } from "./Solution/craneSolutionSlice";
@@ -18,6 +17,7 @@ import { ftsAsync } from "./FTS/ftsSlice";
 import { cargoAsync } from "./Cargo/cargoSlice";
 import { cargoCraneAsync } from "./CargoCrane/cargoCraneSlice";
 import { craneSolutionV2Async } from "./Solution/craneSolutionV2Slice";
+import axios from "axios";
 
 
 export interface ManagePlans {
@@ -75,7 +75,7 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
             order: order
         };
         handleClickOpen();
-        const result = await httpClient.post(apiManagePlans, values)
+        const result = await axios.post(apiManagePlans, values)
         dispatch(setManagePlansuccess(result.data));
         dispatch(craneSolutionV2Async())
         dispatch(craneSolutionAsync())

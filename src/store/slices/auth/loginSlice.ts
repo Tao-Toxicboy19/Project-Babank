@@ -27,10 +27,10 @@ export const loginAsync = createAsyncThunk(
             const result = await httpClient.post(server.LOGIN_URL, data);
             if (result.data.token) {
                 localStorage.setItem(TOKEN, result.data.token);
+                navigate('/')
+                fetchRole()
+                sunmitting()
             }
-            fetchRole()
-            sunmitting()
-            navigate('/home')
             return result.data;
         } catch (error) {
             throw error;
@@ -53,7 +53,7 @@ export const logout = (navigate: NavigateFunction) => async (dispatch: Dispatch)
     try {
         localStorage.removeItem(TOKEN);
         dispatch(setRemoveToken());
-        navigate('/login')
+        navigate('/')
         toast.success('logged out')
     } catch (error) {
         throw error;

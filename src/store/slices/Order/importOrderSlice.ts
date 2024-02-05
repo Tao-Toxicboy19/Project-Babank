@@ -24,7 +24,7 @@ export const importOrderAsync = createAsyncThunk(
             setIsSubmitting(true)
             if (chacks === 'Overwirte') {
                 if (group) {
-                    await httpClient.delete(`http://crane.otpzlab.com:7070/api/exportorder/${group}`)
+                    await httpClient.delete(`"https://sched.floatingcraneservice.com/backend/api/exportorder/${group}`)
                 }
             }
             const result = await httpClient.post(server.IMPORTORDER, forms)

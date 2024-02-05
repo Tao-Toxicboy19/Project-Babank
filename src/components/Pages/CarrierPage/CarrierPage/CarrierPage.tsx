@@ -27,6 +27,8 @@ export default function CarrierPage({ }: Props) {
     item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  console.log(filteredData)
+
   useEffect(() => {
     disapatch(carrierAsync())
   }, []);
@@ -85,7 +87,23 @@ export default function CarrierPage({ }: Props) {
           {carrierReducer.loading ? (
             <Loading />
           ) : carrierReducer.error ? (
-            <Typography>Error: {carrierReducer.error}</Typography>
+            <Typography
+              sx={{
+                mr: 2,
+                fontSize: 33,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".1rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+              className='text-cyan-800 flex justify-center items-center h-[59vh]'
+              variant='h4'
+              component='h2'
+            >
+              ไม่มีข้อมูล
+            </Typography>
           ) : (
             <>
               <Box>

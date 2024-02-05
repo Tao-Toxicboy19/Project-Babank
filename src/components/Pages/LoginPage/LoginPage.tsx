@@ -82,7 +82,7 @@ export default function LoginPage({ }: Props) {
                     disabled={isSubmitting}
                     type="submit"
 
-                    className={`w-full py-4 ${isSubmitting ? 'bg-[#303539] text-white' : 'bg-blue-600'} hover:bg-blue-800 rounded-lg text-white`}
+                    className={`w-full py-4 ${isSubmitting ? 'bg-[#6e7b86] text-white' : 'bg-blue-600'} hover:bg-blue-800 rounded-lg text-white`}
                   >
                     <div className="mr-2">
                       <svg

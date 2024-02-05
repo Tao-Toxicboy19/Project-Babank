@@ -7,6 +7,6 @@ export default function PublicRoute({ }: PrivateRouteProps) {
     const loginReducer = useSelector(loginSelector)
 
     return (
-        (loginReducer.data) ? <Navigate to='/' /> : <Outlet />
+        (!loginReducer.data) ? <Outlet /> : <Navigate to='/' />
     )
 }

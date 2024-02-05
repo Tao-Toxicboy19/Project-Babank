@@ -36,7 +36,7 @@ export const craneSolutionV2Async = createAsyncThunk(
     'craneSolutionV2/craneSolutionV2Async',
     async () => {
         try {
-            const result = await httpClient.get<CraneSOlutionV2[]>('http://crane.otpzlab.com:7070/api/crane_solutionV2')
+            const result = await httpClient.get<CraneSOlutionV2[]>('https://sched.floatingcraneservice.com/backend/api/crane_solutionV2')
             return result.data
         } catch (error) {
             throw error
