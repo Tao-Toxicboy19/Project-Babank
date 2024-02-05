@@ -1,22 +1,25 @@
-import { Box, Button } from "@mui/material"
+import { Alert, Box, Button } from "@mui/material"
 import Logo1 from '../../../assets/images/logo/logo1.png'
 import Logo2 from '../../../assets/images/logo/logo2.png'
 import Logo3 from '../../../assets/images/logo/logo3.png'
 import { useForm } from "react-hook-form"
 import { NavigateFunction, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { loginAsync } from "../../../store/slices/auth/loginSlice"
+import { loginAsync, loginSelector } from "../../../store/slices/auth/loginSlice"
 import { useAppDispatch } from "../../../store/store"
 import { roleAsync } from "../../../store/slices/auth/rolesSlice"
+import { useSelector } from "react-redux"
 
 type Props = {}
 
 export default function LoginPage({ }: Props) {
   const { register, handleSubmit } = useForm();
   const navigate: NavigateFunction = useNavigate();
+  const loginReducer = useSelector(loginSelector)
   const dispatch = useAppDispatch()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const sunmitting = () => setIsSubmitting(false)
+
   return (
     <>
 
@@ -45,9 +48,13 @@ export default function LoginPage({ }: Props) {
               <form
                 className="w-full"
                 onSubmit={handleSubmit((data) => {
-                  setIsSubmitting(true)
-                  const fetchRole = () => dispatch(roleAsync())
-                  dispatch(loginAsync({ data, navigate, sunmitting, fetchRole }))
+                  try {
+                    setIsSubmitting(true)
+                    const fetchRole = () => dispatch(roleAsync())
+                    dispatch(loginAsync({ data, navigate, sunmitting, fetchRole }))
+                  } catch (error) {
+                    setIsSubmitting(false)
+                  }
                 })}
               >
                 <div id="input" className="flex flex-col w-full my-5">
@@ -77,6 +84,7 @@ export default function LoginPage({ }: Props) {
 
                   />
                 </div>
+                {loginReducer.error && <Alert severity="error">Username or password is incorrect.</Alert>}
                 <div id="button" className="flex flex-col w-full my-5">
                   <Button
                     disabled={isSubmitting}

@@ -33,6 +33,7 @@ export const loginAsync = createAsyncThunk(
             }
             return result.data;
         } catch (error) {
+            sunmitting()
             throw error;
         }
     }
