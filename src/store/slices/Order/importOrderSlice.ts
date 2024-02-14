@@ -4,6 +4,7 @@ import { server, SUCCESS } from '../../../Constants';
 import { httpClient } from '../../../utils/httpclient';
 import { RootState } from '../../store';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 interface OrderState {
     result: any
@@ -24,7 +25,7 @@ export const importOrderAsync = createAsyncThunk(
             setIsSubmitting(true)
             if (chacks === 'Overwirte') {
                 if (group) {
-                    await httpClient.delete(`"https://sched.floatingcraneservice.com/backend/api/exportorder/${group}`)
+                    await axios.delete(`https://sched.floatingcraneservice.com/backend/api/exportorder/${group}`)
                 }
             }
             const result = await httpClient.post(server.IMPORTORDER, forms)
