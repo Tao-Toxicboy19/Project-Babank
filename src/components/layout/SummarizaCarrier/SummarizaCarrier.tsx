@@ -174,7 +174,6 @@ export default function SummarizaCarrier() {
   const resultArray = Object.values(filteredsolutionOrderReducer.reduce((accumulator: any, currentValue: any) => {
     const { cr_id, total_cost, total_consumption_cost, penalty_cost, reward, total_wage_cost } = currentValue;
 
-    // ในกรณี cr_id ไม่มีใน accumulator ให้สร้าง key ใหม่
     if (!accumulator[cr_id]) {
       accumulator[cr_id] = {
         cr_id,

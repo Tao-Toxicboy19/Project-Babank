@@ -2,8 +2,6 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { useSelector } from 'react-redux';
 import { CraneSOlutionV2 } from '../../../../../store/slices/Solution/craneSolutionV2Slice';
 import { ftsSelector } from '../../../../../store/slices/FTS/ftsSlice';
-import { craneSelector } from '../../../../../store/slices/Crane/craneSlice';
-import { result } from 'lodash';
 
 type Props = {
     rows: CraneSOlutionV2[]
@@ -33,7 +31,6 @@ const showThead = () => {
 
 export default function TreeTable({ rows }: Props) {
     const ftsReducer = useSelector(ftsSelector)
-    const creaneReducer = useSelector(craneSelector)
 
     // นำข้อมูลจาก rows ที่ FTS_id เหมือนกันมากัน
     const combinedResults = rows.reduce((acc: any, row: any) => {
@@ -59,41 +56,7 @@ export default function TreeTable({ rows }: Props) {
         return acc;
     }, {});
 
-    const combinedResultsArray = Object.values(combinedResults)
-    const result = creaneReducer.result.reduce((acc: any, crane: any) => {
-        const { FTS_id, wage_month_cost } = crane;
-        acc[FTS_id] = (acc[FTS_id] || 0) + wage_month_cost;
-        return acc;
-    }, {});
-
-    const resultArray = Object.entries(result).map(([FTS_id, wage_month_cost]) => ({
-        FTS_id,
-        wage_month_cost,
-    }))
-
-    console.log(resultArray)
-
-    console.log(combinedResultsArray)
-
-
-    const resultObject = resultArray.reduce((acc: any, result: any) => {
-        acc[result.FTS_id] = result;
-        return acc
-    }, {});
-
-    const combinedResultsWithWageMonthCost = combinedResultsArray.map((combinedResult: any) => {
-        const result = resultObject[combinedResult.FTS_id];
-        if (result) {
-            combinedResult.wage_month_cost = result.wage_month_cost;
-            // combinedResult.total_wage_cost += result.wage_month_cost;
-        }
-        return combinedResult
-    });
-
-
-
-    console.log(combinedResultsWithWageMonthCost)
-
+    const combinedResultsArray = Object.values(combinedResults);
 
     return (
         <>
@@ -111,9 +74,9 @@ export default function TreeTable({ rows }: Props) {
                     <TableHead>
                         {showThead()}
                     </TableHead>
-                    {(combinedResultsWithWageMonthCost).map((items: any, index) => {
+                    {(combinedResultsArray).map((items: any, index) => {
                         const ftsResult = (ftsReducer.result).find((item: any) => item.fts_id === items.FTS_id);
-                        console.log(items.total_wage_cost)
+                        
                         return (
                             <TableBody key={index}>
                                 <TableCell align="center" className='font-kanit text-lg'>

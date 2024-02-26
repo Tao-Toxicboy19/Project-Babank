@@ -55,28 +55,8 @@ export default function FTSsingle() {
     };
 
     const craneSolutionV2 = (craneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
+    console.log(craneSolutionV2)
 
-    if (craneSolutionV2.length === 0) {
-        return (
-            <Typography
-                sx={{
-                    mr: 2,
-                    fontSize: 33,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".1rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                }}
-                className='text-cyan-800 flex justify-center items-center'
-                variant='h4'
-                component='h2'
-            >
-                ไม่มีข้อมูล
-            </Typography>
-        )
-    }
 
     const combinedResults = craneSolutionV2.reduce((acc: any, row: any) => {
         // ในกรณีที่ยังไม่มี key นี้ใน acc
@@ -153,7 +133,7 @@ export default function FTSsingle() {
     }
     return (
         <>
-            {combinedResultsArray.length || craneSolutionV2.length || result.length === 0 ? (
+            {combinedResultsArray.length === 0 || craneSolutionV2.length === 0 || result.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
