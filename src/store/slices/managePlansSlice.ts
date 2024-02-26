@@ -17,7 +17,7 @@ import { ftsAsync } from "./FTS/ftsSlice";
 import { cargoAsync } from "./Cargo/cargoSlice";
 import { cargoCraneAsync } from "./CargoCrane/cargoCraneSlice";
 import { craneSolutionV2Async } from "./Solution/craneSolutionV2Slice";
-import axios from "axios";
+import { httpClient } from "../../utils/httpclient";
 
 
 export interface ManagePlans {
@@ -75,8 +75,9 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
             order: order
         };
         handleClickOpen();
-        const result = await axios.post(apiManagePlans, values)
-        dispatch(setManagePlansuccess(result.data));
+        const result = await httpClient.post(apiManagePlans, values)
+        console.log(result)
+        dispatch(setManagePlansuccess(result.data))
         dispatch(craneSolutionV2Async())
         dispatch(craneSolutionAsync())
         dispatch(sulutionScheduelAsync())

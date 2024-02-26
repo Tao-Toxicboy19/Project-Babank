@@ -8,6 +8,7 @@ import Loading from "../../../layout/Loading/Loading";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
 import { reportFtsSelector } from "../../../../store/slices/report/reportFtsSlice";
 import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 
 export default function ReportFTS() {
     const reportFtsReducer = useSelector(reportFtsSelector)
@@ -15,11 +16,16 @@ export default function ReportFTS() {
     const [filteredData, setFilteredData] = useState<report_solutions[]>(reportFtsReducer.result);
     const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
+    const rolesReducer = useSelector(roleSelector)
+
+    const result = reportFtsReducer.result.filter((group) => group.solution_id === rolesReducer.result?.group)
+
+    console.log(result)
 
     useEffect(() => {
-        const filteredData = reportFtsReducer.result.filter((item: any) => item.FTS_id === selectedFtsId);
+        const filteredData = result.filter((item: any) => item.FTS_id === selectedFtsId);
         setFilteredData(filteredData);
-    }, [selectedFtsId, reportFtsReducer.result]);
+    }, [selectedFtsId, result])
 
     return (
         <>
@@ -82,7 +88,7 @@ export default function ReportFTS() {
                                     <TableBody>
                                         <>
                                             {selectedFtsId === "ทั้งหมด" ? (
-                                                reportFtsReducer.result.map((item, index) => {
+                                                result.map((item, index) => {
                                                     const itemMonth = new Date(item.deadline_time).getMonth();
                                                     const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');

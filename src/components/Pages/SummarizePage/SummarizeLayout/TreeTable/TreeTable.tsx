@@ -10,11 +10,11 @@ type Props = {
 const showThead = () => {
     return (
         <TableRow>
-            {["ชื่อทุ่น", "รายจ่าย", "ค่าเชื้อเพลิง", "ค่าเเรง", "ค่าปรับล่าช้า", "รางวัลรวม"].map((title) => (
+            {["ชื่อทุ่น", "ต้นทุนรวม", "ค่าเชื้อเพลิง", "ค่าเเรง", "ค่าปรับล่าช้า", "รางวัลรวม"].map((title) => (
                 <TableCell
                     key={title}
                     align={title === 'ชื่อเรือ' ? 'left' : 'center'}
-                    className='font-kanit'
+                    className='font-kanit bg-sky-300'
                     sx={{
                         backgroundColor: 'background.paper',
                         fontWeight: 'Bold',
@@ -71,12 +71,12 @@ export default function TreeTable({ rows }: Props) {
                         },
                     }}
                 >
-                    <TableHead>
+                    <TableHead >
                         {showThead()}
                     </TableHead>
                     {(combinedResultsArray).map((items: any, index) => {
                         const ftsResult = (ftsReducer.result).find((item: any) => item.fts_id === items.FTS_id);
-                        
+
                         return (
                             <TableBody key={index}>
                                 <TableCell align="center" className='font-kanit text-lg'>
