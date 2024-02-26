@@ -3,21 +3,24 @@ import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 
-interface report_solution_crane {
+export type report_solution_crane = {
     solution_id: number;
+    order_id: number;
     carrier_id: number;
-    start_time: any;
-    due_time: any;
+    start_time: Date;
+    due_time: Date;
     operation_time: number;
     Setup_time: number;
     travel_Distance: number;
     travel_time: number;
     operation_rate: number;
     consumption_rate: number;
-    crane_id: any;
+    crane_id: number;
     bulk: number;
     load_cargo: number;
     cargo_id: number;
+    penalty_cost: number;
+    reward: number;
     cr_id: number;
     carrier_name: string;
     holder: string;
@@ -32,12 +35,15 @@ interface report_solution_crane {
     crane_name: string;
     FTS_id: number;
     setuptime_crane: number;
+    wage_month_cost: number;
     FTS_name: string;
     lat: number;
     lng: number;
     setuptime_FTS: number;
     speed: number;
     cargo_name: string;
+    premium_rate: number;
+    total_cost: string
 }
 
 enum HasCrane {

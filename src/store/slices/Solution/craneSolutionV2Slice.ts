@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { httpClient } from "../../../utils/httpclient";
+import { server } from "../../../Constants";
 
 export interface CraneSOlutionV2 {
     solution_id: number;
@@ -36,7 +37,7 @@ export const craneSolutionV2Async = createAsyncThunk(
     'craneSolutionV2/craneSolutionV2Async',
     async () => {
         try {
-            const result = await httpClient.get<CraneSOlutionV2[]>('https://sched.floatingcraneservice.com/backend/api/crane_solutionV2')
+            const result = await httpClient.get<CraneSOlutionV2[]>(server.crane_solutionV2)
             return result.data
         } catch (error) {
             throw error

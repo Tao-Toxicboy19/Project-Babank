@@ -15,6 +15,8 @@ import { craneSolutionTableAsync } from '../../../../store/slices/FtsSolution/cr
 import { useAppDispatch } from '../../../../store/store';
 import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/slices/Solution/craneSolutionSlice';
 import { craneSolutionV2Async, craneSolutionV2Selector } from '../../../../store/slices/Solution/craneSolutionV2Slice';
+import { reportCraneSelector } from '../../../../store/slices/report/reportCraneSlice';
+import { craneAsync, craneSelector } from '../../../../store/slices/Crane/craneSlice';
 
 
 export default function SummarizeLayout() {
@@ -23,8 +25,9 @@ export default function SummarizeLayout() {
     const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
     const rolesReducer = useSelector(roleSelector)
     const craneSolutionV2Reducer = useSelector(craneSolutionV2Selector)
-
+    const reportCraneReducer = useSelector(reportCraneSelector)
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
+    const creaneReducer = useSelector(craneSelector)
 
     useEffect(() => {
         dispatch(craneSolutionAsync())
@@ -33,14 +36,24 @@ export default function SummarizeLayout() {
         dispatch(craneSolutionTableAsync())
         dispatch(solutionOrderAsync())
         dispatch(craneSolutionV2Async())
+        dispatch(craneAsync())
     }, []);
 
+
+    const result = reportCraneReducer.result.filter((group) => group.solution_id === rolesReducer.result?.group)
+    const totalWageMonthCost = creaneReducer.result.reduce((total, solution) => total + solution.wage_month_cost, 0)
+
+    const modifiedCost = result.map(item => ({
+        ...item,
+        total_cost: (item.load_cargo * item.premium_rate)
+    }))
     const craneSolutionV2 = (craneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
-    const totalConsumptionCost = craneSolutionV2.reduce((total, solution) => total + solution.total_consumption_cost, 0)
+    const totalConsumptionCost = craneSolutionV2.reduce((total, solution) => total + solution.total_consumption_cost, 0) * 35
     const totalPenality = craneSolutionV2.reduce((total, solution) => total + solution.penality_cost, 0)
-    const totalWageCost = craneSolutionV2.reduce((total, solution) => total + solution.total_wage_cost, 0)
+    const totalWageCost = modifiedCost.reduce((total, solution) => total + solution.total_cost, 0) + totalWageMonthCost
     const totalCost = totalConsumptionCost + totalWageCost + totalPenality
 
+    // console.log(result.filter(r => r.FTS_id === ))
 
     const filteredReward: any = {};
     const filteredPenality: any = {};

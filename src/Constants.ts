@@ -72,9 +72,9 @@ export const NETWORK_CONNECTION_MESSAGE =
 export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 
 // export const apiUrl = "http://localhost:5018/api";
-export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api";
+// export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api";
 // export const apiUrlV2 = "http://localhost:7070/api";
-// export const apiUrlV2 = "http://crane.otpzlab.com:7070/api";
+export const apiUrlV2 = "http://crane.otpzlab.com:7070/api";
 export const apiManagePlans = "https://sched.floatingcraneservice.com/route/route";
 
 export const SUCCESS = 'Successfully'
@@ -113,4 +113,5 @@ export const server = {
     USER_URL: `user`,
     EXPORTORDER: `exportorder`,
     IMPORTORDER: `importcsv`,
+    crane_solutionV2: "crane_solutionV2"
 };

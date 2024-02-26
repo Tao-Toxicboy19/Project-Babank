@@ -24,7 +24,7 @@ export default function FuelList({ }: Props) {
         <ul className='h-[320px]'>
             <ListMenu
                 title='ค่าเชื้อเพลิงรวมขนถ่าย'
-                price={total_operation_consumption_cost}
+                price={total_travel_distance}
                 unit='บาท'
             />
             <ListMenu
@@ -34,7 +34,8 @@ export default function FuelList({ }: Props) {
             />
             <ListMenu
                 title='ปริมาณเชื้อเพลิงดำเนินการขนถ่าย'
-                price={total_travel_distance}
+                // price={total_travel_distance}
+                price={total_operation_consumption_cost}
                 unit='ลิตร'
             />
             <ListMenu

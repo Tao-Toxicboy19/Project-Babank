@@ -5,9 +5,10 @@ import { RootState } from "../../store";
 
 interface Crane {
     id: number
-    crane_name: string;
-    FTS_id: number;
-    setuptime_crane: number;
+    crane_name: string
+    FTS_id: number
+    setuptime_crane: number
+    wage_month_cost: number
 }
 
 interface CraneState {
