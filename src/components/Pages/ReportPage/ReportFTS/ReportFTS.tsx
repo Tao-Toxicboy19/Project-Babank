@@ -9,6 +9,7 @@ import TableTitles from "../../../layout/TableTitles/TableTitles";
 import { reportFtsSelector } from "../../../../store/slices/report/reportFtsSlice";
 import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
 import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
+import SearchTerms from "../../../layout/SearchTerms/SearchTerms";
 
 export default function ReportFTS() {
     const reportFtsReducer = useSelector(reportFtsSelector)
@@ -17,10 +18,13 @@ export default function ReportFTS() {
     const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
     const rolesReducer = useSelector(roleSelector)
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
-    const result = reportFtsReducer.result.filter((group) => group.solution_id === rolesReducer.result?.group)
+    const values = (reportFtsReducer.result).filter((item) =>
+        item.FTS_name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
-    console.log(result)
+    const result = values.filter((group) => group.solution_id === rolesReducer.result?.group)
 
     useEffect(() => {
         const filteredData = result.filter((item: any) => item.FTS_id === selectedFtsId);
@@ -35,7 +39,7 @@ export default function ReportFTS() {
                         <Loading />
                     ) : (
                         <>
-                            <form className="max-w-xl flex gap-x-3 mb-3">
+                            <form className="flex gap-x-3 mb-3 justify-between">
                                 <Box className='w-full'>
                                     <label className="pr-5 font-kanit text-lg" htmlFor="FTS_name">เลือกเดือน</label>
                                     <FormControl fullWidth className="bg-[#fff]">
@@ -79,6 +83,7 @@ export default function ReportFTS() {
                                         </Select>
                                     </FormControl>
                                 </Box>
+                                <SearchTerms searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                             </form>
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
