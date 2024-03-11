@@ -6,11 +6,10 @@ import { TitleReportFTS } from "../../../../Constants";
 import moment from "moment";
 import Loading from "../../../layout/Loading/Loading";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
-import { reportFtsAsync, reportFtsSelector } from "../../../../store/slices/report/reportFtsSlice";
+import { reportFtsSelector } from "../../../../store/slices/report/reportFtsSlice";
 import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
 import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 import SearchTerms from "../../../layout/SearchTerms/SearchTerms";
-import { useAppDispatch } from "../../../../store/store";
 
 export default function ReportFTS() {
     const reportFtsReducer = useSelector(reportFtsSelector)
@@ -18,24 +17,19 @@ export default function ReportFTS() {
     const [filteredData, setFilteredData] = useState<report_solutions[]>(reportFtsReducer.result);
     const [selectedFtsId, setSelectedFtsId] = useState("ทั้งหมด");
     const [selectedMonth, setSelectedMonth] = useState("ทุกเดือน");
-    const [searchTerm, setSearchTerm] = useState<string>("");
     const rolesReducer = useSelector(roleSelector)
-    const dispatch = useAppDispatch()
-    const id = rolesReducer.result?.group
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     const values = (reportFtsReducer.result).filter((item) =>
         item.FTS_name.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    if (!id) return
-    useEffect(() => {
-        dispatch(reportFtsAsync(id))
-    }, [])
+    const result = values.filter((group) => group.solution_id === rolesReducer.result?.group)
 
     useEffect(() => {
-        const filteredData = values.filter((item: any) => item.FTS_id === selectedFtsId);
+        // const filteredData = result.filter((item: any) => item.FTS_id === selectedFtsId);
         setFilteredData(filteredData)
-    }, [selectedFtsId, values])
+    }, [selectedFtsId, result])
 
     return (
         <>
@@ -83,8 +77,8 @@ export default function ReportFTS() {
                                             onChange={(e) => setSelectedFtsId(e.target.value)}
                                         >
                                             <MenuItem className="font-kanit" value="ทั้งหมด">ทั้งหมด</MenuItem>
-                                            {(ftsReducer.result).map((items, index) => (
-                                                <MenuItem key={index} className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
+                                            {(ftsReducer.result).map((items) => (
+                                                <MenuItem className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
@@ -99,7 +93,7 @@ export default function ReportFTS() {
                                     <TableBody>
                                         <>
                                             {selectedFtsId === "ทั้งหมด" ? (
-                                                values.map((item, index) => {
+                                                result.map((item, index) => {
                                                     const itemMonth = new Date(item.deadline_time).getMonth();
                                                     const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
@@ -107,11 +101,11 @@ export default function ReportFTS() {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                                 <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{formattedDate}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{formattedDateV2}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.load}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDate}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDateV2}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                             </TableRow>
                                                         );
                                                     }
@@ -126,11 +120,11 @@ export default function ReportFTS() {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                                 <TableCell className="font-kanit text-md">{item.FTS_name}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{formattedDate}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{formattedDateV2}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.load}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDate}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{formattedDateV2}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.load}</TableCell>
+                                                                <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                             </TableRow>
                                                         );
                                                     }
@@ -142,7 +136,8 @@ export default function ReportFTS() {
                                 </Table>
                             </TableContainer>
                         </>
-                    )}
+                    )
+                    }
                 </CardContent>
             </Card >
         </>

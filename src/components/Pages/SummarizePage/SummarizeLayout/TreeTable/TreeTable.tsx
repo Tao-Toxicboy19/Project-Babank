@@ -87,7 +87,7 @@ export default function TreeTable({ rows }: Props) {
                                         .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 </TableCell>
                                 <TableCell align="center" className='font-kanit text-lg'>
-                                    {(items.total_consumption_cost)
+                                    {(items.total_consumption_cost * 35)
                                         .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 </TableCell>
                                 <TableCell align="center" className='font-kanit text-lg'>

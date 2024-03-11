@@ -137,7 +137,7 @@ function Tables({ filteredData }: any) {
                       className='font-kanit text-lg'
                       align="right"
                     >
-                      {row.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {(row.total_consumption_cost * 35).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     </TableCell>
                     {/* <TableCell align="right">{row.start_time ? moment(row.start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
                     {/* <TableCell align="right">{row.due_time ? moment(row.due_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
@@ -223,25 +223,7 @@ export default function SummarizaCarrier() {
         className='w-full'
         sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}
       >
-        {/* <Tabs
-        variant="scrollable"
-        orientation="vertical"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: 'divider', minHeight: 20 }}
-        className='min-h-[10rem]'
 
-      >
-        {solutionCarrierOrderReducer.result.map((items, index) => (
-          <Tab
-            key={index}
-            className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
-            label={`${items.carrier_name}`}
-            {...a11yProps(0)}
-          />
-        ))}
-      </Tabs> */}
 
         <Box className='w-full flex flex-col justify-center min-w-[76.5vw]'>
           <Box className='w-3/12 mb-5'>

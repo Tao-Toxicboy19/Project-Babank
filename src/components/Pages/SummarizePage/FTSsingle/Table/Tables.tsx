@@ -116,7 +116,7 @@ export default function Tables({ rows, ftsName }: Props) {
                                         align="center"
                                         className='font-kanit text-lg'
                                     >
-                                        {row.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        {(row.total_consumption_cost * 35).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     </TableCell>
                                     <TableCell
                                         align="center"

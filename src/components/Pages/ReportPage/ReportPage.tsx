@@ -6,8 +6,6 @@ import Box from '@mui/material/Box';
 import { Card, CardContent } from '@mui/material';
 import ReportFTS from './ReportFTS/ReportFTS';
 import ReportCrane from './ReportCrane/ReportCrane';
-import { useAppDispatch } from '../../../store/store';
-import { reportFtsAsync } from '../../../store/slices/report/reportFtsSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -28,7 +26,7 @@ function CustomTabPanel(props: TabPanelProps) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    {children}
                 </Box>
             )}
         </div>
@@ -44,16 +42,10 @@ function a11yProps(index: number) {
 
 export default function ReportPage() {
     const [value, setValue] = React.useState(0)
-    const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
         setValue(newValue);
-    };
-
-    React.useEffect(() => {
-        dispatch(reportFtsAsync())
-    }, []);
-
+    }
     return (
         <Card>
             <CardContent>

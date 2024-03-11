@@ -71,12 +71,11 @@ export const NETWORK_CONNECTION_MESSAGE =
 
 export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 
-// export const apiUrl = "http://localhost:5018/api";
 // export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api";
-// export const apiUrlV2 = "http://localhost:7070/api";
 export const apiUrlV2 = "http://crane.otpzlab.com:7070/api";
-// export const apiManagePlans = "https://sched.floatingcraneservice.com/route/route";
+// import 1 เส้น
 
+// export const apiManagePlans = "https://sched.floatingcraneservice.com/route/route";
 export const apiManagePlans = "http://154.49.243.54:5011/route";
 
 export const SUCCESS = 'Successfully'

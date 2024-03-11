@@ -3,11 +3,16 @@ import { useSelector } from "react-redux";
 import { Marker } from '@react-google-maps/api';
 import Loading from "../Loading/Loading";
 import { sulutionScheduelSelector } from "../../../store/slices/Solution/sollutionScheduleSlice"
+import { roleSelector } from "../../../store/slices/auth/rolesSlice";
 
 export default function RouteMaps({ ftsSolutionReducer, value }: any) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
+    const roleRreducer = useSelector(roleSelector)
 
-    const datav2 = solutionscheduleReducer.result
+    const result = solutionscheduleReducer.result.filter((group) => group.solution_id === roleRreducer.result?.group)
+
+
+    const datav2 = result
         .filter((items) => items.FTS_name === ftsSolutionReducer[value]?.fts.FTS_name)
         .map((item) => ({
             lat: item.lat,

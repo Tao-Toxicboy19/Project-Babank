@@ -97,9 +97,7 @@ export default function FTSsingle() {
         {
             title: 'ค่าเชื้อเพลิง',
             price: (
-                combinedResultsArray[value].total_consumption_cost)
-                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
-                )
+                (combinedResultsArray[value].total_consumption_cost) * 35).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
         },
         {
@@ -199,41 +197,8 @@ export default function FTSsingle() {
                                 <Box className='col-span-8'>
                                     <TabPanel value={value} index={value}>
                                         <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
-                                            {/* <Typography
-                                                className='col-span-12 flex justify-center border-b-[1px] border-gray-300 font-kanit'
-                                                component='h1'
-                                                sx={{
-                                                    fontSize: 22,
-                                                    fontFamily: "monospace",
-                                                    fontWeight: 700,
-                                                    letterSpacing: ".1rem",
-                                                    color: "inherit",
-                                                    textDecoration: "none",
-                                                }}
-                                            >
-                                                {ftsSolutionReducer.result[value]?.fts.FTS_name}
-                                            </Typography> */}
-
                                             <Box className='col-span-12 grid grid-cols-6 gap-x-5'>
-                                                {/* <Box className='flex flex-row'>
-                                                    <Typography
-                                                        sx={{
-                                                            mr: 2,
-                                                            fontSize: 28,
-                                                            display: { xs: "none", md: "flex" },
-                                                            fontFamily: "monospace",
-                                                            fontWeight: 700,
-                                                            letterSpacing: ".1rem",
-                                                            color: "inherit",
-                                                            textDecoration: "none",
-                                                        }}
-                                                        className='text-cyan-800 flex justify-center items-center'
-                                                        variant='h1'
-                                                        component='h2'
-                                                    >
-                                                        {ftsReducer.result[value].FTS_name}
-                                                    </Typography>
-                                                </Box> */}
+
                                                 {result.map((row, index) => (
                                                     <Box
                                                         key={index}
@@ -252,9 +217,6 @@ export default function FTSsingle() {
                                             <Box className="col-span-12">
                                                 <Tables rows={craneSolutionV2} value={value} ftsName={ftsReducer.result[value].fts_id} />
                                             </Box>
-                                            {/* <Card className="col-span-12">
-                                                <BarCharts ftsSolutionReducer={ftsSolutionReducer.result} value={value} />
-                                            </Card> */}
                                         </Box>
                                     </TabPanel>
                                 </Box >

@@ -59,9 +59,9 @@ const initialState: report_solutionState = {
 
 export const reportFtsAsync = createAsyncThunk(
     'reportFts/reportFtsAsync',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get<report_solutions[]>(server.REPORT_SOLUTION_URL)
+            const result = await httpClient.get<report_solutions[]>(`${server.REPORT_SOLUTION_URL}/${id}`)
             return result.data
         } catch (error) {
             throw error

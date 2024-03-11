@@ -89,7 +89,7 @@ export default function RoutesTabelLayout({ ftsSolutionReducer, value }: any) {
                                         <TableCell
                                             align="right"
                                         >
-                                            {items.operation_time}
+                                            {items.operation_time!.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                         </TableCell>
                                         <TableCell
                                             className='font-kanit'

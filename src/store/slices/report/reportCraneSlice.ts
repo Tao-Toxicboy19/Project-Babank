@@ -65,9 +65,10 @@ const initialState: report_solution_craneState = {
 
 export const reportCraneAsync = createAsyncThunk(
     'reportCrane/reportCraneAsync',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get<report_solution_crane[]>(server.REPORT_SOLUTION_CRANE_URL)
+            const result = await httpClient.get<report_solution_crane[]>(`${server.REPORT_SOLUTION_CRANE_URL}/${id}`)
+            // console.log(result.data)
             return result.data
         } catch (error) {
             throw error
