@@ -14,9 +14,7 @@ type Props = {}
 
 export default function ReportCrane({ }: Props) {
     const reportCraneReducer = useSelector(reportCraneSelector)
-    // const ftsReducer = useSelector(ftsSelector)
     const craneReducer = useSelector(craneSelector)
-    // const [selectedFtsId, _] = useState("ทั้งหมด");
     const [selectedCrane, setSelectedCrane] = useState("ทั้งหมด");
     const [selectedMonth, _] = useState("ทุกเดือน");
     const [searchTerm, setSearchTerm] = useState<string>("");
@@ -27,27 +25,11 @@ export default function ReportCrane({ }: Props) {
     const values = (reportCraneReducer.result).filter((item) =>
         item.crane_name.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    // const [filteredData, setFilteredData] = useState<report_solution_crane[]>(values)
-
-    // console.log(filteredData)
 
     if (!id) return
     useEffect(() => {
         dispatch(reportCraneAsync(id))
     }, [])
-
-    // useEffect(() => {
-    //     const filteredData = values.filter((item) => item.cargo_id === +selectedCrane);
-    //     console.log(filteredData)
-    //     // const filteredData = values.filter((item: any) =>
-    //     //     item.FTS_id === selectedFtsId && (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane))
-    //     setFilteredData(values);
-    // }, [selectedCrane])
-
-    // useEffect(() => {
-    //     const filteredData = values.filter((item: any) => item.FTS_id === selectedFtsId);
-    //     setFilteredData(filteredData)
-    // }, [selectedFtsId, values])
 
 
     return (
@@ -111,52 +93,6 @@ export default function ReportCrane({ }: Props) {
                                                     return null;
                                                 })
                                             }
-                                            {/* {selectedCrane === "ทั้งหมด" ? (
-                                                filteredData.map((item, index) => {
-                                                    const itemMonth = new Date(item.due_time).getMonth();
-                                                    const formattedDate = moment(item.start_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                                    const formattedDateV2 = moment(item.due_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                                    const craneName = craneReducer.result.find(r => r.id === item.crane_id)
-                                                    // console.log(craneReducer.result.find(r => r.id === item.crane_id))
-                                                    if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
-                                                        (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
-                                                        return (
-                                                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                                <TableCell className="font-kanit text-md">{craneName?.crane_name}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.bulk}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{formattedDate}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{formattedDateV2}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.load_cargo}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
-                                                            </TableRow>
-                                                        );
-                                                    }
-                                                    return null;
-                                                })
-                                            ) : (
-                                                values.map((item: any, index) => {
-                                                    const itemMonth = new Date(item.due_time).getMonth();
-                                                    const formattedDate = moment(item.start_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                                    const formattedDateV2 = moment(item.due_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                                    const craneName = craneReducer.result.find(r => r.id === item.crane_id)
-
-                                                    if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
-                                                        (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
-                                                        return (
-                                                            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                                <TableCell className="font-kanit text-md">{craneName?.crane_name}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.carrier_name}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{formattedDate}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{formattedDateV2}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.load_cargo}</TableCell>
-                                                                <TableCell align="right" className="font-kanit text-md">{item.cargo_name}</TableCell>
-                                                            </TableRow>
-                                                        );
-                                                    }
-                                                    return null;
-                                                })
-                                            )} */}
                                         </>
                                     </TableBody>
                                 </Table>

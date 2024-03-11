@@ -29,7 +29,7 @@ export default function Tables({ rows, ftsName }: Props) {
                             >
                                 ชื่อเครน
                             </TableCell>
-                            <TableCell align="right"
+                            <TableCell align="center"
                                 className='font-kanit bg-sky-300'
                                 sx={{
                                     backgroundColor: 'background.paper',
@@ -37,9 +37,9 @@ export default function Tables({ rows, ftsName }: Props) {
                                     fontSize: 18
                                 }}
                             >
-                                ต้นทุนรวม
+                                ต้นทุนรวม (บาท)
                             </TableCell>
-                            <TableCell align="right"
+                            <TableCell align="center"
                                 className='font-kanit bg-sky-300'
                                 sx={{
                                     backgroundColor: 'background.paper',
@@ -47,9 +47,9 @@ export default function Tables({ rows, ftsName }: Props) {
                                     fontSize: 18
                                 }}
                             >
-                                ค่าเชื้อเพลิงรวม
+                                ค่าเชื้อเพลิงรวม (ลิตร)
                             </TableCell>
-                            <TableCell align="right"
+                            <TableCell align="center"
                                 className='font-kanit bg-sky-300'
                                 sx={{
                                     backgroundColor: 'background.paper',
@@ -57,9 +57,9 @@ export default function Tables({ rows, ftsName }: Props) {
                                     fontSize: 18
                                 }}
                             >
-                                ค่าแรง
+                                ค่าแรง (บาท)
                             </TableCell>
-                            <TableCell align="right"
+                            <TableCell align="center"
                                 className='font-kanit bg-sky-300'
                                 sx={{
                                     backgroundColor: 'background.paper',
@@ -67,9 +67,9 @@ export default function Tables({ rows, ftsName }: Props) {
                                     fontSize: 18
                                 }}
                             >
-                                ค่าปรับล่าช้า
+                                ค่าปรับล่าช้า (บาท)
                             </TableCell>
-                            <TableCell align="right"
+                            <TableCell align="center"
                                 className='font-kanit bg-sky-300'
                                 sx={{
                                     backgroundColor: 'background.paper',
@@ -77,7 +77,7 @@ export default function Tables({ rows, ftsName }: Props) {
                                     fontSize: 18
                                 }}
                             >
-                                รางวัล
+                                รางวัล (บาท)
                             </TableCell>
                         </TableRow>
                     </TableHead>

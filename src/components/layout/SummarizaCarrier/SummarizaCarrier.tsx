@@ -15,7 +15,7 @@ function Tables({ filteredData }: any) {
         <TableHead>
           <TableRow>
             <TableCell
-              className='font-kanit'
+              className='font-kanit bg-[#00a6fb]/50'
               sx={{
                 backgroundColor: 'background.paper',
                 fontWeight: 'Bold',
@@ -26,58 +26,58 @@ function Tables({ filteredData }: any) {
             </TableCell>
             <TableCell
               align="right"
-              className='font-kanit'
+              className='font-kanit bg-[#00a6fb]/50'
               sx={{
                 backgroundColor: 'background.paper',
                 fontWeight: 'Bold',
                 fontSize: 18
               }}
             >
-              รายจ่าย
-            </TableCell>
-            {/* <TableCell
-              align="right"
-              className='font-kanit'
-              sx={{
-                backgroundColor: 'background.paper',
-                fontWeight: 'Bold',
-                fontSize: 18
-              }}
-            >
-              ค่าเชื้อเพลิง
-            </TableCell> */}
-            <TableCell
-              align="right"
-              className='font-kanit'
-              sx={{
-                backgroundColor: 'background.paper',
-                fontWeight: 'Bold',
-                fontSize: 18
-              }}
-            >
-              ค่าเชื้อเพลิง
+              รายจ่าย (บาท)
             </TableCell>
             <TableCell
               align="right"
-              className='font-kanit'
+              className='font-kanit bg-[#00a6fb]/50'
               sx={{
                 backgroundColor: 'background.paper',
                 fontWeight: 'Bold',
                 fontSize: 18
               }}
             >
-              ค่าปรับล่าช้า
+              ค่าเชื้อเพลิง (ลิตร)
             </TableCell>
             <TableCell
               align="right"
-              className='font-kanit'
+              className='font-kanit bg-[#00a6fb]/50'
               sx={{
                 backgroundColor: 'background.paper',
                 fontWeight: 'Bold',
                 fontSize: 18
               }}
             >
-              รางวัล
+              ค่าแรง (บาท)
+            </TableCell>
+            <TableCell
+              align="right"
+              className='font-kanit bg-[#00a6fb]/50'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              ค่าปรับล่าช้า (บาท)
+            </TableCell>
+            <TableCell
+              align="right"
+              className='font-kanit bg-[#00a6fb]/50'
+              sx={{
+                backgroundColor: 'background.paper',
+                fontWeight: 'Bold',
+                fontSize: 18
+              }}
+            >
+              รางวัล (บาท)
             </TableCell>
           </TableRow>
         </TableHead>
@@ -133,11 +133,18 @@ function Tables({ filteredData }: any) {
                     >
                       {row.wage_month_cost}
                     </TableCell> */}
+                    {/* className='font-kanit bg-sky-300' */}
                     <TableCell
                       className='font-kanit text-lg'
                       align="right"
                     >
                       {(row.total_consumption_cost * 35).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    </TableCell>
+                    <TableCell
+                      className='font-kanit text-lg'
+                      align="right"
+                    >
+                      {(row.total_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     </TableCell>
                     {/* <TableCell align="right">{row.start_time ? moment(row.start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
                     {/* <TableCell align="right">{row.due_time ? moment(row.due_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}

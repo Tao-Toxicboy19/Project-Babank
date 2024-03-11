@@ -40,7 +40,8 @@ export default function SummarizeLayout() {
     }, []);
 
 
-    const result = reportCraneReducer.result.filter((group) => group.solution_id === rolesReducer.result?.group)
+    // const result = reportCraneReducer.result.filter((group) => group.solution_id === rolesReducer.result?.group)
+    const result = reportCraneReducer.result
     const totalWageMonthCost = creaneReducer.result.reduce((total, solution) => total + solution.wage_month_cost, 0)
 
     const modifiedCost = result.map(item => ({

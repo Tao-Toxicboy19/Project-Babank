@@ -1,4 +1,4 @@
-import { LoadScript, GoogleMap, Polyline } from "@react-google-maps/api";
+import { LoadScript, GoogleMap, Polyline, useJsApiLoader } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import { Marker } from '@react-google-maps/api';
 import Loading from "../Loading/Loading";
@@ -8,6 +8,12 @@ import { roleSelector } from "../../../store/slices/auth/rolesSlice";
 export default function RouteMaps({ ftsSolutionReducer, value }: any) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
     const roleRreducer = useSelector(roleSelector)
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+
+    const { isLoaded } = useJsApiLoader({ googleMapsApiKey: apiKey });
+    if (!isLoaded) {
+        return null;
+    }
 
     const result = solutionscheduleReducer.result.filter((group) => group.solution_id === roleRreducer.result?.group)
 
@@ -29,7 +35,7 @@ export default function RouteMaps({ ftsSolutionReducer, value }: any) {
             {solutionscheduleReducer.loading ? (
                 <Loading />
             ) : (
-                <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                <LoadScript googleMapsApiKey={apiKey}>
                     <GoogleMap
                         mapContainerStyle={mapStyles}
                         zoom={13}
