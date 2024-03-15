@@ -44,7 +44,6 @@ import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
-import { reportCraneAsync } from './store/slices/report/reportCraneSlice';
 import { solutionOrderAsync } from './store/slices/Solution/solutionOrderSlice';
 import { craneSolutionV2Async } from './store/slices/Solution/craneSolutionV2Slice';
 import { ftsSolutionTableAsync } from './store/slices/Solution/ftsSolutionTableSlice';
@@ -55,6 +54,8 @@ export default function ResponsiveDrawer() {
   const dispatch = useAppDispatch()
   const loginReducer = useSelector(loginSelector)
   const [mobileOpen, setMobileOpen] = useState(false);
+  // const id  = roleReducer.result?.group
+  // if(!id) return
 
   useEffect(() => {
     dispatch(sulutionScheduelAsync())
@@ -64,7 +65,7 @@ export default function ResponsiveDrawer() {
     dispatch(craneSolutionV2Async())
     dispatch(ftsSolutionTableAsync())
     dispatch(solutionOrderAsync())
-    dispatch(reportCraneAsync())
+    // dispatch(reportCraneAsync(id))
     dispatch(carrierAsync())
     dispatch(roleAsync())
     dispatch(orderAsync())

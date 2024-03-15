@@ -65,20 +65,20 @@ export default function ReportCrane({ }: Props) {
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
-                                        <TableTitles Titles={['ชื่อเครน', 'ชื่อเรือ', 'วัน-เวลา มาถึง', 'วัน-เวลา สิ้นสุด', 'ปริมาณสินค้า (ตัน)', 'ประเภทสินค้า']} />
+                                        <TableTitles Titles={['ชื่อเครน', 'ชื่อเรือ', 'วัน-เวลา มาถึง', 'วัน-เวลา สิ้นสุด', 'ปริมาณสินค้า (ตัน)','จำนวนระวาง' ,'ประเภทสินค้า']} />
                                     </TableHead>
                                     <TableBody>
                                         <>
 
                                             {
-                                                values.map((item: any, index) => {
+                                                values.map((item, index) => {
                                                     const itemMonth = new Date(item.due_time).getMonth();
                                                     const formattedDate = moment(item.start_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     const formattedDateV2 = moment(item.due_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     const craneName = craneReducer.result.find(r => r.id === item.crane_id)
 
                                                     if ((selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) &&
-                                                        (selectedCrane === "ทั้งหมด" || item.crane_id === selectedCrane)) {
+                                                        (selectedCrane === "ทั้งหมด" || item.crane_id === +selectedCrane)) {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                                 <TableCell className="font-kanit text-md">{craneName?.crane_name}</TableCell>
@@ -86,6 +86,7 @@ export default function ReportCrane({ }: Props) {
                                                                 <TableCell align="center" className="font-kanit text-md">{formattedDate}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{formattedDateV2}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{item.load_cargo}</TableCell>
+                                                                <TableCell align="center" className="font-kanit text-md">{item.bulk}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{item.cargo_name}</TableCell>
                                                             </TableRow>
                                                         );

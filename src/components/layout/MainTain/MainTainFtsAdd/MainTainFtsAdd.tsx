@@ -6,6 +6,7 @@ import { addMainTainFTS } from "../../../../store/slices/MainTain/FTSSlice";
 import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
 import { useAppDispatch } from "../../../../store/store";
 import { CLOSE, SAVE } from "../../../../Constants";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 
 type Props = {}
 
@@ -13,6 +14,9 @@ export default function MainTainFtsAdd({ }: Props) {
     const FTSReducer = useSelector(ftsSelector)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const roleReducer = useSelector(roleSelector)
+    const id = roleReducer.result?.group
+    if(!id) return
 
     const {
         register,
@@ -46,7 +50,10 @@ export default function MainTainFtsAdd({ }: Props) {
                     } else {
                         data.start_time_FTS = '';
                     }
-                    dispatch(addMainTainFTS(data, navigate))
+                    const value = {
+                        ...data,id
+                    }
+                    dispatch(addMainTainFTS(value, navigate))
                 })}>
                     <Stack direction='column' spacing={3}>
                         <Box className='w-full'>

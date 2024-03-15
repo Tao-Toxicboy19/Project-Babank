@@ -21,7 +21,7 @@ export default function MainTainCraneDelete({ id }: Props) {
         setOpen(false);
     };
 
-    const fetch = () => dispatch(mainTainCraneAsync())
+    const fetch = () => dispatch(mainTainCraneAsync(id))
 
     const handleDeleteConfirm = async () => {
         setIsSubmitting(true);

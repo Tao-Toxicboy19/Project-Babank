@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 export default function CraneGantts() {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector);
+    const rolesReducer = useSelector(roleSelector);
     const [open, setOpen] = React.useState(false);
     const [selectedShipName, setSelectedShipName] = React.useState("");
     const [dates, setDates] = React.useState()
@@ -83,7 +84,7 @@ export default function CraneGantts() {
         const selection = chartWrapper.getChart().getSelection();
         if (selection.length === 1) {
             const rowIndex = selection[0].row;
-            const selectedCarrierName: any = datav2[rowIndex + 1][0];
+            const selectedCarrierName:any = datav2[rowIndex + 1][0];
             const selectedStartDate = datav2[rowIndex + 1][2];
             const selectedEndDate = datav2[rowIndex + 1][3]
             // console.log(datav2[rowIndex + 1][2])
@@ -108,8 +109,6 @@ export default function CraneGantts() {
                             callback: handleChartClick,
                         },
                     ]}
-                    options={{}}
-                    graph_id="TimelineChart"
                 />
             </div>
             <FormDialog open={open} handleClose={handleClose} selectedShipName={selectedShipName} dates={dates} endDate={endDate} />

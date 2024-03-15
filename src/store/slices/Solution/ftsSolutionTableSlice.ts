@@ -3,7 +3,7 @@ import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 
-interface SolutionCrane {
+export interface SolutionCrane {
     fts: Fts;
     crane: Crane[];
     solutions: Solution[];

@@ -36,9 +36,9 @@ const initialState: mainTainFTSState = {
 
 export const mainTainAsync = createAsyncThunk(
     'mainTain/mainTainAsync',
-    async () => {
+    async (id:number) => {
         try {
-            const result = await httpClient.get<MainTainFTS[]>(server.MAINTAIN_FTS_URL)
+            const result = await httpClient.get<MainTainFTS[]>(`${server.MAINTAIN_FTS_URL}/${id}`)
             return result.data;
         } catch (error) {
             throw error;

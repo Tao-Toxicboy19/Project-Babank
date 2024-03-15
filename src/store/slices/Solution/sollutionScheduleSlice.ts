@@ -3,7 +3,7 @@ import { httpClient } from "../../../utils/httpclient";
 import { server } from "../../../Constants";
 import { RootState } from "../../store";
 
-interface Solution_schedule {
+export interface Solution_schedule {
     solution_id: number;
     FTS_id: number;
     carrier_id: number;
@@ -42,9 +42,9 @@ const initialState: Solution_scheduleState = {
 
 export const sulutionScheduelAsync = createAsyncThunk(
     'sulutionScheduel/sulutionScheduelAsync',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get(server.SOLUTIONSCHEDULE)
+            const result = await httpClient.get(`${server.SOLUTIONSCHEDULE}/${id}`)
             return result.data
         } catch (error) {
             throw error

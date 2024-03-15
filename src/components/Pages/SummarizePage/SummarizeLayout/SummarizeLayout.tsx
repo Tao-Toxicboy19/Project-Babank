@@ -17,6 +17,7 @@ import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/sli
 import { craneSolutionV2Async, craneSolutionV2Selector } from '../../../../store/slices/Solution/craneSolutionV2Slice';
 import { reportCraneSelector } from '../../../../store/slices/report/reportCraneSlice';
 import { craneAsync, craneSelector } from '../../../../store/slices/Crane/craneSlice';
+import { sulutionScheduelAsync } from '../../../../store/slices/Solution/sollutionScheduleSlice';
 
 
 export default function SummarizeLayout() {
@@ -28,6 +29,8 @@ export default function SummarizeLayout() {
     const reportCraneReducer = useSelector(reportCraneSelector)
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
     const creaneReducer = useSelector(craneSelector)
+    const id = rolesReducer.result?.group
+    if(!id) return
 
     useEffect(() => {
         dispatch(craneSolutionAsync())
@@ -35,6 +38,7 @@ export default function SummarizeLayout() {
         dispatch(ftsSolutionAsync())
         dispatch(craneSolutionTableAsync())
         dispatch(solutionOrderAsync())
+        dispatch(sulutionScheduelAsync(id))
         dispatch(craneSolutionV2Async())
         dispatch(craneAsync())
     }, []);

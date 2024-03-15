@@ -20,7 +20,7 @@ export default function CraneDalete({ id }: Props) {
     const handleClose = () => {
         setOpen(false);
     };
-    const fetch = () => dispatch(mainTainAsync())
+    const fetch = () => dispatch(mainTainAsync(id))
 
 
     const handleDeleteConfirm = async () => {

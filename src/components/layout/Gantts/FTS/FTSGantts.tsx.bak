@@ -1,0 +1,119 @@
+import { Chart } from "react-google-charts";
+import { parse, format } from 'date-fns';
+import { useSelector } from "react-redux";
+import { Typography } from "@mui/material";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
+import { sulutionScheduelAsync, sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
+import { useAppDispatch } from "../../../../store/store";
+import { useEffect } from "react";
+
+export default function FTSGantts() {
+  const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
+  const rolesReducer = useSelector(roleSelector)
+  const dispatch = useAppDispatch()
+  const id = rolesReducer.result?.group
+  if (!id) return
+
+  // useEffect(() => {
+  //   dispatch(sulutionScheduelAsync(id))
+  // }, []);
+
+  // const filteredSolutionscheduleReducer = (SolutionscheduleReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group);
+  if (SolutionscheduleReducer.result.length === 0) {
+    return (
+      <Typography
+        sx={{
+          mr: 2,
+          fontSize: 33,
+          display: { xs: "none", md: "flex" },
+          fontFamily: "monospace",
+          fontWeight: 700,
+          letterSpacing: ".1rem",
+          color: "inherit",
+          textDecoration: "none",
+        }}
+        className='text-cyan-800 flex justify-center items-center'
+        variant='h4'
+        component='h2'
+      >
+        ไม่มีข้อมูล
+      </Typography>
+    )
+  }
+  const filteredData = (SolutionscheduleReducer.result).filter((item) => item.carrier_name !== null);
+  let data = [filteredData[0]]
+  data = data.concat(filteredData);
+  const datav2 = data.map((item) => {
+    const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date());
+    const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date());
+
+    const formattedStartDate = format(parsedStartDate, "yyyy, M, d, HH:mm:ss");
+    const formattedEndDate = format(parsedEndDate, "yyyy, M, d, HH:mm:ss");
+
+    return [
+      item.FTS_name,
+      item.carrier_name,
+      new Date(formattedStartDate),
+      new Date(formattedEndDate),
+    ];
+  });
+
+  return (
+    <>
+      {SolutionscheduleReducer.result.length === 0 ? (
+        <Typography
+          sx={{
+            mr: 2,
+            fontSize: 33,
+            display: { xs: "none", md: "flex" },
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".1rem",
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          className='text-cyan-800 flex justify-center items-center'
+          variant='h4'
+          component='h2'
+        >
+          ไม่มีข้อมูล
+        </Typography>
+      ) : (
+        <>
+          {
+            datav2.length === 0 ? (
+              <Typography
+                sx={{
+                  mr: 2,
+                  fontSize: 33,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+                className='text-cyan-800 flex justify-center items-center'
+                variant='h4'
+                component='h2'
+              >
+                ไม่มีข้อมูล
+              </Typography>
+            ) : (
+              data && (
+                <div>
+                  <Chart
+                    chartType="Timeline"
+                    data={datav2}
+                    width="100%"
+                    height="800px"
+                  />
+                </div>
+              )
+            )
+          }
+        </>
+      )}
+    </>
+  );
+}

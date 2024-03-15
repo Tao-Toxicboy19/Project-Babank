@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/material';
 import Checkboxs from './Checkbox/Checkboxs';
@@ -61,11 +60,9 @@ export default function DialogLoading() {
           {"จัดเเผนการย้ายทุ่น"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Box className='mx-20'>
+=            <Box className='mx-20'>
               <Checkboxs handleCloseV2={handleCloseV2} />
             </Box>
-          </DialogContentText>
         </DialogContent>
       </Dialog>
     </React.Fragment >

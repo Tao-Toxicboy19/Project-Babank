@@ -1,24 +1,18 @@
-import { LoadScript, GoogleMap, Polyline, useJsApiLoader } from "@react-google-maps/api";
+import {GoogleMap, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import { Marker } from '@react-google-maps/api';
-import Loading from "../Loading/Loading";
 import { sulutionScheduelSelector } from "../../../store/slices/Solution/sollutionScheduleSlice"
-import { roleSelector } from "../../../store/slices/auth/rolesSlice";
+import { SolutionCrane } from "../../../store/slices/Solution/ftsSolutionTableSlice";
 
-export default function RouteMaps({ ftsSolutionReducer, value }: any) {
+type Props ={
+    ftsSolutionReducer:SolutionCrane[]
+    value:number
+}
+
+export default function RouteMaps({ ftsSolutionReducer, value }: Props) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
-    const roleRreducer = useSelector(roleSelector)
-    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
 
-    const { isLoaded } = useJsApiLoader({ googleMapsApiKey: apiKey });
-    if (!isLoaded) {
-        return null;
-    }
-
-    const result = solutionscheduleReducer.result.filter((group) => group.solution_id === roleRreducer.result?.group)
-
-
-    const datav2 = result
+    const datav2 = solutionscheduleReducer.result
         .filter((items) => items.FTS_name === ftsSolutionReducer[value]?.fts.FTS_name)
         .map((item) => ({
             lat: item.lat,
@@ -31,34 +25,28 @@ export default function RouteMaps({ ftsSolutionReducer, value }: any) {
 
 
     return (
-        <div className="App">
-            {solutionscheduleReducer.loading ? (
-                <Loading />
-            ) : (
-                <LoadScript googleMapsApiKey={apiKey}>
-                    <GoogleMap
-                        mapContainerStyle={mapStyles}
-                        zoom={13}
-                        center={{ lat: 13.177009, lng: 100.840662 }}
-                    >
-                        {(datav2).map((item: any) => (
-                            <Marker
-                                key={`${item.lat}-${item.lng}`}
-                                position={{ lat: item.lat, lng: item.lng }}
-                            // icon={index === 0 ? blueMarkerIcon : undefined}
-                            />
-                        ))}
-                        <Polyline
-                            path={datav2}
-                            options={{
-                                strokeColor: '#FF0000', // สีของเส้น Polyline
-                                strokeOpacity: 1.0, // ความโปร่งใสของเส้น Polyline
-                                strokeWeight: 2, // ความหนาของเส้น Polyline
-                            }}
-                        />
-                    </GoogleMap>
-                </LoadScript>
-            )}
-        </div>
+        // <LoadScript googleMapsApiKey={apiKey}>
+            <GoogleMap
+                mapContainerStyle={mapStyles}
+                zoom={13}
+                center={{ lat: 13.177009, lng: 100.840662 }}
+            >
+                {(datav2).map((item: any) => (
+                    <Marker
+                        key={`${item.lat}-${item.lng}`}
+                        position={{ lat: item.lat, lng: item.lng }}
+                    // icon={index === 0 ? blueMarkerIcon : undefined}
+                    />
+                ))}
+                <Polyline
+                    path={datav2}
+                    options={{
+                        strokeColor: '#FF0000', // สีของเส้น Polyline
+                        strokeOpacity: 1.0, // ความโปร่งใสของเส้น Polyline
+                        strokeWeight: 2, // ความหนาของเส้น Polyline
+                    }}
+                />
+            </GoogleMap>
+        // </LoadScript>
     );
 }

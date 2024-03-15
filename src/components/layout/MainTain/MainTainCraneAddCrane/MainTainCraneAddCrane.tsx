@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../../../store/store";
 import { addMainTainCrane } from "../../../../store/slices/MainTain/CraneSlice";
 import { craneSelector } from "../../../../store/slices/Crane/craneSlice";
 import { CLOSE, SAVE } from "../../../../Constants";
+import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 
 type Props = {}
 
@@ -13,6 +14,9 @@ export default function MainTainCraneAddCrane({ }: Props) {
     const craneReducer = useSelector(craneSelector)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const roleReducer = useSelector(roleSelector)
+    const id = roleReducer.result?.group
+    if (!id) return
 
     const {
         register,
@@ -47,7 +51,10 @@ export default function MainTainCraneAddCrane({ }: Props) {
                     } else {
                         data.start_time_FTS = '';
                     }
-                    dispatch(addMainTainCrane(data, navigate))
+                    const value = {
+                        ...data, id
+                    }
+                    dispatch(addMainTainCrane(value, navigate))
                 })}>
                     <Stack direction='column' spacing={3}>
                         <Box className='w-full'>

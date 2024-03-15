@@ -9,8 +9,6 @@ import { Card } from '@mui/material';
 import RouteMaps from '../RouteMaps/RouteMaps';
 import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 import { ftsSolutionTableSelector } from '../../../store/slices/Solution/ftsSolutionTableSlice';
-import { useAppDispatch } from '../../../store/store';
-import { sulutionScheduelAsync } from '../../../store/slices/Solution/sollutionScheduleSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -31,7 +29,7 @@ function TabPanel(props: TabPanelProps) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    {children}
                 </Box>
             )}
         </div>
@@ -49,21 +47,24 @@ export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
     const rolesReducer = useSelector(roleSelector)
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
     };
 
-    React.useEffect(() => {
-        dispatch(sulutionScheduelAsync())
-    }, []);
+    const id = rolesReducer.result?.group
+    if(!id) return
 
-    const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
+    // React.useEffect(() => {
+    //     dispatch(sulutionScheduelAsync(id))
+    // }, []);
+
+    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
     return (
         <>
-            {filteredftsSolutionReducer.length === 0 ? (
+            {ftsSolutionReducer.result.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -83,7 +84,7 @@ export default function RouteLayout() {
                 </Typography>
             ) : (
                 <>
-                    {filteredftsSolutionReducer.length === 0 ? (
+                    {ftsSolutionReducer.result.length === 0 ? (
                         <Typography
                             sx={{
                                 mr: 2,
@@ -114,6 +115,7 @@ export default function RouteLayout() {
                                     {ftsSolutionReducer.result.map((items, index) => (
                                         <Tab
                                             // className='font-kanit'
+                                            key={index}
                                             className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
                                             label={`${items.fts.FTS_name}`}
                                             {...a11yProps(index)}

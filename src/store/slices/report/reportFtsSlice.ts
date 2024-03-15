@@ -3,48 +3,14 @@ import { RootState } from "../../store";
 import { server } from "../../../Constants";
 import { httpClient } from "../../../utils/httpclient";
 
-enum Category {
-    Export = "export",
-    Import = "import",
-}
-interface report_solutions {
-    solution_id: number;
-    FTS_id: number;
-    carrier_id: number;
-    lat: number;
-    lng: number;
-    arrivaltime: any;
-    exittime: any;
-    operation_time: number;
-    Setup_time: number;
-    travel_Distance: number;
-    travel_time: number;
-    operation_rate: number;
-    consumption_rate: number;
-    or_id: number;
-    cr_id: number;
-    category: Category;
-    arrival_time: any;
-    deadline_time: any;
-    latitude: number;
-    longitude: number;
-    maxFTS: number;
-    penalty_rate: number;
-    reward_rate: number;
-    order_id: number;
-    cargo_id: number;
-    load: number;
-    bulk: number;
-    id: number;
+export type report_solutions = {
     FTS_name: string;
-    setuptime_FTS: number;
-    speed: number;
-    cargo_name: string;
     carrier_name: string;
-    holder: string;
-    maxcapacity: number;
-    burden: number;
+    min_start_time: any;
+    max_due_time: any;
+    total_load_cargo: number;
 }
+
 interface report_solutionState {
     result: report_solutions[]
     loading: boolean

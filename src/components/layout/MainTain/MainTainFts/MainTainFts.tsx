@@ -5,8 +5,10 @@ import Add from '@mui/icons-material/Add';
 import moment from 'moment';
 import TableTitles from '../../TableTitles/TableTitles';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
-import { mainTainFtsSelector } from '../../../../store/slices/mainTainFts/mainTainFtsSlice';
+import { mainTainAsync, mainTainFtsSelector } from '../../../../store/slices/mainTainFts/mainTainFtsSlice';
 import MainTainFtsDelete from '../MainTainFtsDelete/MainTainFtsDelete';
+import { useAppDispatch } from '../../../../store/store';
+import { useEffect } from 'react';
 
 type Props = {}
 
@@ -14,8 +16,16 @@ export default function MainTainFts({ }: Props) {
     const mainTainFTSReducer = useSelector(mainTainFtsSelector)
     const rolesReducer = useSelector(roleSelector)
     const title = ["ชื่อทุ่น", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แก้ไข"]
+    const dispatch = useAppDispatch()
+    const id = rolesReducer.result?.group
+    if (!id) return
+    useEffect(() => {
+        dispatch(mainTainAsync(id))
+    }, []);
+    // console.log
 
-    const filteredMainTain = (mainTainFTSReducer.result).filter((group) => group.group === rolesReducer.result?.group);
+
+    // const filteredMainTain = (mainTainFTSReducer.result).filter((group) => group.group === rolesReducer.result?.group);
 
     return (
         <TableContainer component={Paper}>
@@ -45,7 +55,7 @@ export default function MainTainFts({ }: Props) {
                 </Box>
             </Box >
             <hr />
-            {filteredMainTain.length === 0 ? (
+            {mainTainFTSReducer.result.length === 0 ? (
                 <>
                     <Typography
                         sx={{
@@ -71,7 +81,7 @@ export default function MainTainFts({ }: Props) {
                         <TableTitles Titles={title} />
                     </TableHead>
                     <TableBody>
-                        {(filteredMainTain).map((items: any) => (
+                        {(mainTainFTSReducer.result).map((items: any) => (
                             <TableRow
                                 key={items.maintain_FTS_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

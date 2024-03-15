@@ -13,14 +13,21 @@ import DeleteCrane from '../MainTainCraneDelete/MainTainCraneDelete';
 import moment from 'moment';
 import TableTitles from '../../TableTitles/TableTitles';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
-import { mainTainCraneSelector } from '../../../../store/slices/MainTainCrane/mainTainCraneSlice';
+import { mainTainCraneAsync, mainTainCraneSelector } from '../../../../store/slices/MainTainCrane/mainTainCraneSlice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../../../store/store';
 
 export default function MainTainCranes() {
     const mainTainCraneReducer = useSelector(mainTainCraneSelector)
     const rolesReducer = useSelector(roleSelector)
     const title = ["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แก้ไข"]
+    const dispatch = useAppDispatch()
+    const id = rolesReducer.result?.group
+    if(!id) return
 
-    const filteredOrders = (mainTainCraneReducer.result).filter((group) => group.group === rolesReducer.result?.group);
+    useEffect(() => {
+        dispatch(mainTainCraneAsync(id))
+    }, []);
 
     return (
         <TableContainer component={Paper}>
@@ -51,7 +58,7 @@ export default function MainTainCranes() {
             </Box >
             <hr />
 
-            {filteredOrders.length === 0 ? (
+            {mainTainCraneReducer.result.length === 0 ? (
                 <Typography
                     sx={{
                         mr: 2,
@@ -75,7 +82,7 @@ export default function MainTainCranes() {
                         <TableTitles Titles={title} />
                     </TableHead>
                     <TableBody>
-                        {(filteredOrders).map((items) => (
+                        {(mainTainCraneReducer.result).map((items) => (
                             <TableRow
                                 key={items.maintain_crane_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

@@ -8,10 +8,8 @@ import { useSelector } from 'react-redux';
 import { ftsAsync, ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
 import { Card } from '@mui/material';
 import MainTainFts from '../../../layout/MainTain/MainTainFts/MainTainFts';
-import { mainTainAsync } from '../../../../store/slices/mainTainFts/mainTainFtsSlice';
 import Loading from '../../../layout/Loading/Loading';
 import MainTainCranes from '../../../layout/MainTain/MainTainCranes/MainTainCranes';
-import { mainTainCraneAsync } from '../../../../store/slices/MainTainCrane/mainTainCraneSlice';
 import { useAppDispatch } from '../../../../store/store';
 
 interface TabPanelProps {
@@ -56,9 +54,6 @@ export default function FTSPage() {
 
   React.useEffect(() => {
     dispatch(ftsAsync())
-    dispatch(mainTainCraneAsync())
-    dispatch(mainTainAsync())
-
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

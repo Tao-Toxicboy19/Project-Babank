@@ -1,12 +1,11 @@
 import { useSelector } from "react-redux";
 import { Box, Card, CardContent, FormControl, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState, } from "react";
-import { report_solutions } from "../../../../type/Solution_schedule.type";
 import { TitleReportFTS } from "../../../../Constants";
 import moment from "moment";
 import Loading from "../../../layout/Loading/Loading";
 import TableTitles from "../../../layout/TableTitles/TableTitles";
-import { reportFtsAsync, reportFtsSelector } from "../../../../store/slices/report/reportFtsSlice";
+import { reportFtsAsync, reportFtsSelector, report_solutions } from "../../../../store/slices/report/reportFtsSlice";
 import { ftsSelector } from "../../../../store/slices/FTS/ftsSlice";
 import { roleSelector } from "../../../../store/slices/auth/rolesSlice";
 import SearchTerms from "../../../layout/SearchTerms/SearchTerms";
@@ -33,7 +32,7 @@ export default function ReportFTS() {
     }, [])
 
     useEffect(() => {
-        const filteredData = values.filter((item: any) => item.FTS_id === selectedFtsId);
+        const filteredData = values.filter((item) => item.FTS_name === selectedFtsId);
         setFilteredData(filteredData)
     }, [selectedFtsId, values])
 
@@ -84,7 +83,7 @@ export default function ReportFTS() {
                                         >
                                             <MenuItem className="font-kanit" value="ทั้งหมด">ทั้งหมด</MenuItem>
                                             {(ftsReducer.result).map((items, index) => (
-                                                <MenuItem key={index} className="font-kanit" value={items.fts_id}>{items.FTS_name}</MenuItem>
+                                                <MenuItem key={index} className="font-kanit" value={items.FTS_name}>{items.FTS_name}</MenuItem>
                                             ))}
                                         </Select>
                                     </FormControl>
@@ -100,9 +99,9 @@ export default function ReportFTS() {
                                         <>
                                             {selectedFtsId === "ทั้งหมด" ? (
                                                 values.map((item, index) => {
-                                                    const itemMonth = new Date(item.deadline_time).getMonth();
-                                                    const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                                    const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                                    const itemMonth = new Date(item.min_start_time).getMonth();
+                                                    const formattedDate = moment(item.min_start_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                                    const formattedDateV2 = moment(item.max_due_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -110,8 +109,8 @@ export default function ReportFTS() {
                                                                 <TableCell align="center" className="font-kanit text-md">{item.carrier_name}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{formattedDate}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{formattedDateV2}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.load}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                                <TableCell align="center" className="font-kanit text-md">{item.total_load_cargo}</TableCell>
+                                                                {/* <TableCell align="center" className="font-kanit text-md">{item.cargo_name}</TableCell> */}
                                                             </TableRow>
                                                         );
                                                     }
@@ -119,9 +118,9 @@ export default function ReportFTS() {
                                                 })
                                             ) : (
                                                 filteredData.map((item, index) => {
-                                                    const itemMonth = new Date(item.deadline_time).getMonth();
-                                                    const formattedDate = moment(item.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
-                                                    const formattedDateV2 = moment(item.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                                    const itemMonth = new Date(item.min_start_time).getMonth();
+                                                    const formattedDate = moment(item.min_start_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
+                                                    const formattedDateV2 = moment(item.max_due_time, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY HH:mm:ss');
                                                     if (selectedMonth === "ทุกเดือน" || itemMonth === parseInt(selectedMonth, 10)) {
                                                         return (
                                                             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -129,8 +128,7 @@ export default function ReportFTS() {
                                                                 <TableCell align="center" className="font-kanit text-md">{item.carrier_name}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{formattedDate}</TableCell>
                                                                 <TableCell align="center" className="font-kanit text-md">{formattedDateV2}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.load}</TableCell>
-                                                                <TableCell align="center" className="font-kanit text-md">{item.cargo_name}</TableCell>
+                                                                <TableCell align="center" className="font-kanit text-md">{item.total_load_cargo}</TableCell>
                                                             </TableRow>
                                                         );
                                                     }
