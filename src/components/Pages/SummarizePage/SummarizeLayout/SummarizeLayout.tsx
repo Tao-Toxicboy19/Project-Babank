@@ -14,7 +14,7 @@ import { ftsSolutionAsync } from '../../../../store/slices/FtsSolution/ftsSoluti
 import { craneSolutionTableAsync } from '../../../../store/slices/FtsSolution/craneSolutionTableSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/slices/Solution/craneSolutionSlice';
-import { craneSolutionV2Async, craneSolutionV2Selector } from '../../../../store/slices/Solution/craneSolutionV2Slice';
+import { craneSolutionV2Async } from '../../../../store/slices/Solution/craneSolutionV2Slice';
 import { craneAsync } from '../../../../store/slices/Crane/craneSlice';
 import { sulutionScheduelAsync } from '../../../../store/slices/Solution/sollutionScheduleSlice';
 import { totalTableAsyncSelector } from '../../../../store/slices/Solution/totalTableFTSSlice';
@@ -25,10 +25,7 @@ export default function SummarizeLayout() {
     const CraneSolutionReduer = useSelector(craneSolutionSelector)
     const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
     const rolesReducer = useSelector(roleSelector)
-    const craneSolutionV2Reducer = useSelector(craneSolutionV2Selector)
-    // const reportCraneReducer = useSelector(reportCraneSelector)
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
-    // const creaneReducer = useSelector(craneSelector)
     const totalTableReducer = useSelector(totalTableAsyncSelector)
 
     const id = rolesReducer.result?.group
@@ -45,7 +42,6 @@ export default function SummarizeLayout() {
         dispatch(craneAsync())
     }, []);
 
-    const craneSolutionV2 = craneSolutionV2Reducer.result
     const totalConsumptionCost = totalTableReducer.result.reduce((total, solution) => total + solution.total_consumption_cost_sum, 0)
     const totalPenality = totalTableReducer.result.reduce((total, solution) => total + solution.penality_cost_sum, 0)
     const totalWageCost = totalTableReducer.result.reduce((total, solution) => total + solution.total_cost_sum, 0)
@@ -54,26 +50,7 @@ export default function SummarizeLayout() {
     const filteredReward: any = {};
     const filteredPenality: any = {};
 
-    craneSolutionV2.forEach((data) => {
-        const { FTS_id, total_reward } = data;
-
-        // ถ้า FTS_id ยังไม่มีใน filteredReward หรือ total_reward มากกว่าที่เคยเก็บไว้
-        if (!filteredReward[FTS_id] || total_reward < filteredReward[FTS_id].total_reward) {
-            // เก็บข้อมูลลงใน filteredReward โดยใช้ FTS_id เป็น key
-            filteredReward[FTS_id] = data;
-        }
-    });
-
-    craneSolutionV2.forEach((data) => {
-        const { FTS_id, penality_cost } = data;
-
-        // ถ้า FTS_id ยังไม่มีใน filteredPenality หรือ penality_cost มากกว่าที่เคยเก็บไว้
-        if (!filteredPenality[FTS_id] || penality_cost > filteredPenality[FTS_id].penality_cost) {
-            // เก็บข้อมูลลงใน filteredPenality โดยใช้ FTS_id เป็น key
-            filteredPenality[FTS_id] = data;
-        }
-    });
-
+    
     // แปลง Object ที่ได้เป็น array โดยใช้ Object.values
     const filteredRewards = Object.values(filteredReward);
     const filteredPenalitys = Object.values(filteredPenality);
