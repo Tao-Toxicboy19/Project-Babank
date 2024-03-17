@@ -31,7 +31,6 @@ import ManagementUserPage from './components/Pages/ManagementUserPage/Management
 import CarrierCreate from './components/Pages/CarrierPage/CarrierAdd/CarrierAdd';
 import CarrierEditPage from './components/Pages/CarrierPage/CarrierEditPage/CarrierEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
-import { sulutionScheduelAsync } from './store/slices/Solution/sollutionScheduleSlice';
 import { roleAsync } from './store/slices/auth/rolesSlice';
 import { useAppDispatch } from './store/store';
 import { carrierAsync } from './store/slices/Carrier/carrierSlice';
@@ -45,7 +44,6 @@ import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddP
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
 import { solutionOrderAsync } from './store/slices/Solution/solutionOrderSlice';
-import { craneSolutionV2Async } from './store/slices/Solution/craneSolutionV2Slice';
 import { ftsSolutionTableAsync } from './store/slices/Solution/ftsSolutionTableSlice';
 
 const drawerWidth = 240;
@@ -58,11 +56,9 @@ export default function ResponsiveDrawer() {
   // if(!id) return
 
   useEffect(() => {
-    dispatch(sulutionScheduelAsync())
     dispatch(restoreLogin())
 
 
-    dispatch(craneSolutionV2Async())
     dispatch(ftsSolutionTableAsync())
     dispatch(solutionOrderAsync())
     // dispatch(reportCraneAsync(id))

@@ -35,9 +35,9 @@ const initialState: CraneSOlutionV2State = {
 
 export const craneSolutionV2Async = createAsyncThunk(
     'craneSolutionV2/craneSolutionV2Async',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get<CraneSOlutionV2[]>(server.crane_solutionV2)
+            const result = await httpClient.get<CraneSOlutionV2[]>(`${server.crane_solutionV2}/${id}`)
             return result.data
         } catch (error) {
             throw error

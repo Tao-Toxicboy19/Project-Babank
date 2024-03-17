@@ -18,19 +18,19 @@ export default function SummarizaCard(props: Props) {
                 <Box className='m-2'>
                     <Box className='flex justify-between text-[#435B71] mt-10'>
                         <Box className='flex items-center'>
-                            <props.icon className='text-2xl flex justify-center items-center' />
+                            {/* <props.icon className='text-lg flex justify-center items-center' /> */}
                             <Typography
-                                variant='h6'
-                                component='h5'
-                                className='font-kanit flex justify-center font-semibold'
+                                // variant='h6'
+                                // component='h5'
+                                className='font-kanit flex justify-center font-semibold text-md'
                             >
                                 {props.price}
                             </Typography>
                         </Box>
                         <Typography
-                            variant='h6'
-                            component='h3'
-                            className='font-kanit flex items-end'
+                            // variant='h6'
+                            // component='h3'
+                            className='font-kanit flex items-end text-sm'
                         >
                             {props.unit}
                         </Typography>

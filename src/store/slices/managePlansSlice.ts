@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { RootState } from "../store";
 import { apiManagePlans, SUCCESS } from "../../Constants";
 import { craneSolutionAsync } from "./Solution/craneSolutionSlice";
-import { sulutionScheduelAsync } from "./Solution/sollutionScheduleSlice";
 import { solutionCarrierOrderAsync } from "./Solution/solutionCarrierOrderSlice";
 import { ftsSulutionAsync } from "./Solution/ftsSulutionSlice";
 import { ftsSolutionTableAsync } from "./Solution/ftsSolutionTableSlice";
@@ -15,7 +14,6 @@ import { craneAsync } from "./Crane/craneSlice";
 import { ftsAsync } from "./FTS/ftsSlice";
 import { cargoAsync } from "./Cargo/cargoSlice";
 import { cargoCraneAsync } from "./CargoCrane/cargoCraneSlice";
-import { craneSolutionV2Async } from "./Solution/craneSolutionV2Slice";
 import { httpClient } from "../../utils/httpclient";
 
 
@@ -77,9 +75,7 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
         const result = await httpClient.post(apiManagePlans, values)
         console.log(result)
         dispatch(setManagePlansuccess(result.data))
-        dispatch(craneSolutionV2Async())
         dispatch(craneSolutionAsync())
-        dispatch(sulutionScheduelAsync())
         dispatch(ftsSulutionAsync())
         dispatch(ftsSolutionTableAsync())
         dispatch(solutionCarrierOrderAsync())

@@ -27,8 +27,6 @@ export default function CarrierPage({ }: Props) {
     item.carrier_name && item.carrier_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log(filteredData)
-
   useEffect(() => {
     disapatch(carrierAsync())
   }, []);

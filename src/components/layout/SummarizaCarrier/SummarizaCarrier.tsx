@@ -33,7 +33,7 @@ function Tables({ filteredData }: any) {
                 fontSize: 18
               }}
             >
-              รายจ่าย (บาท)
+              ต้นทุนรวม (บาท)
             </TableCell>
             <TableCell
               align="right"
@@ -44,7 +44,7 @@ function Tables({ filteredData }: any) {
                 fontSize: 18
               }}
             >
-              ค่าเชื้อเพลิง (ลิตร)
+              ค่าเชื้อเพลิง (บาท)
             </TableCell>
             <TableCell
               align="right"
@@ -124,7 +124,8 @@ function Tables({ filteredData }: any) {
                       className='font-kanit text-lg'
                       align="right"
                     >
-                      {row.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {row.total_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {/* {row.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
                       {/* {(row.wage_month_cost + row.penalty_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
                     </TableCell>
                     {/* <TableCell
@@ -138,13 +139,15 @@ function Tables({ filteredData }: any) {
                       className='font-kanit text-lg'
                       align="right"
                     >
-                      {(row.total_consumption_cost * 35).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {(row.total_consumption_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     </TableCell>
                     <TableCell
                       className='font-kanit text-lg'
                       align="right"
                     >
-                      {(row.total_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      {(row.total_wage_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+
+                      {/* {(row.).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
                     </TableCell>
                     {/* <TableCell align="right">{row.start_time ? moment(row.start_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}
                     {/* <TableCell align="right">{row.due_time ? moment(row.due_time).add(12, 'hours').format('DD/MM/YYYY HH:mm:ss') : ""}</TableCell> */}

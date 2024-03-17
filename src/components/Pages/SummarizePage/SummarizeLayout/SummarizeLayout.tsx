@@ -15,9 +15,9 @@ import { craneSolutionTableAsync } from '../../../../store/slices/FtsSolution/cr
 import { useAppDispatch } from '../../../../store/store';
 import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/slices/Solution/craneSolutionSlice';
 import { craneSolutionV2Async, craneSolutionV2Selector } from '../../../../store/slices/Solution/craneSolutionV2Slice';
-import { reportCraneSelector } from '../../../../store/slices/report/reportCraneSlice';
-import { craneAsync, craneSelector } from '../../../../store/slices/Crane/craneSlice';
+import { craneAsync } from '../../../../store/slices/Crane/craneSlice';
 import { sulutionScheduelAsync } from '../../../../store/slices/Solution/sollutionScheduleSlice';
+import { totalTableAsyncSelector } from '../../../../store/slices/Solution/totalTableFTSSlice';
 
 
 export default function SummarizeLayout() {
@@ -26,9 +26,11 @@ export default function SummarizeLayout() {
     const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
     const rolesReducer = useSelector(roleSelector)
     const craneSolutionV2Reducer = useSelector(craneSolutionV2Selector)
-    const reportCraneReducer = useSelector(reportCraneSelector)
+    // const reportCraneReducer = useSelector(reportCraneSelector)
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
-    const creaneReducer = useSelector(craneSelector)
+    // const creaneReducer = useSelector(craneSelector)
+    const totalTableReducer = useSelector(totalTableAsyncSelector)
+
     const id = rolesReducer.result?.group
     if(!id) return
 
@@ -39,26 +41,15 @@ export default function SummarizeLayout() {
         dispatch(craneSolutionTableAsync())
         dispatch(solutionOrderAsync())
         dispatch(sulutionScheduelAsync(id))
-        dispatch(craneSolutionV2Async())
+        dispatch(craneSolutionV2Async(id))
         dispatch(craneAsync())
     }, []);
 
-
-    // const result = reportCraneReducer.result.filter((group) => group.solution_id === rolesReducer.result?.group)
-    const result = reportCraneReducer.result
-    const totalWageMonthCost = creaneReducer.result.reduce((total, solution) => total + solution.wage_month_cost, 0)
-
-    const modifiedCost = result.map(item => ({
-        ...item,
-        total_cost: (item.load_cargo * item.premium_rate)
-    }))
-    const craneSolutionV2 = (craneSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
-    const totalConsumptionCost = craneSolutionV2.reduce((total, solution) => total + solution.total_consumption_cost, 0) * 35
-    const totalPenality = craneSolutionV2.reduce((total, solution) => total + solution.penality_cost, 0)
-    const totalWageCost = modifiedCost.reduce((total, solution) => total + solution.total_cost, 0) + totalWageMonthCost
+    const craneSolutionV2 = craneSolutionV2Reducer.result
+    const totalConsumptionCost = totalTableReducer.result.reduce((total, solution) => total + solution.total_consumption_cost_sum, 0)
+    const totalPenality = totalTableReducer.result.reduce((total, solution) => total + solution.penality_cost_sum, 0)
+    const totalWageCost = totalTableReducer.result.reduce((total, solution) => total + solution.total_cost_sum, 0)
     const totalCost = totalConsumptionCost + totalWageCost + totalPenality
-
-    // console.log(result.filter(r => r.FTS_id === ))
 
     const filteredReward: any = {};
     const filteredPenality: any = {};
@@ -88,7 +79,6 @@ export default function SummarizeLayout() {
     const filteredPenalitys = Object.values(filteredPenality);
     const totalReward: any = filteredRewards.reduce((total, solution: any) => total + solution.total_reward, 0)
     const totalPenalityV2: any = filteredPenalitys.reduce((total, solution: any) => total + solution.penality_cost, 0)
-
 
     return (
         <>
@@ -177,7 +167,7 @@ export default function SummarizeLayout() {
                                     <DescriptionMenu />
                                 </Box>
                                 <Box className='col-span-5 mt-5'>
-                                    <TreeTable rows={craneSolutionV2} />
+                                    <TreeTable />
                                 </Box>
                             </Box>
                         </Box>

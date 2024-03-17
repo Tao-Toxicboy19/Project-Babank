@@ -47,8 +47,9 @@ import ftsSolutionV2Reducer from "./slices/Solution/ftsSolutionV2Slice";
 import exportOrderReducer from "./slices/Order/exportOrdersSlice";
 import importOrderReducer from "./slices/Order/importOrderSlice";
 import craneSolutionV2Reducer from "./slices/Solution/craneSolutionV2Slice";
-
-
+import totalTableAsyncReducer from './slices/Solution/totalTableFTSSlice';
+import totalTableCraneReducerV2 from './slices/Solution/totalTableCraneSlice';
+// import totalCraneTableReducer from './slices/Solution/totalTableFTSSlice'
 const reducer = {
   loginReducer,
   registerReducer,
@@ -95,7 +96,9 @@ const reducer = {
   ftsSolutionV2Reducer,
   exportOrderReducer,
   importOrderReducer,
-  craneSolutionV2Reducer
+  craneSolutionV2Reducer,
+  totalTableAsyncReducer,
+  totalTableCraneReducerV2,
 };
 
 export const store = configureStore({

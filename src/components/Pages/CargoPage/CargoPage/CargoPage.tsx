@@ -217,8 +217,9 @@ export default function CargoPage() {
                         <NotFoundData />
                       ) : (
                         <>
-                          {filteredData.map((row) => (
+                          {filteredData.map((row, index) => (
                             <BodyTable
+                              key={index}
                               row={row}
                               rolesReducer={rolesReducer}
                             />

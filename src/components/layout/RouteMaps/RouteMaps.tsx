@@ -2,14 +2,13 @@ import {GoogleMap, Polyline } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import { Marker } from '@react-google-maps/api';
 import { sulutionScheduelSelector } from "../../../store/slices/Solution/sollutionScheduleSlice"
-import { SolutionCrane } from "../../../store/slices/Solution/ftsSolutionTableSlice";
 
-type Props ={
-    ftsSolutionReducer:SolutionCrane[]
-    value:number
-}
+// type Props ={
+//     ftsSolutionReducer:SolutionCrane[] | any
+//     value:number
+// }
 
-export default function RouteMaps({ ftsSolutionReducer, value }: Props) {
+export default function RouteMaps({ ftsSolutionReducer, value }: any) {
     const solutionscheduleReducer = useSelector(sulutionScheduelSelector)
 
     const datav2 = solutionscheduleReducer.result

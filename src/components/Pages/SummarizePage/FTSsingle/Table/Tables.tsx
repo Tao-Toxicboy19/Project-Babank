@@ -1,17 +1,38 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { craneSelector } from '../../../../../store/slices/Crane/craneSlice';
+import { useEffect, useState } from 'react';
+import { httpClient } from '../../../../../utils/httpclient';
+import { apiUrlV2 } from '../../../../../Constants';
+import { roleSelector } from '../../../../../store/slices/auth/rolesSlice';
 
-type Props = {
-    value: number
-    rows: any[]
-    ftsName: number
+type CraneTable = {
+    crane_id: number;
+    total_cost: number;
+    total_consumption_cost: number;
+    penality_cost: number;
+    total_all_costs: number;
+    crane_name: string;
+    total_reward_costs: number;
+    id: number;
 }
 
 
-export default function Tables({ rows, ftsName }: Props) {
-    const craneReducer = useSelector(craneSelector)
-    const results = rows.filter(r => r.FTS_id === ftsName)
+export default function Tables({ ftsName }: {  ftsName: any }) {
+    // const craneReducer = useSelector(craneSelector)
+    // const results = rows.filter(r => r.FTS_id === ftsName)
+    const [data, setData] = useState<CraneTable[]>([])
+    const roleReducer = useSelector(roleSelector)
+    const id = roleReducer.result?.group
+    if (!id) return
+    const fetch = async () => {
+        const res = await httpClient.get(`${apiUrlV2}/table/crane/${id}`)
+        setData(res.data)
+    }
+
+    useEffect(() => {
+        fetch()
+    }, []);
+    const values = data.filter(r => r.id === ftsName)
 
     return (
         <>
@@ -82,202 +103,57 @@ export default function Tables({ rows, ftsName }: Props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {results.map((row, index: number) => {
-                            const allCraneNames: any[] = [];
-
-                            results.forEach((row) => {
-                                const craneNames = (craneReducer.result).filter((item) => item.id === row.crane_id);
-                                allCraneNames.push(...craneNames);
-                            })
-
-                            return (
-                                <TableRow
-                                    key={index}
-                                    // className='col-span-6 grid grid-cols-6'
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell
-                                        align="left"
-                                        className='font-kanit text-lg'
-                                    >
-                                        {allCraneNames[index].crane_name}
-                                    </TableCell>
-                                    <TableCell
-                                        align="center"
-                                        className='font-kanit text-lg'
-                                    >
-                                        {(row.total_consumption_cost
-                                            + row.total_wage_cost
-                                            + row.penality_cost
-                                        ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    </TableCell>
-
-                                    <TableCell
-                                        align="center"
-                                        className='font-kanit text-lg'
-                                    >
-                                        {(row.total_consumption_cost * 35).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    </TableCell>
-                                    <TableCell
-                                        align="center"
-                                        className='font-kanit text-lg'
-                                    >
-                                        {row.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    </TableCell>
-                                    <TableCell
-                                        align="center"
-                                        className='font-kanit text-lg'
-                                    >
-                                        {row.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    </TableCell>
-                                    <TableCell
-                                        align="center"
-                                        className='font-kanit text-lg'
-                                    >
-                                        {row.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })}
-                        {/* {rows.map((row) => (
+                        {values.map((row, index: number) => (
                             <TableRow
-                                key={row.name}
+                                key={index}
+                                // className='col-span-6 grid grid-cols-6'
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">
-                                    {row.name}
+                                <TableCell
+                                    align="left"
+                                    className='font-kanit text-lg'
+                                >
+                                    {row.crane_name}
                                 </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-lg'
+                                >
+                                    {/* {(row.total_consumption_cost
+                                        + row.total_wage_cost
+                                        + row.penality_cost
+                                    ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
+                                </TableCell>
+
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-lg'
+                                >
+                                    {(row.total_consumption_cost).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-lg'
+                                >
+                                    {row.total_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-lg'
+                                >
+                                    {row.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-lg'
+                                >
+                                    {row.total_reward_costs.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                </TableCell>
                             </TableRow>
-                        ))} */}
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/* <Box className='grid grid-cols-6 gap-3 mt-3'>
-                <Typography
-                    className='font-kanit'
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    ชื่อเครน
-                </Typography>
-                <Typography
-                    className='font-kanit flex justify-center'
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    ต้นทุนรวม
-                </Typography>
-                <Typography
-                    className='font-kanit flex justify-center'
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    ค่าเชื้อเพลิงรวม
-                </Typography>
-
-                <Typography
-                    className='font-kanit flex justify-center '
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    ค่าแรง
-                </Typography>
-
-                <Typography
-                    className='font-kanit flex justify-center'
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    ค่าปรับล่าช้า
-                </Typography>
-                <Typography
-                    className='font-kanit flex justify-center'
-                    sx={{
-                        backgroundColor: 'background.paper',
-                        fontWeight: 'Bold',
-                        fontSize: 18
-                    }}
-                >
-                    รางวัล
-                </Typography>
-                <hr className='col-span-6' />
-                {results.map((row, index: number) => {
-                    const allCraneNames: any[] = [];
-
-                    results.forEach((row) => {
-                        const craneNames = (craneReducer.result).filter((item) => item.id === row.crane_id);
-                        allCraneNames.push(...craneNames);
-                    })
-
-                    return (
-                        <Box
-                            key={index}
-                            className='col-span-6 grid grid-cols-6'
-                        >
-                            <Typography
-                                align="left"
-                                className='font-kanit text-lg'
-                            >
-                                {allCraneNames[index].crane_name}
-                            </Typography>
-                            <Typography
-                                align="center"
-                                className='font-kanit text-lg'
-                            >
-                                {(row.total_consumption_cost
-                                    + row.total_wage_cost
-                                    + row.penality_cost
-                                ).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            </Typography>
-
-                            <Typography
-                                align="center"
-                                className='font-kanit text-lg'
-                            >
-                                {row.total_consumption_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            </Typography>
-                            <Typography
-                                align="center"
-                                className='font-kanit text-lg'
-                            >
-                                {row.total_wage_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            </Typography>
-                            <Typography
-                                align="center"
-                                className='font-kanit text-lg'
-                            >
-                                {row.penality_cost.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            </Typography>
-                            <Typography
-                                align="center"
-                                className='font-kanit text-lg'
-                            >
-                                {row.total_reward.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                            </Typography>
-                        </Box>
-                    )
-                })}
-                <hr className='col-span-6' />
-            </Box> */}
         </>
     )
 }
