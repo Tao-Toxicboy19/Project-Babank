@@ -15,7 +15,7 @@ export default function Titles(props: Props) {
                 noWrap
                 sx={{
                     mr: 2,
-                    fontSize: 33,
+                    fontSize: 23,
                     display: { xs: "none", md: "flex" },
                     fontFamily: "monospace",
                     fontWeight: 700,
@@ -25,11 +25,11 @@ export default function Titles(props: Props) {
                 }}
                 className='text-blue-900'
             >
-                <KeyboardArrowRightIcon sx={{ fontSize: 40, marginTop: 1 }} />
+                <KeyboardArrowRightIcon sx={{ fontSize: 25, marginTop: 1 }} />
                 {props.title}
                 {props.title2 && (
                     <>
-                        <KeyboardArrowRightIcon sx={{ fontSize: 40, marginTop: 1 }} />
+                        <KeyboardArrowRightIcon sx={{ fontSize: 25, marginTop: 1 }} />
                         {props.title2}
                     </>
                 )}

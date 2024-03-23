@@ -33,9 +33,9 @@ const initialState: OrderState = {
 
 export const exportOrderAsync = createAsyncThunk(
     'exportOrder/exportOrderAsync',
-    async () => {
+    async (id:number) => {
         try {
-            const result = await httpClient.get<orders[]>(server.EXPORTORDER)
+            const result = await httpClient.get<orders[]>(`${server.EXPORTORDER}/${id}`)
             return result.data
         } catch (error) {
             throw error

@@ -92,6 +92,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
         variant='outlined'
         className='w-1/4'
         type='button'
+        size='small'
         onClick={handleClickOpen}
       >
         Add Carrier
@@ -124,11 +125,11 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
             {"เพิ่มข้อมูลเรือสินค้า"}
           </DialogTitle>
           <DialogContent>
-            <Box className='grid grid-cols-2 gap-x-5 mt-5'>
+            <Box className='grid grid-cols-2 gap-x-3 mt-5'>
               <Stack
                 className='w-full'
                 direction='column'
-                spacing={4}
+                spacing={2}
               >
                 <Box
                   className='w-full'
@@ -138,6 +139,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     type='text'
                     label='ชื่อเรือ'
                     fullWidth
+                    size='small'
                     className='font-kanit'
                     {...register('carrier_name', { required: true })}
                   />
@@ -153,6 +155,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     label='ชื่อบริษัท'
                     id='holder'
                     type='text'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('holder', { required: true })}
@@ -168,6 +171,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     label='ความจุสูงสุด (ตัน)'
                     id='maxcapacity'
                     type='number'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('maxcapacity', {
@@ -188,6 +192,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     id='burden'
                     label='จำนวนระวาง'
                     type='number'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('burden', {
@@ -209,7 +214,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
 
               <Stack
                 direction='column'
-                spacing={4}
+                spacing={2}
                 className='w-full'
               >
                 <Box>
@@ -217,6 +222,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     id='carrier_max_FTS'
                     label='จำนวนทุ่นเข้าได้สูงสุด'
                     type='number'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('carrier_max_FTS', {
@@ -237,6 +243,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     id='carrier_max_crane'
                     label='จำนวนเครนเข้าได้สูงสุด'
                     type='number'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('carrier_max_crane', {
@@ -257,6 +264,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     id='Width'
                     label='กว้าง (เมตร)'
                     type='number'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('Width', {
@@ -277,6 +285,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                     id='length'
                     label='ยาว (เมตร)'
                     type='number'
+                    size='small'
                     fullWidth
                     className='font-kanit'
                     {...register('length', {
@@ -317,6 +326,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
               spacing={2}
             >
               <Button
+                size='small'
                 fullWidth
                 variant="contained"
                 type="submit"
@@ -326,6 +336,7 @@ function AddCarrier({ setSubmit }: { setSubmit: React.Dispatch<React.SetStateAct
                 {SAVE}
               </Button>
               <Button
+                size='small'
                 type="button"
                 variant='outlined'
                 onClick={handleClose}
@@ -452,6 +463,7 @@ function ShowForm() {
                     getOptionLabel={(option) => option.carrier_name}
                     value={selectedOption}
                     onChange={handleChange}
+                    size='small'
                     noOptionsText="ไม่พบชื่อเรือ"
                     renderInput={(params) => (
                       <TextField
@@ -477,8 +489,9 @@ function ShowForm() {
             </Box>
             <Box>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
+                <InputLabel size='small' id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
                 <Select
+                  size='small'
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="สถานะสินค้า (ขาเข้า/ขาออก)"
@@ -498,6 +511,7 @@ function ShowForm() {
                 label='จำนวนทุ่นเข้าสูงสุด'
                 id='maxFTS'
                 type='number'
+                size='small'
                 fullWidth
                 className='font-kanit'
                 defaultValue={findMaxFts?.carrier_max_FTS}
@@ -521,6 +535,7 @@ function ShowForm() {
                 id='latitude'
                 label='ละติจูด'
                 type='text'
+                size='small'
                 fullWidth
                 className='font-kanit'
                 {...register('latitude', {
@@ -543,6 +558,7 @@ function ShowForm() {
                 label='ลองจิจูด'
                 type='text'
                 fullWidth
+                size='small'
                 className='font-kanit'
                 {...register('longitude', {
                   required: true,
@@ -569,6 +585,7 @@ function ShowForm() {
                 id='arrival_time'
                 type='datetime-local'
                 fullWidth
+                size='small'
                 className='font-kanit'
                 {...register('arrival_time', { required: true })}
               />
@@ -584,6 +601,7 @@ function ShowForm() {
                 id='deadline_time'
                 type='datetime-local'
                 fullWidth
+                size='small'
                 className='font-kanit'
                 {...register('deadline_time', { required: true })}
               />
@@ -597,6 +615,7 @@ function ShowForm() {
                 id='penalty_rate'
                 label='ค่าปรับ (บาท/วัน)'
                 type='number'
+                size='small'
                 fullWidth
                 className='font-kanit'
                 {...register('penalty_rate', {
@@ -617,6 +636,7 @@ function ShowForm() {
                 id='reward_rate'
                 label='รางวัล (บาท/วัน)'
                 type='number'
+                size='small'
                 fullWidth
                 className='font-kanit'
                 {...register('reward_rate', {
@@ -648,11 +668,17 @@ function ShowForm() {
               className='w-full'
             >
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">เลือกสินค้า</InputLabel>
+                <InputLabel
+                  size='small'
+                  id="demo-simple-select-label"
+                >
+                  เลือกสินค้า
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id={`inputs.${index}.cargo_names`}
                   label="เลือกสินค้า"
+                  size='small'
                   {...register(`inputs.${index}.cargo_names` as const, {
                     required: true
                   })}
@@ -677,6 +703,7 @@ function ShowForm() {
             <TextField
               label='จำนวนระวาง'
               id='burden'
+              size='small'
               type='number'
               fullWidth
               className='font-kanit'
@@ -700,12 +727,13 @@ function ShowForm() {
             <Button
               type="button"
               variant='outlined'
+              size='small'
               onClick={() => append({ cargo_names: '' })}
             >
               เพิ่มสินค้า
             </Button>
             <span
-              className='text-xl my-auto pl-2'
+              className='text-lg my-auto pl-2'
             >
               รวมปริมาณสินค้า (ตัน): {totalBulk}
             </span>
@@ -716,6 +744,7 @@ function ShowForm() {
                 key={`additional-input-${index}`}
                 label={`ระวางที่ ${index + 1}`}
                 type='number'
+                size='small'
                 fullWidth
                 className='font-kanit'
                 {...register(`bulkArray.${index}` as const)}
@@ -731,9 +760,10 @@ function ShowForm() {
         <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
           <Button
             type="submit"
+            size='small'
             fullWidth
             variant="contained"
-            className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
+            className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg'
             disabled={isSubmitting}
           >
             {SAVE}
@@ -742,8 +772,9 @@ function ShowForm() {
             fullWidth
             variant="outlined"
             type="button"
+            size='small'
             onClick={() => navigate('/orders')}
-            className='font-kanit text-lg py-3'
+            className='font-kanit text-lg'
           >
             {CLOSE}
           </Button>
@@ -758,7 +789,7 @@ export default function OrderAddPage({ }: Props) {
     <ThemeProvider theme={defaultTheme}>
       <Card className='min-h-[90vh]'>
         <CardContent>
-          <Box className='flex justify-start'>
+          <Box className='flex justify-start my-2'>
             <Titles title='รายการขนถ่ายสินค้า' title2='เพิ่มข้อมูล' />
           </Box>
           <Box>

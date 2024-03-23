@@ -62,7 +62,7 @@ function AlertDialog({ exportOrderReducer, exportOrdersCSV, importOrderReducer, 
     formState: { },
   } = useForm();
   const fetch = async () => await dispatch(orderAsync())
-
+  console.log(exportOrdersCSV)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -335,11 +335,13 @@ export default function OrderPage({ }: Props) {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const id = rolesReducer.result?.group
+  if(!id) return
 
-  const filteredOrders = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
-  const exportOrdersCSV = exportOrderReducer.result
-    .filter((group) => group.group === rolesReducer.result?.group)
-    .map(({ group, ...rest }) => rest);
+  const filteredOrders = (orderReducer.result).filter((group) => group.group === id)
+  // const exportOrdersCSV = exportOrderReducer.result
+  //   .filter((group) => group.group === rolesReducer.result?.group)
+  //   .map(({ group, ...rest }) => rest);
 
   const arrivalTimeV2 = filteredOrders.map(item => {
     const date = new Date(item.arrival_time);
@@ -348,7 +350,7 @@ export default function OrderPage({ }: Props) {
   })
 
   useEffect(() => {
-    dispatch(exportOrderAsync())
+    dispatch(exportOrderAsync(id))
   }, []);
 
   const uniqueMonths = Array.from(new Set(arrivalTimeV2));
@@ -547,7 +549,7 @@ export default function OrderPage({ }: Props) {
                 <Box>
                   <AlertDialog
                     exportOrderReducer={exportOrderReducer}
-                    exportOrdersCSV={exportOrdersCSV}
+                    exportOrdersCSV={exportOrderReducer.result}
                     importOrderReducer={importOrderReducer}
                     dispatch={dispatch}
                     rolesReducer={rolesReducer}
@@ -582,6 +584,7 @@ export default function OrderPage({ }: Props) {
                 ) : (
                   <Button
                     component={Link}
+                    size="small"
                     to={'/orders/create'}
                     variant="contained"
                     className='w-[60%]  bg-blue-600 hover:bg-blue-800'

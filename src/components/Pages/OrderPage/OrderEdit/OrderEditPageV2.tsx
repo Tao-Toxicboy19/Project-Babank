@@ -67,8 +67,9 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                     >
                         <Box>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">เลือกเรือ</InputLabel>
+                                <InputLabel size='small' id="demo-simple-select-label">เลือกเรือ</InputLabel>
                                 <Select
+                                    size='small'
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     label="เลือกเรือ"
@@ -92,6 +93,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">สถานะสินค้า (ขาเข้า/ขาออก)</InputLabel>
                                 <Select
+                                    size='small'
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     label="สถานะสินค้า (ขาเข้า/ขาออก)"
@@ -109,6 +111,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         </Box>
                         <Box>
                             <TextField
+                                size='small'
                                 label='จำนวนทุ่นเข้าสูงสุด'
                                 id='maxFTS'
                                 type='number'
@@ -130,6 +133,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         </Box>
                         <Box>
                             <TextField
+                                size='small'
                                 id='latitude'
                                 label='ละติจูด'
                                 type='text'
@@ -151,6 +155,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         </Box>
                         <Box>
                             <TextField
+                                size='small'
                                 id='longitude'
                                 label='ลองจิจูด'
                                 type='text'
@@ -179,6 +184,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         <Box>
                             <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา มาถึง</label>
                             <TextField
+                                size='small'
                                 id='arrival_time'
                                 type='datetime-local'
                                 fullWidth
@@ -194,6 +200,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         <Box>
                             <label htmlFor="deadline_time" className='font-kanit'>วัน-เวลา สิ้นสุด</label>
                             <TextField
+                                size='small'
                                 id='deadline_time'
                                 type='datetime-local'
                                 fullWidth
@@ -208,6 +215,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         </Box>
                         <Box>
                             <TextField
+                                size='small'
                                 id='penalty_rate'
                                 label='ค่าปรับ (บาท/ชม)'
                                 type='number'
@@ -224,6 +232,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
 
                         <Box>
                             <TextField
+                                size='small'
                                 id='reward_rate'
                                 label='รางวัล (บาท/ชม)'
                                 type='number'
@@ -246,8 +255,9 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                     <FormControl
                         fullWidth
                     >
-                        <InputLabel id="demo-simple-select-label">เลือกสินค้า</InputLabel>
+                        <InputLabel size='small' id="demo-simple-select-label">เลือกสินค้า</InputLabel>
                         <Select
+                            size='small'
                             labelId="demo-simple-select-label"
                             id={`inputs.cargo_names`}
                             label="เลือกสินค้า"
@@ -264,6 +274,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                         </Select>
                     </FormControl>
                     <TextField
+                        size='small'
                         label='จำนวนระวาง'
                         id='burden'
                         type='number'
@@ -281,6 +292,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
 
                     {(rows.cargo_order.Bulks).map((item, index) => (
                         <TextField
+                            size='small'
                             key={index}
                             label={`ระวางที่ ${index + 1}`}
                             type='number'
@@ -351,19 +363,21 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
             </Stack>
             <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
                 <Button
+                    size='small'
                     type="submit"
                     fullWidth
                     variant="contained"
-                    className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg py-3'
+                    className='bg-blue-600 hover:bg-blue-700 font-kanit text-lg'
                     disabled={isSubmitting}
                 >
                     {EDIT}
                 </Button>
                 <Button
+                    size='small'
                     fullWidth
                     variant="outlined"
                     onClick={() => navigate('/orders')}
-                    className='font-kanit text-lg py-3'
+                    className='font-kanit text-lg'
                 >
                     {CLOSE}
                 </Button>
