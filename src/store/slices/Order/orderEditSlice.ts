@@ -21,8 +21,23 @@ export interface OrdersEdit {
   rel_finish_time: null;
   reason: null;
   group: number;
+  w: null | string
+  name_of_vessel: null | string
+  name_of_master: null | string
+  name_of_owner: null | string
+  name_of_agent: null | string
+  name_of_shipper: null | string
+  name_of_consignee: null | string
+  name_of_surveyots: null | string
+  name_of_stevedore: null | string
+  port_of_loading_cargo: null | string
+  port_of_discharging_cargo: null | string
+  description_of_cargo: null | string
+  quantity_of_cargo: null | string
+  vessel_of_readiness_tendered_and_accepted: null | string
   carrier: Carrier;
   cargo_order: CargoOrder;
+
 }
 
 export interface CargoOrder {

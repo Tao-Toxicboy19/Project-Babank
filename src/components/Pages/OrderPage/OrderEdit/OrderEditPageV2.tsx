@@ -175,6 +175,90 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                                     กรุณากรอกข้อมูล
                                 </Alert>}
                         </Box>
+                        <Box>
+                            <TextField
+                                label='W'
+                                id='w'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.w}
+                                {...register('w')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF MASTER'
+                                id='name_of_master'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_master}
+                                {...register('name_of_master')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF AGENT'
+                                id='name_of_agent'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_agent}
+                                {...register('name_of_agent')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF CONSIGNEE'
+                                id='name_of_consignee'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_consignee}
+                                {...register('name_of_consignee')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF STEVEDORE'
+                                id='name_of_stevedore'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_stevedore}
+                                {...register('name_of_stevedore')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='PORT OF DISCHARGING CARGO'
+                                id='port_of_discharging_cargo'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.port_of_discharging_cargo}
+                                {...register('port_of_discharging_cargo')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='QUANTITY OF CARGO'
+                                id='quantity_of_cargo'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.quantity_of_cargo}
+                                {...register('quantity_of_cargo')}
+                            />
+                        </Box>
                     </Stack>
                     <Stack
                         direction='column'
@@ -245,6 +329,90 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                                 <Alert variant="outlined" severity="error" className='mt-2'>
                                     กรุณากรอกข้อมูล
                                 </Alert>}
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF VESSEL'
+                                id='name_of_vessel'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_vessel}
+                                {...register('name_of_vessel')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF OWNER'
+                                id='name_of_owner'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_owner}
+                                {...register('name_of_owner')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF SHIPPER'
+                                id='name_of_shipper'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_shipper}
+                                {...register('name_of_shipper')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='NAME OF SURVEYOTS'
+                                id='name_of_surveyots'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.name_of_surveyots}
+                                {...register('name_of_surveyots')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='PORT OF LOADING CARGO'
+                                id='port_of_loading_cargo'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.port_of_discharging_cargo}
+                                {...register('port_of_loading_cargo')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='DESCRIPTION OF CARGO'
+                                id='description_of_cargo'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.description_of_cargo}
+                                {...register('description_of_cargo')}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                label='VESSEL OF READINESS TENDERED AND ACCEPTED'
+                                id='vessel_of_readiness_tendered_and_accepted'
+                                type='text'
+                                fullWidth
+                                size='small'
+                                className='font-kanit'
+                                defaultValue={rows.vessel_of_readiness_tendered_and_accepted}
+                                {...register('vessel_of_readiness_tendered_and_accepted')}
+                            />
                         </Box>
                     </Stack>
                 </Stack>
@@ -398,6 +566,8 @@ export default function OrderEditPageV2({ }: Props) {
             throw error;
         }
     };
+
+    console.log(data)
     useEffect(() => {
         fetchFTSData();
     }, []);

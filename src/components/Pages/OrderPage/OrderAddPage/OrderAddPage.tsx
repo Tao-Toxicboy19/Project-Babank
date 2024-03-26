@@ -56,6 +56,20 @@ interface FormData {
   }[]
   bulk: number
   bulkArray: number[]
+  name_of_vessel:string
+  name_of_master:string
+  w:string
+  name_of_agent:string
+  name_of_consignee:string
+  name_of_stevedore:string
+  port_of_discharging_cargo:string
+  quantity_of_cargo:string
+  name_of_owner:string
+  name_of_shipper:string
+  name_of_surveyots:string
+  port_of_loading_cargo:string
+  description_of_cargo:string
+  vessel_of_readiness_tendered_and_accepted:string
 }
 
 const defaultTheme = createTheme()
@@ -383,6 +397,21 @@ function ShowForm() {
       reward_rate: 0,
       inputs: [{ cargo_names: '' }],
       bulkArray: [],
+      name_of_vessel:'',
+      name_of_master:'',
+      w:'',
+      name_of_agent:'',
+      name_of_consignee:'',
+      name_of_stevedore:'',
+      port_of_discharging_cargo:'',
+      quantity_of_cargo:'',
+      name_of_owner:'',
+      name_of_shipper:'',
+      name_of_surveyots:'',
+      port_of_loading_cargo:'',
+      description_of_cargo:'',
+      vessel_of_readiness_tendered_and_accepted:'',
+
     },
   })
 
@@ -573,8 +602,86 @@ function ShowForm() {
                   กรุณากรอกข้อมูล
                 </Alert>}
             </Box>
-          </Stack>
-          <Stack
+            <Box>
+              <TextField
+                label='W'
+                id='w'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('w')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF MASTER'
+                id='name_of_master'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_master')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF AGENT'
+                id='name_of_agent'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_agent')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF CONSIGNEE'
+                id='name_of_consignee'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_consignee')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF STEVEDORE'
+                id='name_of_stevedore'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_stevedore')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='PORT OF DISCHARGING CARGO'
+                id='port_of_discharging_cargo'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('port_of_discharging_cargo')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='QUANTITY OF CARGO'
+                id='quantity_of_cargo'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('quantity_of_cargo')}
+              />
+            </Box>
+            
+          </Stack>  
+          <Stack 
             direction='column'
             spacing={2}
             className='w-full'
@@ -654,9 +761,85 @@ function ShowForm() {
                 </Alert>
               )}
             </Box>
-
+            <Box>
+              <TextField
+                label='NAME OF VESSEL'
+                id='name_of_vessel'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_vessel')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF OWNER'
+                id='name_of_owner'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_owner')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF SHIPPER'
+                id='name_of_shipper'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_shipper')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='NAME OF SURVEYOTS'
+                id='name_of_surveyots'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('name_of_surveyots')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='PORT OF LOADING CARGO'
+                id='port_of_loading_cargo'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('port_of_loading_cargo')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='DESCRIPTION OF CARGO'
+                id='description_of_cargo'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('description_of_cargo')}
+              />
+            </Box>
+            <Box>
+              <TextField
+                label='VESSEL OF READINESS TENDERED AND ACCEPTED'
+                id='vessel_of_readiness_tendered_and_accepted'
+                type='text'
+                fullWidth
+                size='small'
+                className='font-kanit'
+                {...register('vessel_of_readiness_tendered_and_accepted')}
+              />
+            </Box>
           </Stack>
-        </Stack>
+        </Stack> 
 
         <Stack
           direction='row'
