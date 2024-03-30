@@ -2,7 +2,7 @@ import * as React from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useForm } from 'react-hook-form';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, Stack, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { ManagePlans } from '../../../../store/slices/managePlansSlice';
 import LoadingTest from './loading/LoadinTest';
@@ -10,6 +10,14 @@ import { Typography } from '@mui/material';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
 import { orderSelector } from '../../../../store/slices/Order/orderSlice';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
+import { toast } from "react-toastify";
+
+dayjs.locale('th')
 
 type Props = {
     handleCloseV2: any
@@ -25,6 +33,8 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const [selectAll, setSelectAll] = React.useState(true);
     const rolesReducer = useSelector(roleSelector)
     const [open, setOpen] = React.useState(false);
+    const [started, setStarted] = React.useState<Dayjs | null>()
+    const [ended, setEnded] = React.useState<Dayjs | null>()
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -63,8 +73,11 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             .map((item) => ({
                 cr_id: item.carrier.cr_id,
                 // เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการในออบเจ็กต์นี้
-            }));
-        dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData.computetime, rolesReducer.result?.group))
+            }))
+        if (started === undefined || ended === undefined) {
+            toast.warn('กรอกข้อมูลให้ครบ')
+        }
+        dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData, rolesReducer.result?.group, started, ended))
     };
 
     return (
@@ -84,7 +97,13 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                     label="เลือกทั้งหมด"
                 />
 
-                <Button variant='outlined' type="submit">จัดการแผน</Button>
+                <Button
+                    variant='outlined'
+                    type="submit"
+                // disabled={}
+                >
+                    จัดการแผน
+                </Button>
             </Box>
 
             <Box className='grid grid-cols-3'>
@@ -106,21 +125,21 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                             ) : (
                                 <>
                                     <Box></Box>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    disabled checked
-                                                    // defaultChecked={selectAll}
-                                                    {...register(`Carrier-${item.carrier.cr_id}`)}
-                                                    onChange={(e) => {
-                                                        if (selectAll) {
-                                                            setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked);
-                                                        }
-                                                    }}
-                                                />
-                                            }
-                                            label={item.carrier.carrier_name}
-                                        />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                disabled checked
+                                                // defaultChecked={selectAll}
+                                                {...register(`Carrier-${item.carrier.cr_id}`)}
+                                                onChange={(e) => {
+                                                    if (selectAll) {
+                                                        setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked);
+                                                    }
+                                                }}
+                                            />
+                                        }
+                                        label={item.carrier.carrier_name}
+                                    />
                                 </>
                             )}
                         </Box>
@@ -167,7 +186,13 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                     ))}
 
                 </Box>
-                <Box className='my-6'>
+                <Stack direction='column' spacing={2} className='my-6'>
+                    <TextField
+                        type='text'
+                        label='ชื่อแผน'
+                        fullWidth
+                        {...register('plan_name')}
+                    />
                     <TextField
                         type='number'
                         label='เวลาประมวณผล (นาที)'
@@ -175,7 +200,27 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                         {...register('computetime')}
                         defaultValue={1}
                     />
-                </Box>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker
+                                label="เลือกวันที่เริ่มแผน"
+                                value={started}
+                                onChange={(newValue) => setEnded(newValue)}
+                            />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker
+                                label="เลือกวันที่จบแผน"
+                                value={ended}
+                                onChange={(newValue) => setStarted(newValue)}
+                            />
+                        </DemoContainer>
+                    </LocalizationProvider>
+
+                </Stack>
+
             </Box>
             <LoadingTest open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} />
         </form>

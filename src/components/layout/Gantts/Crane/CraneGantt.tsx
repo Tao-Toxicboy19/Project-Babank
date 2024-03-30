@@ -1,11 +1,11 @@
-import { Chart } from "react-google-charts";
-import { parse, format } from 'date-fns';
-import { useSelector } from "react-redux";
-import { Typography } from "@mui/material";
-import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
+import { Chart } from "react-google-charts"
+import { parse, format } from 'date-fns'
+import { useSelector } from "react-redux"
+import { Typography } from "@mui/material"
+import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice"
 
 export default function CraneGantts() {
-    const solutionScheduleReducer = useSelector(sulutionScheduelSelector);
+    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
 
     if (solutionScheduleReducer.result.length === 0) {
         return (
@@ -29,24 +29,24 @@ export default function CraneGantts() {
         )
     }
 
-    const filteredData = (solutionScheduleReducer.result).filter((item) => item.carrier_name !== null);
+    const filteredData = (solutionScheduleReducer.result).filter((item) => item.carrier_name !== null)
     let data = [filteredData[0]]
     data = data.concat(filteredData)
 
     const datav2 = data.map((item) => {
-        const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date());
-        const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date());
+        const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
+        const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
 
-        const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss");
-        const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss");
+        const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
+        const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
 
         return [
             item.carrier_name,
             item.FTS_name,
             new Date(formattedStartDate),
             new Date(formattedEndDate),
-        ];
-    });
+        ]
+    })
 
     return (
         <>
@@ -61,5 +61,5 @@ export default function CraneGantts() {
                 />
             </div>
         </>
-    );
+    )
 }

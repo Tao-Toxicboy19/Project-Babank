@@ -1,7 +1,7 @@
 import { Chart } from "react-google-charts";
 import { parse, format } from 'date-fns';
 import { useSelector } from "react-redux";
-import {sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
+import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
 
 export default function FTSGantts() {
   const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
@@ -30,7 +30,8 @@ export default function FTSGantts() {
 
 
   return (
-      // <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+    <>
+      <div>
         <Chart
           chartType="Timeline"
           data={result}
@@ -39,6 +40,8 @@ export default function FTSGantts() {
           options={{}}
           graph_id="TimelineChart"
         />
-      // </LoadScript>
+      </div>
+    </>
+
   );
 }

@@ -1,29 +1,32 @@
-import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import { Button, ButtonGroup, Card, CardContent, Stack } from '@mui/material';
-import RouteLayout from '../../layout/RouteLayout/RouteLayout';
-import DialogLoading from '../../layout/DialogLoading/DialogLoading';
-import FTSGantts from '../../layout/Gantts/FTS/FTSGantts';
-import CraneGantts from '../../layout/Gantts/Crane/CraneGantt';
-import { useSelector } from 'react-redux';
-import SummarizaCarrier from '../../layout/SummarizaCarrier/SummarizaCarrier';
-import SummarizeLayout from './SummarizeLayout/SummarizeLayout';
-import FTSsingle from './FTSsingle/FTSsingle';
-import { roleSelector } from '../../../store/slices/auth/rolesSlice';
-import MemoryIcon from '@mui/icons-material/Memory';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import * as React from 'react'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
+import { Button, ButtonGroup, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material'
+import RouteLayout from '../../layout/RouteLayout/RouteLayout'
+import DialogLoading from '../../layout/DialogLoading/DialogLoading'
+import FTSGantts from '../../layout/Gantts/FTS/FTSGantts'
+import CraneGantts from '../../layout/Gantts/Crane/CraneGantt'
+import { useSelector } from 'react-redux'
+import SummarizaCarrier from '../../layout/SummarizaCarrier/SummarizaCarrier'
+import SummarizeLayout from './SummarizeLayout/SummarizeLayout'
+import FTSsingle from './FTSsingle/FTSsingle'
+import { roleSelector } from '../../../store/slices/auth/rolesSlice'
+import MemoryIcon from '@mui/icons-material/Memory'
+import PermIdentityIcon from '@mui/icons-material/PermIdentity'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { Chart } from "react-google-charts"
+import { format, parse } from 'date-fns'
+import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
 
 interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
+    children?: React.ReactNode
+    index: number
+    value: number
 }
 
 function CustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const { children, value, index, ...other } = props
 
     return (
         <div
@@ -39,77 +42,81 @@ function CustomTabPanel(props: TabPanelProps) {
                 </Box>
             )}
         </div>
-    );
+    )
 }
 
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
-    };
+    }
 }
 
 export default function SummarizePage() {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(0)
     const [plan, setPlan] = React.useState<string>('hero')
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
-        setValue(newValue);
-    };
+        setValue(newValue)
+    }
 
-    console.log(plan)
     return (
         <Card>
             <CardContent>
                 {plan === 'hero' ? (
                     <HeroPlane setPlan={setPlan} />
-                ) : (plan === 'AiPlan' ? (
-                    <AiPlan setPlan={setPlan} value={value} handleChange={handleChange} />
-                ) : (plan === 'UserPlan' ? (
-                    <AiPlan setPlan={setPlan} value={value} handleChange={handleChange} />
+                ) : (plan === 'Auto Plan' ? (
+                    <AiPlan setPlan={setPlan} value={value} handleChange={handleChange} plan={plan} />
+                ) : (plan === 'Customize' ? (
+                    <AiPlan setPlan={setPlan} value={value} handleChange={handleChange} plan={plan} />
                 ) : null))}
-
-
 
             </CardContent>
         </Card >
-    );
+    )
 }
 
 type AiPlan = {
     setPlan: React.Dispatch<React.SetStateAction<string>>
     value: number
     handleChange: (event: React.SyntheticEvent, newValue: number) => void
+    plan: string
 }
 
-function AiPlan({ setPlan, value, handleChange }: AiPlan) {
+function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     const rolesReducer = useSelector(roleSelector)
+    const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
 
     return (
         <>
-            <Stack direction='row' spacing={2} className='max-w-[60%] my-3'>
-                <Button
-                    startIcon={<ArrowBackIcon />}
-                    onClick={() => setPlan('hero')}
-                >
-                    กลับ
-                </Button>
-                
-                {rolesReducer.result && (
-                    rolesReducer.result.role === 'Viewer' ? (
-                        <></>
-                    ) : rolesReducer.result.role === 'Contributor' ? (
-                        <></>
-                    ) : (
-                        <DialogLoading />
-                    )
-                )}
-                <ButtonGroup variant="text" aria-label="Basic button group">
-                    <Button>A</Button>
-                    <Button>B</Button>
-                    <Button>C</Button>
-                </ButtonGroup>
+            <Stack direction='row' spacing={2} className='max-w-full my-3 justify-between'>
+                <Stack direction='row' spacing={2}>
+                    <Button
+                        startIcon={<ArrowBackIcon />}
+                        onClick={() => setPlan('hero')}
+                    >
+                        กลับ
+                    </Button>
+
+                    {rolesReducer.result && (
+                        rolesReducer.result.role === 'Viewer' ? (
+                            <></>
+                        ) : rolesReducer.result.role === 'Contributor' ? (
+                            <></>
+                        ) : (
+                            <DialogLoading plan={plan} />
+                        )
+                    )}
+                    <ButtonGroup variant="text" aria-label="Basic button group">
+                        {SolutionscheduleReducer.plan_name.map((plan) => (
+                            <Button key={plan}>{plan}</Button>
+                        ))}
+                    </ButtonGroup>
+                </Stack>
+                <Box className='pr-5'>
+                    <AddPlan />
+                </Box>
 
             </Stack>
             <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
@@ -166,19 +173,150 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
                     size="large"
                     variant="outlined"
                     startIcon={<MemoryIcon />}
-                    onClick={() => setPlan('AiPlan')}
+                    onClick={() => setPlan('Auto Plan')}
                 >
-                    AI Plans(3)
+                    Auto Plan(3)
                 </Button>
                 <Button
                     size="large"
                     variant="outlined"
                     startIcon={<PermIdentityIcon />}
-                    onClick={() => setPlan('UserPlan')}
+                    onClick={() => setPlan('Customize')}
                 >
-                    User Plans(3)
+                    Customize(3)
                 </Button>
             </Stack>
         </Box>
+    )
+}
+
+export function AddPlan() {
+    const [open, setOpen] = React.useState(false)
+
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    return (
+        <React.Fragment>
+            <Button variant="outlined" onClick={handleClickOpen}>
+                เพิ่มแผน
+            </Button>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullScreen
+
+            >
+
+                <DialogTitle id="alert-dialog-title">
+                    {"Use Google's location service?"}
+                </DialogTitle>
+                <DialogContent>
+                    <EditPlan />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment >
+    )
+}
+
+function EditPlan() {
+    const [open, setOpen] = React.useState(false)
+    const handleClickOpen = () => setOpen(true)
+
+    const handleClose = () => setOpen(false)
+
+    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
+    const filteredData = (solutionScheduleReducer.result).filter((item) => item.carrier_name !== null)
+    let data = [filteredData[0]]
+    data = data.concat(filteredData)
+
+    const datav2 = data.map((item) => {
+        const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
+        const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
+
+        const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
+        const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
+
+        return [
+            item.carrier_name,
+            item.FTS_name,
+            new Date(formattedStartDate),
+            new Date(formattedEndDate),
+        ]
+    })
+
+    const handleChartClick = ({ chartWrapper }: any) => {
+        const selection = chartWrapper.getChart().getSelection()
+        if (selection.length === 1) {
+            const rowIndex = selection[0].row
+            const selectedPresident = datav2[rowIndex + 1][0]
+            // alert(`You clicked on: ${selectedPresident}`)/
+            handleClickOpen()
+
+        }
+    }
+
+    return (
+        <Box className="flex justify-center">
+            <Chart
+                chartType="Timeline"
+                data={datav2}
+                width="100%"
+                height="800px"
+                options={{}}
+                graph_id="TimelineChart"
+                chartEvents={[
+                    {
+                        eventName: "select",
+                        callback: handleChartClick,
+                    },
+                ]}
+            />
+            <EditCarrier open={open} handleClose={handleClose} />
+        </Box>
+    )
+}
+
+export function EditCarrier({ open, handleClose }: { open: boolean, handleClose: () => void }) {
+
+    return (
+        <React.Fragment>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Use Google's location service?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Let Google help apps determine location. This means sending anonymous
+                        location data to Google, even when no apps are running.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
     )
 }

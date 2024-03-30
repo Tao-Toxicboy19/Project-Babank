@@ -56,24 +56,30 @@ const ManagePlansSlice = createSlice({
             state.error = true
             state.loading = false
         },
-    }
+    },
 })
 
 export const { setManagePlanstart, setManagePlansuccess, setManagePlanFailed } = ManagePlansSlice.actions
 export default ManagePlansSlice.reducer;
 
-export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void, computetime: any, rolesReducer: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void, formData: any, rolesReducer: any, started: any, ended: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
-        dispatch(setManagePlanstart())
-        const values = {
-            computetime,
+        let values: any = {
+            computetime: formData.computetime,
             Group: rolesReducer,
-            fts: fts,
-            order: order
-        };
+            fts,
+            order,
+            started,
+            ended,
+            plan_name: formData.plan_name
+        }
         handleClickOpen();
+        const res = await httpClient.post('plan', values)
+        values = {
+            ...values,
+            solution_id: res.data
+        }
         const result = await httpClient.post(apiManagePlans, values)
-        console.log(result)
         dispatch(setManagePlansuccess(result.data))
         dispatch(craneSolutionAsync())
         dispatch(ftsSulutionAsync())

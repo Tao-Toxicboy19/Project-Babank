@@ -47,7 +47,6 @@ export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
     const rolesReducer = useSelector(roleSelector)
-    // const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
@@ -55,12 +54,6 @@ export default function RouteLayout() {
 
     const id = rolesReducer.result?.group
     if(!id) return
-
-    // React.useEffect(() => {
-    //     dispatch(sulutionScheduelAsync(id))
-    // }, []);
-
-    // const filteredftsSolutionReducer = ftsSolutionReducer.result[value].solutions.filter((group) => group.solution_id === rolesReducer.result?.group);
 
     return (
         <>

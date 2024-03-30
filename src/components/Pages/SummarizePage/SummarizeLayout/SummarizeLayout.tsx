@@ -24,10 +24,10 @@ export default function SummarizeLayout() {
     const dispatch = useAppDispatch()
     const CraneSolutionReduer = useSelector(craneSolutionSelector)
     const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
-    const rolesReducer = useSelector(roleSelector)
     const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
     const totalTableReducer = useSelector(totalTableAsyncSelector)
-
+    
+    const rolesReducer = useSelector(roleSelector)
     const id = rolesReducer.result?.group
     if(!id) return
 

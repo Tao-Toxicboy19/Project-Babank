@@ -1,41 +1,51 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { httpClient } from "../../../utils/httpclient";
-import { server } from "../../../Constants";
-import { RootState } from "../../store";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { httpClient } from "../../../utils/httpclient"
+import { server } from "../../../Constants"
+import { RootState } from "../../store"
 
 export interface Solution_schedule {
-    solution_id: number;
-    FTS_id: number;
-    carrier_id: number;
-    lat: number;
-    lng: number;
-    arrivaltime: Date | any;
-    exittime: Date | any;
-    operation_time: number | null;
-    Setup_time: number | null;
-    travel_Distance: number | null;
-    travel_time: number | null;
-    operation_rate: number | null;
-    consumption_rate: number | null;
-    id: number;
-    FTS_name: string;
-    setuptime_FTS: number;
-    speed: number;
-    cr_id: number | null;
-    carrier_name: null | string;
-    holder: null | string;
-    maxcapacity: number | null;
-    burden: number | null;
+    solution_id: number
+    FTS_id: number
+    order_id: number
+    carrier_id: number
+    lat: number
+    lng: number
+    arrivaltime: string
+    exittime: string
+    operation_time: number | null
+    Setup_time: number | null
+    travel_Distance: number | null
+    travel_time: number | null
+    operation_rate: number | null
+    consumption_rate: number | null
+    cargo_id: number
+    solutionsId: number
+    plan: string | null
+    FTS_name: string
+    cr_id: number | null
+    carrier_name: null | string
+    holder: null | string
+    maxcapacity: number | null
+    burden: number | null
+    Width: number | null
+    carrier_max_FTS: number | null
+    carrier_max_crane: number | null
+    length: number | null
+    has_crane: string | null
+    plan_name: string
+    created_at: Date
 }
 
 interface Solution_scheduleState {
-    result: Solution_schedule[];
-    loading: boolean;
+    result: Solution_schedule[]
+    plan_name: string[]
+    loading: boolean
     error: boolean
 }
 
 const initialState: Solution_scheduleState = {
     result: [],
+    plan_name: [],
     loading: false,
     error: false
 }
@@ -61,19 +71,23 @@ const sulutionScheduelSlice = createSlice({
             state.result = action.payload
             state.loading = false
             state.error = false
-        });
+            // const uniquePlanNamesSet = new Set(action.payload.map((item) => item.plan_name));
+            // state.plan_name = Array.from(uniquePlanNamesSet)
+            const uniquePlanNamesSet = new Set(action.payload.map((item) => item.plan_name))
+            state.plan_name = Array.from(uniquePlanNamesSet).sort()
+        })
 
         builder.addCase(sulutionScheduelAsync.rejected, (state: Solution_scheduleState) => {
             state.result = []
             state.loading = false
             state.error = true
-        });
+        })
 
         builder.addCase(sulutionScheduelAsync.pending, (state: Solution_scheduleState) => {
             state.result = []
             state.loading = true
             state.error = false
-        });
+        })
     },
 })
 
