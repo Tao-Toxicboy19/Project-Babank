@@ -1,10 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../../../../../store/store';
-import { useEffect } from 'react';
-import { totalTableAsync, totalTableAsyncSelector } from '../../../../../store/slices/Solution/totalTableFTSSlice';
-import { roleSelector } from '../../../../../store/slices/auth/rolesSlice';
-import { planSelector } from '../../../../../store/slices/planSlicec';
+import { totalTableAsyncSelector } from '../../../../../store/slices/Solution/totalTableFTSSlice';
 
 
 const showThead = () => {
@@ -31,8 +27,6 @@ const showThead = () => {
 
 export default function TreeTable() {
     const totalTableReducer = useSelector(totalTableAsyncSelector)
-    const dispatch = useAppDispatch()
-    const planReducer = useSelector(planSelector)
 
     return (
         <>
