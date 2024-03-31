@@ -18,6 +18,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Chart } from "react-google-charts"
 import { format, parse } from 'date-fns'
 import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
+import { useEffect } from 'react'
+import { useAppDispatch } from '../../../store/store'
+import { planAsync, planSelector, setPlans } from '../../../store/slices/planSlicec'
+import { managePlansSelector } from '../../../store/slices/managePlansSlice'
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -55,11 +59,19 @@ function a11yProps(index: number) {
 export default function SummarizePage() {
     const [value, setValue] = React.useState(0)
     const [plan, setPlan] = React.useState<string>('hero')
-
+    const dispatch = useAppDispatch()
+    const rolesReducer = useSelector(roleSelector)
+    const id = rolesReducer.result?.group
+    if (!id) return
+    const managePlansReducer = useSelector(managePlansSelector)
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault()
         setValue(newValue)
     }
+
+    useEffect(() => {
+        dispatch(planAsync(id))
+    }, [managePlansReducer.result])
 
     return (
         <Card>
@@ -86,7 +98,18 @@ type AiPlan = {
 
 function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     const rolesReducer = useSelector(roleSelector)
-    const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
+    // const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
+    const dispatch = useAppDispatch()
+    const planReducer = useSelector(planSelector)
+
+    // console.log(planReducer.plan)
+
+    useEffect(() => {
+        if (planReducer.result.length > 0) {
+            dispatch(setPlans(planReducer.result[0].id))
+        }
+    }, [planReducer.result, dispatch])
+
 
     return (
         <>
@@ -109,8 +132,14 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                         )
                     )}
                     <ButtonGroup variant="text" aria-label="Basic button group">
-                        {SolutionscheduleReducer.plan_name.map((plan) => (
-                            <Button key={plan}>{plan}</Button>
+                        {planReducer.result.map((plan) => (
+                            <Button
+                                disabled={planReducer.plan === plan.id}
+                                key={plan.id}
+                                onClick={() => dispatch(setPlans(plan.id))}
+                            >
+                                {plan.plan_name}
+                            </Button>
                         ))}
                     </ButtonGroup>
                 </Stack>
@@ -262,8 +291,8 @@ function EditPlan() {
     const handleChartClick = ({ chartWrapper }: any) => {
         const selection = chartWrapper.getChart().getSelection()
         if (selection.length === 1) {
-            const rowIndex = selection[0].row
-            const selectedPresident = datav2[rowIndex + 1][0]
+            // const rowIndex = selection[0].row
+            // const selectedPresident = datav2[rowIndex + 1][0]
             // alert(`You clicked on: ${selectedPresident}`)/
             handleClickOpen()
 

@@ -2,9 +2,11 @@ import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TableContainer, TableHead, TableCell, Paper, TableRow, Table, TableBody } from '@mui/material';
-import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 import { carrierSelector } from '../../../store/slices/Carrier/carrierSlice';
-import { solutionOrderSSelector } from '../../../store/slices/Solution/solutionOrderSlice';
+import { solutionOrderAsync, solutionOrderSSelector } from '../../../store/slices/Solution/solutionOrderSlice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../../store/store';
+import { planSelector } from '../../../store/slices/planSlicec';
 
 function Tables({ filteredData }: any) {
   const carrierReducer = useSelector(carrierSelector)
@@ -177,11 +179,14 @@ function Tables({ filteredData }: any) {
 
 export default function SummarizaCarrier() {
   const solutionOrderReducer = useSelector(solutionOrderSSelector)
-  const rolesReducer = useSelector(roleSelector)
+  const dispatch = useAppDispatch()
+  const planReducer = useSelector(planSelector)
 
-  const filteredsolutionOrderReducer = (solutionOrderReducer.result).filter((group) => group.s_id === rolesReducer.result?.group);
+  useEffect(() => {
+    dispatch(solutionOrderAsync(planReducer.plan))
+  }, [planReducer.plan])
 
-  const resultArray = Object.values(filteredsolutionOrderReducer.reduce((accumulator: any, currentValue: any) => {
+  const resultArray = Object.values(solutionOrderReducer.result.reduce((accumulator: any, currentValue: any) => {
     const { cr_id, total_cost, total_consumption_cost, penalty_cost, reward, total_wage_cost } = currentValue;
 
     if (!accumulator[cr_id]) {
@@ -237,26 +242,6 @@ export default function SummarizaCarrier() {
 
         <Box className='w-full flex flex-col justify-center min-w-[76.5vw]'>
           <Box className='w-3/12 mb-5'>
-            {/* <Tooltip
-              title="ค้นหา"
-              className='flex justify-end'
-            >
-              <TextField
-                fullWidth
-                id="standard-basic"
-                variant="outlined"
-                placeholder='Search'
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Tooltip> */}
           </Box>
           <Tables filteredData={resultArray} />
 

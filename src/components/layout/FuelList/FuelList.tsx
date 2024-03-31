@@ -2,22 +2,17 @@ import ListMenu from '../ListMenu/ListMenu'
 import { useSelector } from 'react-redux';
 import { ftsSolutionV2Selector } from '../../../store/slices/Solution/ftsSolutionV2Slice';
 import { craneSolutionSelector } from '../../../store/slices/Solution/craneSolutionSlice';
-import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 
 type Props = {}
 
 export default function FuelList({ }: Props) {
     const craneSolutionReducer = useSelector(craneSolutionSelector)
     const ftsSolutionV2Reducer = useSelector(ftsSolutionV2Selector)
-    const rolesReducer = useSelector(roleSelector)
 
-    const filtered = (craneSolutionReducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
-    const filteredFts = (ftsSolutionV2Reducer.result).filter((group) => group.solution_id === rolesReducer.result?.group)
-
-    const total_operation_consumption_cost = filtered.reduce((total, solutionItem) => total + solutionItem.total_operation_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    const total_operation_time = filtered.reduce((total, solutionItem) => total + solutionItem.total_operation_time, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    const total_travel_consumption_cost = filteredFts.reduce((total, solutionItem) => total + solutionItem.total_travel_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    const total_travel_distance = filteredFts.reduce((total, solutionItem) => total + solutionItem.total_travel_distance, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const total_operation_consumption_cost = craneSolutionReducer.result.reduce((total, solutionItem) => total + solutionItem.total_operation_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const total_operation_time = craneSolutionReducer.result.reduce((total, solutionItem) => total + solutionItem.total_operation_time, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const total_travel_consumption_cost = ftsSolutionV2Reducer.result.reduce((total, solutionItem) => total + solutionItem.total_travel_consumption_cost, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const total_travel_distance = ftsSolutionV2Reducer.result.reduce((total, solutionItem) => total + solutionItem.total_travel_distance, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
 
     return (

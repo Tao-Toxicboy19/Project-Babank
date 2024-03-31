@@ -4,6 +4,7 @@ import { useAppDispatch } from '../../../../../store/store';
 import { useEffect } from 'react';
 import { totalTableAsync, totalTableAsyncSelector } from '../../../../../store/slices/Solution/totalTableFTSSlice';
 import { roleSelector } from '../../../../../store/slices/auth/rolesSlice';
+import { planSelector } from '../../../../../store/slices/planSlicec';
 
 
 const showThead = () => {
@@ -31,12 +32,7 @@ const showThead = () => {
 export default function TreeTable() {
     const totalTableReducer = useSelector(totalTableAsyncSelector)
     const dispatch = useAppDispatch()
-    const roleReducer = useSelector(roleSelector)
-    const id = roleReducer.result?.group
-    if(!id) return
-    useEffect(() => {
-        dispatch(totalTableAsync(id))
-    }, [])
+    const planReducer = useSelector(planSelector)
 
     return (
         <>

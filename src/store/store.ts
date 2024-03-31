@@ -37,7 +37,7 @@ import orderDeleteReducer from "./slices/Order/orderDeleteSlice";
 import reportFtsReducer from "./slices/report/reportFtsSlice";
 import reportCraneReducer from "./slices/report/reportCraneSlice";
 import sulutionScheduelReducer from "./slices/Solution/sollutionScheduleSlice";
-import ftsSulutionReducer from "./slices/Solution/ftsSulutionSlice";
+// import ftsSulutionReducer from "./slices/Solution/ftsSulutionSlice";
 import solutionCarrierOrderReducer from "./slices/Solution/solutionCarrierOrderSlice";
 import craneSolutionReducer from "./slices/Solution/craneSolutionSlice";
 import ftsSolutionTableReducer from "./slices/Solution/ftsSolutionTableSlice";
@@ -48,8 +48,10 @@ import exportOrderReducer from "./slices/Order/exportOrdersSlice";
 import importOrderReducer from "./slices/Order/importOrderSlice";
 import craneSolutionV2Reducer from "./slices/Solution/craneSolutionV2Slice";
 import totalTableAsyncReducer from './slices/Solution/totalTableFTSSlice';
-import totalTableCraneReducerV2 from './slices/Solution/totalTableCraneSlice';
-// import totalCraneTableReducer from './slices/Solution/totalTableFTSSlice'
+// import totalTableCraneReducerV2 from './slices/Solution/totalTableCraneSlice';
+import planReducer from './slices/planSlicec'
+import managePlansReducer from './slices/managePlansSlice'
+
 const reducer = {
   loginReducer,
   registerReducer,
@@ -87,7 +89,7 @@ const reducer = {
   reportFtsReducer,
   reportCraneReducer,
   sulutionScheduelReducer,
-  ftsSulutionReducer,
+  // ftsSulutionReducer,
   solutionCarrierOrderReducer,
   craneSolutionReducer,
   ftsSolutionTableReducer,
@@ -98,7 +100,9 @@ const reducer = {
   importOrderReducer,
   craneSolutionV2Reducer,
   totalTableAsyncReducer,
-  totalTableCraneReducerV2,
+  // totalTableCraneReducerV2,
+  planReducer,
+  managePlansReducer,
 };
 
 export const store = configureStore({

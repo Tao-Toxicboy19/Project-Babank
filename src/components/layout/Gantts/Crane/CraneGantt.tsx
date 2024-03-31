@@ -2,10 +2,19 @@ import { Chart } from "react-google-charts"
 import { parse, format } from 'date-fns'
 import { useSelector } from "react-redux"
 import { Typography } from "@mui/material"
-import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice"
+import { sulutionScheduelAsync, sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice"
+import { useEffect } from "react"
+import { planSelector } from "../../../../store/slices/planSlicec"
+import { useAppDispatch } from "../../../../store/store"
 
 export default function CraneGantts() {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
+    const dispatch = useAppDispatch()
+    const planReducer = useSelector(planSelector)
+    
+    useEffect(() => {
+        dispatch(sulutionScheduelAsync(planReducer.plan))
+    }, [planReducer.plan])
 
     if (solutionScheduleReducer.result.length === 0) {
         return (
@@ -29,9 +38,9 @@ export default function CraneGantts() {
         )
     }
 
-    const filteredData = (solutionScheduleReducer.result).filter((item) => item.carrier_name !== null)
-    let data = [filteredData[0]]
-    data = data.concat(filteredData)
+
+    let data = [solutionScheduleReducer.chars[0]]
+    data = data.concat(solutionScheduleReducer.chars)
 
     const datav2 = data.map((item) => {
         const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())

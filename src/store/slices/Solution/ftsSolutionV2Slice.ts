@@ -20,9 +20,9 @@ interface FTS_SolutionState {
 
 export const ftsSulutionV2Async = createAsyncThunk(
     'ftsSulutionV2/ftsSulutionV2Async',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get<FTS_Solution[]>(server.FTSSOLUTION)
+            const result = await httpClient.get<FTS_Solution[]>(`${server.FTSSOLUTION}/${id}`)
             return result.data
         } catch (error) {
             throw error

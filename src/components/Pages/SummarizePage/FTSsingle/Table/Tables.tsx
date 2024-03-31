@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { httpClient } from '../../../../../utils/httpclient';
 import { apiUrlV2 } from '../../../../../Constants';
 import { roleSelector } from '../../../../../store/slices/auth/rolesSlice';
+import { planSelector } from '../../../../../store/slices/planSlicec';
 
 type CraneTable = {
     crane_id: number;
@@ -17,22 +18,7 @@ type CraneTable = {
 }
 
 
-export default function Tables({ ftsName }: { ftsName: any }) {
-    // const craneReducer = useSelector(craneSelector)
-    // const results = rows.filter(r => r.FTS_id === ftsName)
-    const [data, setData] = useState<CraneTable[]>([])
-    const roleReducer = useSelector(roleSelector)
-    const id = roleReducer.result?.group
-    if (!id) return
-    const fetch = async () => {
-        const res = await httpClient.get(`${apiUrlV2}/total/table/crane/${id}`)
-        setData(res.data)
-    }
-
-    useEffect(() => {
-        fetch()
-    }, []);
-    const values = data.filter(r => r.FTS_id === ftsName)
+export default function Tables({ ftsName }: { ftsName: CraneTable[] }) {
 
     return (
         <>
@@ -103,7 +89,7 @@ export default function Tables({ ftsName }: { ftsName: any }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {values.map((row, index: number) => (
+                        {ftsName.map((row, index: number) => (
                             <TableRow
                                 key={index}
                                 // className='col-span-6 grid grid-cols-6'

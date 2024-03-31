@@ -41,13 +41,15 @@ interface Solution_scheduleState {
     plan_name: string[]
     loading: boolean
     error: boolean
+    chars: Solution_schedule[]
 }
 
 const initialState: Solution_scheduleState = {
     result: [],
     plan_name: [],
     loading: false,
-    error: false
+    error: false,
+    chars: [],
 }
 
 export const sulutionScheduelAsync = createAsyncThunk(
@@ -71,10 +73,7 @@ const sulutionScheduelSlice = createSlice({
             state.result = action.payload
             state.loading = false
             state.error = false
-            // const uniquePlanNamesSet = new Set(action.payload.map((item) => item.plan_name));
-            // state.plan_name = Array.from(uniquePlanNamesSet)
-            const uniquePlanNamesSet = new Set(action.payload.map((item) => item.plan_name))
-            state.plan_name = Array.from(uniquePlanNamesSet).sort()
+            state.chars = action.payload.filter((item) => item.carrier_name !== null)
         })
 
         builder.addCase(sulutionScheduelAsync.rejected, (state: Solution_scheduleState) => {

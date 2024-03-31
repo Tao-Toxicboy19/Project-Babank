@@ -7,40 +7,37 @@ import TreeTable from './TreeTable/TreeTable';
 import DescriptionMenu from '../../../layout/DescriptionMenu/DescriptionMenu';
 import Loading from '../../../layout/Loading/Loading';
 import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
-import { ftsSulutionAsync, ftsSulutionSelector } from '../../../../store/slices/Solution/ftsSulutionSlice';
-import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
+// import { ftsSulutionAsync, ftsSulutionSelector } from '../../../../store/slices/Solution/ftsSulutionSlice';
 import { solutionOrderAsync } from '../../../../store/slices/Solution/solutionOrderSlice';
-import { ftsSolutionAsync } from '../../../../store/slices/FtsSolution/ftsSolutionSlice';
-import { craneSolutionTableAsync } from '../../../../store/slices/FtsSolution/craneSolutionTableSlice';
 import { useAppDispatch } from '../../../../store/store';
 import { craneSolutionAsync, craneSolutionSelector } from '../../../../store/slices/Solution/craneSolutionSlice';
 import { craneSolutionV2Async } from '../../../../store/slices/Solution/craneSolutionV2Slice';
 import { craneAsync } from '../../../../store/slices/Crane/craneSlice';
+import { totalTableAsync, totalTableAsyncSelector } from '../../../../store/slices/Solution/totalTableFTSSlice';
+import { planSelector } from '../../../../store/slices/planSlicec';
+import { ftsSolutionTableAsync } from '../../../../store/slices/Solution/ftsSolutionTableSlice';
 import { sulutionScheduelAsync } from '../../../../store/slices/Solution/sollutionScheduleSlice';
-import { totalTableAsyncSelector } from '../../../../store/slices/Solution/totalTableFTSSlice';
 
 
 export default function SummarizeLayout() {
     const dispatch = useAppDispatch()
     const CraneSolutionReduer = useSelector(craneSolutionSelector)
-    const FtsSolutionV2Reducer = useSelector(ftsSulutionSelector)
-    const isLoading = CraneSolutionReduer.loading || FtsSolutionV2Reducer.loading;
+    const isLoading = CraneSolutionReduer.loading
     const totalTableReducer = useSelector(totalTableAsyncSelector)
-    
-    const rolesReducer = useSelector(roleSelector)
-    const id = rolesReducer.result?.group
-    if(!id) return
+
+    const planReducer = useSelector(planSelector)
+
 
     useEffect(() => {
-        dispatch(craneSolutionAsync())
-        dispatch(ftsSulutionAsync())
-        dispatch(ftsSolutionAsync())
-        dispatch(craneSolutionTableAsync())
-        dispatch(solutionOrderAsync())
-        dispatch(sulutionScheduelAsync(id))
-        dispatch(craneSolutionV2Async(id))
+        dispatch(craneSolutionAsync(planReducer.plan))
+        dispatch(craneSolutionV2Async(planReducer.plan))
+        dispatch(totalTableAsync(planReducer.plan))
+        dispatch(sulutionScheduelAsync(planReducer.plan))
+        dispatch(ftsSolutionTableAsync(planReducer.plan))
+        dispatch(solutionOrderAsync(planReducer.plan))
         dispatch(craneAsync())
-    }, []);
+    }, [planReducer.plan])
+
 
     const totalConsumptionCost = totalTableReducer.result.reduce((total, solution) => total + solution.total_consumption_cost_sum, 0)
     const totalPenality = totalTableReducer.result.reduce((total, solution) => total + solution.penality_cost_sum, 0)
@@ -50,7 +47,7 @@ export default function SummarizeLayout() {
     const filteredReward: any = {};
     const filteredPenality: any = {};
 
-    
+
     // แปลง Object ที่ได้เป็น array โดยใช้ Object.values
     const filteredRewards = Object.values(filteredReward);
     const filteredPenalitys = Object.values(filteredPenality);

@@ -7,8 +7,14 @@ import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { useSelector } from 'react-redux';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
+import { apiUrlV2 } from '../../../../Constants';
+import { planSelector } from '../../../../store/slices/planSlicec';
+import { httpClient } from '../../../../utils/httpclient';
+import { totalTableAsyncSelector } from '../../../../store/slices/Solution/totalTableFTSSlice';
+// import Tables from './Table/Tables';
+import { useEffect } from 'react';
 import Tables from './Table/Tables';
-import { totalTableCraneAsyncSelector } from '../../../../store/slices/Solution/totalTableCraneSlice';
+// import { totalTableCraneAsyncSelector } from '../../../../store/slices/Solution/totalTableCraneSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -43,22 +49,69 @@ function a11yProps(index: number) {
     };
 }
 
-export default function FTSsingle() {
-    const [value, setValue] = React.useState(0);
-    const ftsReducer = useSelector(ftsSelector)
-    const totalTableCraneReducer = useSelector(totalTableCraneAsyncSelector)
+type CraneTable = {
+    crane_id: number;
+    FTS_id: number;
+    total_cost: number;
+    total_consumption_cost: number;
+    penality_cost: number;
+    total_all_costs: number;
+    crane_name: string;
+    total_reward_costs: number;
+}
 
+export default function FTSsingle() {
+    const [value, setValue] = React.useState(0)
+    const ftsReducer = useSelector(ftsSelector)
+    const totalTableCraneReducer = useSelector(totalTableAsyncSelector)
+
+    const [data, setData] = React.useState<CraneTable[]>([])
+    const planReducer = useSelector(planSelector)
     const handleChange = (_: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
+    }
+
+    const fetch = async () => {
+        const res = await httpClient.get(`${apiUrlV2}/total/table/crane/${planReducer.plan}`)
+        setData(res.data)
+    }
+
+    useEffect(() => {
+        fetch()
+    }, [planReducer.plan])
+
+    const values: CraneTable[] = data.filter(r => r.FTS_id === ftsReducer.result[value].fts_id)
+
+    if (data.length === 0) {
+        return (
+            <Typography
+                sx={{
+                    mr: 2,
+                    fontSize: 33,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    letterSpacing: ".1rem",
+                    color: "inherit",
+                    textDecoration: "none",
+                }}
+                className='text-cyan-800 flex justify-center items-center'
+                variant='h4'
+                component='h2'
+            >
+                ไม่มีข้อมูล
+            </Typography>
+        )
+
     }
 
     const result = [
         {
             title: 'ต้นทุนรวม',
             price: (
-                totalTableCraneReducer.result[value].total_consumption_cost_sum
-                + totalTableCraneReducer.result[value].total_cost_sum
-                + totalTableCraneReducer.result[value].penality_cost_sum
+                values.reduce((total, solution) => total + solution.total_consumption_cost, 0)
+                + values.reduce((total, solution) => total + solution.total_cost, 0)
+                + values.reduce((total, solution) => total + solution.penality_cost, 0)
             )
                 .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
                 )
@@ -67,7 +120,8 @@ export default function FTSsingle() {
         {
             title: 'ค่าเชื้อเพลิง',
             price: (
-                totalTableCraneReducer.result[value].total_consumption_cost_sum)
+                values.reduce((total, solution) => total + solution.total_consumption_cost, 0)
+            )
                 .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
         },
@@ -82,7 +136,8 @@ export default function FTSsingle() {
         {
             title: 'ค่าปรับล่าช้า',
             price: (
-                + totalTableCraneReducer.result[value].penality_cost_sum)
+                +values.reduce((total, solution) => total + solution.penality_cost, 0)
+            )
                 .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
                 )
 
@@ -90,7 +145,8 @@ export default function FTSsingle() {
         {
             title: 'รางวัล',
             price: (
-                + totalTableCraneReducer.result[value].total_reward_sum)
+                +values.reduce((total, solution) => total + solution.total_reward_costs, 0)
+            )
                 .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
                 )
 
@@ -184,7 +240,7 @@ export default function FTSsingle() {
                                                 ))}
                                             </Box>
                                             <Box className="col-span-12">
-                                                <Tables ftsName={ftsReducer.result[value].fts_id} />
+                                                <Tables ftsName={values} />
                                             </Box>
                                         </Box>
                                     </TabPanel>

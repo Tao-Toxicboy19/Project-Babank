@@ -48,6 +48,7 @@ import Papa from 'papaparse';
 import { useForm } from "react-hook-form";
 import { httpClient } from "../../../../utils/httpclient";
 import DeleteDialog from "../../../layout/DeleteDialog/DeleteDialog";
+import { planSelector } from "../../../../store/slices/planSlicec";
 
 type Props = {}
 
@@ -57,6 +58,9 @@ function AlertDialog({ exportOrderReducer, exportOrdersCSV, importOrderReducer, 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [forms, setForms] = useState<any>(null);
   const [chacks, setchacks] = useState("")
+  const planReducer = useSelector(planSelector)
+  const roleReducer = useSelector(roleSelector)
+
   const {
     handleSubmit,
     formState: { },
@@ -336,7 +340,7 @@ export default function OrderPage({ }: Props) {
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const id = rolesReducer.result?.group
-  if(!id) return
+  if (!id) return
 
   const filteredOrders = (orderReducer.result).filter((group) => group.group === id)
   // const exportOrdersCSV = exportOrderReducer.result
@@ -383,6 +387,9 @@ export default function OrderPage({ }: Props) {
   const handleClickOpen = () => setOpen(true)
 
   const handleClose = () => setOpen(false)
+
+  const planReducer = useSelector(planSelector)
+
 
   const fetch = () => dispatch(orderAsync())
 

@@ -89,7 +89,7 @@ export const orderAsync = createAsyncThunk(
   'order/orderAsync',
   async () => {
     try {
-      const result = await httpClient.get(server.ORDER)
+      const result = await httpClient.get(`${server.ORDER}`)
       return result.data
     } catch (error) {
       throw error

@@ -14,7 +14,7 @@ import { cargoCraneAsync, cargoCraneSelector } from "../../../store/slices/Cargo
 import { Link } from "react-router-dom";
 import { carrierSelector } from "../../../store/slices/Carrier/carrierSlice";
 import { roleSelector } from "../../../store/slices/auth/rolesSlice";
-import { orderSelector } from "../../../store/slices/Order/orderSlice";
+import { orderAsync, orderSelector } from "../../../store/slices/Order/orderSlice";
 
 type Props = {}
 
@@ -27,13 +27,12 @@ export default function HomePage({ }: Props) {
   const cargoCraneReducer = useSelector(cargoCraneSelector)
   const rolesReducer = useSelector(roleSelector)
 
-
-
   const isLoading = ftsReducer.loading && carrierReducer.loading && cargoReducer.loading && orderReducer.loading && cargoCraneReducer.loading
   const filteredOrder = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
 
   useEffect(() => {
+    dispatch(orderAsync())
     dispatch(ftsAsync())
     dispatch(cargoAsync())
     dispatch(cargoCraneAsync())

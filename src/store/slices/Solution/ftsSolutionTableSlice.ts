@@ -54,9 +54,9 @@ const initialState: FTSSolutionState = {
 
 export const ftsSolutionTableAsync = createAsyncThunk(
     'ftsSolutionTable/ftsSolutionTableAsync',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get<SolutionCrane[]>(server.CRANESOLUTIONTABLE)
+            const result = await httpClient.get<SolutionCrane[]>(`${server.CRANESOLUTIONTABLE}/${id}`)
             return result.data
         } catch (error) {
             throw error

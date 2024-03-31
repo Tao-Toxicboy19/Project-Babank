@@ -59,9 +59,9 @@ const initialState: SolutionOrderState = {
 
 export const solutionOrderAsync = createAsyncThunk(
     'solutionOrder/solutionOrderAsync',
-    async () => {
+    async (id: number) => {
         try {
-            const result = await httpClient.get<SolutionOrder[]>(server.SOLUTION_CARRIER_ORDER_URL)
+            const result = await httpClient.get<SolutionOrder[]>(`${server.SOLUTION_CARRIER_ORDER_URL}/${id}`)
             return result.data
         } catch (error) {
             throw error

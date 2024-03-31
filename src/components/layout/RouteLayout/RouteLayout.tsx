@@ -7,8 +7,12 @@ import { useSelector } from 'react-redux';
 import RoutesTabelLayout from '../RoutesTabelLayout/RoutesTabelLayout';
 import { Card } from '@mui/material';
 import RouteMaps from '../RouteMaps/RouteMaps';
-import { roleSelector } from '../../../store/slices/auth/rolesSlice';
-import { ftsSolutionTableSelector } from '../../../store/slices/Solution/ftsSolutionTableSlice';
+import { ftsSolutionTableAsync, ftsSolutionTableSelector } from '../../../store/slices/Solution/ftsSolutionTableSlice';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../../store/store';
+import { planSelector } from '../../../store/slices/planSlicec';
+import { sulutionScheduelAsync } from '../../../store/slices/Solution/sollutionScheduleSlice';
+import { solutionOrderAsync } from '../../../store/slices/Solution/solutionOrderSlice';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -46,14 +50,19 @@ function a11yProps(index: number) {
 export default function RouteLayout() {
     const [value, setValue] = React.useState(0);
     const ftsSolutionReducer = useSelector(ftsSolutionTableSelector)
-    const rolesReducer = useSelector(roleSelector)
+    const dispatch = useAppDispatch()
+    const planReducer = useSelector(planSelector)
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.preventDefault();
         setValue(newValue);
-    };
+    }
 
-    const id = rolesReducer.result?.group
-    if(!id) return
+    useEffect(() => {
+        dispatch(sulutionScheduelAsync(planReducer.plan))
+        dispatch(ftsSolutionTableAsync(planReducer.plan))
+        dispatch(solutionOrderAsync(planReducer.plan))
+    }, [planReducer.plan])
 
     return (
         <>

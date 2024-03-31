@@ -35,6 +35,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const [open, setOpen] = React.useState(false);
     const [started, setStarted] = React.useState<Dayjs | null>()
     const [ended, setEnded] = React.useState<Dayjs | null>()
+    const [count, setCount] = React.useState<number | null>(0)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -48,7 +49,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const ftsReducer = useSelector(ftsSelector)
     const orderRucer = useSelector(orderSelector)
     const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
-    const orderRucerV2 = (filteredOrders).filter((order) => order.status_order !== "Approved");
+    const orderRucerV2 = (filteredOrders).filter((order) => order.status_order !== "Approved")
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         (ftsReducer.result).forEach((item) => {
@@ -76,9 +77,25 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             }))
         if (started === undefined || ended === undefined) {
             toast.warn('กรอกข้อมูลให้ครบ')
+        } else {
+            dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData, rolesReducer.result?.group, started, ended))
         }
-        dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData, rolesReducer.result?.group, started, ended))
+    }
+
+    const updateCount = () => {
+        const values = filteredOrders.filter((order) => {
+            const arrivalTime = dayjs(order.arrival_time);
+            const deadlineTime = dayjs(order.deadline_time);
+            return (arrivalTime.isAfter(started) || arrivalTime.isSame(started)) && (deadlineTime.isBefore(ended) || deadlineTime.isSame(ended));
+        });
+        setCount(values.length);
     };
+
+    // เรียกใช้ฟังก์ชัน updateCount เมื่อมีการเปลี่ยนแปลงข้อมูลหรือเหตุการณ์อื่น ๆ ที่ไม่ใช่การเรนเดอร์ของคอมโพเนนต์
+    React.useEffect(() => {
+        updateCount();
+    }, [filteredOrders, started, ended]);
+
 
     return (
         <form
@@ -205,7 +222,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                             <DatePicker
                                 label="เลือกวันที่เริ่มแผน"
                                 value={started}
-                                onChange={(newValue) => setEnded(newValue)}
+                                onChange={(newValue) => setStarted(newValue)}
                             />
                         </DemoContainer>
                     </LocalizationProvider>
@@ -214,11 +231,11 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                             <DatePicker
                                 label="เลือกวันที่จบแผน"
                                 value={ended}
-                                onChange={(newValue) => setStarted(newValue)}
+                                onChange={(newValue) => setEnded(newValue)}
                             />
                         </DemoContainer>
                     </LocalizationProvider>
-
+                    <Typography>จำนวนรายการสินค้า {count}</Typography>
                 </Stack>
 
             </Box>

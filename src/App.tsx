@@ -38,13 +38,10 @@ import { craneAsync } from './store/slices/Crane/craneSlice';
 import { cargoAsync } from './store/slices/Cargo/cargoSlice';
 import { cargoCraneAsync } from './store/slices/CargoCrane/cargoCraneSlice';
 import { ftsAsync } from './store/slices/FTS/ftsSlice';
-import { orderAsync } from './store/slices/Order/orderSlice';
 import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
-import { solutionOrderAsync } from './store/slices/Solution/solutionOrderSlice';
-import { ftsSolutionTableAsync } from './store/slices/Solution/ftsSolutionTableSlice';
 
 const drawerWidth = 240;
 
@@ -57,14 +54,8 @@ export default function ResponsiveDrawer() {
 
   useEffect(() => {
     dispatch(restoreLogin())
-
-
-    dispatch(ftsSolutionTableAsync())
-    dispatch(solutionOrderAsync())
-    // dispatch(reportCraneAsync(id))
     dispatch(carrierAsync())
     dispatch(roleAsync())
-    dispatch(orderAsync())
     dispatch(craneAsync())
     dispatch(ftsAsync())
     dispatch(cargoAsync())

@@ -1,0 +1,240 @@
+import * as React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import { Card, Typography } from '@mui/material';
+import SummarizaCard from '../../../layout/SummarizaCard/SummarizaCard';
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import { useSelector } from 'react-redux';
+import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
+import { apiUrlV2 } from '../../../../Constants';
+import { planSelector } from '../../../../store/slices/planSlicec';
+import { httpClient } from '../../../../utils/httpclient';
+import { totalTableAsyncSelector } from '../../../../store/slices/Solution/totalTableFTSSlice';
+// import Tables from './Table/Tables';
+import { useEffect } from 'react';
+// import { totalTableCraneAsyncSelector } from '../../../../store/slices/Solution/totalTableCraneSlice';
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`vertical-tabpanel-${index}`}
+            aria-labelledby={`vertical-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `vertical-tab-${index}`,
+        'aria-controls': `vertical-tabpanel-${index}`,
+    };
+}
+
+type CraneTable = {
+    crane_id: number;
+    FTS_id: number;
+    total_cost: number;
+    total_consumption_cost: number;
+    penality_cost: number;
+    total_all_costs: number;
+    crane_name: string;
+    total_reward_costs: number;
+}
+
+export default function FTSsingle() {
+    const [value, setValue] = React.useState(0)
+    const ftsReducer = useSelector(ftsSelector)
+    const totalTableCraneReducer = useSelector(totalTableAsyncSelector)
+
+    const [data, setData] = React.useState<CraneTable[]>([])
+    const planReducer = useSelector(planSelector)
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    }
+
+    const fetch = async () => {
+        const res = await httpClient.get(`${apiUrlV2}/total/table/crane/${planReducer.plan}`)
+        setData(res.data)
+    }
+
+    useEffect(() => {
+        fetch()
+    }, [planReducer.plan])
+
+    const values = data.filter(r => r.FTS_id === ftsReducer.result[value].fts_id)
+
+    const result = [
+        {
+            title: 'ต้นทุนรวม',
+            price: (
+                values.reduce((total, solution) => total + solution.total_consumption_cost, 0)
+                + values.reduce((total, solution) => total + solution.total_cost, 0)
+                + values.reduce((total, solution) => total + solution.penality_cost, 0)
+
+                // values.reduce((total, solution) => total + solution.total_consumption_cost, 0)
+                // + totalTableCraneReducer.result[value].total_cost_sum
+                // + totalTableCraneReducer.result[value].penality_cost_sum
+            )
+                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                )
+
+        },
+        {
+            title: 'ค่าเชื้อเพลิง',
+            price: (
+                totalTableCraneReducer.result[value].total_consumption_cost_sum)
+                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+        },
+        {
+            title: 'ค่าแรง',
+            price: (
+                totalTableCraneReducer.result[value].total_cost_sum)
+                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                )
+
+        },
+        {
+            title: 'ค่าปรับล่าช้า',
+            price: (
+                + totalTableCraneReducer.result[value].penality_cost_sum)
+                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                )
+
+        },
+        {
+            title: 'รางวัล',
+            price: (
+                + totalTableCraneReducer.result[value].total_reward_sum)
+                .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
+                )
+
+        },
+    ]
+
+    console.log(result)
+
+    return (
+        <div>
+            {JSON.stringify(values)}
+        </div>
+    )
+
+    // return (
+    //     <>
+    //         {result.length === 0 ? (
+    //             <Typography
+    //                 sx={{
+    //                     mr: 2,
+    //                     fontSize: 33,
+    //                     display: { xs: "none", md: "flex" },
+    //                     fontFamily: "monospace",
+    //                     fontWeight: 700,
+    //                     letterSpacing: ".1rem",
+    //                     color: "inherit",
+    //                     textDecoration: "none",
+    //                 }}
+    //                 className='text-cyan-800 flex justify-center items-center'
+    //                 variant='h4'
+    //                 component='h2'
+    //             >
+    //                 ไม่มีข้อมูล
+    //             </Typography>
+    //         ) : (
+    //             <>
+    //                 {
+    //                     totalTableCraneReducer.result.length === 0 ? (
+    //                         <Typography
+    //                             sx={{
+    //                                 mr: 2,
+    //                                 fontSize: 33,
+    //                                 display: { xs: "none", md: "flex" },
+    //                                 fontFamily: "monospace",
+    //                                 fontWeight: 700,
+    //                                 letterSpacing: ".1rem",
+    //                                 color: "inherit",
+    //                                 textDecoration: "none",
+    //                             }}
+    //                             className='text-cyan-800 flex justify-center items-center'
+    //                             variant='h4'
+    //                             component='h2'
+    //                         >
+    //                             ไม่มีข้อมูล
+    //                         </Typography>
+    //                     ) : (
+    //                         <Box className='grid grid-cols-9'>
+    //                             <Card className='h-[100%]'>
+    //                                 <Tabs
+    //                                     orientation="vertical"
+    //                                     variant="scrollable"
+    //                                     value={value}
+    //                                     onChange={handleChange}
+    //                                     aria-label="Vertical tabs example"
+    //                                     sx={{ borderRight: 1, borderColor: 'divider' }}
+    //                                 >
+    //                                     {totalTableCraneReducer.result.map((row, index: number) => {
+    //                                         const ftsResult = (ftsReducer.result).find((item) => item.fts_id === row.FTS_id);
+
+    //                                         return (
+    //                                             <Tab
+    //                                                 key={index}
+    //                                                 className={value === index ? 'bg-[#caf0f8]/25 font-kanit' : 'text-gray-600 font-kanit'}
+    //                                                 label={`${ftsResult?.FTS_name}`}
+    //                                                 {...a11yProps(index)}
+    //                                             />
+    //                                         )
+    //                                     })}
+    //                                 </Tabs>
+    //                             </Card>
+    //                             <Box className='col-span-8'>
+    //                                 <TabPanel value={value} index={value}>
+    //                                     <Box className="grid grid-cols-12 gap-5 mt-[-2rem]">
+    //                                         <Box className='col-span-12 flex gap-x-5'>
+
+    //                                             {result.map((row, index) => (
+    //                                                 <Box
+    //                                                     key={index}
+    //                                                     className='w-[180px]'
+    //                                                 >
+    //                                                     <SummarizaCard
+    //                                                         title={row.title}
+    //                                                         price={row.price}
+    //                                                         icon={CurrencyBitcoinIcon}
+    //                                                         unit={'บาท'}
+    //                                                         color='bg-[#00a6fb]/50'
+    //                                                     />
+    //                                                 </Box>
+    //                                             ))}
+    //                                         </Box>
+    //                                         <Box className="col-span-12">
+    //                                             <Tables ftsName={ftsReducer.result[value].fts_id} />
+    //                                         </Box>
+    //                                     </Box>
+    //                                 </TabPanel>
+    //                             </Box >
+    //                         </Box>
+    //                     )
+    //                 }
+    //             </>
+    //         )}
+    //     </>
+    // );
+}
