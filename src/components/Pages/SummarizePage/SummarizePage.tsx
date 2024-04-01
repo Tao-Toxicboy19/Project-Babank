@@ -2,7 +2,7 @@ import * as React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import { Button, ButtonGroup, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material'
+import { Button, ButtonGroup, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import RouteLayout from '../../layout/RouteLayout/RouteLayout'
 import DialogLoading from '../../layout/DialogLoading/DialogLoading'
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts'
@@ -17,11 +17,12 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Chart } from "react-google-charts"
 import { format, parse } from 'date-fns'
-import { sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
-import { useEffect } from 'react'
+import { sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
+import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../store/store'
 import { planAsync, planSelector, setPlans } from '../../../store/slices/planSlicec'
 import { managePlansSelector } from '../../../store/slices/managePlansSlice'
+import { useForm } from 'react-hook-form'
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -60,6 +61,7 @@ export default function SummarizePage() {
     const [value, setValue] = React.useState(0)
     const [plan, setPlan] = React.useState<string>('hero')
     const dispatch = useAppDispatch()
+    const planReducer = useSelector(planSelector)
     const rolesReducer = useSelector(roleSelector)
     const id = rolesReducer.result?.group
     if (!id) return
@@ -72,6 +74,11 @@ export default function SummarizePage() {
     useEffect(() => {
         dispatch(planAsync(id))
     }, [managePlansReducer.result])
+
+
+    useEffect(() => {
+        dispatch(sulutionScheduelAsync(planReducer.plan))
+    }, [planReducer.plan])
 
     return (
         <Card>
@@ -101,92 +108,179 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     // const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
     const dispatch = useAppDispatch()
     const planReducer = useSelector(planSelector)
+    const [open, setOpen] = React.useState(false)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
+
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
 
     // console.log(planReducer.plan)
 
     useEffect(() => {
-        if (planReducer.result.length > 0) {
-            dispatch(setPlans(planReducer.result[0].id))
+        if (planReducer.planAi.length > 0) {
+            dispatch(setPlans(planReducer.planAi[0].id))
         }
-    }, [planReducer.result, dispatch])
-
+    }, [planReducer.planAi, dispatch])
 
     return (
         <>
-            <Stack direction='row' spacing={2} className='max-w-full my-3 justify-between'>
-                <Stack direction='row' spacing={2}>
-                    <Button
-                        startIcon={<ArrowBackIcon />}
-                        onClick={() => setPlan('hero')}
-                    >
-                        กลับ
-                    </Button>
+            <Stack direction='row' spacing={2}>
+                <Button
+                    startIcon={<ArrowBackIcon />}
+                    onClick={() => setPlan('hero')}
+                >
+                    กลับ
+                </Button>
 
-                    {rolesReducer.result && (
-                        rolesReducer.result.role === 'Viewer' ? (
-                            <></>
-                        ) : rolesReducer.result.role === 'Contributor' ? (
-                            <></>
-                        ) : (
-                            <DialogLoading plan={plan} />
-                        )
-                    )}
+                {rolesReducer.result && (
+                    rolesReducer.result.role === 'Viewer' ? (
+                        <></>
+                    ) : rolesReducer.result.role === 'Contributor' ? (
+                        <></>
+                    ) : (
+                        <DialogLoading plan={plan} />
+                    )
+                )}
+                {plan !== 'Customize' &&
                     <ButtonGroup variant="text" aria-label="Basic button group">
-                        {planReducer.result.map((plan) => (
-                            <Button
-                                disabled={planReducer.plan === plan.id}
-                                key={plan.id}
-                                onClick={() => dispatch(setPlans(plan.id))}
-                            >
-                                {plan.plan_name}
-                            </Button>
-                        ))}
+                        {plan === 'Customize' ? (
+                            planReducer.planUser.map((plan) => (
+                                <Button
+                                    disabled={planReducer.plan === plan.id}
+                                    key={plan.id}
+                                    onClick={() => dispatch(setPlans(plan.id))}
+                                >
+                                    {plan.plan_name}
+                                </Button>
+                            ))
+                        ) : (
+                            planReducer.planAi.map((plan) => (
+                                <Button
+                                    disabled={planReducer.plan === plan.id}
+                                    key={plan.id}
+                                    onClick={() => dispatch(setPlans(plan.id))}
+                                >
+                                    {plan.plan_name}
+                                </Button>
+                            ))
+                        )}
                     </ButtonGroup>
-                </Stack>
-                <Box className='pr-5'>
-                    <AddPlan />
+                }
+            </Stack>
+
+            {plan === 'Customize' ? (
+                <Box
+                    className='min-h-[80vh]'
+                >
+                    <Card
+                        className='max-w-lg mx-auto items-center'
+                    >
+                        <CardContent>
+                            <Stack
+                                onSubmit={handleSubmit((data) => {
+                                    console.log(data)
+                                    handleClickOpen()
+                                })}
+                                component='form'
+                                direction='column'
+                                spacing={2}
+                            >
+                                <Typography variant="h6" component="h2">
+                                    สร้างแผน
+                                </Typography>
+                                <TextField
+                                    id='plan_name'
+                                    type='text'
+                                    label='ชื่อแผน'
+                                    fullWidth
+                                    size='small'
+                                    className='font-kanit'
+                                    error={errors.plan_name && true}
+                                    helperText={errors.plan_name && "กรอกชื่อแผน"}
+                                    {...register('plan_name', { required: true })}
+                                />
+                                <Box
+                                    className='grid grid-cols-4 gap-2 mt-2'
+                                >
+                                    {planReducer.planAi.map((plan) => (
+                                        <Button
+                                            key={plan.id}
+
+                                            variant='outlined'
+                                            disabled={planReducer.plan === plan.id}
+                                            onClick={() => dispatch(setPlans(plan.id))}
+                                        >
+                                            {plan.plan_name}
+                                        </Button>
+                                    ))}
+                                </Box>
+                                <Box className='w-full flex justify-end'>
+                                    <Button
+                                        type='submit'
+                                        className='w-24 bg-blue-500'
+                                        size='small'
+                                        variant='contained'
+                                    >
+                                        แก้ไขแผน
+                                    </Button>
+                                </Box>
+                                <AddPlan open={open} handleClose={handleClose} />
+                            </Stack>
+                        </CardContent>
+                    </Card>
                 </Box>
 
-            </Stack>
-            <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
-                <Box sx={{ width: '100%' }}>
-                    <Box
-                        sx={{ borderBottom: 1, borderColor: 'divider' }}
-                        className='flex'
-                    >
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="สรุปภาพรวมต้นทุน" className="font-kanit" {...a11yProps(0)} />
-                            <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
-                            <Tab label="สรุปต้นทุนเรือ" className="font-kanit" {...a11yProps(2)} />
-                            <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(3)} />
-                            <Tab label="สรุปตารางเวลาเเบบทุ่น" className="font-kanit" {...a11yProps(4)} />
-                            <Tab label="สรุปตารางเวลาเเบบเรือสินค้า" className="font-kanit" {...a11yProps(5)} />
-                        </Tabs>
+            ) : (
+                <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
+                    <Box sx={{ width: '100%' }}>
+                        <Box
+                            sx={{ borderBottom: 1, borderColor: 'divider' }}
+                            className='flex'
+                        >
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="สรุปภาพรวมต้นทุน" className="font-kanit" {...a11yProps(0)} />
+                                <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
+                                <Tab label="สรุปต้นทุนเรือ" className="font-kanit" {...a11yProps(2)} />
+                                <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(3)} />
+                                <Tab label="สรุปตารางเวลาเเบบทุ่น" className="font-kanit" {...a11yProps(4)} />
+                                <Tab label="สรุปตารางเวลาเเบบเรือสินค้า" className="font-kanit" {...a11yProps(5)} />
+                            </Tabs>
+                        </Box>
+                        <CustomTabPanel value={value} index={0}>
+                            <SummarizeLayout />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={1}>
+                            <FTSsingle />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2}>
+                            <SummarizaCarrier />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={3}>
+                            <RouteLayout />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={4}>
+                            <Box>
+                                <FTSGantts />
+                            </Box>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={5}>
+                            <Box>
+                                <CraneGantts />
+                            </Box>
+                        </CustomTabPanel>
                     </Box>
-                    <CustomTabPanel value={value} index={0}>
-                        <SummarizeLayout />
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={1}>
-                        <FTSsingle />
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={2}>
-                        <SummarizaCarrier />
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={3}>
-                        <RouteLayout />
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={4}>
-                        <Box>
-                            <FTSGantts />
-                        </Box>
-                    </CustomTabPanel>
-                    <CustomTabPanel value={value} index={5}>
-                        <Box>
-                            <CraneGantts />
-                        </Box>
-                    </CustomTabPanel>
-                </Box>
-            </Card>
+                </Card>
+            )}
         </>
     )
 }
@@ -219,23 +313,11 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
     )
 }
 
-export function AddPlan() {
-    const [open, setOpen] = React.useState(false)
+export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () => void }) {
 
-    const handleClickOpen = () => {
-        setOpen(true)
-    }
-
-    const handleClose = () => {
-        setOpen(false)
-    }
 
     return (
         <React.Fragment>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                เพิ่มแผน
-            </Button>
-
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -245,15 +327,20 @@ export function AddPlan() {
 
             >
 
-                <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                <DialogTitle id="alert-dialog-title"
+                    className='flex justify-center'
+                >
+                    {"แก้ไขแผน"}
                 </DialogTitle>
                 <DialogContent>
                     <EditPlan />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose} autoFocus>
+                    <Button
+                        onClick={handleClose}
+                        autoFocus
+                    >
                         Agree
                     </Button>
                 </DialogActions>
@@ -262,16 +349,24 @@ export function AddPlan() {
     )
 }
 
+type Plan = {
+    id: number
+    carrier: string | Date | null
+    FTS: string | Date | null
+    start_date: any
+    end_date: any
+}
+
 function EditPlan() {
     const [open, setOpen] = React.useState(false)
-    const handleClickOpen = () => setOpen(true)
+    const [plan, setPlan] = useState<Plan>()
+    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
 
+    const handleClickOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
-    const filteredData = (solutionScheduleReducer.result).filter((item) => item.carrier_name !== null)
-    let data = [filteredData[0]]
-    data = data.concat(filteredData)
+    let data = [solutionScheduleReducer.chars[0]]
+    data = data.concat(solutionScheduleReducer.chars)
 
     const datav2 = data.map((item) => {
         const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
@@ -291,11 +386,19 @@ function EditPlan() {
     const handleChartClick = ({ chartWrapper }: any) => {
         const selection = chartWrapper.getChart().getSelection()
         if (selection.length === 1) {
-            // const rowIndex = selection[0].row
-            // const selectedPresident = datav2[rowIndex + 1][0]
-            // alert(`You clicked on: ${selectedPresident}`)/
+            const rowIndex = selection[0].row
+            const selectedCarrier = datav2[rowIndex + 1][0]
+            const selectedFTSName = datav2[rowIndex + 1][1]
+            const selectedStartDate = datav2[rowIndex + 1][2]
+            const selectedEndDate = datav2[rowIndex + 1][3]
+            setPlan({
+                id: rowIndex,
+                carrier: selectedCarrier,
+                FTS: selectedFTSName,
+                start_date: selectedStartDate,
+                end_date: selectedEndDate,
+            })
             handleClickOpen()
-
         }
     }
 
@@ -315,12 +418,18 @@ function EditPlan() {
                     },
                 ]}
             />
-            <EditCarrier open={open} handleClose={handleClose} />
+            <EditCarrier open={open} handleClose={handleClose} plan={plan} />
         </Box>
     )
 }
 
-export function EditCarrier({ open, handleClose }: { open: boolean, handleClose: () => void }) {
+export function EditCarrier({ open, handleClose, plan }: { open: boolean, handleClose: () => void, plan: Plan | undefined }) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
+    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
 
     return (
         <React.Fragment>
@@ -331,21 +440,102 @@ export function EditCarrier({ open, handleClose }: { open: boolean, handleClose:
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                    {"แก้ไขแผน"}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
-                    </DialogContentText>
+                    <form
+                        onSubmit={handleSubmit((data) => {
+                            console.log(data)
+                        })}
+                    >
+                        <FormControl fullWidth>
+                            <InputLabel
+                                size='small'
+                                id="demo-simple-select-label"
+                            >
+                                เลือกเรือ
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id={`carrier_name`}
+                                label="เลือกสินค้า"
+                                size='small'
+                                {...register(`carrier_name`, {
+                                    required: true
+                                })}
+                            >
+                                {(solutionScheduleReducer.chars).map((items, index) => (
+                                    <MenuItem key={index} value={plan?.id} className='font-kanit'>
+                                        {items.carrier_name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Button onClick={handleClose}>Disagree</Button>
+                        <Button
+                            type='submit'
+                            autoFocus
+                        >
+                            Agree
+                        </Button>
+                        {/* <TextField
+                        id='plan_name'
+                        type='text'
+                        label='ชื่อแผน'
+                        fullWidth
+                        size='small'
+                        defaultValue={plan?.carrier}
+                        className='font-kanit'
+                        error={errors.plan_name && true}
+                        helperText={errors.plan_name && "กรอกชื่อแผน"}
+                        {...register('plan_name', { required: true })}
+                    /> */}
+                        {/* <DialogContentText id="alert-dialog-description">
+                        {JSON.stringify(plan)}
+                    </DialogContentText> */}
+                    </form>
                 </DialogContent>
-                <DialogActions>
+                {/* <DialogActions>
                     <Button onClick={handleClose}>Disagree</Button>
                     <Button onClick={handleClose} autoFocus>
                         Agree
                     </Button>
-                </DialogActions>
+                </DialogActions> */}
             </Dialog>
         </React.Fragment>
     )
 }
+
+
+// {
+//     'user_group': 3,
+//         'solution_id': 55, // ที่จะ save ใหม่
+//             'plan': [
+//                 {
+//                     'order_id': 50,
+//                     'FTS': [
+//                         {
+//                             'fts_id': 2,
+//                             'start_date': xxx
+//                         },
+//                         {
+//                             'fts_id': 3,
+//                             'start_date': xxx
+//                         }
+//                     ]
+//                 },
+//                 {
+//                     'order_id': 51,
+//                     'FTS': [
+//                         {
+//                             'fts_id': 6,
+//                             'start_date': xxx
+//                         },
+//                         {
+//                             'fts_id': 7,
+//                             'start_date': xxx
+//                         }
+//                     ]
+//                 },
+//             ]
+// }

@@ -94,7 +94,7 @@ export const CLOSE = 'กลับ'
 
 export const server = {
     LOGIN_URL: `/backend/signin`,
-    REGISTER_URL: `backend/signup`,
+    REGISTER_URL: `/backend/signup`,
     FLOATING: `floating`,
     CARRIER: `carrier`,
     CARGO: `cargo`,

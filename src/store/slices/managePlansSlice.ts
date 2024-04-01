@@ -63,6 +63,7 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
             order,
             started,
             ended,
+            plan_type:"ai",
             plan_name: formData.plan_name
         }
         handleClickOpen()

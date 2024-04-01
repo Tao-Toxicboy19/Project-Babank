@@ -2,8 +2,10 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { httpClient } from "../../../utils/httpclient"
 import { server } from "../../../Constants"
 import { RootState } from "../../store"
+import { v4 as uuidv4 } from 'uuid'
 
 export interface Solution_schedule {
+    uuid?: string
     solution_id: number
     FTS_id: number
     order_id: number
@@ -42,6 +44,7 @@ interface Solution_scheduleState {
     loading: boolean
     error: boolean
     chars: Solution_schedule[]
+    edit: Solution_schedule[]
 }
 
 const initialState: Solution_scheduleState = {
@@ -50,6 +53,7 @@ const initialState: Solution_scheduleState = {
     loading: false,
     error: false,
     chars: [],
+    edit: [],
 }
 
 export const sulutionScheduelAsync = createAsyncThunk(
@@ -57,6 +61,11 @@ export const sulutionScheduelAsync = createAsyncThunk(
     async (id: number) => {
         try {
             const result = await httpClient.get(`${server.SOLUTIONSCHEDULE}/${id}`)
+            const values = result.data.map((item: Solution_schedule) => ({
+                ...item,
+                uuid: uuidv4()
+            }))
+            console.log(values)
             return result.data
         } catch (error) {
             throw error
@@ -64,18 +73,25 @@ export const sulutionScheduelAsync = createAsyncThunk(
     }
 )
 
+
 const sulutionScheduelSlice = createSlice({
     name: "sulutionScheduel",
     initialState,
-    reducers: {},
+    reducers: {
+        setEdit(state: Solution_scheduleState, action: PayloadAction<Solution_schedule[]>) {
+            state.edit = action.payload
+            state.loading = false
+            state.error = false
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(sulutionScheduelAsync.fulfilled, (state: Solution_scheduleState, action: PayloadAction<Solution_schedule[]>) => {
             state.result = action.payload
             state.loading = false
             state.error = false
             state.chars = action.payload.filter((item) => item.carrier_name !== null)
+            state.edit = action.payload
         })
-
         builder.addCase(sulutionScheduelAsync.rejected, (state: Solution_scheduleState) => {
             state.result = []
             state.loading = false
@@ -90,6 +106,6 @@ const sulutionScheduelSlice = createSlice({
     },
 })
 
-export const { } = sulutionScheduelSlice.actions
+export const { setEdit } = sulutionScheduelSlice.actions
 export const sulutionScheduelSelector = (store: RootState) => store.sulutionScheduelReducer
 export default sulutionScheduelSlice.reducer

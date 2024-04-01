@@ -1,27 +1,30 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { httpClient } from "../../utils/httpclient";
-import { RootState } from "../store";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { httpClient } from "../../utils/httpclient"
+import { RootState } from "../store"
 
 export type Plan = {
-    id: number;
-    user_group: number;
-    plan_name: string;
-    started_at: Date;
-    ended_at: Date;
-    created_at: Date;
-    updated_at: Date;
+    id: number
+    user_group: number
+    plan_name: string
+    plan_type: string
+    started_at: Date
+    ended_at: Date
+    created_at: Date
+    updated_at: Date
 }
 
 
 interface PlanState {
-    result: Plan[]
+    planAi: Plan[]
+    planUser: Plan[]
     loading: boolean
     error: boolean
     plan: number
 }
 
 const initialState: PlanState = {
-    result: [],
+    planAi: [],
+    planUser: [],
     loading: false,
     error: false,
     plan: 0
@@ -32,6 +35,7 @@ export const planAsync = createAsyncThunk(
     async (id: number) => {
         try {
             const result = await httpClient.get(`/plan/${id}`)
+            console.log(result.data)
             return result.data
         } catch (error) {
             throw error
@@ -51,25 +55,29 @@ const planSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(planAsync.fulfilled, (state: PlanState, action: PayloadAction<Plan[]>) => {
-            // state.result = action.payload
-            state.result = action.payload.sort((a, b) => {
-                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-            })
+            state.planAi = action.payload
+                .filter(item => item.plan_type === "ai")
+                .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+            state.planUser = action.payload
+                .filter(item => item.plan_type === "user")
+                .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
             state.loading = false
             state.error = false
-        });
+        })
 
         builder.addCase(planAsync.rejected, (state: PlanState) => {
-            state.result = []
+            state.planAi = []
+            state.planUser = []
             state.loading = false
             state.error = true
-        });
+        })
 
         builder.addCase(planAsync.pending, (state: PlanState) => {
-            state.result = []
+            state.planAi = []
+            state.planUser = []
             state.loading = true
             state.error = false
-        });
+        })
     },
 })
 
