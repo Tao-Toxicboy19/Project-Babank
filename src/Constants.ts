@@ -18,7 +18,7 @@ export const labels = [
     'รวมระยะทางเคลื่อนย้าย',
     'เวลารวมดำเนินการขนถ่าย',
     'เวลารวมเตรียมความพร้อม'
-];
+]
 
 export const TitleOrder = [
     'ชื่อเรือ',
@@ -40,7 +40,7 @@ export const TitleOrder = [
     'แก้ไข้'
 ]
 
-export const monthNames = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+export const monthNames = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม']
 
 export const TitleCargoCrane = [
     'ชื่อทุ่น',
@@ -67,18 +67,19 @@ export const TitleReportFTS = ["ชื่อทุ่น", "ชื่อเร�
 export const TitleReportCrane = ["ชื่อทุ่น", "ชื่อเรือ", "ระวาง", "วัน-เวลา มาถึง", "วัน-เวลา สิ้นสุด", "ปริมาณสินค้า (ตัน)", "ประเภทสินค้า"]
 
 export const NETWORK_CONNECTION_MESSAGE =
-    "Cannot connect to server, Please try again.";
+    "Cannot connect to server, Please try again."
 
-export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
+export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK"
 
-// export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api";
-//  export const apiUrlV2 = "http://172.17.0.1:7070/api";
-
-export const apiUrlV2 = "http://crane.otpzlab.com:7070/api";
+// https://sched.floatingcraneservice.com/backend/api/cargo
+export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api/"
+//  export const apiUrlV2 = "http://172.17.0.1:7070/api"
+// import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+// export const apiUrlV2 = "http://crane.otpzlab.com:7070/api"
 // import 1 เส้น
 
-// export const apiManagePlans = "https://sched.floatingcraneservice.com/route/route";
-export const apiManagePlans = "http://154.49.243.54:5011/route";
+export const apiManagePlans = "https://sched.floatingcraneservice.com/route/route"
+// export const apiManagePlans = "http://154.49.243.54:5011/route"
 
 export const SUCCESS = 'Successfully'
 export const Failure = 'ทุ่นซ้ำกัน'
@@ -90,8 +91,8 @@ export const EDIT = 'ยืนยัน'
 export const CLOSE = 'กลับ'
 
 export const server = {
-    LOGIN_URL: `login`,
-    REGISTER_URL: `register`,
+    LOGIN_URL: `/backend/signin`,
+    REGISTER_URL: `backend/signup`,
     FLOATING: `floating`,
     CARRIER: `carrier`,
     CARGO: `cargo`,
@@ -117,4 +118,4 @@ export const server = {
     EXPORTORDER: `exportorder`,
     IMPORTORDER: `importcsv`,
     crane_solutionV2: "crane_solutionV2"
-};
+}

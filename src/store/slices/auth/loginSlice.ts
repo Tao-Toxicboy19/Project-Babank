@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
-import { server, TOKEN } from "../../../Constants";
+import { apiUrlV2, server, TOKEN } from "../../../Constants";
 import { LoginResult } from "../../../type/User.type";
 import { httpClient } from "../../../utils/httpclient";
 import { toast } from 'react-toastify';
@@ -24,9 +24,12 @@ export const loginAsync = createAsyncThunk(
     'login/loginAsync',
     async ({ data, navigate, sunmitting, fetchRole }: { data: FieldValues, navigate: NavigateFunction, sunmitting: () => void, fetchRole: () => void }) => {
         try {
+            console.log(data)
+            console.log(apiUrlV2)
             const result = await httpClient.post(server.LOGIN_URL, data);
-            if (result.data.token) {
-                localStorage.setItem(TOKEN, result.data.token);
+            console.log(result.data)
+            if (result.data) {
+                localStorage.setItem(TOKEN, result.data.message)
                 navigate('/')
                 fetchRole()
                 sunmitting()

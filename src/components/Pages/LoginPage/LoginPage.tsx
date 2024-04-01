@@ -51,6 +51,7 @@ export default function LoginPage({ }: Props) {
                   try {
                     setIsSubmitting(true)
                     const fetchRole = () => dispatch(roleAsync())
+                    // console.log(data)
                     dispatch(loginAsync({ data, navigate, sunmitting, fetchRole }))
                   } catch (error) {
                     setIsSubmitting(false)
@@ -67,7 +68,7 @@ export default function LoginPage({ }: Props) {
                     id="username"
                     placeholder="Please insert your username"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:shadow-lg"
-                    {...register('username')}
+                    {...register('uname')}
                   />
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
@@ -80,7 +81,7 @@ export default function LoginPage({ }: Props) {
                     id="password"
                     placeholder="Please insert your password"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:shadow-lg"
-                    {...register('password')}
+                    {...register('pass')}
 
                   />
                 </div>
