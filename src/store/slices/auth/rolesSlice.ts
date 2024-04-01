@@ -34,7 +34,6 @@ export const roleAsync = createAsyncThunk(
                 }
             }
             const result = await httpClient.post(server.ROLES_URL, {}, config);
-            console.log(result.data)
             return result.data;
         } catch (error) {
             throw error;

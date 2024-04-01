@@ -1,21 +1,21 @@
-import * as React from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { useForm } from 'react-hook-form';
-import { Box, Button, Stack, TextField } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { ManagePlans } from '../../../../store/slices/managePlansSlice';
-import LoadingTest from './loading/LoadinTest';
-import { Typography } from '@mui/material';
-import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
-import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
-import { orderSelector } from '../../../../store/slices/Order/orderSlice';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
-import { toast } from "react-toastify";
+import * as React from 'react'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import { useForm } from 'react-hook-form'
+import { Box, Button, Stack, TextField } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { ManagePlans } from '../../../../store/slices/managePlansSlice'
+import LoadingTest from './loading/LoadinTest'
+import { Typography } from '@mui/material'
+import { roleSelector } from '../../../../store/slices/auth/rolesSlice'
+import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice'
+import { orderSelector } from '../../../../store/slices/Order/orderSlice'
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs, { Dayjs } from 'dayjs'
+import { toast } from "react-toastify"
 
 dayjs.locale('th')
 
@@ -29,37 +29,66 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         handleSubmit,
         formState: { },
         setValue, // เพิ่ม setValue
-    } = useForm();
-    const [selectAll, setSelectAll] = React.useState(true);
+    } = useForm()
+
+    const [selectAll, setSelectAll] = React.useState(true)
     const rolesReducer = useSelector(roleSelector)
-    const [open, setOpen] = React.useState(false);
-    const [started, setStarted] = React.useState<Dayjs | null>()
-    const [ended, setEnded] = React.useState<Dayjs | null>()
-    const [count, setCount] = React.useState<number | null>(0)
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const dispatch = useDispatch<any>();
+    const [open, setOpen] = React.useState(false)
+    const dispatch = useDispatch<any>()
     const ftsReducer = useSelector(ftsSelector)
     const orderRucer = useSelector(orderSelector)
     const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
+
+    const arrivalTimes = filteredOrders.map(order => {
+        // แปลง arrival_time เป็นวัตถุ Date
+        const arrivalDate = new Date(order.arrival_time)
+        // รับ timestamp ของ arrival_time
+        return arrivalDate.getTime()
+    })
+
+    // หาวันที่น้อยที่สุด
+    const minArrivalTime = new Date(Math.min(...arrivalTimes))
+    const convertTimestampToDayjs = (timestamp: any) => {
+        return dayjs(timestamp)
+    }
+
+    // สร้างอาร์เรย์เพื่อเก็บ timestamp ของทุก deadline_time
+    const deadlineTimes = filteredOrders.map(order => {
+        // แปลง deadline_time เป็นวัตถุ Date
+        const deadlineDate = new Date(order.deadline_time);
+        // รับ timestamp ของ deadline_time
+        return deadlineDate.getTime()
+    });
+
+    // หาวันที่มากที่สุด
+    const maxDeadlineTime = new Date(Math.max(...deadlineTimes));
+
+    // แปลง maxDeadlineTime เป็น Dayjs object
+    const minArrivalTimeDayjs = convertTimestampToDayjs(minArrivalTime)
+    const maxDeadlineTimeDayjs = convertTimestampToDayjs(maxDeadlineTime);
+
     const orderRucerV2 = (filteredOrders).filter((order) => order.status_order !== "Approved")
+    const [started, setStarted] = React.useState<Dayjs | null>(minArrivalTimeDayjs)
+    const [ended, setEnded] = React.useState<Dayjs | null>(maxDeadlineTimeDayjs)
+    const [count, setCount] = React.useState<number | null>(0)
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         (ftsReducer.result).forEach((item) => {
-            setValue(`FTS-${item.fts_id}`, !selectAll);
-        });
+            setValue(`FTS-${item.fts_id}`, !selectAll)
+        })
 
         orderRucerV2.forEach((item) => {
-            setValue(`Carrier-${item.carrier.cr_id}`, !selectAll);
-        });
-    };
+            setValue(`Carrier-${item.carrier.cr_id}`, !selectAll)
+        })
+    }
 
     const onSubmit = (formData: any) => {
         const fts = (ftsReducer.result)
@@ -67,7 +96,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             .map((item) => ({
                 fts_id: item.fts_id,
                 // เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการในออบเจ็กต์นี้
-            }));
+            }))
 
         const order = orderRucerV2
             .filter((item) => formData[`Carrier-${item.carrier.cr_id}`])
@@ -86,14 +115,18 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         const values = filteredOrders.filter((order) => {
             const arrivalTime = dayjs(order.arrival_time);
             const deadlineTime = dayjs(order.deadline_time);
-            return (arrivalTime.isAfter(started) || arrivalTime.isSame(started)) && (deadlineTime.isBefore(ended) || deadlineTime.isSame(ended));
-        });
-        setCount(values.length);
+            return (arrivalTime.isAfter(started) || arrivalTime.isSame(started)) &&
+                (deadlineTime.isBefore(ended) || deadlineTime.isSame(ended));
+        })
+        setCount(values.length)
     };
 
-    // เรียกใช้ฟังก์ชัน updateCount เมื่อมีการเปลี่ยนแปลงข้อมูลหรือเหตุการณ์อื่น ๆ ที่ไม่ใช่การเรนเดอร์ของคอมโพเนนต์
+
+    // สร้างอาร์เรย์เพื่อเก็บ timestamp ของทุก arrival_time
+
+
     React.useEffect(() => {
-        updateCount();
+        updateCount()
     }, [filteredOrders, started, ended]);
 
 
@@ -150,7 +183,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                                 {...register(`Carrier-${item.carrier.cr_id}`)}
                                                 onChange={(e) => {
                                                     if (selectAll) {
-                                                        setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked);
+                                                        setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked)
                                                     }
                                                 }}
                                             />
@@ -190,7 +223,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                                 {...register(`example-${item.fts_id}`)}
                                                 onChange={(e) => {
                                                     if (selectAll) {
-                                                        setValue(`FTS-${item.fts_id}`, e.target.checked);
+                                                        setValue(`FTS-${item.fts_id}`, e.target.checked)
                                                     }
                                                 }}
                                             />
@@ -220,6 +253,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
                             <DatePicker
+                                defaultValue={minArrivalTimeDayjs}
                                 label="เลือกวันที่เริ่มแผน"
                                 value={started}
                                 onChange={(newValue) => setStarted(newValue)}
@@ -229,6 +263,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
                             <DatePicker
+                                defaultValue={maxDeadlineTimeDayjs}
                                 label="เลือกวันที่จบแผน"
                                 value={ended}
                                 onChange={(newValue) => setEnded(newValue)}
@@ -241,5 +276,5 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             </Box>
             <LoadingTest open={open} handleClickOpen={handleClickOpen} handleClose={handleClose} />
         </form>
-    );
+    )
 }
