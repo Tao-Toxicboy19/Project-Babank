@@ -28,6 +28,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import dayjs, { Dayjs } from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { httpClient } from '../../../utils/httpclient'
 
 dayjs.locale('th')
 
@@ -116,6 +117,7 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     const dispatch = useAppDispatch()
     const planReducer = useSelector(planSelector)
     const [open, setOpen] = React.useState(false)
+    const [planName, setPlanName] = useState<string>('')
     const {
         register,
         handleSubmit,
@@ -195,7 +197,7 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                         <CardContent>
                             <Stack
                                 onSubmit={handleSubmit((data) => {
-                                    console.log(data)
+                                    setPlanName(data.plan_name)
                                     handleClickOpen()
                                 })}
                                 component='form'
@@ -241,7 +243,7 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                                         แก้ไขแผน
                                     </Button>
                                 </Box>
-                                <AddPlan open={open} handleClose={handleClose} />
+                                <AddPlan open={open} handleClose={handleClose} planName={planName} />
                             </Stack>
                         </CardContent>
                     </Card>
@@ -320,8 +322,49 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
     )
 }
 
-export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () => void }) {
+export function AddPlan({ open, handleClose, planName }: { open: boolean, handleClose: () => void, planName: string }) {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
+    const roleReducer = useSelector(roleSelector)
+    const group = roleReducer.result?.group
+    if (!group) return
+
+    const handleSubmit = async () => {
+        try {
+            const result = {
+                Group: group,
+                started_at: new Date(),
+                ended_at: new Date(),
+                plan_name: planName,
+                plan_type: 'user'
+            }
+            const res = await httpClient.post('plan', result)
+            console.log({
+                user_group: group,
+                solution_id: res.data.message,
+                plan: solutionScheduleReducer.edit.reduce((acc: any[], curr) => {
+                    const existingOrder = acc.find(order => order.order_id === curr.order_id)
+                    const ftsData = {
+                        fts_id: curr.FTS_id,
+                        fts_name: curr.FTS_name,
+                        start_date: curr.arrivaltime
+                    }
+
+                    if (existingOrder) {
+                        existingOrder.FTS.push(ftsData)
+                    } else {
+                        acc.push({
+                            order_id: curr.order_id,
+                            FTS: [ftsData]
+                        })
+                    }
+
+                    return acc
+                }, [])
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <React.Fragment>
@@ -345,88 +388,7 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                 <DialogActions>
                     <Button onClick={handleClose}>Disagree</Button>
                     <Button
-                        onClick={() => {
-                            // handleClose(),
-                            // alert('23')
-                            // console.log(solutionScheduleReducer.edit.map((s) => ({
-                            //     fts_id: s.FTS_id,
-                            //     order_id: s.order_id,
-                            //     carrier: s.carrier_name
-                            // })))
-                            // console.log({
-                            //     user_group: 3,
-                            //     solution_id: 55,
-                            //     plan: solutionScheduleReducer.edit.map((item) => {
-                            //         return {
-                            //             order_id: item.order_id,
-                            //             FTS: [
-                            //                 {
-                            //                     fts_id: item.FTS_id,
-                            //                     fts_name: item.FTS_name,
-                            //                     start_date: item.arrivaltime
-                            //                 }
-                            //             ]
-                            //         }
-                            //     })
-                            // })
-                            console.log({
-                                user_group: 3,
-                                solution_id: 55,
-                                plan: solutionScheduleReducer.edit.reduce((acc: any[], curr) => {
-                                    const existingOrder = acc.find(order => order.order_id === curr.order_id)
-                                    const ftsData = {
-                                        fts_id: curr.FTS_id,
-                                        fts_name: curr.FTS_name,
-                                        start_date: curr.arrivaltime
-                                    }
-
-                                    if (existingOrder) {
-                                        existingOrder.FTS.push(ftsData)
-                                    } else {
-                                        acc.push({
-                                            order_id: curr.order_id,
-                                            FTS: [ftsData]
-                                        })
-                                    }
-
-                                    return acc
-                                }, [])
-                            })
-
-
-                        }}
-                        // {
-                        //     'user_group': 3,
-                        //         'solution_id': 55, // ที่จะ save ใหม่
-                        //             'plan': [
-                        //                 {
-                        //                     'order_id': 50,
-                        //                     'FTS': [
-                        //                         {
-                        //                             'fts_id': 2,
-                        //                             'start_date': xxx
-                        //                         },
-                        //                         {
-                        //                             'fts_id': 3,
-                        //                             'start_date': xxx
-                        //                         }
-                        //                     ]
-                        //                 },
-                        //                 {
-                        //                     'order_id': 51,
-                        //                     'FTS': [
-                        //                         {
-                        //                             'fts_id': 6,
-                        //                             'start_date': xxx
-                        //                         },
-                        //                         {
-                        //                             'fts_id': 7,
-                        //                             'start_date': xxx
-                        //                         }
-                        //                     ]
-                        //                 },
-                        //             ]
-                        // }
+                        onClick={handleSubmit}
                         autoFocus
                     >
                         Agree
@@ -476,10 +438,6 @@ function EditPlan() {
         const selection = chartWrapper.getChart().getSelection()
         if (selection.length === 1) {
             const rowIndex = selection[0].row
-            // const selectedCarrier = datav2[rowIndex + 1][0]
-            // const selectedFTSName = datav2[rowIndex + 1][1]
-            // const selectedStartDate = datav2[rowIndex + 1][2]
-            // const selectedEndDate = datav2[rowIndex + 1][3]
             setPlan({
                 id: rowIndex,
                 order_id: data[rowIndex + 1].order_id,
@@ -601,3 +559,36 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
         </React.Fragment>
     )
 }
+
+// {
+//     'user_group': 3,
+//         'solution_id': 55, // ที่จะ save ใหม่
+//             'plan': [
+//                 {
+//                     'order_id': 50,
+//                     'FTS': [
+//                         {
+//                             'fts_id': 2,
+//                             'start_date': xxx
+//                         },
+//                         {
+//                             'fts_id': 3,
+//                             'start_date': xxx
+//                         }
+//                     ]
+//                 },
+//                 {
+//                     'order_id': 51,
+//                     'FTS': [
+//                         {
+//                             'fts_id': 6,
+//                             'start_date': xxx
+//                         },
+//                         {
+//                             'fts_id': 7,
+//                             'start_date': xxx
+//                         }
+//                     ]
+//                 },
+//             ]
+// }
