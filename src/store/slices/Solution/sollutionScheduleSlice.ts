@@ -3,6 +3,9 @@ import { httpClient } from "../../../utils/httpclient"
 import { server } from "../../../Constants"
 import { RootState } from "../../store"
 import { v4 as uuidv4 } from 'uuid'
+import dayjs from "dayjs"
+import isBetween from "dayjs/plugin/isBetween";
+dayjs.extend(isBetween)
 
 export interface Solution_schedule {
     uuid?: string
@@ -78,8 +81,43 @@ const sulutionScheduelSlice = createSlice({
     name: "sulutionScheduel",
     initialState,
     reducers: {
-        setEdit(state: Solution_scheduleState, action: PayloadAction<Solution_schedule[]>) {
-            state.edit = action.payload
+        setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
+            const index = state.edit.findIndex((o) => o.order_id === action.payload.order_id)
+            const existingState = state.edit.find((item) => item.order_id === action.payload.orderId)
+
+            if (index !== -1) {
+                const stateStartDate = state.edit[index].arrivaltime;
+                const existingEndDate = existingState?.exittime;
+                const existingStartDate = existingState?.arrivaltime;
+
+                if (stateStartDate === existingEndDate || stateStartDate === existingStartDate) {
+                    state.edit[index] = {
+                        ...state.edit[index],
+                        FTS_name: "",
+                        arrivaltime: existingState!.exittime,
+                    }
+                } else if (existingStartDate && existingEndDate && dayjs(stateStartDate).isBetween(existingStartDate, existingEndDate, null, '[]')) {
+                    state.edit[index] = {
+                        ...state.edit[index],
+                        FTS_name: "",
+                        arrivaltime: existingState!.exittime,
+                    }
+                } 
+                // else {
+                //     console.log('zzzz')
+                //     // กรณีอื่นๆ
+                //     // ใส่โค้ดที่คุณต้องการทำเมื่อเป็นเงื่อนไขอื่นๆ
+                // }
+            }
+
+
+            if (existingState) {
+                state.edit.push({
+                    ...existingState,
+                    FTS_name: action.payload.fts_name,
+                    arrivaltime: action.payload.start_date !== undefined ? action.payload.start_date : existingState.arrivaltime
+                })
+            }
             state.loading = false
             state.error = false
         },
@@ -90,7 +128,7 @@ const sulutionScheduelSlice = createSlice({
             state.loading = false
             state.error = false
             state.chars = action.payload.filter((item) => item.carrier_name !== null)
-            state.edit = action.payload
+            state.edit = action.payload.filter((item) => item.carrier_name !== null)
         })
         builder.addCase(sulutionScheduelAsync.rejected, (state: Solution_scheduleState) => {
             state.result = []

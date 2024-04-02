@@ -17,12 +17,19 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Chart } from "react-google-charts"
 import { format, parse } from 'date-fns'
-import { sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
+import { setEdit, sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../store/store'
 import { planAsync, planSelector, setPlans } from '../../../store/slices/planSlicec'
 import { managePlansSelector } from '../../../store/slices/managePlansSlice'
 import { useForm } from 'react-hook-form'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
+import dayjs, { Dayjs } from 'dayjs'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+dayjs.locale('th')
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -351,8 +358,10 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
 
 type Plan = {
     id: number
-    carrier: string | Date | null
-    FTS: string | Date | null
+    order_id: number
+    carrier_name: string | null
+    FTS_name: string
+    FTS_id: number
     start_date: any
     end_date: any
 }
@@ -365,8 +374,8 @@ function EditPlan() {
     const handleClickOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    let data = [solutionScheduleReducer.chars[0]]
-    data = data.concat(solutionScheduleReducer.chars)
+    let data = [solutionScheduleReducer.edit[0]]
+    data = data.concat(solutionScheduleReducer.edit)
 
     const datav2 = data.map((item) => {
         const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
@@ -374,7 +383,6 @@ function EditPlan() {
 
         const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
         const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
-
         return [
             item.carrier_name,
             item.FTS_name,
@@ -387,16 +395,18 @@ function EditPlan() {
         const selection = chartWrapper.getChart().getSelection()
         if (selection.length === 1) {
             const rowIndex = selection[0].row
-            const selectedCarrier = datav2[rowIndex + 1][0]
-            const selectedFTSName = datav2[rowIndex + 1][1]
-            const selectedStartDate = datav2[rowIndex + 1][2]
-            const selectedEndDate = datav2[rowIndex + 1][3]
+            // const selectedCarrier = datav2[rowIndex + 1][0]
+            // const selectedFTSName = datav2[rowIndex + 1][1]
+            // const selectedStartDate = datav2[rowIndex + 1][2]
+            // const selectedEndDate = datav2[rowIndex + 1][3]
             setPlan({
                 id: rowIndex,
-                carrier: selectedCarrier,
-                FTS: selectedFTSName,
-                start_date: selectedStartDate,
-                end_date: selectedEndDate,
+                order_id: data[rowIndex + 1].order_id,
+                carrier_name: data[rowIndex + 1].carrier_name,
+                FTS_name: data[rowIndex + 1].FTS_name,
+                FTS_id: data[rowIndex + 1].FTS_id,
+                start_date: data[rowIndex + 1].arrivaltime,
+                end_date: data[rowIndex + 1].exittime,
             })
             handleClickOpen()
         }
@@ -424,13 +434,16 @@ function EditPlan() {
 }
 
 export function EditCarrier({ open, handleClose, plan }: { open: boolean, handleClose: () => void, plan: Plan | undefined }) {
+    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
+    const [started, setStarted] = React.useState<Dayjs | null>(plan?.start_date)
+    const [ended, setEnded] = React.useState<Dayjs | null>(plan?.end_date)
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm()
-    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
-
+    const dispatch = useAppDispatch()
+    console.log(solutionScheduleReducer.edit)
     return (
         <React.Fragment>
             <Dialog
@@ -438,14 +451,27 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                maxWidth='lg'
             >
                 <DialogTitle id="alert-dialog-title">
                     {"แก้ไขแผน"}
                 </DialogTitle>
                 <DialogContent>
-                    <form
+                    <Stack
+                        spacing={2}
+                        className='w-96 mt-2'
+                        component='form'
                         onSubmit={handleSubmit((data) => {
-                            console.log(data)
+                            console.log(`order ก่อนจะย้าย ${plan?.order_id}`)
+                            let values = {
+                                ...data,
+                                order_id: plan?.order_id,
+                                fts_name: plan?.FTS_name,
+                                carrier_name: plan?.carrier_name,
+                                start_date: started?.format("M/D/YYYY, h:mm:ss A"),
+                                end_date: ended?.format("M/D/YYYY, h:mm:ss A"),
+                            }
+                            dispatch(setEdit(values))
                         })}
                     >
                         <FormControl fullWidth>
@@ -457,20 +483,40 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
-                                id={`carrier_name`}
+                                id={`order_id`}
                                 label="เลือกสินค้า"
                                 size='small'
-                                {...register(`carrier_name`, {
+                                {...register(`orderId`, {
                                     required: true
                                 })}
                             >
                                 {(solutionScheduleReducer.chars).map((items, index) => (
-                                    <MenuItem key={index} value={plan?.id} className='font-kanit'>
+                                    <MenuItem key={index} value={items.order_id} className='font-kanit'>
                                         {items.carrier_name}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DatePicker']}>
+                                <DatePicker
+                                    defaultValue={dayjs(plan?.start_date)}
+                                    label="ทุ่นเข้า"
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    onChange={(newValue) => setStarted(newValue)}
+                                />
+                            </DemoContainer>
+                        </LocalizationProvider>
+                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DatePicker']}>
+                                <DatePicker
+                                    defaultValue={dayjs(plan?.end_date)}
+                                    label="ทุ่นออก"
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    onChange={(newValue) => setEnded(newValue)}
+                                />
+                            </DemoContainer>
+                        </LocalizationProvider> */}
                         <Button onClick={handleClose}>Disagree</Button>
                         <Button
                             type='submit'
@@ -493,7 +539,7 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         {/* <DialogContentText id="alert-dialog-description">
                         {JSON.stringify(plan)}
                     </DialogContentText> */}
-                    </form>
+                    </Stack>
                 </DialogContent>
                 {/* <DialogActions>
                     <Button onClick={handleClose}>Disagree</Button>
