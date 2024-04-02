@@ -84,7 +84,7 @@ const sulutionScheduelSlice = createSlice({
         setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
             const index = state.edit.findIndex((o) => o.order_id === action.payload.order_id)
             const existingState = state.edit.find((item) => item.order_id === action.payload.orderId)
-
+            console.log(action.payload.orderId)
             if (index !== -1) {
                 const stateStartDate = state.edit[index].arrivaltime;
                 const existingEndDate = existingState?.exittime;
@@ -93,21 +93,23 @@ const sulutionScheduelSlice = createSlice({
                 if (stateStartDate === existingEndDate || stateStartDate === existingStartDate) {
                     state.edit[index] = {
                         ...state.edit[index],
-                        FTS_name: "",
+                        // FTS_name: "",
+                        FTS_id: action.payload.fts_id,
                         arrivaltime: existingState!.exittime,
                     }
                 } else if (existingStartDate && existingEndDate && dayjs(stateStartDate).isBetween(existingStartDate, existingEndDate, null, '[]')) {
                     state.edit[index] = {
                         ...state.edit[index],
-                        FTS_name: "",
+                        // FTS_name: "",
+                        FTS_id: action.payload.fts_id,
                         arrivaltime: existingState!.exittime,
                     }
-                } 
-                // else {
-                //     console.log('zzzz')
-                //     // กรณีอื่นๆ
-                //     // ใส่โค้ดที่คุณต้องการทำเมื่อเป็นเงื่อนไขอื่นๆ
-                // }
+                }
+                else {
+                    // console.log('zzzz')
+                    // กรณีอื่นๆ
+                    // ใส่โค้ดที่คุณต้องการทำเมื่อเป็นเงื่อนไขอื่นๆ
+                }
             }
 
 
@@ -115,6 +117,7 @@ const sulutionScheduelSlice = createSlice({
                 state.edit.push({
                     ...existingState,
                     FTS_name: action.payload.fts_name,
+                    FTS_id: action.payload.fts_id,
                     arrivaltime: action.payload.start_date !== undefined ? action.payload.start_date : existingState.arrivaltime
                 })
             }

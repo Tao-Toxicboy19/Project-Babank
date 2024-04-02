@@ -2,7 +2,7 @@ import * as React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import { Button, ButtonGroup, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { Button, ButtonGroup, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import RouteLayout from '../../layout/RouteLayout/RouteLayout'
 import DialogLoading from '../../layout/DialogLoading/DialogLoading'
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts'
@@ -321,7 +321,7 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
 }
 
 export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () => void }) {
-
+    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
 
     return (
         <React.Fragment>
@@ -345,7 +345,88 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                 <DialogActions>
                     <Button onClick={handleClose}>Disagree</Button>
                     <Button
-                        onClick={handleClose}
+                        onClick={() => {
+                            // handleClose(),
+                            // alert('23')
+                            // console.log(solutionScheduleReducer.edit.map((s) => ({
+                            //     fts_id: s.FTS_id,
+                            //     order_id: s.order_id,
+                            //     carrier: s.carrier_name
+                            // })))
+                            // console.log({
+                            //     user_group: 3,
+                            //     solution_id: 55,
+                            //     plan: solutionScheduleReducer.edit.map((item) => {
+                            //         return {
+                            //             order_id: item.order_id,
+                            //             FTS: [
+                            //                 {
+                            //                     fts_id: item.FTS_id,
+                            //                     fts_name: item.FTS_name,
+                            //                     start_date: item.arrivaltime
+                            //                 }
+                            //             ]
+                            //         }
+                            //     })
+                            // })
+                            console.log({
+                                user_group: 3,
+                                solution_id: 55,
+                                plan: solutionScheduleReducer.edit.reduce((acc: any[], curr) => {
+                                    const existingOrder = acc.find(order => order.order_id === curr.order_id)
+                                    const ftsData = {
+                                        fts_id: curr.FTS_id,
+                                        fts_name: curr.FTS_name,
+                                        start_date: curr.arrivaltime
+                                    }
+
+                                    if (existingOrder) {
+                                        existingOrder.FTS.push(ftsData)
+                                    } else {
+                                        acc.push({
+                                            order_id: curr.order_id,
+                                            FTS: [ftsData]
+                                        })
+                                    }
+
+                                    return acc
+                                }, [])
+                            })
+
+
+                        }}
+                        // {
+                        //     'user_group': 3,
+                        //         'solution_id': 55, // ที่จะ save ใหม่
+                        //             'plan': [
+                        //                 {
+                        //                     'order_id': 50,
+                        //                     'FTS': [
+                        //                         {
+                        //                             'fts_id': 2,
+                        //                             'start_date': xxx
+                        //                         },
+                        //                         {
+                        //                             'fts_id': 3,
+                        //                             'start_date': xxx
+                        //                         }
+                        //                     ]
+                        //                 },
+                        //                 {
+                        //                     'order_id': 51,
+                        //                     'FTS': [
+                        //                         {
+                        //                             'fts_id': 6,
+                        //                             'start_date': xxx
+                        //                         },
+                        //                         {
+                        //                             'fts_id': 7,
+                        //                             'start_date': xxx
+                        //                         }
+                        //                     ]
+                        //                 },
+                        //             ]
+                        // }
                         autoFocus
                     >
                         Agree
@@ -436,14 +517,14 @@ function EditPlan() {
 export function EditCarrier({ open, handleClose, plan }: { open: boolean, handleClose: () => void, plan: Plan | undefined }) {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
     const [started, setStarted] = React.useState<Dayjs | null>(plan?.start_date)
-    const [ended, setEnded] = React.useState<Dayjs | null>(plan?.end_date)
+    // const [ended, setEnded] = React.useState<Dayjs | null>(plan?.end_date)
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { },
     } = useForm()
     const dispatch = useAppDispatch()
-    console.log(solutionScheduleReducer.edit)
+
     return (
         <React.Fragment>
             <Dialog
@@ -462,14 +543,14 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         className='w-96 mt-2'
                         component='form'
                         onSubmit={handleSubmit((data) => {
-                            console.log(`order ก่อนจะย้าย ${plan?.order_id}`)
                             let values = {
                                 ...data,
                                 order_id: plan?.order_id,
                                 fts_name: plan?.FTS_name,
+                                fts_id: plan?.FTS_id,
                                 carrier_name: plan?.carrier_name,
                                 start_date: started?.format("M/D/YYYY, h:mm:ss A"),
-                                end_date: ended?.format("M/D/YYYY, h:mm:ss A"),
+                                // end_date: ended?.format("M/D/YYYY, h:mm:ss A"),
                             }
                             dispatch(setEdit(values))
                         })}
@@ -507,16 +588,6 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
-                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']}>
-                                <DatePicker
-                                    defaultValue={dayjs(plan?.end_date)}
-                                    label="ทุ่นออก"
-                                    slotProps={{ textField: { size: 'small' } }}
-                                    onChange={(newValue) => setEnded(newValue)}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider> */}
                         <Button onClick={handleClose}>Disagree</Button>
                         <Button
                             type='submit'
@@ -524,64 +595,9 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         >
                             Agree
                         </Button>
-                        {/* <TextField
-                        id='plan_name'
-                        type='text'
-                        label='ชื่อแผน'
-                        fullWidth
-                        size='small'
-                        defaultValue={plan?.carrier}
-                        className='font-kanit'
-                        error={errors.plan_name && true}
-                        helperText={errors.plan_name && "กรอกชื่อแผน"}
-                        {...register('plan_name', { required: true })}
-                    /> */}
-                        {/* <DialogContentText id="alert-dialog-description">
-                        {JSON.stringify(plan)}
-                    </DialogContentText> */}
                     </Stack>
                 </DialogContent>
-                {/* <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose} autoFocus>
-                        Agree
-                    </Button>
-                </DialogActions> */}
             </Dialog>
         </React.Fragment>
     )
 }
-
-
-// {
-//     'user_group': 3,
-//         'solution_id': 55, // ที่จะ save ใหม่
-//             'plan': [
-//                 {
-//                     'order_id': 50,
-//                     'FTS': [
-//                         {
-//                             'fts_id': 2,
-//                             'start_date': xxx
-//                         },
-//                         {
-//                             'fts_id': 3,
-//                             'start_date': xxx
-//                         }
-//                     ]
-//                 },
-//                 {
-//                     'order_id': 51,
-//                     'FTS': [
-//                         {
-//                             'fts_id': 6,
-//                             'start_date': xxx
-//                         },
-//                         {
-//                             'fts_id': 7,
-//                             'start_date': xxx
-//                         }
-//                     ]
-//                 },
-//             ]
-// }
