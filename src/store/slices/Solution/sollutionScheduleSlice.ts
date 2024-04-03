@@ -39,6 +39,7 @@ export interface Solution_schedule {
     has_crane: string | null
     plan_name: string
     created_at: Date
+    count?: number
 }
 
 interface Solution_scheduleState {
@@ -48,6 +49,7 @@ interface Solution_scheduleState {
     error: boolean
     chars: Solution_schedule[]
     edit: Solution_schedule[]
+    count: Solution_schedule[]
 }
 
 const initialState: Solution_scheduleState = {
@@ -57,6 +59,7 @@ const initialState: Solution_scheduleState = {
     error: false,
     chars: [],
     edit: [],
+    count: []
 }
 
 export const sulutionScheduelAsync = createAsyncThunk(
@@ -68,8 +71,7 @@ export const sulutionScheduelAsync = createAsyncThunk(
                 ...item,
                 uuid: uuidv4()
             }))
-            console.log(values)
-            return result.data
+            return values
         } catch (error) {
             throw error
         }
@@ -81,6 +83,42 @@ const sulutionScheduelSlice = createSlice({
     name: "sulutionScheduel",
     initialState,
     reducers: {
+        setCount(state: Solution_scheduleState, action: PayloadAction<any>) {
+            state.count = state.edit.filter((s) => s.carrier_id === action.payload)
+        },
+        setRemove(state: Solution_scheduleState, action: PayloadAction<any>) {
+            state.count = state.count.filter((order) => order.uuid !== action.payload)
+            state.edit = state.edit.filter((order) => order.uuid !== action.payload)
+        },
+        setAdd(state: Solution_scheduleState, action: PayloadAction<any>) {
+            state.count.push(action.payload)
+
+        },
+        setNameCarrier(state: Solution_scheduleState, action: PayloadAction<any>) {
+            const index = state.edit.findIndex((o) => o.uuid === action.payload.uuid)
+            if (index !== -1) {
+                state.edit[index] = {
+                    ...state.edit[index],
+                    FTS_name: action.payload.fts_name,
+                    FTS_id: action.payload.fts_id,
+                }
+            }
+            const index2 = state.count.findIndex((o) => o.uuid === action.payload.uuid)
+            console.log(action.payload.fts_id)
+            if (index2 !== -1) {
+                state.count[index2] = {
+                    ...state.count[index2],
+                    FTS_name: action.payload.fts_name,
+                    FTS_id: action.payload.fts_id,
+                }
+            }
+        },
+        setAddEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
+            // const mergedData = state.edit.push(action.payload);
+            // console.log(action.payload)
+            // console.log(action.payload
+            state.edit.push(action.payload)
+        },
         setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
             const index = state.edit.findIndex((o) => o.order_id === action.payload.order_id)
             const existingState = state.edit.find((item) => item.order_id === action.payload.orderId)
@@ -147,6 +185,6 @@ const sulutionScheduelSlice = createSlice({
     },
 })
 
-export const { setEdit } = sulutionScheduelSlice.actions
+export const { setEdit, setRemove, setAdd, setCount, setAddEdit, setNameCarrier } = sulutionScheduelSlice.actions
 export const sulutionScheduelSelector = (store: RootState) => store.sulutionScheduelReducer
 export default sulutionScheduelSlice.reducer
