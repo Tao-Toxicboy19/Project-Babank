@@ -388,12 +388,12 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                     <EditPlan />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleClose}>ยกเลิก</Button>
                     <Button
                         onClick={handleSubmit}
                         autoFocus
                     >
-                        Agree
+                        ยืนยัน
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -613,13 +613,17 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                             </Stack>
                         ))}
 
-                        <Button onClick={handleClose}>Disagree</Button>
-                        <Button
-                            type='submit'
-                            autoFocus
-                        >
-                            Agree
-                        </Button>
+                        <Stack direction='row' spacing={2} className='flex justify-end'>
+                            <Button onClick={handleClose}>
+                                ยกเลิก
+                            </Button>
+                            <Button
+                                type='submit'
+                                autoFocus
+                            >
+                                ยืนยัน
+                            </Button>
+                        </Stack>
                     </Stack>
                 </DialogContent>
             </Dialog>
