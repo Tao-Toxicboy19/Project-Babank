@@ -40,6 +40,7 @@ export interface Solution_schedule {
     plan_name: string
     created_at: Date
     count?: number
+    status?: boolean
 }
 
 interface Solution_scheduleState {
@@ -71,6 +72,7 @@ export const sulutionScheduelAsync = createAsyncThunk(
                 ...item,
                 uuid: uuidv4()
             }))
+            console.log(values)
             return values
         } catch (error) {
             throw error
@@ -91,6 +93,7 @@ const sulutionScheduelSlice = createSlice({
             state.edit = state.edit.filter((order) => order.uuid !== action.payload)
         },
         setAdd(state: Solution_scheduleState, action: PayloadAction<any>) {
+            // state.count = 
             state.count.push(action.payload)
 
         },
@@ -104,7 +107,6 @@ const sulutionScheduelSlice = createSlice({
                 }
             }
             const index2 = state.count.findIndex((o) => o.uuid === action.payload.uuid)
-            console.log(action.payload.fts_id)
             if (index2 !== -1) {
                 state.count[index2] = {
                     ...state.count[index2],
@@ -114,10 +116,9 @@ const sulutionScheduelSlice = createSlice({
             }
         },
         setAddEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
-            // const mergedData = state.edit.push(action.payload);
             // console.log(action.payload)
-            // console.log(action.payload
             state.edit.push(action.payload)
+            state.count = []
         },
         setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
             const index = state.edit.findIndex((o) => o.order_id === action.payload.order_id)

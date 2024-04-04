@@ -12,10 +12,10 @@ render(
   <Provider store={store}>
     <BrowserRouter>
       <InjectTailwind>
-      <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-        <App />
-      </LoadScript>
+        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+          <App />
+        </LoadScript>
       </InjectTailwind>
     </BrowserRouter>
   </Provider>
-,rootElement);
+  , rootElement);

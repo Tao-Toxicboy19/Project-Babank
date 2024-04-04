@@ -403,7 +403,7 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
 
 type Plan = {
     id: number
-    // order_id: number
+    order_id: number
     carrier_id: number
     carrier_name: string | null
     FTS_name: string
@@ -444,6 +444,7 @@ function EditPlan() {
             const rowIndex = selection[0].row
             setPlan({
                 id: rowIndex,
+                order_id: data[rowIndex + 1].order_id,
                 carrier_name: data[rowIndex + 1].carrier_name,
                 carrier_id: data[rowIndex + 1].carrier_id,
                 FTS_name: data[rowIndex + 1].FTS_name,
@@ -496,7 +497,7 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
         if (plan?.carrier_id) {
             dispatch(setCount(plan.carrier_id))
         }
-    }, [plan?.carrier_id, dispatch, solutionScheduleReducer.edit])
+    }, [plan?.carrier_id, solutionScheduleReducer.edit])
 
     return (
         <React.Fragment>
@@ -511,10 +512,13 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                     <Box className='flex justify-between'>
                         {`ปรับเปลี่ยนทุ่น ${plan?.carrier_name}`}
                         <IconButton
-                            onClick={() => dispatch(setAdd({
-                                ...solutionScheduleReducer.count[0],
-                                uuid: uuidv4()
-                            }))}
+                            onClick={() => {
+                                dispatch(setAdd({
+                                    ...solutionScheduleReducer.count[0],
+                                    FTS_name: "",
+                                    uuid: uuidv4()
+                                }))
+                            }}
                         >
                             <AddIcon />
                         </IconButton>
@@ -525,23 +529,15 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         spacing={2}
                         component='form'
                         onSubmit={handleSubmit((_) => {
-                            // let values = {
-                            //     ...data,
-                            //     // order_id: plan?.order_id,
-                            //     fts_name: plan?.FTS_name,
-                            //     fts_id: plan?.FTS_id,
-                            //     carrier_name: plan?.carrier_name,
-                            //     start_date: started?.format("M/D/YYYY, h:mm:ss A"),
-                            //     // end_date: ended?.format("M/D/YYYY, h:mm:ss A"),
-                            // }
-                            solutionScheduleReducer.count.map((s, index) => {
-                                console.log(index)
-                                if (index >= 1) {
-                                    dispatch(setAddEdit(s))
+                            solutionScheduleReducer.count.map((countItem) => {
+                                const isExist = solutionScheduleReducer.edit.some((editItem) => {
+                                    return editItem.order_id === plan?.order_id && editItem.FTS_id === countItem.FTS_id;
+                                })
+                                if (!isExist) {
+                                    dispatch(setAddEdit(countItem));
                                 }
                             })
                             handleClose()
-
                         })}
                     >
                         {Array.from({ length: solutionScheduleReducer.count.length }, (_, index) => (
@@ -568,19 +564,12 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                         onChange={(event) => {
                                             const newValue = event.target.value
                                             const result = solutionScheduleReducer.edit.find((s) => s.FTS_name === newValue)
-                                            // console.log({
-                                            //     ...solutionScheduleReducer.count[index],
-                                            //     FTS_name: result?.FTS_name,
-                                            //     FTS_id: newValue
-                                            // })
                                             let value = {
                                                 fts_id: result?.FTS_id,
                                                 fts_name: result?.FTS_name,
                                                 uuid: solutionScheduleReducer.count[index].uuid
                                             }
-                                            // console.log(index)
                                             dispatch(setNameCarrier(value))
-                                            // ทำสิ่งที่คุณต้องการกับ newValue ที่เปลี่ยนไปที่นี่
                                         }}
                                     >
                                         {uniqueNames.map((name, index) => {
@@ -627,7 +616,7 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                     </Stack>
                 </DialogContent>
             </Dialog>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 

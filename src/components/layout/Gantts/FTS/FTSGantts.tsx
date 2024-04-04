@@ -9,12 +9,12 @@ import { Typography } from "@mui/material";
 
 export default function FTSGantts() {
   const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
-  const dispatch = useAppDispatch()
-  const planReducer = useSelector(planSelector)
+  // const dispatch = useAppDispatch()
+  // const planReducer = useSelector(planSelector)
 
-  useEffect(() => {
-    dispatch(sulutionScheduelAsync(planReducer.plan))
-  }, [planReducer.plan])
+  // useEffect(() => {
+  //   dispatch(sulutionScheduelAsync(planReducer.plan))
+  // }, [planReducer.plan])
 
   if (SolutionscheduleReducer.result.length === 0) {
     return (

@@ -9,7 +9,7 @@ import { Link, NavLink } from 'react-router-dom';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useSelector } from 'react-redux';
 import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
-import { HiOutlineDocumentReport } from 'react-icons/hi';
+// import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { BiUser } from 'react-icons/bi';
 import Loading from '../Loading/Loading';
 import { roleSelector } from '../../../store/slices/auth/rolesSlice';
@@ -135,7 +135,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                             </Typography>
                         } />
                 </ListItem>
-                <ListItem button component={MyNavLink} to="/report" activeClassName="Mui-selected" exact>
+                {/* <ListItem button component={MyNavLink} to="/report" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <HiOutlineDocumentReport className='text-3xl ml-[-4px]' />
                     </ListItemIcon>
@@ -145,7 +145,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                                 รายงาน
                             </Typography>
                         } />
-                </ListItem>
+                </ListItem> */}
                 {/* <ListItem button component={MyNavLink} to="/employee" activeClassName="Mui-selected" exact>
                     <ListItemIcon>
                         <PiUserListLight className='text-3xl ml-[-4px]' />

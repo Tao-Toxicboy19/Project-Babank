@@ -48,6 +48,8 @@ import Papa from 'papaparse';
 import { useForm } from "react-hook-form";
 import { httpClient } from "../../../../utils/httpclient";
 import DeleteDialog from "../../../layout/DeleteDialog/DeleteDialog";
+import dayjs from "dayjs";
+dayjs.locale('th')
 
 type Props = {}
 
@@ -445,13 +447,14 @@ export default function OrderPage({ }: Props) {
                 align="right"
                 className="font-kanit"
               >
-                {items.arrival_time}
+                {/* {items.arrival_time} */}
+                {dayjs(items.arrival_time, 'M/D/YYYY, h:mm:ss A').format('D/MM/YYYY, h:mm:ss A')}
               </TableCell>
               <TableCell
                 align="right"
                 className="font-kanit"
               >
-                {items.deadline_time}
+                {dayjs(items.deadline_time, 'M/D/YYYY, h:mm:ss A').format('D/MM/YYYY, h:mm:ss A')}
               </TableCell>
               <TableCell
                 align="right"

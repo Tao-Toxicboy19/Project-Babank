@@ -80,7 +80,7 @@ export const apiUrlV2 = import.meta.env.VITE_API_URL
 // import 1 เส้น
 
 export const apiManagePlans = import.meta.env.VITE_API_PLAN
-// export const apiManagePlans = "https://sched.floatingcraneservice.com/route/route"
+// export const apiManagePlans = "https://sched.floatingcraneservice.com/route"
 // export const apiManagePlans = "http://154.49.243.54:5011/route"
 
 export const SUCCESS = 'Successfully' 

@@ -72,7 +72,7 @@ export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => voi
             ...values,
             solution_id: res.data.message
         }
-        const result = await httpClient.post(apiManagePlans, values)
+        const result = await httpClient.post(`${apiManagePlans}/route`, values)
         dispatch(setManagePlansuccess(result.data))
         dispatch(ftsAsync())
         dispatch(cargoAsync())

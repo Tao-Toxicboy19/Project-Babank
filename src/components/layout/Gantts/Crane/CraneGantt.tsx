@@ -2,19 +2,16 @@ import { Chart } from "react-google-charts"
 import { parse, format } from 'date-fns'
 import { useSelector } from "react-redux"
 import { Typography } from "@mui/material"
-import { sulutionScheduelAsync, sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice"
-import { useEffect } from "react"
-import { planSelector } from "../../../../store/slices/planSlicec"
-import { useAppDispatch } from "../../../../store/store"
+import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice"
 
 export default function CraneGantts() {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
-    const dispatch = useAppDispatch()
-    const planReducer = useSelector(planSelector)
-    
-    useEffect(() => {
-        dispatch(sulutionScheduelAsync(planReducer.plan))
-    }, [planReducer.plan])
+    // const dispatch = useAppDispatch()
+    // const planReducer = useSelector(planSelector)
+
+    // useEffect(() => {
+    //     dispatch(sulutionScheduelAsync(planReducer.plan))
+    // }, [planReducer.plan])
 
     if (solutionScheduleReducer.result.length === 0) {
         return (
@@ -59,16 +56,15 @@ export default function CraneGantts() {
 
     return (
         <>
-            <div>
-                <Chart
-                    chartType="Timeline"
-                    data={datav2}
-                    width="100%"
-                    height="800px"
-                    options={{}}
-                    graph_id="TimelineChart"
-                />
-            </div>
+            <Chart
+                chartType="Timeline"
+                data={datav2}
+                width="100%"
+                height="800px"
+                options={{}}
+                graph_id="TimelineChart"
+            />
         </>
     )
 }
+
