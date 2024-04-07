@@ -438,6 +438,7 @@ function ShowForm() {
       arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
       deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
     }
+    console.log(values)
     try {
       await dispatch(orderAddAsync({ values, navigate, fetch }))
       setIsSubmitting(false)
