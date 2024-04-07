@@ -28,7 +28,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import dayjs, { Dayjs } from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from '@mui/icons-material/Add'
 import { v4 as uuidv4 } from 'uuid'
 
 dayjs.locale('th')
@@ -531,10 +531,10 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         onSubmit={handleSubmit((_) => {
                             solutionScheduleReducer.count.map((countItem) => {
                                 const isExist = solutionScheduleReducer.edit.some((editItem) => {
-                                    return editItem.order_id === plan?.order_id && editItem.FTS_id === countItem.FTS_id;
+                                    return editItem.order_id === plan?.order_id && editItem.FTS_id === countItem.FTS_id
                                 })
                                 if (!isExist) {
-                                    dispatch(setAddEdit(countItem));
+                                    dispatch(setAddEdit(countItem))
                                 }
                             })
                             handleClose()

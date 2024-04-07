@@ -1,10 +1,7 @@
 import { Chart } from "react-google-charts";
 import { parse, format } from 'date-fns';
 import { useSelector } from "react-redux";
-import { sulutionScheduelAsync, sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
-import { useEffect } from "react";
-import { planSelector } from "../../../../store/slices/planSlicec";
-import { useAppDispatch } from "../../../../store/store";
+import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice";
 import { Typography } from "@mui/material";
 
 export default function FTSGantts() {

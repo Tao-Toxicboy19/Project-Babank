@@ -43,7 +43,7 @@ type Props = {}
 interface FormData {
   cr_id: string
   category: string
-  burden: number
+  burden: string
   maxFTS: number
   latitude: number | null
   longitude: number | null
@@ -56,20 +56,20 @@ interface FormData {
   }[]
   bulk: number
   bulkArray: number[]
-  name_of_vessel:string
-  name_of_master:string
-  w:string
-  name_of_agent:string
-  name_of_consignee:string
-  name_of_stevedore:string
-  port_of_discharging_cargo:string
-  quantity_of_cargo:string
-  name_of_owner:string
-  name_of_shipper:string
-  name_of_surveyots:string
-  port_of_loading_cargo:string
-  description_of_cargo:string
-  vessel_of_readiness_tendered_and_accepted:string
+  name_of_vessel: string
+  name_of_master: string
+  w: string
+  name_of_agent: string
+  name_of_consignee: string
+  name_of_stevedore: string
+  port_of_discharging_cargo: string
+  quantity_of_cargo: string
+  name_of_owner: string
+  name_of_shipper: string
+  name_of_surveyots: string
+  port_of_loading_cargo: string
+  description_of_cargo: string
+  vessel_of_readiness_tendered_and_accepted: string
 }
 
 const defaultTheme = createTheme()
@@ -387,7 +387,7 @@ function ShowForm() {
     defaultValues: {
       cr_id: "",
       category: "",
-      burden: 0,
+      burden: "",
       maxFTS: 0,
       latitude: 13.1,
       longitude: 100.8,
@@ -397,20 +397,20 @@ function ShowForm() {
       reward_rate: 0,
       inputs: [{ cargo_names: '' }],
       bulkArray: [],
-      name_of_vessel:'',
-      name_of_master:'',
-      w:'',
-      name_of_agent:'',
-      name_of_consignee:'',
-      name_of_stevedore:'',
-      port_of_discharging_cargo:'',
-      quantity_of_cargo:'',
-      name_of_owner:'',
-      name_of_shipper:'',
-      name_of_surveyots:'',
-      port_of_loading_cargo:'',
-      description_of_cargo:'',
-      vessel_of_readiness_tendered_and_accepted:'',
+      name_of_vessel: '',
+      name_of_master: '',
+      w: '',
+      name_of_agent: '',
+      name_of_consignee: '',
+      name_of_stevedore: '',
+      port_of_discharging_cargo: '',
+      quantity_of_cargo: '',
+      name_of_owner: '',
+      name_of_shipper: '',
+      name_of_surveyots: '',
+      port_of_loading_cargo: '',
+      description_of_cargo: '',
+      vessel_of_readiness_tendered_and_accepted: '',
 
     },
   })
@@ -452,7 +452,7 @@ function ShowForm() {
   useEffect(() => {
     if (findMaxFts) {
       setValue('maxFTS', findMaxFts.carrier_max_FTS)
-      setValue('burden', findMaxFts.burden)
+      setValue('burden', String(findMaxFts.burden))
     }
   }, [findMaxFts, cr_id, setValue])
 
@@ -679,9 +679,9 @@ function ShowForm() {
                 {...register('quantity_of_cargo')}
               />
             </Box>
-            
-          </Stack>  
-          <Stack 
+
+          </Stack>
+          <Stack
             direction='column'
             spacing={2}
             className='w-full'
@@ -839,7 +839,7 @@ function ShowForm() {
               />
             </Box>
           </Stack>
-        </Stack> 
+        </Stack>
 
         <Stack
           direction='row'
@@ -926,7 +926,7 @@ function ShowForm() {
               <TextField
                 key={`additional-input-${index}`}
                 label={`ระวางที่ ${index + 1}`}
-                type='number'
+                type='text'
                 size='small'
                 fullWidth
                 className='font-kanit'
