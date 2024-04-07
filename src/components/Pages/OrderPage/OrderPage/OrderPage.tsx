@@ -431,7 +431,7 @@ export default function OrderPage({ }: Props) {
                 {items.cargo_order.cargo.cargo_name}
               </TableCell>
               <TableCell>
-                {items.cargo_order.load}
+                {items.cargo_order.load.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableCell>
               <TableCell
                 align="center"

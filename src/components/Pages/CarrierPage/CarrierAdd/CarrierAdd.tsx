@@ -28,7 +28,7 @@ function ShowFrom() {
           const values = {
             ...data,
           }
-          await dispatch(carrierAddAsync({ values, navigate }));
+          await dispatch(carrierAddAsync({ values, navigate }))
           setIsSubmitting(false);
         } catch (error) {
           setIsSubmitting(false);
@@ -71,7 +71,7 @@ function ShowFrom() {
             <TextField
               label='ความจุสูงสุด (ตัน)'
               id='maxcapacity'
-              type='number'
+              type='text'
               fullWidth
               className='font-kanit'
               {...register('maxcapacity', {
@@ -91,7 +91,7 @@ function ShowFrom() {
             <TextField
               id='burden'
               label='จำนวนระวาง'
-              type='number'
+              type='text'
               fullWidth
               className='font-kanit'
               {...register('burden', {
@@ -116,7 +116,7 @@ function ShowFrom() {
             <TextField
               id='carrier_max_FTS'
               label='จำนวนทุ่นเข้าได้สูงสุด'
-              type='number'
+              type='text'
               fullWidth
               className='font-kanit'
               {...register('carrier_max_FTS', {
@@ -136,7 +136,7 @@ function ShowFrom() {
             <TextField
               id='carrier_max_crane'
               label='จำนวนเครนเข้าได้สูงสุด'
-              type='number'
+              type='text'
               fullWidth
               className='font-kanit'
               {...register('carrier_max_crane', {
@@ -156,7 +156,7 @@ function ShowFrom() {
             <TextField
               id='Width'
               label='กว้าง (เมตร)'
-              type='number'
+              type='text'
               fullWidth
               className='font-kanit'
               {...register('Width', {
@@ -176,7 +176,7 @@ function ShowFrom() {
             <TextField
               id='length'
               label='ยาว (เมตร)'
-              type='number'
+              type='text'
               fullWidth
               className='font-kanit'
               {...register('length', {

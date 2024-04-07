@@ -463,7 +463,7 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                             size='small'
                             key={index}
                             label={`ระวางที่ ${index + 1}`}
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register(`bulkArray.${index}` as const)}

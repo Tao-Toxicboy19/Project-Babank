@@ -39,7 +39,6 @@ export default function CargoCraneCreate({ }: Props) {
                     } catch (error) {
                         setIsSubmitting(false)
                     }
-                    console.log(data)
                 })}>
                 <Box className='grid grid-cols-2 gap-5 mt-5'>
                     <Stack direction='column' spacing={4}>
@@ -137,7 +136,7 @@ export default function CargoCraneCreate({ }: Props) {
                             <TextField
                                 id='consumption_rate'
                                 label='อัตราการขนถ่ายสินค้า (ตัน/ชม.)'
-                                type='number'
+                                type='text'
                                 fullWidth
                                 className='font-kanit'
                                 {...register('consumption_rate', { required: true, valueAsNumber: true })}
@@ -152,7 +151,7 @@ export default function CargoCraneCreate({ }: Props) {
                             <TextField
                                 id='work_rate'
                                 label='อัตราการใช้น้ำมัน (ลิตร/ตัน)'
-                                type='number'
+                                type='text'
                                 fullWidth
                                 className='font-kanit'
                                 {...register('work_rate', { required: true, valueAsNumber: true })}

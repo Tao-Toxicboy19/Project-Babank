@@ -75,7 +75,7 @@ function ShowFrom({ data }: any) {
                         <TextField
                             label='ความจุสูงสุด (ตัน)'
                             id='maxcapacity'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register('maxcapacity', { required: true, valueAsNumber: true },)}
@@ -91,7 +91,7 @@ function ShowFrom({ data }: any) {
                         <TextField
                             id='burden'
                             label='จำนวนระวาง'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register('burden', { required: true, valueAsNumber: true })}
@@ -109,7 +109,7 @@ function ShowFrom({ data }: any) {
                         <TextField
                             id='carrier_max_FTS'
                             label='จำนวนทุ่นเข้าได้สูงสุด'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register('carrier_max_FTS', { required: true, valueAsNumber: true })}
@@ -125,7 +125,7 @@ function ShowFrom({ data }: any) {
                         <TextField
                             id='carrier_max_crane'
                             label='จำนวนเครนเข้าได้สูงสุด'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register('carrier_max_crane', { required: true, valueAsNumber: true })}
@@ -141,7 +141,7 @@ function ShowFrom({ data }: any) {
                         <TextField
                             id='Width'
                             label='กว้าง (เมตร)'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register('Width', { required: true, valueAsNumber: true })}
@@ -157,7 +157,7 @@ function ShowFrom({ data }: any) {
                         <TextField
                             id='length'
                             label='ยาว (เมตร)'
-                            type='number'
+                            type='text'
                             fullWidth
                             className='font-kanit'
                             {...register('length', { required: true, valueAsNumber: true })}

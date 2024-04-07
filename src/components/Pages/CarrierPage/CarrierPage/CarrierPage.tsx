@@ -43,7 +43,7 @@ export default function CarrierPage({ }: Props) {
               <TableCell component="th" scope="row">{items.carrier_name}</TableCell>
               <TableCell align="center">{items.holder}</TableCell>
               <TableCell align="center">
-                {items.maxcapacity !== null ? (items.maxcapacity).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : null}
+                {items.maxcapacity !== null ? (items.maxcapacity).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : null}
               </TableCell>
               <TableCell align="center">{items.burden}</TableCell>
               <TableCell align="center">{items.carrier_max_FTS}</TableCell>

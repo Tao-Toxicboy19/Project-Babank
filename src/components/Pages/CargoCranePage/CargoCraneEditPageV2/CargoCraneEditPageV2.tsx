@@ -159,7 +159,7 @@ export default function CargoCraneEditPageV2({ }: Props) {
                             <TextField
                                 id='consumption_rate'
                                 label='อัตราการขนถ่ายสินค้า (ตัน/ชม.)'
-                                type='number'
+                                type='text'
                                 fullWidth
                                 className='font-kanit'
                                 {...register('consumption_rate', { required: true, valueAsNumber: true })}
@@ -175,7 +175,7 @@ export default function CargoCraneEditPageV2({ }: Props) {
                             <TextField
                                 id='work_rate'
                                 label='อัตราการใช้น้ำมัน (ลิตร/ตัน)'
-                                type='number'
+                                type='text'
                                 fullWidth
                                 className='font-kanit'
                                 {...register('work_rate', { required: true, valueAsNumber: true })}
