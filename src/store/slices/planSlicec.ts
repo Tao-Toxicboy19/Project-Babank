@@ -35,7 +35,6 @@ export const planAsync = createAsyncThunk(
     async (id: number) => {
         try {
             const result = await httpClient.get(`/plan/${id}`)
-            console.log(result.data)
             return result.data
         } catch (error) {
             throw error

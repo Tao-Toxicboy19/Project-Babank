@@ -21,7 +21,7 @@ import Add from '@mui/icons-material/Add'
 import TableTitles from '../../../layout/TableTitles/TableTitles'
 import { TitleCargoCrane } from '../../../../Constants'
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CargoCrane } from '../../../../type/CargoCrane.type'
 import React from 'react'
 import { RiEditLine } from 'react-icons/ri'
@@ -29,8 +29,9 @@ import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import { Link } from 'react-router-dom'
 import CargoCraneDeletePage from '../CargoCraneDeletePage/CargoCraneDeletePage'
-import { cargoCraneSelector } from '../../../../store/slices/CargoCrane/cargoCraneSlice'
+import { cargoCraneAsync, cargoCraneSelector } from '../../../../store/slices/CargoCrane/cargoCraneSlice'
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice'
+import { useAppDispatch } from '../../../../store/store'
 
 type Props = {}
 
@@ -39,6 +40,7 @@ export default function CargoCranePage({ }: Props) {
   const rolesReducer = useSelector(roleSelector)
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
+  const dispatch = useAppDispatch()
 
   const filteredData = (CargoCraneReducer.result).filter((item) =>
     item.crane!.crane_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -65,6 +67,10 @@ export default function CargoCranePage({ }: Props) {
     }
     setOpenGroups(new Set(openGroups));
   };
+
+  useEffect(() => {
+    dispatch(cargoCraneAsync())
+  }, [])
 
 
   const showTbody = () => {

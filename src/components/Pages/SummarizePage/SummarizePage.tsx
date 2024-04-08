@@ -82,9 +82,13 @@ export default function SummarizePage() {
 
     useEffect(() => {
         dispatch(planAsync(id))
+    }, [])
+
+    useEffect(() => {
+        dispatch(planAsync(id))
     }, [managePlansReducer.result])
 
-
+    console.log(planReducer.planAi)
     useEffect(() => {
         dispatch(sulutionScheduelAsync(planReducer.plan))
     }, [planReducer.plan])
@@ -297,6 +301,8 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
 
 
 function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<string>> }) {
+    const planReducer = useSelector(planSelector)
+
     return (
         <Box
             className='flex justify-center items-center h-[84vh]'
@@ -308,7 +314,7 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
                     startIcon={<MemoryIcon />}
                     onClick={() => setPlan('Auto Plan')}
                 >
-                    Auto Plan(3)
+                    {`Auto Plan${planReducer.planAi.length !== 0 ? `(${planReducer.planAi.length})` : ''}`}
                 </Button>
                 <Button
                     size="large"
@@ -316,7 +322,7 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
                     startIcon={<PermIdentityIcon />}
                     onClick={() => setPlan('Customize')}
                 >
-                    Customize(3)
+                    {`Customize${planReducer.planUser.length !== 0 ? `(${planReducer.planUser.length})` : ''}`}
                 </Button>
             </Stack>
         </Box>

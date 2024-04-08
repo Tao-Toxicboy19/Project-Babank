@@ -36,7 +36,9 @@ export const craneSolutionAsync = createAsyncThunk(
     'craneSolution/craneSolutionAsync',
     async (id: number) => {
         try {
+            console.log(id)
             const result = await httpClient.get<CraneSolution[]>(`${server.CRANESOLUTION}/${id}`)
+            console.log('hello world', result.data)
             return result.data
         } catch (error) {
             throw error

@@ -39,12 +39,14 @@ interface CargoCrane {
 
 interface craneCargoState {
   result: CargoCrane[]
+  where_fts_id: CargoCrane[]
   loading: boolean
   error: boolean
 }
 
 const initialState: craneCargoState = {
   result: [],
+  where_fts_id: [],
   loading: false,
   error: false,
 };
@@ -65,7 +67,11 @@ export const cargoCraneAsync = createAsyncThunk(
 const cargoCraneSlice = createSlice({
   name: 'cargoCrane',
   initialState,
-  reducers: {},
+  reducers: {
+    setWherFTSId(state: craneCargoState, action: PayloadAction<number>) {
+      state.where_fts_id = state.result.filter(i => i.FTS_id === action.payload)
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(cargoCraneAsync.fulfilled, (state: craneCargoState, action: PayloadAction<CargoCrane[]>) => {
       state.result = action.payload
@@ -87,7 +93,7 @@ const cargoCraneSlice = createSlice({
   },
 })
 
-export const { } = cargoCraneSlice.actions
+export const { setWherFTSId } = cargoCraneSlice.actions
 export const cargoCraneSelector = (store: RootState) => store.cargoCraneReducer
 export default cargoCraneSlice.reducer
 
