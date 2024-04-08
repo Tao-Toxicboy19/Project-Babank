@@ -175,13 +175,13 @@ export default function CargoCranePage({ }: Props) {
                     align="center"
                     className='font-kanit'
                   >
-                    {item.consumption_rate}
+                    {item.consumption_rate.toFixed(3)}
                   </TableCell>
                   <TableCell
                     align="center"
                     className='font-kanit'
                   >
-                    {item.work_rate}
+                    {item.work_rate.toFixed(3)}
                   </TableCell>
                   {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
                     <></>

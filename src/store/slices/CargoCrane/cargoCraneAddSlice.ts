@@ -56,7 +56,7 @@ export const cargoCraneAddAsync = createAsyncThunk(
         try {
             const result = await httpClient.post(server.CARGOCRANE, data);
             toast.success(SUCCESS)
-            // navigate('/cargocrane')
+            navigate('/cargocrane')
             return result.data;
         } catch (error) {
             throw error;

@@ -8,7 +8,6 @@ import { useAppDispatch } from '../../../../store/store';
 import { cargoCraneAddAsync } from '../../../../store/slices/CargoCrane/cargoCraneAddSlice';
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
-import { craneSelector } from '../../../../store/slices/Crane/craneSlice';
 import { CLOSE, SAVE } from '../../../../Constants';
 import { cargoCraneAsync, cargoCraneSelector, setWherFTSId } from '../../../../store/slices/CargoCrane/cargoCraneSlice';
 
@@ -121,7 +120,7 @@ export default function CargoCraneCreate({ }: Props) {
                     </Box>
                 </Box>
 
-                {fields.map((field, index) => (
+                {fields.map((_, index) => (
                     <Box key={index} className='my-5 grid grid-cols-2 gap-5'>
                         <Box>
                             <FormControl fullWidth>

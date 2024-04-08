@@ -123,8 +123,8 @@ function BodyTable({ row, rolesReducer }: { row: Cargo, rolesReducer: any }) {
       <TableCell component="th" scope="row">
         {row.cargo_name}
       </TableCell>
-      <TableCell component="th" scope="row">
-        {row.premium_rate}
+      <TableCell  component="th" scope="row">
+        {row.premium_rate.toFixed(3)}
       </TableCell>
       {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
         <></>
