@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import { carrierSelector } from "../../../store/slices/Carrier/carrierSlice";
 import { roleSelector } from "../../../store/slices/auth/rolesSlice";
 import { orderAsync, orderSelector } from "../../../store/slices/Order/orderSlice";
+import { mainTainAsync } from "../../../store/slices/mainTainFts/mainTainFtsSlice";
+import { mainTainCraneAsync } from "../../../store/slices/MainTainCrane/mainTainCraneSlice";
 
 type Props = {}
 
@@ -30,6 +32,11 @@ export default function HomePage({ }: Props) {
   const isLoading = ftsReducer.loading && carrierReducer.loading && cargoReducer.loading && orderReducer.loading && cargoCraneReducer.loading
   const filteredOrder = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
+  const id  = rolesReducer.result?.group
+    useEffect(() => {
+        dispatch(mainTainAsync(id))
+        dispatch(mainTainCraneAsync(id))
+    }, [])
 
   useEffect(() => {
     dispatch(orderAsync())

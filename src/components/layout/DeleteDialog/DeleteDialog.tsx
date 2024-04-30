@@ -10,18 +10,19 @@ type Props = {
     maxWidth: any
     titles: string
     description: string
+    icon?: boolean
 }
 
 export default function DeleteDialog(props: Props) {
     return (
         <>
-            <Tooltip title="ลบ">
+            {props.icon && <Tooltip title="ลบ">
                 <IconButton
                     onClick={props.handleClickOpen}
                 >
                     <DeleteForever className='text-red-800' />
                 </IconButton>
-            </Tooltip>
+            </Tooltip>}
             <Dialog
                 open={props.open}
                 onClose={props.handleClose}

@@ -24,19 +24,21 @@ interface MainTainFTS {
 
 interface mainTainFTSState {
     result: MainTainFTS[]
+    notiPlan: MainTainFTS[]
     loading: boolean
     error: boolean
 }
 
 const initialState: mainTainFTSState = {
     result: [],
+    notiPlan: [],
     loading: false,
     error: false,
 }
 
 export const mainTainAsync = createAsyncThunk(
     'mainTain/mainTainAsync',
-    async (id:number) => {
+    async (id: number | undefined) => {
         try {
             const result = await httpClient.get<MainTainFTS[]>(`${server.MAINTAIN_FTS_URL}/${id}`)
             return result.data;
@@ -53,6 +55,11 @@ const mainTainSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(mainTainAsync.fulfilled, (state: mainTainFTSState, action: PayloadAction<MainTainFTS[]>) => {
             state.result = action.payload
+            // Filter notifications for the last 30 days
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            state.notiPlan = action.payload.filter(notification => new Date(notification.downtime_FTS) > thirtyDaysAgo);
+
             state.loading = false
             state.error = false
         });

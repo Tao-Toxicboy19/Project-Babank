@@ -2,7 +2,7 @@ import * as React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import { Button, ButtonGroup, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
 import RouteLayout from '../../layout/RouteLayout/RouteLayout'
 import DialogLoading from '../../layout/DialogLoading/DialogLoading'
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts'
@@ -19,7 +19,7 @@ import { Chart } from "react-google-charts"
 import { setAdd, setAddEdit, setCount, setNameCarrier, setRemove, sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../store/store'
-import { planAsync, planSelector, setPlans } from '../../../store/slices/planSlicec'
+import { planAsync, planSelector, removePlant, setPlans } from '../../../store/slices/planSlicec'
 import { managePlansSelector } from '../../../store/slices/managePlansSlice'
 import { useForm } from 'react-hook-form'
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -30,6 +30,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import AddIcon from '@mui/icons-material/Add'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
+import DeleteIcon from '@mui/icons-material/Delete'
+import DeleteDialog from '../../layout/DeleteDialog/DeleteDialog'
+import { apiManagePlans } from '../../../Constants'
 
 dayjs.locale('th')
 
@@ -88,7 +91,6 @@ export default function SummarizePage() {
         dispatch(planAsync(id))
     }, [managePlansReducer.result])
 
-    console.log(planReducer.planAi)
     useEffect(() => {
         dispatch(sulutionScheduelAsync(planReducer.plan))
     }, [planReducer.plan])
@@ -118,7 +120,6 @@ type AiPlan = {
 
 function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     const rolesReducer = useSelector(roleSelector)
-    // const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
     const dispatch = useAppDispatch()
     const planReducer = useSelector(planSelector)
     const [open, setOpen] = React.useState(false)
@@ -138,6 +139,29 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     }
 
 
+    const [open2, setOpen2] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleClickOpen2 = () => {
+        setOpen2(true);
+    };
+
+    const handleClose2 = () => {
+        setOpen2(false);
+    };
+
+    const handleDeleteConfirm = async () => {
+        dispatch(removePlant(planReducer.plan))
+        handleClose2()
+        setIsSubmitting(true);
+        try {
+            setIsSubmitting(false);
+        } catch (error) {
+            setIsSubmitting(false)
+        }
+    }
+
+
     // console.log(planReducer.plan)
 
     useEffect(() => {
@@ -148,48 +172,67 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
 
     return (
         <>
-            <Stack direction='row' spacing={2}>
-                <Button
-                    startIcon={<ArrowBackIcon />}
-                    onClick={() => setPlan('hero')}
-                >
-                    กลับ
-                </Button>
+            <Stack direction='row' spacing={2} className='justify-between mb-2'>
+                <Box className='flex'>
+                    <Button
+                        startIcon={<ArrowBackIcon />}
+                        onClick={() => setPlan('hero')}
+                    >
+                        กลับ
+                    </Button>
 
-                {rolesReducer.result && (
-                    rolesReducer.result.role === 'Viewer' ? (
-                        <></>
-                    ) : rolesReducer.result.role === 'Contributor' ? (
-                        <></>
-                    ) : (
-                        <DialogLoading plan={plan} />
-                    )
-                )}
-                {plan !== 'Customize' &&
-                    <ButtonGroup variant="text" aria-label="Basic button group">
-                        {plan === 'Customize' ? (
-                            planReducer.planUser.map((plan) => (
-                                <Button
-                                    disabled={planReducer.plan === plan.id}
-                                    key={plan.id}
-                                    onClick={() => dispatch(setPlans(plan.id))}
-                                >
-                                    {plan.plan_name}
-                                </Button>
-                            ))
+                    {rolesReducer.result && (
+                        rolesReducer.result.role === 'Viewer' ? (
+                            <></>
+                        ) : rolesReducer.result.role === 'Contributor' ? (
+                            <></>
                         ) : (
-                            planReducer.planAi.map((plan) => (
-                                <Button
-                                    disabled={planReducer.plan === plan.id}
-                                    key={plan.id}
-                                    onClick={() => dispatch(setPlans(plan.id))}
-                                >
-                                    {plan.plan_name}
-                                </Button>
-                            ))
-                        )}
-                    </ButtonGroup>
-                }
+                            <DialogLoading plan={plan} />
+                        )
+                    )}
+                    {plan !== 'Customize' &&
+                        <Stack direction='row' spacing={1}>
+                            {plan === 'Customize' ? (
+                                planReducer.planUser.map((plan) => (
+                                    <Button
+                                        disabled={planReducer.plan === plan.id}
+                                        key={plan.id}
+                                        onClick={() => dispatch(setPlans(plan.id))}
+                                    >
+                                        {plan.plan_name}
+                                    </Button>
+                                ))
+                            ) : (
+                                planReducer.planAi.map((plan) => (
+                                    <Button
+                                        disabled={planReducer.plan === plan.id}
+                                        key={plan.id}
+                                        onClick={() => dispatch(setPlans(plan.id))}
+                                    >
+                                        {plan.plan_name}
+                                    </Button>
+                                ))
+                            )}
+                        </Stack>
+                    }
+                </Box>
+                <Button
+                    startIcon={<DeleteIcon />}
+                    variant='outlined'
+                    onClick={handleClickOpen2}
+                >
+                    ลบแผน {planReducer.planAi.find(p => p.id === planReducer.plan)?.plan_name}
+                </Button>
+                <DeleteDialog
+                    open={open2}
+                    handleClickOpen={handleClickOpen2}
+                    handleClose={handleClose2}
+                    handleDeleteConfirm={handleDeleteConfirm}
+                    isSubmitting={isSubmitting}
+                    maxWidth={'sm'}
+                    titles={`ต้องการลบแผน ${planReducer.planAi.find(p => p.id === planReducer.plan)?.plan_name} หรือไม่?`}
+                    description={'คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !'}
+                />
             </Stack>
 
             {plan === 'Customize' ? (
@@ -373,9 +416,8 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                     return acc
                 }, [])
             }
-            // console.log()
-            console.log(payload)
-            const res = await axios.post('http://154.49.243.54:5011/update', payload)
+            // const res = await axios.post('http://154.49.243.54:5011/update', payload)
+            const res = await axios.post(`${apiManagePlans}/update`, payload)
             console.log(res.data)
         } catch (error) {
             console.log(error)

@@ -31,7 +31,7 @@ import ManagementUserPage from './components/Pages/ManagementUserPage/Management
 import CarrierCreate from './components/Pages/CarrierPage/CarrierAdd/CarrierAdd';
 import CarrierEditPage from './components/Pages/CarrierPage/CarrierEditPage/CarrierEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
-import { roleAsync } from './store/slices/auth/rolesSlice';
+import { roleAsync, roleSelector } from './store/slices/auth/rolesSlice';
 import { useAppDispatch } from './store/store';
 import { carrierAsync } from './store/slices/Carrier/carrierSlice';
 import { craneAsync } from './store/slices/Crane/craneSlice';
@@ -42,14 +42,15 @@ import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
+import { mainTainAsync } from './store/slices/mainTainFts/mainTainFtsSlice';
 
 const drawerWidth = 240;
 
 export default function ResponsiveDrawer() {
   const dispatch = useAppDispatch()
   const loginReducer = useSelector(loginSelector)
-  const [mobileOpen, setMobileOpen] = useState(false);
-  // const id  = roleReducer.result?.group
+  const [mobileOpen, setMobileOpen] = useState(false)
+
   // if(!id) return
 
   useEffect(() => {
@@ -61,7 +62,6 @@ export default function ResponsiveDrawer() {
     dispatch(cargoAsync())
     dispatch(cargoCraneAsync())
   }, []);
-
 
 
   const handleDrawerToggle = () => {

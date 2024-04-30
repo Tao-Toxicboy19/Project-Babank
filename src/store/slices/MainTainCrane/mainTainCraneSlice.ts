@@ -26,17 +26,19 @@ interface mainTainState {
     loading: boolean
     error: boolean
     result: MainTain[]
+    notiPlan: MainTain[]
 }
 
 const initialState: mainTainState = {
     loading: false,
     error: false,
-    result: []
+    result: [],
+    notiPlan: []
 }
 
 export const mainTainCraneAsync = createAsyncThunk(
     'mainTainCrane/mainTainCraneAsync',
-    async (id:number) => {
+    async (id: number | undefined) => {
         try {
             const result = await httpClient.get(`${server.MAINTAIN_CRAN_URL}/${id}`)
             return result.data;
@@ -53,6 +55,10 @@ const mainTainCraneSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(mainTainCraneAsync.fulfilled, (state: mainTainState, action: PayloadAction<MainTain[]>) => {
             state.result = action.payload
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            state.notiPlan = action.payload.filter(notification => new Date(notification.downtime) > thirtyDaysAgo);
+
             state.loading = false
             state.error = false
         });

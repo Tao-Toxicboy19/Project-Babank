@@ -27,7 +27,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const {
         register,
         handleSubmit,
-        formState: { },
+        formState: { errors},
         setValue, // เพิ่ม setValue
     } = useForm()
 
@@ -241,7 +241,15 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                         type='text'
                         label='ชื่อแผน'
                         fullWidth
-                        {...register('plan_name')}
+                        error={errors.plan_name && true}
+                        helperText={
+                            errors.plan_name
+                                ? errors.plan_name.type === "required"
+                                    ? "กรอกชื่อแผน"
+                                    : "กรอกชื่อแผน"
+                                : ""
+                        }
+                        {...register('plan_name', { required: true })}
                     />
                     <TextField
                         type='number'
