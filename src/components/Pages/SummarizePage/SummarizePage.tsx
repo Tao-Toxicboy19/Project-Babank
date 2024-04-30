@@ -16,7 +16,6 @@ import MemoryIcon from '@mui/icons-material/Memory'
 import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Chart } from "react-google-charts"
-import { format, parse } from 'date-fns'
 import { setAdd, setAddEdit, setCount, setNameCarrier, setRemove, sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../store/store'
@@ -30,6 +29,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import AddIcon from '@mui/icons-material/Add'
 import { v4 as uuidv4 } from 'uuid'
+import axios from 'axios'
 
 dayjs.locale('th')
 
@@ -338,6 +338,7 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
 
     const handleSubmit = async () => {
         try {
+
             // const result = {
             //     Group: group,
             //     started_at: new Date(),
@@ -346,15 +347,18 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
             //     plan_type: 'user'
             // }
             // const res = await httpClient.post('plan', result)
-            console.log({
+            const payload = {
                 user_group: group,
-                solution_id: 55,
+                solution_id: 71,
                 plan: solutionScheduleReducer.edit.reduce((acc: any[], curr) => {
                     const existingOrder = acc.find(order => order.order_id === curr.order_id)
+                    const startDate = new Date(curr.arrivaltime);
+                    const mysqlDateFormat = startDate.toISOString().slice(0, 19).replace('T', ' ');
+
                     const ftsData = {
                         fts_id: curr.FTS_id,
                         fts_name: curr.FTS_name,
-                        start_date: curr.arrivaltime
+                        start_date: mysqlDateFormat
                     }
 
                     if (existingOrder) {
@@ -368,7 +372,11 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
 
                     return acc
                 }, [])
-            })
+            }
+            // console.log()
+            console.log(payload)
+            const res = await axios.post('http://154.49.243.54:5011/update', payload)
+            console.log(res.data)
         } catch (error) {
             console.log(error)
         }
@@ -431,16 +439,16 @@ function EditPlan() {
     data = data.concat(solutionScheduleReducer.edit)
 
     const datav2 = data.map((item) => {
-        const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
-        const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
+        // const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
+        // const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
 
-        const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
-        const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
+        // const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
+        // const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
         return [
             item.carrier_name,
             item.FTS_name,
-            new Date(formattedStartDate),
-            new Date(formattedEndDate),
+            new Date(item.arrivaltime),
+            new Date(item.exittime)
         ]
     })
 
@@ -628,8 +636,8 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
 
 // {
 //     'user_group': 3,
-//         'solution_id': 55, // ที่จะ save ใหม่
-//             'plan': [
+//     'solution_id': 55, // ที่จะ save ใหม่
+//          'plan': [
 //                 {
 //                     'order_id': 50,
 //                     'FTS': [

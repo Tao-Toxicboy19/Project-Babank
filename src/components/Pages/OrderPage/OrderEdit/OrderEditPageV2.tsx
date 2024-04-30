@@ -37,13 +37,17 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
     return (
         <form onSubmit={handleSubmit(async (data) => {
             setIsSubmitting(true)
+            const total = data.bulkArray.reduce((acc: any, currentValue: any) => acc + parseInt(currentValue), 0);
+
             const values = {
                 ...data,
                 // load: sumBulkArray,
                 arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
-                deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+                deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
             }
+            console.log(total)
             try {
+                // console.log(values)
                 await dispatch(orderEditAsync({ id, values, navigate, fetch }))
                 setIsSubmitting(false)
             } catch (error) {
@@ -470,63 +474,6 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
                             defaultValue={item.load_bulk}
                         />
                     ))}
-                    {/* {(rows.cargo_order).map((row: any, index: any) => (
-                        <>
-                            <FormControl
-                                fullWidth
-                                key={index}
-                            >
-                                <InputLabel id="demo-simple-select-label">เลือกสินค้า</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id={`inputs.cargo_names`}
-                                    label="เลือกสินค้า"
-                                    defaultValue={row.cargo_id}
-                                    {...register(`inputs.cargo_names` as const, {
-                                        required: true
-                                    })}
-                                >
-                                    {(cargoReducer.result).map((items) => (
-                                        <MenuItem key={items.cargo_id} value={items.cargo_id} className='font-kanit'>
-                                            {items.cargo_name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <Box className='w-full flex '>
-                                <TextField
-                                    label='จำนวนระวาง'
-                                    id='burden'
-                                    type='number'
-                                    className='font-kanit w-4/5'
-                                    defaultValue={row.bulk || bulk}
-                                    {...register('burden', {
-                                        min: 0,
-                                        max: 10,
-                                        onChange: (e) => {
-                                            setBulk(+(e.target.value) || 0)
-                                        }
-                                    })}
-                                />
-                                <span
-                                    className='w-full text-xl my-auto pl-2'
-                                >
-                                    รวมปริมาณสินค้า (ตัน): {sumBulkArray as number !== 0 ? sumBulkArray as number : row.load}
-                                </span>
-                            </Box>
-                            {row.Bulks.map((items: any, index: number) => (
-                                <TextField
-                                    key={index}
-                                    label={`ระวางที่ ${index + 1}`}
-                                    type='number'
-                                    fullWidth
-                                    className='font-kanit'
-                                    {...register(`bulkArray.${index}` as const)}
-                                    defaultValue={items.load_bulk}
-                                />
-                            ))}
-                        </>
-                    ))} */}
                 </Box>
             </Stack>
             <Stack direction='row' spacing={2} className='col-span-2 flex mt-5'>
@@ -556,21 +503,19 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
 
 export default function OrderEditPageV2({ }: Props) {
     const { id } = useParams()
-    const [data, setData] = useState<any>();
+    const [data, setData] = useState<any>()
 
     const fetchFTSData = async () => {
         try {
             const response = await httpClient.get(`${server.ORDER}/${id}`);
             setData(response.data)
         } catch (error) {
-            throw error;
+            throw error
         }
-    };
-
-    console.log(data)
+    }
     useEffect(() => {
-        fetchFTSData();
-    }, []);
+        fetchFTSData()
+    }, [])
 
     return (
         <ThemeProvider theme={defaultTheme}>

@@ -1,11 +1,12 @@
 import { Chart } from "react-google-charts"
-import { parse, format } from 'date-fns'
 import { useSelector } from "react-redux"
 import { Typography } from "@mui/material"
 import { sulutionScheduelSelector } from "../../../../store/slices/Solution/sollutionScheduleSlice"
+import dayjs from 'dayjs'
+dayjs.locale('th')
 
 export default function CraneGantts() {
-    const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
+    const SolutionscheduleReducer = useSelector(sulutionScheduelSelector)
     // const dispatch = useAppDispatch()
     // const planReducer = useSelector(planSelector)
 
@@ -13,7 +14,7 @@ export default function CraneGantts() {
     //     dispatch(sulutionScheduelAsync(planReducer.plan))
     // }, [planReducer.plan])
 
-    if (solutionScheduleReducer.result.length === 0) {
+    if (SolutionscheduleReducer.result.length === 0) {
         return (
             <Typography
                 sx={{
@@ -36,29 +37,45 @@ export default function CraneGantts() {
     }
 
 
-    let data = [solutionScheduleReducer.chars[0]]
-    data = data.concat(solutionScheduleReducer.chars)
+    // let data = [solutionScheduleReducer.chars[0]]
+    // data = data.concat(solutionScheduleReducer.chars)
+    // const datav2 = data.map((item) => {
+    //     const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
+    //     const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
 
-    const datav2 = data.map((item) => {
-        const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
-        const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
+    //     const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
+    //     const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
 
-        const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
-        const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
+    //     return [
+    //         item.carrier_name,
+    //         item.FTS_name,
+    //         new Date(formattedStartDate),
+    //         new Date(formattedEndDate),
+    //     ]
+    // })
+    let data = [SolutionscheduleReducer.chars[0]]
+    data = data.concat(SolutionscheduleReducer.chars)
+    const result = data.map((item) => {
+        if (item.arrivaltime && item.exittime) {
+            // const formattedStartDate = dayjs(item.arrivaltime, "M/D/YYYY h:mm:ss A").toDate()
+            // const formattedEndDate = dayjs(item.exittime, "M/D/YYYY h:mm:ss A").toDate()
 
-        return [
-            item.carrier_name,
-            item.FTS_name,
-            new Date(formattedStartDate),
-            new Date(formattedEndDate),
-        ]
+            return [
+                item.carrier_name,
+                item.FTS_name,
+                new Date(item.arrivaltime),
+                new Date(item.exittime)
+            ]
+        }
     })
+
+    // console.log(result)
 
     return (
         <>
             <Chart
                 chartType="Timeline"
-                data={datav2}
+                data={result}
                 width="100%"
                 height="800px"
                 options={{}}

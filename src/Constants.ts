@@ -74,15 +74,15 @@ export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK"
 // https://sched.floatingcraneservice.com/backend/api/cargo
 // export const apiUrlV2 = import.meta.env.VITE_API_URL`
 // export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api/"
-export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api"
+// export const apiUrlV2 = "https://sched.floatingcraneservice.com/backend/api"
 //  export const apiUrlV2 = "http://172.17.0.1:7070/api"
 // import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-// export const apiUrlV2 = "http://crane.otpzlab.com:7070/api"
+export const apiUrlV2 = "http://crane.otpzlab.com:7070/api"
 // import 1 เส้น
 
 // export const apiManagePlans = import.meta.env.VITE_API_PLAN
-export const apiManagePlans = "https://sched.floatingcraneservice.com/route"
-// export const apiManagePlans = "http://154.49.243.54:5011/"
+// export const apiManagePlans = "https://sched.floatingcraneservice.com/route"
+export const apiManagePlans = "http://154.49.243.54:5011/"
 
 export const SUCCESS = 'Successfully' 
 export const Failure = 'ทุ่นซ้ำกัน'
@@ -122,3 +122,17 @@ export const server = {
     IMPORTORDER: `importcsv`,
     crane_solutionV2: "crane_solutionV2"
 }
+
+// SELECT
+//     solution_schedule.*,
+//     fts.FTS_name,
+//     carrier.*,
+//     solution_crane_schedule.start_time,
+//     solution_crane_schedule.due_time
+// FROM
+//     solution_schedule
+// LEFT JOIN fts ON solution_schedule.FTS_id = fts.id
+// LEFT JOIN carrier ON solution_schedule.carrier_id = carrier.cr_id
+// LEFT JOIN solution_crane_schedule ON solution_schedule.solution_id = solution_crane_schedule.solution_id
+// WHERE
+//     solution_schedule.solution_id = 71;
