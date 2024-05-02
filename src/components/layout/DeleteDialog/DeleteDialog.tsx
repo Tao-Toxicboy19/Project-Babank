@@ -16,7 +16,7 @@ type Props = {
 export default function DeleteDialog(props: Props) {
     return (
         <>
-            {props.icon && <Tooltip title="ลบ">
+            {!props.icon && <Tooltip title="ลบ">
                 <IconButton
                     onClick={props.handleClickOpen}
                 >

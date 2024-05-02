@@ -55,6 +55,19 @@ export const removePlant = createAsyncThunk(
     }
 )
 
+export const addPlan = createAsyncThunk(
+    'add/addAsync',
+    async (id: number, { dispatch }) => {
+        try {
+            dispatch(setRemove(id))
+            await httpClient.post('/plan/remove', { id })
+            return id
+        } catch (error) {
+            throw error
+        }
+    }
+)
+
 const planSlice = createSlice({
     name: 'plan',
     initialState,
@@ -66,6 +79,12 @@ const planSlice = createSlice({
         },
         setRemove: (state, action: PayloadAction<number>) => {
             state.planAi = state.planAi.filter(p => p.id !== action.payload)
+            state.planUser = state.planUser.filter(p => p.id !== action.payload)
+            state.loading = false
+            state.error = false
+        },
+        setAdd: (state, action: PayloadAction<Plan>) => {
+            state.planUser.push(action.payload)
             state.loading = false
             state.error = false
         },
@@ -98,6 +117,6 @@ const planSlice = createSlice({
     },
 })
 
-export const { setPlans, setRemove } = planSlice.actions
+export const { setPlans, setRemove, setAdd } = planSlice.actions
 export const planSelector = (store: RootState) => store.planReducer
 export default planSlice.reducer

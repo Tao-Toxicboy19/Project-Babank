@@ -16,7 +16,7 @@ export default function MainTainFtsAdd({ }: Props) {
     const navigate = useNavigate()
     const roleReducer = useSelector(roleSelector)
     const id = roleReducer.result?.group
-    if(!id) return
+    if (!id) return
 
     const {
         register,
@@ -51,8 +51,9 @@ export default function MainTainFtsAdd({ }: Props) {
                         data.start_time_FTS = '';
                     }
                     const value = {
-                        ...data,id
+                        ...data, id
                     }
+                    console.log(value)
                     dispatch(addMainTainFTS(value, navigate))
                 })}>
                     <Stack direction='column' spacing={3}>
@@ -83,25 +84,36 @@ export default function MainTainFtsAdd({ }: Props) {
                                 fullWidth
                             />
                         </Box>
-                        <Box>
-                            <InputLabel id="cr_id" className='font-kanit'>เลือกทุ่น</InputLabel>
-                            <FormControl fullWidth>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    {...register('mt_FTS_id')}
-                                >
-                                    {(FTSReducer.result).map((items) => (
-                                        <MenuItem
-                                            key={items.fts_id}
-                                            value={items.fts_id}
-                                        >
-                                            {items.FTS_name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
+                        <Stack direction='row' spacing={2}>
+                            <Box className='w-full'>
+                                <InputLabel id="cr_id" className='font-kanit'>เลือกทุ่น</InputLabel>
+                                <FormControl fullWidth>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        {...register('mt_FTS_id')}
+                                    >
+                                        {(FTSReducer.result).map((items) => (
+                                            <MenuItem
+                                                key={items.fts_id}
+                                                value={items.fts_id}
+                                            >
+                                                {items.FTS_name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            <Box className='w-full'>
+                                <InputLabel id="cr_id" className='font-kanit'>แจ้งเตือนก่อนกี่วัน</InputLabel>
+                                <TextField
+                                    {...register('noti_day')}
+                                    id='noti_day'
+                                    type='text'
+                                    fullWidth
+                                />
+                            </Box>
+                        </Stack>
                         <Stack spacing={2} direction='row'>
                             <Button
                                 type="submit"

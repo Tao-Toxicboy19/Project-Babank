@@ -8,18 +8,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../store/store';
-import { Divider, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { roleSelector } from '../../../store/slices/auth/rolesSlice';
 import { logout } from '../../../store/slices/auth/loginSlice';
 import { useNavigate } from 'react-router-dom';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { mainTainFtsSelector } from '../../../store/slices/mainTainFts/mainTainFtsSlice';
-import { mainTainCraneSelector } from '../../../store/slices/MainTainCrane/mainTainCraneSlice';
-import dayjs from 'dayjs';
 
 interface HeaderProps {
   drawerWidth: number;
@@ -30,17 +23,6 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const rolesReducer = useSelector(roleSelector)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const mainTainFTSReducer = useSelector(mainTainFtsSelector)
-  const mainTainCraneReducer = useSelector(mainTainCraneSelector)
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -81,52 +63,6 @@ const Header: React.FC<HeaderProps> = ({ drawerWidth, handleDrawerToggle }) => {
               </Typography>
             </Box>
             <Box className="flex flex-row gap-x-5">
-              <div>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <Badge badgeContent={mainTainFTSReducer.notiPlan.length + mainTainCraneReducer.notiPlan.length} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl) && (mainTainFTSReducer.notiPlan.length + mainTainCraneReducer.notiPlan.length > 0)}
-                  onClose={handleClose}
-                >
-                  {mainTainFTSReducer.notiPlan.map((item) => (
-                    <>
-                      <MenuItem onClick={handleClose}>
-                        <Box className='flex flex-col gap-2'>
-                          <Typography>ทุ่น {item.fts.FTS_name} {item.desc_FTS}</Typography>
-                          <Typography>วันที่ {dayjs(item.downtime_FTS).format('DD/MM/YYYY HH:mm:ss')}</Typography>
-                          <Typography>ถึงวันที่ {dayjs(item.start_time_FTS).format('DD/MM/YYYY HH:mm:ss')}</Typography>
-                        </Box>
-                      </MenuItem>
-                      <Divider />
-                    </>
-                  ))}
-                  {mainTainCraneReducer.notiPlan.map((item) => (
-                    <>
-                      <MenuItem onClick={handleClose}>
-                        <Box className='flex flex-col gap-2'>
-                          <Typography>เครน {item.crane.crane_name} {item.desc}</Typography>
-                          <Typography>วันที่ {dayjs(item.downtime).format('DD/MM/YYYY HH:mm:ss')}</Typography>
-                          <Typography>ถึงวันที่ {dayjs(item.start_time).format('DD/MM/YYYY HH:mm:ss')}</Typography>
-                        </Box>
-                      </MenuItem>
-                      <Divider />
-                    </>
-                  ))}
-                </Menu>
-              </div>
               <Typography
                 variant="h6"
                 component='h1'

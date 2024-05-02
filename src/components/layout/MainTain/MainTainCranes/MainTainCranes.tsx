@@ -16,14 +16,15 @@ import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { mainTainCraneAsync, mainTainCraneSelector } from '../../../../store/slices/MainTainCrane/mainTainCraneSlice';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../../../store/store';
+import { RiEditLine } from 'react-icons/ri';
 
 export default function MainTainCranes() {
     const mainTainCraneReducer = useSelector(mainTainCraneSelector)
     const rolesReducer = useSelector(roleSelector)
-    const title = ["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แก้ไข"]
+    const title = ["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน","แจ้งเตือนก่อนกี่วัน", "แก้ไข"]
     const dispatch = useAppDispatch()
     const id = rolesReducer.result?.group
-    if(!id) return
+    if (!id) return
 
     useEffect(() => {
         dispatch(mainTainCraneAsync(id))
@@ -112,13 +113,24 @@ export default function MainTainCranes() {
                                 >
                                     {moment(items.start_time).format('DD/MM/YYYY HH:mm')}
                                 </TableCell>
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-md'
+                                >
+                                    {items.noti_day}
+                                </TableCell>
                                 {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
                                     <></>
                                 ) : (
                                     <TableCell
-                                        align="right"
+                                        align="center"
                                         className='font-kanit text-md'
                                     >
+                                        <Tooltip title="แก้ไข">
+                                            <IconButton component={Link} to={`/transferstation/maintain/crane/update/${items.maintain_crane_id}`}>
+                                                <RiEditLine className="text-[#135812]" />
+                                            </IconButton>
+                                        </Tooltip>
                                         <Tooltip title="ลบ">
                                             <IconButton>
                                                 <DeleteCrane id={items.maintain_crane_id} />

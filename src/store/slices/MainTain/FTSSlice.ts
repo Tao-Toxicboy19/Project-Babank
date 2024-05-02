@@ -79,3 +79,16 @@ export const deleteMainTainFTS = (id: any, setOpen: any) => {
         }
     };
 };
+
+export const updateMainTainFTS = (formData: any, navigate: any, id: number) => {
+    return async (dispatch: any) => {
+        try {
+            await httpClient.put(`maintain_fts/${id}`, formData);
+            toast.success(SUCCESS)
+            navigate('/transferstation')
+            dispatch(loadMainTainFTS())
+        } catch (error) {
+            dispatch(setMainTainFTSFailed())
+        }
+    };
+};

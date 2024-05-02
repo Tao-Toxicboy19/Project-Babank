@@ -6,26 +6,27 @@ import moment from 'moment';
 import TableTitles from '../../TableTitles/TableTitles';
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice';
 import { mainTainAsync, mainTainFtsSelector } from '../../../../store/slices/mainTainFts/mainTainFtsSlice';
-import MainTainFtsDelete from '../MainTainFtsDelete/MainTainFtsDelete';
 import { useAppDispatch } from '../../../../store/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { mainTainDeleteAsync } from '../../../../store/slices/mainTainFts/mainTainFtsDeleteSlice';
+import DeleteDialog from '../../DeleteDialog/DeleteDialog';
+import { RiEditLine } from 'react-icons/ri';
 
 type Props = {}
 
 export default function MainTainFts({ }: Props) {
     const mainTainFTSReducer = useSelector(mainTainFtsSelector)
     const rolesReducer = useSelector(roleSelector)
-    const title = ["ชื่อทุ่น", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แก้ไข"]
+    const title = ["ชื่อทุ่น", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แจ้งเตือนก่อนกี่วัน", "แก้ไข"]
     const dispatch = useAppDispatch()
     const id = rolesReducer.result?.group
     if (!id) return
     useEffect(() => {
         dispatch(mainTainAsync(id))
     }, []);
-    // console.log
 
+    console.log(mainTainFTSReducer.result)
 
-    // const filteredMainTain = (mainTainFTSReducer.result).filter((group) => group.group === rolesReducer.result?.group);
 
     return (
         <TableContainer component={Paper}>
@@ -111,25 +112,71 @@ export default function MainTainFts({ }: Props) {
                                 >
                                     {moment(items.start_time_FTS, 'YYYY-MM-DD HH:mm:ss').add(12, 'hours').format('DD/MM/YYYY HH:mm:ss')}
                                 </TableCell>
-                                {rolesReducer.result && rolesReducer.result.role === 'Viewer' ? (
-                                    <></>
-                                ) : (
-                                    <TableCell
-                                        align="right"
-                                        className='font-kanit text-md'
-                                    >
-                                        <Tooltip title="ลบ">
-                                            <IconButton>
-                                                <MainTainFtsDelete id={items.maintain_FTS_id} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </TableCell>
-                                )}
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-md'
+                                >
+                                    {items.noti_day}
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    className='font-kanit text-md'
+                                >
+                                    <Tooltip title="แก้ไข">
+                                        <IconButton component={Link} to={`/transferstation/maintain/fts/update/${items.maintain_FTS_id}`}>
+                                            <RiEditLine className="text-[#135812]" />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="ลบ">
+                                        <IconButton>
+                                            <MainTainFtsDelete id={items.maintain_FTS_id} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             )}
         </TableContainer >
+    )
+}
+
+function MainTainFtsDelete({ id }: { id: number }) {
+    const [open, setOpen] = useState(false)
+    const dispatch = useAppDispatch()
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+    const fetch = () => dispatch(mainTainAsync(id))
+
+    const handleDeleteConfirm = async () => {
+        setIsSubmitting(true)
+        try {
+            await dispatch(mainTainDeleteAsync({ id, handleClose, fetch }))
+            setIsSubmitting(false)
+        } catch (error) {
+            setIsSubmitting(false)
+        }
+    }
+
+    return (
+        <DeleteDialog
+            open={open}
+            handleClickOpen={handleClickOpen}
+            handleClose={handleClose}
+            handleDeleteConfirm={handleDeleteConfirm}
+            isSubmitting={isSubmitting}
+            maxWidth={'sm'}
+            titles={'ต้องการลบสินค้าหรือไม่?'}
+            description={'คุณไม่สามารถกู้คืนข้อมูลที่ถูกลบได้ !'}
+        />
     )
 }

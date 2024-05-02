@@ -2,7 +2,7 @@ import * as React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import { Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { Button, Card, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Slide, Stack, TextField, Typography } from '@mui/material'
 import RouteLayout from '../../layout/RouteLayout/RouteLayout'
 import DialogLoading from '../../layout/DialogLoading/DialogLoading'
 import FTSGantts from '../../layout/Gantts/FTS/FTSGantts'
@@ -33,6 +33,14 @@ import axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DeleteDialog from '../../layout/DeleteDialog/DeleteDialog'
 import { apiManagePlans } from '../../../Constants'
+import { httpClient } from '../../../utils/httpclient'
+import { craneAsync } from '../../../store/slices/Crane/craneSlice'
+import { craneSolutionAsync } from '../../../store/slices/Solution/craneSolutionSlice'
+import { craneSolutionV2Async } from '../../../store/slices/Solution/craneSolutionV2Slice'
+import { ftsSolutionTableAsync } from '../../../store/slices/Solution/ftsSolutionTableSlice'
+import { solutionOrderAsync } from '../../../store/slices/Solution/solutionOrderSlice'
+import { totalTableAsync } from '../../../store/slices/Solution/totalTableFTSSlice'
+import { TransitionProps } from '@mui/material/transitions'
 
 dayjs.locale('th')
 
@@ -122,53 +130,68 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     const rolesReducer = useSelector(roleSelector)
     const dispatch = useAppDispatch()
     const planReducer = useSelector(planSelector)
+    // const [open, setOpen] = React.useState(false)
+    // const [planName, setPlanName] = useState<string>('')
+    // const {
+    //     register,
+    //     handleSubmit,
+    //     formState: { errors },
+    // } = useForm()
+
+    // const handleClickOpen = () => {
+    //     setOpen(true)
+    // }
+
+    // const handleClose = () => {
+    //     setOpen(false)
+    // }
+
+    const [open2, setOpen2] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleClickOpen2 = () => {
+        setOpen2(true)
+    }
+
+    const handleClose2 = () => {
+        setOpen2(false)
+    }
+
     const [open, setOpen] = React.useState(false)
-    const [planName, setPlanName] = useState<string>('')
+    const [planName, setPlanName] = React.useState<string>('')
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset
     } = useForm()
 
-    const handleClickOpen = () => {
-        setOpen(true)
-    }
-
-    const handleClose = () => {
-        setOpen(false)
-    }
-
-
-    const [open2, setOpen2] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const handleClickOpen2 = () => {
-        setOpen2(true);
-    };
-
-    const handleClose2 = () => {
-        setOpen2(false);
-    };
 
     const handleDeleteConfirm = async () => {
+        console.log(planReducer.plan)
         dispatch(removePlant(planReducer.plan))
         handleClose2()
-        setIsSubmitting(true);
+        setIsSubmitting(true)
         try {
-            setIsSubmitting(false);
+            setIsSubmitting(false)
         } catch (error) {
             setIsSubmitting(false)
         }
     }
 
-
-    // console.log(planReducer.plan)
-
-    useEffect(() => {
-        if (planReducer.planAi.length > 0) {
-            dispatch(setPlans(planReducer.planAi[0].id))
-        }
-    }, [planReducer.planAi, dispatch])
+    if (plan === 'Customize') {
+        useEffect(() => {
+            if (planReducer.planUser.length > 0) {
+                dispatch(setPlans(planReducer.planUser[0].id))
+            }
+        }, [planReducer.planUser, dispatch])
+    } else {
+        useEffect(() => {
+            if (planReducer.planAi.length > 0) {
+                dispatch(setPlans(planReducer.planAi[0].id))
+            }
+        }, [planReducer.planAi, dispatch])
+    }
 
     return (
         <>
@@ -190,40 +213,50 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                             <DialogLoading plan={plan} />
                         )
                     )}
-                    {plan !== 'Customize' &&
-                        <Stack direction='row' spacing={1}>
-                            {plan === 'Customize' ? (
-                                planReducer.planUser.map((plan) => (
-                                    <Button
-                                        disabled={planReducer.plan === plan.id}
-                                        key={plan.id}
-                                        onClick={() => dispatch(setPlans(plan.id))}
-                                    >
-                                        {plan.plan_name}
-                                    </Button>
-                                ))
-                            ) : (
-                                planReducer.planAi.map((plan) => (
-                                    <Button
-                                        disabled={planReducer.plan === plan.id}
-                                        key={plan.id}
-                                        onClick={() => dispatch(setPlans(plan.id))}
-                                    >
-                                        {plan.plan_name}
-                                    </Button>
-                                ))
-                            )}
-                        </Stack>
-                    }
+                    <Stack direction='row' spacing={1}>
+                        {plan === 'Customize' ? (
+                            planReducer.planUser.map((plan) => (
+                                <Button
+                                    disabled={planReducer.plan === plan.id}
+                                    key={plan.id}
+                                    onClick={() => dispatch(setPlans(plan.id))}
+                                >
+                                    {plan.plan_name}
+                                </Button>
+                            ))
+                        ) : (
+                            planReducer.planAi.map((plan) => (
+                                <Button
+                                    disabled={planReducer.plan === plan.id}
+                                    key={plan.id}
+                                    onClick={() => dispatch(setPlans(plan.id))}
+                                >
+                                    {plan.plan_name}
+                                </Button>
+                            ))
+                        )}
+                    </Stack>
                 </Box>
-                <Button
-                    startIcon={<DeleteIcon />}
-                    variant='outlined'
-                    onClick={handleClickOpen2}
-                >
-                    ลบแผน {planReducer.planAi.find(p => p.id === planReducer.plan)?.plan_name}
-                </Button>
+                {plan !== 'Customize' ? (
+                    <Button
+                        startIcon={<DeleteIcon />}
+                        variant='outlined'
+                        onClick={handleClickOpen2}
+                    >
+                        ลบแผน {planReducer.planAi.find(p => p.id === planReducer.plan)?.plan_name}
+                    </Button>
+                ) : (
+                    <Button
+                        startIcon={<DeleteIcon />}
+                        variant='outlined'
+                        onClick={handleClickOpen2}
+                    >
+                        ลบแผน {planReducer.planUser.find(p => p.id === planReducer.plan)?.plan_name}
+                    </Button>
+                )}
+
                 <DeleteDialog
+                    icon
                     open={open2}
                     handleClickOpen={handleClickOpen2}
                     handleClose={handleClose2}
@@ -236,69 +269,145 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
             </Stack>
 
             {plan === 'Customize' ? (
-                <Box
-                    className='min-h-[80vh]'
-                >
-                    <Card
-                        className='max-w-lg mx-auto items-center'
+                planReducer.planUser.length === 0 ? (
+                    <Box
+                        className='min-h-[80vh]'
                     >
-                        <CardContent>
-                            <Stack
-                                onSubmit={handleSubmit((data) => {
-                                    setPlanName(data.plan_name)
-                                    handleClickOpen()
-                                })}
-                                component='form'
-                                direction='column'
-                                spacing={2}
-                            >
-                                <Typography variant="h6" component="h2">
-                                    การปรับแก้แผนเอง
-                                </Typography>
-                                <TextField
-                                    id='plan_name'
-                                    type='text'
-                                    label='ชื่อแผนใหม่'
-                                    fullWidth
-                                    size='small'
-                                    className='font-kanit'
-                                    error={errors.plan_name && true}
-                                    helperText={errors.plan_name && "กรอกชื่อแผน"}
-                                    {...register('plan_name', { required: true })}
-                                />
-                                <Box
-                                    className='grid grid-cols-4 gap-2 mt-2'
+                        <Card
+                            className='max-w-lg mx-auto items-center'
+                        >
+                            <CardContent>
+                                <Stack
+                                    onSubmit={handleSubmit((data) => {
+                                        setPlanName(data.plan_name)
+                                        setOpen(true)
+                                        reset()
+                                    })}
+                                    component='form'
+                                    direction='column'
+                                    spacing={2}
                                 >
-                                    {planReducer.planAi.map((plan) => (
-                                        <Button
-                                            key={plan.id}
-
-                                            variant='outlined'
-                                            disabled={planReducer.plan === plan.id}
-                                            onClick={() => dispatch(setPlans(plan.id))}
-                                        >
-                                            {plan.plan_name}
-                                        </Button>
-                                    ))}
-                                </Box>
-                                <Box className='w-full flex justify-end'>
-                                    <Button
-                                        type='submit'
-                                        className='w-24 bg-blue-500'
+                                    <Typography variant="h6" component="h2">
+                                        การปรับแก้แผนเอง
+                                    </Typography>
+                                    <TextField
+                                        id='plan_name'
+                                        type='text'
+                                        label='ชื่อแผนใหม่'
+                                        fullWidth
                                         size='small'
-                                        variant='contained'
+                                        className='font-kanit'
+                                        error={errors.plan_name && true}
+                                        helperText={errors.plan_name && "กรอกชื่อแผน"}
+                                        {...register('plan_name', { required: true })}
+                                    />
+                                    <Box
+                                        className='grid grid-cols-4 gap-2 mt-2'
                                     >
-                                        ปรับแผน
-                                    </Button>
-                                </Box>
-                                <AddPlan open={open} handleClose={handleClose} planName={planName} />
-                            </Stack>
-                        </CardContent>
-                    </Card>
-                </Box>
+                                        {planReducer.planAi.map((plan) => (
+                                            <Button
+                                                key={plan.id}
 
+                                                variant='outlined'
+                                                disabled={planReducer.plan === plan.id}
+                                                onClick={() => dispatch(setPlans(plan.id))}
+                                            >
+                                                {plan.plan_name}
+                                            </Button>
+                                        ))}
+                                    </Box>
+                                    <Box className='w-full flex justify-end'>
+                                        <Button
+                                            type='submit'
+                                            className='w-24 bg-blue-500'
+                                            size='small'
+                                            variant='contained'
+                                        >
+                                            ปรับแผน
+                                        </Button>
+                                    </Box>
+                                    <AddPlan setOpen2={setOpen} open={open} handleClose={() => setOpen(false)} planName={planName} />
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                    </Box>
+                ) : (
+                    <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
+                        <Box sx={{ width: '100%' }}>
+                            <Box className='ml-5'>
+                                <Typography
+                                    variant='h5'
+                                    component='h1'
+                                    className='font-kanit flex items-center text-[#435B71] mt-5'
+                                    sx={{
+                                        fontSize: 24,
+                                        fontFamily: "monospace",
+                                        fontWeight: 700,
+                                        letterSpacing: "0.5px",
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    แผน {planReducer.planUser.find(p => p.id === planReducer.plan)?.plan_name}
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{ borderBottom: 1, borderColor: 'divider' }}
+                                className='flex'
+                            >
+                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                    <Tab label="สรุปภาพรวมต้นทุน" className="font-kanit" {...a11yProps(0)} />
+                                    <Tab label="สรุปต้นทุนทุ่น" className="font-kanit" {...a11yProps(1)} />
+                                    <Tab label="สรุปต้นทุนเรือ" className="font-kanit" {...a11yProps(2)} />
+                                    <Tab label="สรุปเเผนการจัดทุ่น" className="font-kanit" {...a11yProps(3)} />
+                                    <Tab label="สรุปตารางเวลาเเบบทุ่น" className="font-kanit" {...a11yProps(4)} />
+                                    <Tab label="สรุปตารางเวลาเเบบเรือสินค้า" className="font-kanit" {...a11yProps(5)} />
+                                </Tabs>
+                            </Box>
+                            <CustomTabPanel value={value} index={0}>
+                                <SummarizeLayout />
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={1}>
+                                <FTSsingle />
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={2}>
+                                <SummarizaCarrier />
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={3}>
+                                <RouteLayout />
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={4}>
+                                <Box>
+                                    <FTSGantts />
+                                </Box>
+                            </CustomTabPanel>
+                            <CustomTabPanel value={value} index={5}>
+                                <Box>
+                                    <CraneGantts />
+                                </Box>
+                            </CustomTabPanel>
+                        </Box>
+                    </Card>
+                )
             ) : (
                 <Card className='bg-[#ffffff]/75 min-h-[80vh]'>
+                    <Box className='ml-5'>
+                        <Typography
+                            variant='h5'
+                            component='h1'
+                            className='font-kanit flex items-center text-[#435B71] mt-5'
+                            sx={{
+                                fontSize: 24,
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: "0.5px",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            แผน {planReducer.planAi.find(p => p.id === planReducer.plan)?.plan_name}
+                        </Typography>
+                    </Box>
                     <Box sx={{ width: '100%' }}>
                         <Box
                             sx={{ borderBottom: 1, borderColor: 'divider' }}
@@ -372,31 +481,58 @@ function HeroPlane({ setPlan }: { setPlan: React.Dispatch<React.SetStateAction<s
     )
 }
 
-export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () => void, planName: string }) {
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+})
+
+export function AddPlan({ open, handleClose, planName, setOpen2, setOpen }: { setOpen?: any, open: boolean, handleClose: () => void, planName: string, setOpen2?: any }) {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
-    const roleReducer = useSelector(roleSelector)
-    const group = roleReducer.result?.group
-    if (!group) return
-    // _planName
+    const dispatch = useAppDispatch()
+    const planReducer = useSelector(planSelector)
+    const [plan, setplan] = useState(planReducer.plan)
+    const rolesReducer = useSelector(roleSelector)
+    const [openSubmit, setOpenSubmit] = useState(false)
+    const id = rolesReducer.result?.group
+    if (!id) return
+
+    useEffect(() => {
+        dispatch(craneSolutionAsync(plan))
+        dispatch(craneSolutionV2Async(plan))
+        dispatch(totalTableAsync(plan))
+        dispatch(sulutionScheduelAsync(plan))
+        dispatch(ftsSolutionTableAsync(plan))
+        dispatch(solutionOrderAsync(plan))
+        dispatch(craneAsync())
+    }, [plan, dispatch, setplan])
+
+    useEffect(() => {
+        dispatch(planAsync(id))
+    }, [plan, dispatch, setplan])
 
     const handleSubmit = async () => {
         try {
-
-            // const result = {
-            //     Group: group,
-            //     started_at: new Date(),
-            //     ended_at: new Date(),
-            //     plan_name: planName,
-            //     plan_type: 'user'
-            // }
-            // const res = await httpClient.post('plan', result)
+            setOpenSubmit(true)
+            const result = {
+                Group: id,
+                started_at: new Date(),
+                ended_at: new Date(),
+                plan_name: planName,
+                plan_type: 'user'
+            }
+            dispatch(setAdd(result))
+            const res = await httpClient.post('plan', result)
             const payload = {
-                user_group: group,
-                solution_id: 71,
+                user_group: id,
+                solution_id: res.data.message,
                 plan: solutionScheduleReducer.edit.reduce((acc: any[], curr) => {
                     const existingOrder = acc.find(order => order.order_id === curr.order_id)
-                    const startDate = new Date(curr.arrivaltime);
-                    const mysqlDateFormat = startDate.toISOString().slice(0, 19).replace('T', ' ');
+                    const startDate = new Date(curr.arrivaltime)
+                    const mysqlDateFormat = startDate.toISOString().slice(0, 19).replace('T', ' ')
 
                     const ftsData = {
                         fts_id: curr.FTS_id,
@@ -416,13 +552,37 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                     return acc
                 }, [])
             }
-            // const res = await axios.post('http://154.49.243.54:5011/update', payload)
-            const res = await axios.post(`${apiManagePlans}/update`, payload)
-            console.log(res.data)
+
+            // const response = await axios.post('http://154.49.243.54:5011/update', payload)
+            await axios.post(`${apiManagePlans}/update`, payload)
+            setplan(res.data.message)
+            setOpen2(false)
+            setOpenSubmit(false)
+            setOpen(false)
         } catch (error) {
             console.log(error)
         }
     }
+
+    const loading = () => (
+        <React.Fragment>
+            <Button variant="outlined" onClick={() => setOpenSubmit(true)}>
+                Slide in alert dialog
+            </Button>
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"กำลังปรับแก้แผน..."}</DialogTitle>
+                <DialogContent className='flex justify-center m-5'>
+                    <CircularProgress />
+                </DialogContent>
+            </Dialog>
+        </React.Fragment>
+    )
 
     return (
         <React.Fragment>
@@ -432,7 +592,6 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 fullScreen
-
             >
 
                 <DialogTitle id="alert-dialog-title"
@@ -442,6 +601,7 @@ export function AddPlan({ open, handleClose }: { open: boolean, handleClose: () 
                 </DialogTitle>
                 <DialogContent>
                     <EditPlan />
+                    {openSubmit && loading()}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>ยกเลิก</Button>

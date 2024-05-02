@@ -19,6 +19,8 @@ interface MainTain {
     start_time: string;
     mt_crane_id: number;
     group: number;
+    noti_day: number
+    noti: boolean
     crane: Crane;
 }
 
@@ -27,13 +29,15 @@ interface mainTainState {
     error: boolean
     result: MainTain[]
     notiPlan: MainTain[]
+    count: number
 }
 
 const initialState: mainTainState = {
     loading: false,
     error: false,
     result: [],
-    notiPlan: []
+    notiPlan: [],
+    count: 0
 }
 
 export const mainTainCraneAsync = createAsyncThunk(
@@ -48,17 +52,37 @@ export const mainTainCraneAsync = createAsyncThunk(
     }
 )
 
+export const removeNotiCrane = createAsyncThunk(
+    'mainTainCrane/mainTainCraneAsync',
+    async ({ id, type }: { id: number, type: string }, { dispatch }) => {
+        try {
+            dispatch(setRemove(id))
+            await httpClient.post('delete/noti', { id, type })
+        } catch (error) {
+            throw error;
+        }
+    }
+)
+
 const mainTainCraneSlice = createSlice({
     name: 'mainTainCrane',
     initialState,
-    reducers: {},
+    reducers: {
+        setRemove(state, action: PayloadAction<number>) {
+            state.notiPlan = state.notiPlan.filter(p => p.maintain_crane_id !== action.payload)
+            state.count = state.notiPlan.length
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(mainTainCraneAsync.fulfilled, (state: mainTainState, action: PayloadAction<MainTain[]>) => {
             state.result = action.payload
-            const thirtyDaysAgo = new Date();
-            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-            state.notiPlan = action.payload.filter(notification => new Date(notification.downtime) > thirtyDaysAgo);
 
+            state.notiPlan = action.payload.filter(notification => {
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - notification.noti_day)
+                return new Date(notification.downtime) > thirtyDaysAgo && notification.noti === false
+            })
+            state.count = state.notiPlan.length
             state.loading = false
             state.error = false
         });
@@ -77,6 +101,6 @@ const mainTainCraneSlice = createSlice({
     },
 })
 
-export const { } = mainTainCraneSlice.actions
+export const { setRemove } = mainTainCraneSlice.actions
 export const mainTainCraneSelector = (store: RootState) => store.mainTainCraneReducer
 export default mainTainCraneSlice.reducer

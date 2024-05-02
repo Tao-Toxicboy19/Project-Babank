@@ -79,3 +79,16 @@ export const deleteMainTainCrane = (id: any, setOpen: any) => {
         }
     };
 };
+
+export const updateMainTainCrane = (formData: any, navigate: any, id: number) => {
+    return async (dispatch: any) => {
+        try {
+            await httpClient.put(`maintain_crane/${id}`, formData);
+            toast.success(SUCCESS)
+            navigate('/transferstation')
+            dispatch(loadMainTainCrane())
+        } catch (error) {
+            dispatch(setMainTainFailed())
+        }
+    };
+};

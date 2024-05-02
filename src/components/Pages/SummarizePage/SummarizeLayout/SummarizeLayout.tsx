@@ -81,7 +81,7 @@ export default function SummarizeLayout() {
                         <Box className='grid grid-cols-12 gap-x-5'>
                             <Box className='col-span-12 grid grid-cols-7 gap-x-5'>
                                 <Box className='col-span-2 flex border-b-2 border-neutral-400 justify-between'>
-                                    <Typography
+                                    {/* <Typography
                                         variant='h5'
                                         component='h1'
                                         className='font-kanit flex items-center text-[#435B71] mt-5'
@@ -95,12 +95,12 @@ export default function SummarizeLayout() {
                                         }}
                                     >
                                         แผน {planReducer.planAi.find(p => p.id === planReducer.plan)?.plan_name}
-                                    </Typography>
+                                    </Typography> */}
 
                                     <Typography
                                         variant='h5'
                                         component='h1'
-                                        className='font-kanit flex justify-center items-center text-[#435B71] mt-5'
+                                        className='font-kanit flex justify-center mx-auto items-center text-[#435B71] mt-5'
                                         sx={{
                                             fontSize: 20,
                                             fontFamily: "monospace",

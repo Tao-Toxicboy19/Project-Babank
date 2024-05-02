@@ -32,11 +32,11 @@ export default function HomePage({ }: Props) {
   const isLoading = ftsReducer.loading && carrierReducer.loading && cargoReducer.loading && orderReducer.loading && cargoCraneReducer.loading
   const filteredOrder = (orderReducer.result).filter((group) => group.group === rolesReducer.result?.group)
 
-  const id  = rolesReducer.result?.group
-    useEffect(() => {
-        dispatch(mainTainAsync(id))
-        dispatch(mainTainCraneAsync(id))
-    }, [])
+  const id = rolesReducer.result?.group
+  useEffect(() => {
+    dispatch(mainTainAsync(id))
+    dispatch(mainTainCraneAsync(id))
+  }, [])
 
   useEffect(() => {
     dispatch(orderAsync())

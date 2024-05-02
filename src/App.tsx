@@ -31,7 +31,7 @@ import ManagementUserPage from './components/Pages/ManagementUserPage/Management
 import CarrierCreate from './components/Pages/CarrierPage/CarrierAdd/CarrierAdd';
 import CarrierEditPage from './components/Pages/CarrierPage/CarrierEditPage/CarrierEditPage';
 import EmployeePage from './components/Pages/EmployeePage/EmployeePage';
-import { roleAsync, roleSelector } from './store/slices/auth/rolesSlice';
+import { roleAsync } from './store/slices/auth/rolesSlice';
 import { useAppDispatch } from './store/store';
 import { carrierAsync } from './store/slices/Carrier/carrierSlice';
 import { craneAsync } from './store/slices/Crane/craneSlice';
@@ -42,7 +42,8 @@ import OrderPage from './components/Pages/OrderPage/OrderPage/OrderPage';
 import OrderCreatePage from './components/Pages/OrderPage/OrderAddPage/OrderAddPage';
 import OrderEditPageV2 from './components/Pages/OrderPage/OrderEdit/OrderEditPageV2';
 import CarrierPage from './components/Pages/CarrierPage/CarrierPage/CarrierPage';
-import { mainTainAsync } from './store/slices/mainTainFts/mainTainFtsSlice';
+import MainTainFtsEdit from './components/layout/MainTain/MainTainFtsEdit/MainTainFtsEdit';
+import MainTainCraneEdit from './components/layout/MainTain/MainTainCraneEdit/MainTainCraneEdit';
 
 const drawerWidth = 240;
 
@@ -118,6 +119,8 @@ export default function ResponsiveDrawer() {
                 <Route path="/transferstation/maintain/create" element={<MainTainFtsAdd />} />
                 <Route path="/transferstation/maintain/crane/create" element={<MainTainCraneAddCrane />} />
                 <Route path="/employee" element={<EmployeePage />} />
+                <Route path="/transferstation/maintain/fts/update/:id" element={<MainTainFtsEdit />} />
+                <Route path="/transferstation/maintain/crane/update/:id" element={<MainTainCraneEdit />} />
               </Route>
 
               <Route element={<AdminRouteV2 />}>

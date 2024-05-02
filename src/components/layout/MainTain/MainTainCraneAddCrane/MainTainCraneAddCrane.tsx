@@ -54,6 +54,7 @@ export default function MainTainCraneAddCrane({ }: Props) {
                     const value = {
                         ...data, id
                     }
+                    // console.log(value)
                     dispatch(addMainTainCrane(value, navigate))
                 })}>
                     <Stack direction='column' spacing={3}>
@@ -84,7 +85,8 @@ export default function MainTainCraneAddCrane({ }: Props) {
                                 fullWidth
                             />
                         </Box>
-                        <Box>
+                        <Stack direction='row' spacing={2}>
+                            <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>เลือกเครน</InputLabel>
                             <FormControl fullWidth>
                                 <Select
@@ -102,7 +104,17 @@ export default function MainTainCraneAddCrane({ }: Props) {
                                     ))}
                                 </Select>
                             </FormControl>
-                        </Box>
+                            </Box>
+                            <Box className='w-full'>
+                                <InputLabel id="cr_id" className='font-kanit'>แจ้งเตือนก่อนกี่วัน</InputLabel>
+                                <TextField
+                                    {...register('noti_day')}
+                                    id='noti_day'
+                                    type='text'
+                                    fullWidth
+                                />
+                            </Box>
+                        </Stack>
                         <Stack spacing={2} direction='row'>
                             <Button
                                 type="submit"
