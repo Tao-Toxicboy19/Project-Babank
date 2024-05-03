@@ -54,17 +54,17 @@ export const { setManagePlanstart, setManagePlansuccess, setManagePlanFailed } =
 export const managePlansSelector = (store: RootState) => store.managePlansReducer
 export default ManagePlansSlice.reducer;
 
-export const ManagePlans = (fts: any[], order: any[], handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void, formData: any, rolesReducer: any, started: any, ended: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const ManagePlans = (resultObject: any, order: any[], handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void, formData: any, rolesReducer: any, started: any, ended: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
         let values: any = {
             computetime: formData.computetime,
             Group: rolesReducer,
-            fts,
             order,
             started,
             ended,
-            plan_type:"ai",
-            plan_name: formData.plan_name
+            plan_type: "ai",
+            plan_name: formData.plan_name,
+            fts: resultObject.fts
         }
         handleClickOpen()
         const res = await httpClient.post('plan', values)

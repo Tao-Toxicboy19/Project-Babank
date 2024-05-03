@@ -42,7 +42,6 @@ import { solutionOrderAsync } from '../../../store/slices/Solution/solutionOrder
 import { totalTableAsync } from '../../../store/slices/Solution/totalTableFTSSlice'
 import { TransitionProps } from '@mui/material/transitions'
 import { orderSelector } from '../../../store/slices/Order/orderSlice'
-
 dayjs.locale('th')
 
 interface TabPanelProps {
@@ -843,14 +842,15 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                     </DemoContainer>
                                 </LocalizationProvider>
                                 {index === 1 &&
-                                    <Button
+                                    <IconButton
+                                        className='size-full w-12'
                                         onClick={() => {
                                             setIdx([...idx, solutionScheduleReducer.count[index].uuid])
                                             dispatch(setRemove(solutionScheduleReducer.count[index].uuid))
                                         }}
                                     >
-                                        remove
-                                    </Button>
+                                        <DeleteIcon />
+                                    </IconButton>
                                 }
                             </Stack>
                         ))}

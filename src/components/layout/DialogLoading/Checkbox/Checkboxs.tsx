@@ -85,18 +85,19 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             setValue(`FTS-${item.fts_id}`, !selectAll)
         })
 
-        orderRucerV2.forEach((item) => {
-            setValue(`Carrier-${item.carrier.cr_id}`, !selectAll)
-        })
+        // orderRucerV2.forEach((item) => {
+        //     setValue(`Carrier-${item.carrier.cr_id}`, !selectAll)
+        // })
     }
 
     const onSubmit = (formData: any) => {
-        const fts = (ftsReducer.result)
-            .filter((item) => formData[`FTS-${item.fts_id}`])
-            .map((item) => ({
-                fts_id: item.fts_id,
-                // เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการในออบเจ็กต์นี้
-            }))
+        const fts: number[] = [];
+        for (const key in formData) {
+            if (formData[key] === true) {
+                fts.push(parseInt(key));
+            }
+        }
+        const resultObject = { fts };
 
         const order = orderRucerV2
             .filter((item) => formData[`Carrier-${item.carrier.cr_id}`])
@@ -107,9 +108,11 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         if (started === undefined || ended === undefined) {
             toast.warn('กรอกข้อมูลให้ครบ')
         } else {
-            dispatch(ManagePlans(fts, order, handleClickOpen, handleClose, handleCloseV2, formData, rolesReducer.result?.group, started, ended))
+            dispatch(ManagePlans(resultObject, order, handleClickOpen, handleClose, handleCloseV2, formData, rolesReducer.result?.group, started, ended))
         }
     }
+
+
 
     const updateCount = () => {
         const values = filteredOrders.filter((order) => {
@@ -179,12 +182,12 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                         control={
                                             <Checkbox
                                                 defaultChecked
-                                                {...register(`example-${item.fts_id}`)}
-                                                onChange={(e) => {
-                                                    if (selectAll) {
-                                                        setValue(`FTS-${item.fts_id}`, e.target.checked)
-                                                    }
-                                                }}
+                                                {...register(`${item.fts_id}`)}
+                                            // onChange={(e) => {
+                                            //     if (selectAll) {
+                                            //         setValue(`FTS-${item.fts_id}`, e.target.checked)
+                                            //     }
+                                            // }}
                                             />
                                         }
                                         label={item.FTS_name}
