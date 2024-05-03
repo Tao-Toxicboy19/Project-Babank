@@ -16,7 +16,7 @@ import MemoryIcon from '@mui/icons-material/Memory'
 import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Chart } from "react-google-charts"
-import { setAdd, setAddEdit, setCount, setNameCarrier, setRemove, sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
+import { setAdd, setAddEdit, setCount, setNameCarrier, setRemove, setRemoveSubmit, sulutionScheduelAsync, sulutionScheduelSelector } from '../../../store/slices/Solution/sollutionScheduleSlice'
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../../../store/store'
 import { planAsync, planSelector, removePlant, setPlans } from '../../../store/slices/planSlicec'
@@ -41,6 +41,7 @@ import { ftsSolutionTableAsync } from '../../../store/slices/Solution/ftsSolutio
 import { solutionOrderAsync } from '../../../store/slices/Solution/solutionOrderSlice'
 import { totalTableAsync } from '../../../store/slices/Solution/totalTableFTSSlice'
 import { TransitionProps } from '@mui/material/transitions'
+import { orderSelector } from '../../../store/slices/Order/orderSlice'
 
 dayjs.locale('th')
 
@@ -499,6 +500,7 @@ export function AddPlan({ open, handleClose, planName, setOpen2, setOpen }: { se
     const [openSubmit, setOpenSubmit] = useState(false)
     const id = rolesReducer.result?.group
     if (!id) return
+    const orderRucer = useSelector(orderSelector)
 
     useEffect(() => {
         dispatch(craneSolutionAsync(plan))
@@ -509,18 +511,42 @@ export function AddPlan({ open, handleClose, planName, setOpen2, setOpen }: { se
         dispatch(solutionOrderAsync(plan))
         dispatch(craneAsync())
     }, [plan, dispatch, setplan])
+    const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
+
+    const deadlineTimes = filteredOrders.map(order => {
+        // แปลง deadline_time เป็นวัตถุ Date
+        const deadlineDate = new Date(order.deadline_time);
+        // รับ timestamp ของ deadline_time
+        return deadlineDate.getTime()
+    });
+
+    const arrivalTimes = filteredOrders.map(order => {
+        // แปลง arrival_time เป็นวัตถุ Date
+        const arrivalDate = new Date(order.arrival_time)
+        // รับ timestamp ของ arrival_time
+        return arrivalDate.getTime()
+    })
+    const convertTimestampToDayjs = (timestamp: any) => {
+        return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss')
+    }
+
+    const minArrivalTime = new Date(Math.min(...arrivalTimes))
+    const maxDeadlineTime = new Date(Math.max(...deadlineTimes));
+    const minArrivalTimeDayjs = convertTimestampToDayjs(minArrivalTime)
+    const maxDeadlineTimeDayjs = convertTimestampToDayjs(maxDeadlineTime);
 
     useEffect(() => {
         dispatch(planAsync(id))
     }, [plan, dispatch, setplan])
+
 
     const handleSubmit = async () => {
         try {
             setOpenSubmit(true)
             const result = {
                 Group: id,
-                started_at: new Date(),
-                ended_at: new Date(),
+                started_at: minArrivalTimeDayjs,
+                ended_at: maxDeadlineTimeDayjs,
                 plan_name: planName,
                 plan_type: 'user'
             }
@@ -528,7 +554,10 @@ export function AddPlan({ open, handleClose, planName, setOpen2, setOpen }: { se
             const res = await httpClient.post('plan', result)
             const payload = {
                 user_group: id,
+                old_solution_id: planReducer.plan,
                 solution_id: res.data.message,
+                started_at: minArrivalTimeDayjs,
+                ended_at: maxDeadlineTimeDayjs,
                 plan: solutionScheduleReducer.edit.reduce((acc: any[], curr) => {
                     const existingOrder = acc.find(order => order.order_id === curr.order_id)
                     const startDate = new Date(curr.arrivaltime)
@@ -555,6 +584,7 @@ export function AddPlan({ open, handleClose, planName, setOpen2, setOpen }: { se
 
             // const response = await axios.post('http://154.49.243.54:5011/update', payload)
             await axios.post(`${apiManagePlans}/update`, payload)
+            await httpClient.post('plan/remove', { plan_id: planReducer.plan })
             setplan(res.data.message)
             setOpen2(false)
             setOpenSubmit(false)
@@ -701,6 +731,8 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
     const [_started, setStarted] = React.useState<Dayjs | null>(plan?.start_date)
     // const [ended, setEnded] = React.useState<Dayjs | null>(plan?.end_date)
+    const [data, setData] = useState<any>()
+    const [idx, setIdx] = useState<any>([])
     const {
         register,
         handleSubmit,
@@ -746,14 +778,15 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         component='form'
                         onSubmit={handleSubmit((_) => {
                             solutionScheduleReducer.count.map((countItem) => {
-                                const isExist = solutionScheduleReducer.edit.some((editItem) => {
-                                    return editItem.order_id === plan?.order_id && editItem.FTS_id === countItem.FTS_id
-                                })
+                                const isExist = solutionScheduleReducer.edit.some((editItem) => editItem.order_id === plan?.order_id && editItem.FTS_id === countItem.FTS_id)
                                 if (!isExist) {
                                     dispatch(setAddEdit(countItem))
                                 }
                             })
                             handleClose()
+                            console.log(idx)
+                            idx.map((id: any) => dispatch(setRemoveSubmit(id)))
+                            dispatch(setNameCarrier(data))
                         })}
                     >
                         {Array.from({ length: solutionScheduleReducer.count.length }, (_, index) => (
@@ -785,7 +818,8 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                                 fts_name: result?.FTS_name,
                                                 uuid: solutionScheduleReducer.count[index].uuid
                                             }
-                                            dispatch(setNameCarrier(value))
+                                            setData(value)
+                                            // dispatch(setNameCarrier(value))
                                         }}
                                     >
                                         {uniqueNames.map((name, index) => {
@@ -808,13 +842,16 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                         />
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                <Button
-                                    onClick={() => {
-                                        dispatch(setRemove(solutionScheduleReducer.count[index].uuid))
-                                    }}
-                                >
-                                    remove
-                                </Button>
+                                {index === 1 &&
+                                    <Button
+                                        onClick={() => {
+                                            setIdx([...idx, solutionScheduleReducer.count[index].uuid])
+                                            dispatch(setRemove(solutionScheduleReducer.count[index].uuid))
+                                        }}
+                                    >
+                                        remove
+                                    </Button>
+                                }
                             </Stack>
                         ))}
 

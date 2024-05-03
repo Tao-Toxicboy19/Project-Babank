@@ -10,7 +10,7 @@ dayjs.extend(isBetween)
 export interface Solution_schedule {
     uuid?: string
     solution_id: number
-    FTS_id: number
+    FTS_id: number | undefined | any
     order_id: number
     carrier_id: number
     lat: number
@@ -88,9 +88,23 @@ const sulutionScheduelSlice = createSlice({
         setCount(state: Solution_scheduleState, action: PayloadAction<any>) {
             state.count = state.edit.filter((s) => s.carrier_id === action.payload)
         },
+
+        setRemoveSubmit(state: Solution_scheduleState, action: PayloadAction<any>) {
+            console.log(action.payload)
+            const index = state.edit.findIndex((o) => o.uuid === action.payload)
+            if (index !== -1) {
+                state.edit[index] = {
+                    ...state.edit[index],
+                    FTS_name: "",
+                    arrivaltime: "",
+                    exittime: "",
+                    FTS_id: undefined
+                }
+            }
+        },
+
         setRemove(state: Solution_scheduleState, action: PayloadAction<any>) {
             state.count = state.count.filter((order) => order.uuid !== action.payload)
-            state.edit = state.edit.filter((order) => order.uuid !== action.payload)
         },
         setAdd(state: Solution_scheduleState, action: PayloadAction<any>) {
             // state.count = 
@@ -123,7 +137,6 @@ const sulutionScheduelSlice = createSlice({
         setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
             const index = state.edit.findIndex((o) => o.order_id === action.payload.order_id)
             const existingState = state.edit.find((item) => item.order_id === action.payload.orderId)
-            console.log(action.payload.orderId)
             if (index !== -1) {
                 const stateStartDate = state.edit[index].arrivaltime;
                 const existingEndDate = existingState?.exittime;
@@ -186,6 +199,6 @@ const sulutionScheduelSlice = createSlice({
     },
 })
 
-export const { setEdit, setRemove, setAdd, setCount, setAddEdit, setNameCarrier } = sulutionScheduelSlice.actions
+export const { setEdit, setRemove, setAdd, setCount, setAddEdit, setNameCarrier, setRemoveSubmit } = sulutionScheduelSlice.actions
 export const sulutionScheduelSelector = (store: RootState) => store.sulutionScheduelReducer
 export default sulutionScheduelSlice.reducer

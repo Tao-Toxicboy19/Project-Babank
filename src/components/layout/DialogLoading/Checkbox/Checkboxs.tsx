@@ -27,7 +27,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const {
         register,
         handleSubmit,
-        formState: { errors},
+        formState: { errors },
         setValue, // เพิ่ม setValue
     } = useForm()
 
@@ -122,8 +122,6 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     };
 
 
-    // สร้างอาร์เรย์เพื่อเก็บ timestamp ของทุก arrival_time
-
 
     React.useEffect(() => {
         updateCount()
@@ -157,44 +155,6 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             </Box>
 
             <Box className='grid grid-cols-3'>
-
-                <Box className='border-1'>
-                    <Typography>เลือกเรือ</Typography>
-                    {orderRucerV2.map((item) => (
-                        <Box key={item.cr_id}>
-                            {(!selectAll) ? (
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            defaultChecked={selectAll}
-                                            {...register(`Carrier-${item.carrier.cr_id}`)}
-                                        />
-                                    }
-                                    label={item.carrier.carrier_name}
-                                />
-                            ) : (
-                                <>
-                                    <Box></Box>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                disabled checked
-                                                // defaultChecked={selectAll}
-                                                {...register(`Carrier-${item.carrier.cr_id}`)}
-                                                onChange={(e) => {
-                                                    if (selectAll) {
-                                                        setValue(`Carrier-${item.carrier.cr_id}`, e.target.checked)
-                                                    }
-                                                }}
-                                            />
-                                        }
-                                        label={item.carrier.carrier_name}
-                                    />
-                                </>
-                            )}
-                        </Box>
-                    ))}
-                </Box>
                 <Box>
                     <Typography>เลือกทุ่น</Typography>
 
@@ -218,8 +178,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                     <FormControlLabel
                                         control={
                                             <Checkbox
-                                                disabled checked
-                                                // defaultChecked={selectAll}
+                                                defaultChecked
                                                 {...register(`example-${item.fts_id}`)}
                                                 onChange={(e) => {
                                                     if (selectAll) {
