@@ -73,6 +73,7 @@ export default function FTSsingle() {
 
     const fetch = async () => {
         const res = await httpClient.get(`${apiUrlV2}/total/table/crane/${planReducer.plan}`)
+        console.log(res.data)
         setData(res.data)
     }
 
@@ -149,7 +150,6 @@ export default function FTSsingle() {
             )
                 .toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','
                 )
-
         },
     ]
 

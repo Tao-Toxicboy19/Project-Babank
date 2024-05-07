@@ -1,4 +1,4 @@
-import { CardContent, Box, InputLabel, Stack, Button, Card, TextField, FormControl, Select, MenuItem } from "@mui/material";
+import { CardContent, Box, InputLabel, Stack, Button, Card, TextField, FormControl, Select, MenuItem, Alert } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export default function MainTainFtsAdd({ }: Props) {
     const {
         register,
         handleSubmit,
-        formState: { },
+        formState: { errors },
     } = useForm();
 
     function convertDateTimeFormat(dateTime: any) {
@@ -53,36 +53,47 @@ export default function MainTainFtsAdd({ }: Props) {
                     const value = {
                         ...data, id
                     }
-                    console.log(value)
                     dispatch(addMainTainFTS(value, navigate))
                 })}>
                     <Stack direction='column' spacing={3}>
                         <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>รายละเอียด</InputLabel>
                             <TextField
-                                {...register('desc_FTS')}
-                                id='deadline_time'
+                                {...register('desc_FTS', { required: true })}
+                                id='desc_FTS'
                                 type='text'
                                 fullWidth
                             />
+                            {errors.desc_FTS &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                         <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>เวลาหยุดทำงาน</InputLabel>
                             <TextField
-                                {...register('downtime_FTS')}
+                                {...register('downtime_FTS', { required: true })}
                                 id='downtime_FTS'
                                 type='datetime-local'
                                 fullWidth
                             />
+                            {errors.downtime_FTS &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                         <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>เวลาเริ่มทำงาน</InputLabel>
                             <TextField
-                                {...register('start_time_FTS')}
+                                {...register('start_time_FTS', { required: true })}
                                 id='deadline_time'
                                 type='datetime-local'
                                 fullWidth
                             />
+                            {errors.start_time_FTS &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                         <Stack direction='row' spacing={2}>
                             <Box className='w-full'>
@@ -91,7 +102,7 @@ export default function MainTainFtsAdd({ }: Props) {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        {...register('mt_FTS_id')}
+                                        {...register('mt_FTS_id', { required: true })}
                                     >
                                         {(FTSReducer.result).map((items) => (
                                             <MenuItem
@@ -103,15 +114,23 @@ export default function MainTainFtsAdd({ }: Props) {
                                         ))}
                                     </Select>
                                 </FormControl>
+                                {errors.mt_FTS_id &&
+                                    <Alert variant="outlined" severity="error" className="mt-1"> 
+                                        กรุณากรอกข้อมูล
+                                    </Alert>}
                             </Box>
                             <Box className='w-full'>
                                 <InputLabel id="cr_id" className='font-kanit'>แจ้งเตือนก่อนกี่วัน</InputLabel>
                                 <TextField
-                                    {...register('noti_day')}
+                                    {...register('noti_day', { required: true })}
                                     id='noti_day'
                                     type='text'
                                     fullWidth
                                 />
+                                {errors.noti_day &&
+                                    <Alert variant="outlined" severity="error" className="mt-1">
+                                        กรุณากรอกข้อมูล
+                                    </Alert>}
                             </Box>
                         </Stack>
                         <Stack spacing={2} direction='row'>

@@ -37,15 +37,12 @@ function Shwoform({ rows, id }: { rows: OrdersEdit, id: any }) {
     return (
         <form onSubmit={handleSubmit(async (data) => {
             setIsSubmitting(true)
-            const total = data.bulkArray.reduce((acc: any, currentValue: any) => acc + parseInt(currentValue), 0);
-
             const values = {
                 ...data,
                 // load: sumBulkArray,
                 arrival_time: moment(data.arrival_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
                 deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
             }
-            console.log(total)
             try {
                 // console.log(values)
                 await dispatch(orderEditAsync({ id, values, navigate, fetch }))

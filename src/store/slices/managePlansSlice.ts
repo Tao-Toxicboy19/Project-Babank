@@ -6,6 +6,14 @@ import { ftsAsync } from "./FTS/ftsSlice";
 import { cargoAsync } from "./Cargo/cargoSlice";
 import { cargoCraneAsync } from "./CargoCrane/cargoCraneSlice";
 import { httpClient } from "../../utils/httpclient";
+import { craneAsync } from "./Crane/craneSlice";
+import { craneSolutionAsync } from "./Solution/craneSolutionSlice";
+import { craneSolutionV2Async } from "./Solution/craneSolutionV2Slice";
+import { ftsSolutionTableAsync } from "./Solution/ftsSolutionTableSlice";
+import { sulutionScheduelAsync } from "./Solution/sollutionScheduleSlice";
+import { solutionOrderAsync } from "./Solution/solutionOrderSlice";
+import { totalTableAsync } from "./Solution/totalTableFTSSlice";
+import { planAsync } from "./planSlicec";
 
 
 export interface ManagePlans {
@@ -54,31 +62,35 @@ export const { setManagePlanstart, setManagePlansuccess, setManagePlanFailed } =
 export const managePlansSelector = (store: RootState) => store.managePlansReducer
 export default ManagePlansSlice.reducer;
 
-export const ManagePlans = (resultObject: any, order: any[], handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void, formData: any, rolesReducer: any, started: any, ended: any): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
+export const ManagePlans = (group: any, planName: string | undefined, values: any, handleClickOpen: () => void, handleClose: () => void, handleCloseV2: () => void): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     try {
-        let values: any = {
-            computetime: formData.computetime,
-            Group: rolesReducer,
-            order,
-            started,
-            ended,
-            plan_type: "ai",
-            plan_name: formData.plan_name,
-            fts: resultObject.fts
-        }
         handleClickOpen()
         const res = await httpClient.post('plan', values)
         values = {
             ...values,
             solution_id: res.data.message
         }
+        const id = res.data.message
+
         const result = await httpClient.post(`${apiManagePlans}/route`, values)
+        if (planName) {
+            console.log(`hello old plan ${planName}`)
+            await httpClient.post('plan/remove', { plan_id: planName })
+        }
         dispatch(setManagePlansuccess(result.data))
+        dispatch(planAsync(group))
         dispatch(ftsAsync())
         dispatch(cargoAsync())
         dispatch(cargoCraneAsync())
         handleClose()
         handleCloseV2()
+        dispatch(craneSolutionAsync(id))
+        dispatch(craneSolutionV2Async(id))
+        dispatch(totalTableAsync(id))
+        dispatch(sulutionScheduelAsync(id))
+        dispatch(ftsSolutionTableAsync(id))
+        dispatch(solutionOrderAsync(id))
+        dispatch(craneAsync())
         toast.success(SUCCESS)
     } catch (error) {
         dispatch(setManagePlanFailed())

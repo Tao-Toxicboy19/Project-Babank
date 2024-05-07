@@ -3,8 +3,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import { useForm } from 'react-hook-form'
 import { Box, Button, Stack, TextField } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { ManagePlans } from '../../../../store/slices/managePlansSlice'
+import { useSelector } from 'react-redux'
 import LoadingTest from './loading/LoadinTest'
 import { Typography } from '@mui/material'
 import { roleSelector } from '../../../../store/slices/auth/rolesSlice'
@@ -16,6 +15,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs, { Dayjs } from 'dayjs'
 import { toast } from "react-toastify"
+import { planSelector } from '../../../../store/slices/planSlicec'
+import 'dayjs/locale/th';
+import { apiManagePlans, SUCCESS } from '../../../../Constants'
+import { httpClient } from '../../../../utils/httpclient'
 
 dayjs.locale('th')
 
@@ -28,17 +31,12 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         register,
         handleSubmit,
         formState: { errors },
-        setValue, // เพิ่ม setValue
     } = useForm()
-
-    const [selectAll, setSelectAll] = React.useState(true)
     const rolesReducer = useSelector(roleSelector)
     const [open, setOpen] = React.useState(false)
-    const dispatch = useDispatch<any>()
     const ftsReducer = useSelector(ftsSelector)
     const orderRucer = useSelector(orderSelector)
     const filteredOrders = (orderRucer.result).filter((group) => group.group === rolesReducer.result?.group)
-
     const arrivalTimes = filteredOrders.map(order => {
         // แปลง arrival_time เป็นวัตถุ Date
         const arrivalDate = new Date(order.arrival_time)
@@ -71,6 +69,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
     const [started, setStarted] = React.useState<Dayjs | null>(minArrivalTimeDayjs)
     const [ended, setEnded] = React.useState<Dayjs | null>(maxDeadlineTimeDayjs)
     const [count, setCount] = React.useState<number | null>(0)
+    const planReducer = useSelector(planSelector)
     const handleClickOpen = () => {
         setOpen(true)
     }
@@ -79,26 +78,17 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         setOpen(false)
     }
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        (ftsReducer.result).forEach((item) => {
-            setValue(`FTS-${item.fts_id}`, !selectAll)
-        })
-
-        // orderRucerV2.forEach((item) => {
-        //     setValue(`Carrier-${item.carrier.cr_id}`, !selectAll)
-        // })
-    }
-
-    const onSubmit = (formData: any) => {
+    const onSubmit = async (formData: any) => {
         const fts: number[] = [];
-        for (const key in formData) {
-            if (formData[key] === true) {
-                fts.push(parseInt(key));
+        for (let key in formData) {
+            if (!isNaN(parseInt(key))) {
+                if (formData[key]) {
+                    fts.push(+key)
+                }
             }
         }
-        const resultObject = { fts };
 
+        const result = { fts: fts };
         const order = orderRucerV2
             .filter((item) => formData[`Carrier-${item.carrier.cr_id}`])
             .map((item) => ({
@@ -108,11 +98,36 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
         if (started === undefined || ended === undefined) {
             toast.warn('กรอกข้อมูลให้ครบ')
         } else {
-            dispatch(ManagePlans(resultObject, order, handleClickOpen, handleClose, handleCloseV2, formData, rolesReducer.result?.group, started, ended))
+            handleClickOpen()
+            const planId = planReducer.planAi.find(p => p.plan_name === formData.plan_name)?.id
+
+            let values: any = {
+                computetime: formData.computetime,
+                Group: rolesReducer.result?.group,
+                order,
+                started,
+                ended,
+                plan_type: "ai",
+                plan_name: formData.plan_name,
+                fts: result.fts,
+                plan_id: planId
+            }
+            const res = await httpClient.post('plan', values)
+            values = {
+                ...values,
+                solution_id: res.data.message
+            }
+            console.log(res.data)
+            await httpClient.post(`${apiManagePlans}/route`, values)
+            if (planId) {
+                await httpClient.post('plan/remove', { plan_id: planId })
+            }
+            handleClose()
+            handleCloseV2()
+            toast.success(SUCCESS)
+            window.location.reload()
         }
     }
-
-
 
     const updateCount = () => {
         const values = filteredOrders.filter((order) => {
@@ -137,21 +152,10 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
             className='flex flex-col'
         >
 
-            <Box className='flex justify-between'>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={selectAll}
-                            onChange={handleSelectAll}
-                        />
-                    }
-                    label="เลือกทั้งหมด"
-                />
-
+            <Box className='flex justify-end'>
                 <Button
                     variant='outlined'
                     type="submit"
-                // disabled={}
                 >
                     จัดการแผน
                 </Button>
@@ -163,37 +167,15 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
 
                     {(ftsReducer.result).map((item) => (
                         <Box key={item.fts_id}>
-                            {(!selectAll) ? (
-                                <>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                defaultChecked={selectAll}
-                                                {...register(`FTS-${item.fts_id}`)}
-                                            />
-                                        }
-                                        label={item.FTS_name}
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        defaultChecked
+                                        {...register(`${item.fts_id}`)}
                                     />
-                                </>
-                            ) : (
-                                <>
-                                    <Box></Box>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                defaultChecked
-                                                {...register(`${item.fts_id}`)}
-                                            // onChange={(e) => {
-                                            //     if (selectAll) {
-                                            //         setValue(`FTS-${item.fts_id}`, e.target.checked)
-                                            //     }
-                                            // }}
-                                            />
-                                        }
-                                        label={item.FTS_name}
-                                    />
-                                </>
-                            )}
+                                }
+                                label={item.FTS_name}
+                            />
                         </Box>
                     ))}
 
@@ -227,6 +209,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                 label="เลือกวันที่เริ่มแผน"
                                 value={started}
                                 onChange={(newValue) => setStarted(newValue)}
+                                format="DD/MM/YYYY hh:mm:ss"
                             />
                         </DemoContainer>
                     </LocalizationProvider>
@@ -237,6 +220,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                                 label="เลือกวันที่จบแผน"
                                 value={ended}
                                 onChange={(newValue) => setEnded(newValue)}
+                                format="DD/MM/YYYY hh:mm:ss"
                             />
                         </DemoContainer>
                     </LocalizationProvider>

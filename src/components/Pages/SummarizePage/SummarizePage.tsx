@@ -182,9 +182,14 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
     if (plan === 'Customize') {
         useEffect(() => {
             if (planReducer.planUser.length > 0) {
+                console.log('Customize')
                 dispatch(setPlans(planReducer.planUser[0].id))
+            } else {
+                if (planReducer.planAi.length > 0) {
+                    dispatch(setPlans(planReducer.planAi[0].id))
+                }
             }
-        }, [planReducer.planUser, dispatch])
+        }, [planReducer.planUser, planReducer.planAi, dispatch])
     } else {
         useEffect(() => {
             if (planReducer.planAi.length > 0) {
@@ -307,7 +312,6 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                                         {planReducer.planAi.map((plan) => (
                                             <Button
                                                 key={plan.id}
-
                                                 variant='outlined'
                                                 disabled={planReducer.plan === plan.id}
                                                 onClick={() => dispatch(setPlans(plan.id))}
@@ -583,11 +587,15 @@ export function AddPlan({ open, handleClose, planName, setOpen2, setOpen }: { se
 
             // const response = await axios.post('http://154.49.243.54:5011/update', payload)
             await axios.post(`${apiManagePlans}/update`, payload)
-            await httpClient.post('plan/remove', { plan_id: planReducer.plan })
+            const planId = planReducer.planAi.find(p => p.plan_name === planName)?.id
+            if (planId) {
+                await httpClient.post('plan/remove', { plan_id: planId })
+            }
             setplan(res.data.message)
             setOpen2(false)
             setOpenSubmit(false)
             setOpen(false)
+            window.location.reload()
         } catch (error) {
             console.log(error)
         }
@@ -656,6 +664,7 @@ type Plan = {
     start_date: any
     end_date: any
     uuid: string | undefined
+    max_fts: number | null
 }
 
 function EditPlan() {
@@ -669,36 +678,65 @@ function EditPlan() {
     let data = [solutionScheduleReducer.edit[0]]
     data = data.concat(solutionScheduleReducer.edit)
 
-    const datav2 = data.map((item) => {
-        // const parsedStartDate = parse(item.arrivaltime, "M/d/yyyy, h:mm:ss a", new Date())
-        // const parsedEndDate = parse(item.exittime, "M/d/yyyy, h:mm:ss a", new Date())
+    let datav2 = data.map((item) => {
 
-        // const formattedStartDate = format(parsedStartDate, "yyyy, M, d HH:mm:ss")
-        // const formattedEndDate = format(parsedEndDate, "yyyy, M, d HH:mm:ss")
         return [
             item.carrier_name,
             item.FTS_name,
+            // Custom(item),
             new Date(item.arrivaltime),
-            new Date(item.exittime)
+            new Date(item.exittime),
         ]
     })
 
+    const config: any = [
+        'Task',
+        'Task',
+        // { type: 'string', role: 'tooltip', p: { html: true } },
+        'Start Date',
+        'End Date',
+    ]
+
+    datav2[0] = config
+
+    // const handleChartClick = ({ chartWrapper }: any) => {
+    //     const selection = chartWrapper.getChart().getSelection()
+    //     if (selection.length === 1) {
+
+    //     }
+    // }
     const handleChartClick = ({ chartWrapper }: any) => {
         const selection = chartWrapper.getChart().getSelection()
         if (selection.length === 1) {
             const rowIndex = selection[0].row
-            setPlan({
-                id: rowIndex,
-                order_id: data[rowIndex + 1].order_id,
-                carrier_name: data[rowIndex + 1].carrier_name,
-                carrier_id: data[rowIndex + 1].carrier_id,
-                FTS_name: data[rowIndex + 1].FTS_name,
-                FTS_id: data[rowIndex + 1].FTS_id,
-                start_date: data[rowIndex + 1].arrivaltime,
-                end_date: data[rowIndex + 1].exittime,
-                uuid: data[rowIndex + 1].uuid
-            })
-            handleClickOpen()
+            const task = datav2[rowIndex + 1][0]; // Get the task name
+            let firstIndex = -1;
+
+            // Find the first index of the task
+            for (let i = 1; i < datav2.length; i++) {
+                if (datav2[i][0] === task) {
+                    firstIndex = i;
+                    break;
+                }
+            }
+
+            if (firstIndex === rowIndex + 1) {
+                // alert(task);
+                const rowIndex = selection[0].row
+                setPlan({
+                    id: rowIndex,
+                    order_id: data[rowIndex + 1].order_id,
+                    carrier_name: data[rowIndex + 1].carrier_name,
+                    carrier_id: data[rowIndex + 1].carrier_id,
+                    FTS_name: data[rowIndex + 1].FTS_name,
+                    FTS_id: data[rowIndex + 1].FTS_id,
+                    start_date: data[rowIndex + 1].arrivaltime,
+                    end_date: data[rowIndex + 1].exittime,
+                    uuid: data[rowIndex + 1].uuid,
+                    max_fts: data[rowIndex + 1].carrier_max_FTS
+                })
+                handleClickOpen()
+            }
         }
     }
 
@@ -711,7 +749,14 @@ function EditPlan() {
                 data={datav2}
                 width="100%"
                 height="800px"
-                options={{}}
+                options={{
+                    hAxis: {
+                        format: 'dd/MM/yy hh:mm'
+                    },
+                    tooltip: {
+                        isHtml: true
+                    }
+                }}
                 graph_id="TimelineChart"
                 chartEvents={[
                     {
@@ -722,15 +767,15 @@ function EditPlan() {
             >
             </Chart>
             <EditCarrier open={open} handleClose={handleClose} plan={plan} />
-        </Box>
+        </Box >
     )
 }
 
 export function EditCarrier({ open, handleClose, plan }: { open: boolean, handleClose: () => void, plan: Plan | undefined }) {
     const solutionScheduleReducer = useSelector(sulutionScheduelSelector)
     const [_started, setStarted] = React.useState<Dayjs | null>(plan?.start_date)
-    // const [ended, setEnded] = React.useState<Dayjs | null>(plan?.end_date)
     const [data, setData] = useState<any>()
+    const [fts, setFts] = useState<any>()
     const [idx, setIdx] = useState<any>([])
     const {
         register,
@@ -746,6 +791,8 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
         }
     }, [plan?.carrier_id, solutionScheduleReducer.edit])
 
+    console.log(solutionScheduleReducer.edit)
+
     return (
         <React.Fragment>
             <Dialog
@@ -760,35 +807,34 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         {`ปรับเปลี่ยนทุ่น ${plan?.carrier_name}`}
                         <IconButton
                             onClick={() => {
+                                const id = uuidv4()
                                 dispatch(setAdd({
                                     ...solutionScheduleReducer.count[0],
                                     FTS_name: "",
-                                    uuid: uuidv4()
+                                    uuid: id
                                 }))
                             }}
                         >
                             <AddIcon />
                         </IconButton>
                     </Box>
+                    {/* <Typography variant='body1' component='div'>
+                        เวลาเรือเข้า {plan?.start_date}
+                    </Typography> */}
                 </DialogTitle>
                 <DialogContent>
                     <Stack
                         spacing={2}
                         component='form'
-                        onSubmit={handleSubmit((_) => {
-                            solutionScheduleReducer.count.map((countItem) => {
-                                const isExist = solutionScheduleReducer.edit.some((editItem) => editItem.order_id === plan?.order_id && editItem.FTS_id === countItem.FTS_id)
-                                if (!isExist) {
-                                    dispatch(setAddEdit(countItem))
-                                }
-                            })
-                            handleClose()
-                            console.log(idx)
+                        onSubmit={handleSubmit(() => {
+
+                            dispatch(setAddEdit(fts))
                             idx.map((id: any) => dispatch(setRemoveSubmit(id)))
                             dispatch(setNameCarrier(data))
+                            handleClose()
                         })}
                     >
-                        {Array.from({ length: solutionScheduleReducer.count.length }, (_, index) => (
+                        {Array.from({ length: Math.min(solutionScheduleReducer.count.length, plan?.max_fts || 0) }, (_, index) => (
                             <Stack key={index} direction='row' spacing={2}>
                                 <FormControl
                                     className='w-72 pt-2'
@@ -817,6 +863,10 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                                 fts_name: result?.FTS_name,
                                                 uuid: solutionScheduleReducer.count[index].uuid
                                             }
+                                            setFts({
+                                                ...solutionScheduleReducer.count[index],
+                                                FTS_name: result?.FTS_name
+                                            })
                                             setData(value)
                                             // dispatch(setNameCarrier(value))
                                         }}
@@ -838,10 +888,12 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                             label="ทุ่นเข้า"
                                             slotProps={{ textField: { size: 'small' } }}
                                             onChange={(newValue) => setStarted(newValue)}
+                                            format="DD/MM/YYYY hh:mm:ss"
+
                                         />
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                {index === 1 &&
+                                {index !== 0 &&
                                     <IconButton
                                         className='size-full w-12'
                                         onClick={() => {

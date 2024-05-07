@@ -1,4 +1,4 @@
-import { CardContent, Box, InputLabel, Stack, Button, Card, TextField, FormControl, Select, MenuItem, Typography } from "@mui/material";
+import { CardContent, Box, InputLabel, Stack, Button, Card, TextField, FormControl, Select, MenuItem, Typography, Alert } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export default function MainTainCraneAddCrane({ }: Props) {
     const {
         register,
         handleSubmit,
-        formState: { },
+        formState: { errors },
     } = useForm();
 
     function convertDateTimeFormat(dateTime: any) {
@@ -61,58 +61,78 @@ export default function MainTainCraneAddCrane({ }: Props) {
                         <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>รายละเอียด</InputLabel>
                             <TextField
-                                {...register('desc')}
+                                {...register('desc', { required: true })}
                                 id='desc'
                                 type='text'
                                 fullWidth
                             />
+                            {errors.desc &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                         <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>เวลาหยุดทำงาน</InputLabel>
                             <TextField
-                                {...register('downtime')}
+                                {...register('downtime', { required: true })}
                                 id='downtime'
                                 type='datetime-local'
                                 fullWidth
                             />
+                            {errors.downtime &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                         <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>เวลาเริ่มทำงาน</InputLabel>
                             <TextField
-                                {...register('start_time')}
+                                {...register('start_time', { required: true })}
                                 id='start_time'
                                 type='datetime-local'
                                 fullWidth
                             />
+                            {errors.start_time &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
                         </Box>
                         <Stack direction='row' spacing={2}>
                             <Box className='w-full'>
-                            <InputLabel id="cr_id" className='font-kanit'>เลือกเครน</InputLabel>
-                            <FormControl fullWidth>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    {...register('mt_crane_id')}
-                                >
-                                    {(craneReducer.result).map((items) => (
-                                        <MenuItem
-                                            key={items.id}
-                                            value={items.id}
-                                        >
-                                            {items.crane_name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                                <InputLabel id="cr_id" className='font-kanit'>เลือกเครน</InputLabel>
+                                <FormControl fullWidth>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        {...register('mt_crane_id', { required: true })}
+                                    >
+                                        {(craneReducer.result).map((items) => (
+                                            <MenuItem
+                                                key={items.id}
+                                                value={items.id}
+                                            >
+                                                {items.crane_name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                {errors.mt_crane_id &&
+                                    <Alert variant="outlined" severity="error" className="mt-1">
+                                        กรุณากรอกข้อมูล
+                                    </Alert>}
                             </Box>
                             <Box className='w-full'>
                                 <InputLabel id="cr_id" className='font-kanit'>แจ้งเตือนก่อนกี่วัน</InputLabel>
                                 <TextField
-                                    {...register('noti_day')}
+                                    {...register('noti_day', { required: true })}
                                     id='noti_day'
                                     type='text'
                                     fullWidth
                                 />
+                                {errors.noti_day &&
+                                    <Alert variant="outlined" severity="error" className="mt-1">
+                                        กรุณากรอกข้อมูล
+                                    </Alert>}
                             </Box>
                         </Stack>
                         <Stack spacing={2} direction='row'>
