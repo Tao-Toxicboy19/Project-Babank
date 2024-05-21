@@ -42,8 +42,8 @@ export default function FTSGantts() {
   const result = data.map((item) => {
     if (item.arrivaltime && item.exittime) {
       return [
-        item.carrier_name,
         item.FTS_name,
+        item.carrier_name,
         Custom(item),
         new Date(item.arrivaltime),
         new Date(item.exittime)

@@ -51,6 +51,7 @@ interface Solution_scheduleState {
     chars: Solution_schedule[]
     edit: Solution_schedule[]
     count: Solution_schedule[]
+    charsFTS: Solution_schedule[]
 }
 
 const initialState: Solution_scheduleState = {
@@ -60,7 +61,8 @@ const initialState: Solution_scheduleState = {
     error: false,
     chars: [],
     edit: [],
-    count: []
+    count: [],
+    charsFTS: []
 }
 
 export const sulutionScheduelAsync = createAsyncThunk(
@@ -132,7 +134,8 @@ const sulutionScheduelSlice = createSlice({
         setAddEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
             console.log(action.payload)
             // state.count.find(c => c.uuid === action.payload)
-            state.count.push(action.payload)
+            // state.count.push(action.payload)
+            state.count = []
             state.edit.push(action.payload)
         },
         // setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
@@ -187,6 +190,9 @@ const sulutionScheduelSlice = createSlice({
                 return dayjs(a.arrivaltime).isBefore(dayjs(b.arrivaltime)) ? -1 : 1;
             })
             state.edit = action.payload.filter((item) => item.carrier_name !== null).sort((a, b) => {
+                return dayjs(a.arrivaltime).isBefore(dayjs(b.arrivaltime)) ? -1 : 1;
+            })
+            state.charsFTS = action.payload.filter((item) => item.FTS_name !== null).sort((a, b) => {
                 return dayjs(a.arrivaltime).isBefore(dayjs(b.arrivaltime)) ? -1 : 1;
             })
         })

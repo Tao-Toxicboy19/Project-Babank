@@ -103,7 +103,15 @@ const orderSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(orderAsync.fulfilled, (state: OrderState, action: PayloadAction<Orders[]>) => {
-      state.result = action.payload
+      // state.result = action.payload
+      state.result = action.payload.sort((a, b) => {
+        // แปลง arrival_time เป็นวัตถุ Date เพื่อเปรียบเทียบ
+        const arrivalTimeA = new Date(a.arrival_time);
+        const arrivalTimeB = new Date(b.arrival_time);
+    
+        // เรียงลำดับตาม arrival_time โดยใช้ getTime() เพื่อเปรียบเทียบค่าตัวเลข
+        return arrivalTimeB.getTime() - arrivalTimeA.getTime();
+      })
       state.loading = false
       state.error = false
     });

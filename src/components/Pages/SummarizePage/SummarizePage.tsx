@@ -200,7 +200,7 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
 
     return (
         <>
-            <Stack direction='row' spacing={2} className='justify-between mb-2'>
+            <Stack direction='row' spacing={3} className='justify-between mb-2'>
                 <Box className='flex'>
                     <Button
                         startIcon={<ArrowBackIcon />}
@@ -209,38 +209,42 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                         กลับ
                     </Button>
 
-                    {rolesReducer.result && (
-                        rolesReducer.result.role === 'Viewer' ? (
-                            <></>
-                        ) : rolesReducer.result.role === 'Contributor' ? (
-                            <></>
-                        ) : (
-                            <DialogLoading plan={plan} />
-                        )
-                    )}
-                    <Stack direction='row' spacing={1}>
-                        {plan === 'Customize' ? (
-                            planReducer.planUser.map((plan) => (
-                                <Button
-                                    disabled={planReducer.plan === plan.id}
-                                    key={plan.id}
-                                    onClick={() => dispatch(setPlans(plan.id))}
-                                >
-                                    {plan.plan_name}
-                                </Button>
-                            ))
-                        ) : (
-                            planReducer.planAi.map((plan) => (
-                                <Button
-                                    disabled={planReducer.plan === plan.id}
-                                    key={plan.id}
-                                    onClick={() => dispatch(setPlans(plan.id))}
-                                >
-                                    {plan.plan_name}
-                                </Button>
-                            ))
+                    <Box>
+                        {rolesReducer.result && (
+                            rolesReducer.result.role === 'Viewer' ? (
+                                <></>
+                            ) : rolesReducer.result.role === 'Contributor' ? (
+                                <></>
+                            ) : (
+                                <DialogLoading plan={plan} />
+                            )
                         )}
-                    </Stack>
+                    </Box>
+                    <Box sx={{ overflowX: 'auto', maxWidth: 750 }}>
+                        <Stack direction='row' spacing={1} sx={{ width: 'max-content' }}>
+                            {plan === 'Customize' ? (
+                                planReducer.planUser.map((plan) => (
+                                    <Button
+                                        disabled={planReducer.plan === plan.id}
+                                        key={plan.id}
+                                        onClick={() => dispatch(setPlans(plan.id))}
+                                    >
+                                        {plan.plan_name}
+                                    </Button>
+                                ))
+                            ) : (
+                                planReducer.planAi.map((plan) => (
+                                    <Button
+                                        disabled={planReducer.plan === plan.id}
+                                        key={plan.id}
+                                        onClick={() => dispatch(setPlans(plan.id))}
+                                    >
+                                        {plan.plan_name}
+                                    </Button>
+                                ))
+                            )}
+                        </Stack>
+                    </Box>
                 </Box>
                 {plan !== 'Customize' ? (
                     <Button
