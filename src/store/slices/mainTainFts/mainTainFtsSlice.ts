@@ -21,6 +21,7 @@ interface MainTainFTS {
     group: number;
     noti_day: number;
     noti: boolean
+    name: string
     fts: Fts;
 }
 

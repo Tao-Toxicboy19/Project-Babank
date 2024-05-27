@@ -81,6 +81,16 @@ export default function MainTainFtsEdit({ }: Props) {
                     })}>
                         <Stack direction='column' spacing={3}>
                             <Box className='w-full'>
+                                <InputLabel id="name_edit" className='font-kanit'>ชื่อ</InputLabel>
+                                <TextField
+                                    {...register('name_edit')}
+                                    id='name_edit'
+                                    type='text'
+                                    defaultValue={data?.name}
+                                    fullWidth
+                                />
+                            </Box>
+                            <Box className='w-full'>
                                 <InputLabel id="cr_id" className='font-kanit'>รายละเอียด</InputLabel>
                                 <TextField
                                     {...register('desc_FTS')}

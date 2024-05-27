@@ -94,17 +94,6 @@ const sulutionScheduelSlice = createSlice({
         setRemoveSubmit(state: Solution_scheduleState, action: PayloadAction<any>) {
             console.log(action.payload)
             state.edit = state.edit.filter((order) => order.uuid !== action.payload)
-
-            // const index = state.edit.findIndex((o) => o.uuid === action.payload)
-            // if (index !== -1) {
-            //     state.edit[index] = {
-            //         ...state.edit[index],
-            //         FTS_name: "",
-            //         arrivaltime: "",
-            //         exittime: "",
-            //         FTS_id: undefined
-            //     }
-            // }
         },
 
         setRemove(state: Solution_scheduleState, action: PayloadAction<any>) {
@@ -132,54 +121,11 @@ const sulutionScheduelSlice = createSlice({
             }
         },
         setAddEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
-            console.log(action.payload)
             // state.count.find(c => c.uuid === action.payload)
             // state.count.push(action.payload)
             state.count = []
             state.edit.push(action.payload)
         },
-        // setEdit(state: Solution_scheduleState, action: PayloadAction<any>) {
-        //     const index = state.edit.findIndex((o) => o.order_id === action.payload.order_id)
-        //     const existingState = state.edit.find((item) => item.order_id === action.payload.orderId)
-        //     if (index !== -1) {
-        //         const stateStartDate = state.edit[index].arrivaltime;
-        //         const existingEndDate = existingState?.exittime;
-        //         const existingStartDate = existingState?.arrivaltime;
-
-        //         if (stateStartDate === existingEndDate || stateStartDate === existingStartDate) {
-        //             state.edit[index] = {
-        //                 ...state.edit[index],
-        //                 // FTS_name: "",
-        //                 FTS_id: action.payload.fts_id,
-        //                 arrivaltime: existingState!.exittime,
-        //             }
-        //         } else if (existingStartDate && existingEndDate && dayjs(stateStartDate).isBetween(existingStartDate, existingEndDate, null, '[]')) {
-        //             state.edit[index] = {
-        //                 ...state.edit[index],
-        //                 // FTS_name: "",
-        //                 FTS_id: action.payload.fts_id,
-        //                 arrivaltime: existingState!.exittime,
-        //             }
-        //         }
-        //         else {
-        //             // console.log('zzzz')
-        //             // กรณีอื่นๆ
-        //             // ใส่โค้ดที่คุณต้องการทำเมื่อเป็นเงื่อนไขอื่นๆ
-        //         }
-        //     }
-
-
-        //     if (existingState) {
-        //         state.edit.push({
-        //             ...existingState,
-        //             FTS_name: action.payload.fts_name,
-        //             FTS_id: action.payload.fts_id,
-        //             arrivaltime: action.payload.start_date !== undefined ? action.payload.start_date : existingState.arrivaltime
-        //         })
-        //     }
-        //     state.loading = false
-        //     state.error = false
-        // },
     },
     extraReducers: (builder) => {
         builder.addCase(sulutionScheduelAsync.fulfilled, (state: Solution_scheduleState, action: PayloadAction<Solution_schedule[]>) => {

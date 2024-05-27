@@ -220,7 +220,7 @@ function AiPlan({ setPlan, value, handleChange, plan }: AiPlan) {
                             )
                         )}
                     </Box>
-                    <Box sx={{ overflowX: 'auto', maxWidth: 750 }}>
+                    <Box sx={{ overflowX: 'auto', maxWidth: 650 }} className='mx-5'>
                         <Stack direction='row' spacing={1} sx={{ width: 'max-content' }}>
                             {plan === 'Customize' ? (
                                 planReducer.planUser.map((plan) => (
@@ -781,6 +781,7 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
     const [data, setData] = useState<any>()
     const [fts, setFts] = useState<any>()
     const [idx, setIdx] = useState<any>([])
+    const isEdit = React.useRef(false)
     const {
         register,
         handleSubmit,
@@ -794,8 +795,6 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
             dispatch(setCount(plan.carrier_id))
         }
     }, [plan?.carrier_id, solutionScheduleReducer.edit])
-
-    console.log(solutionScheduleReducer.edit)
 
     return (
         <React.Fragment>
@@ -817,6 +816,7 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                     FTS_name: "",
                                     uuid: id
                                 }))
+                                isEdit.current = true
                             }}
                         >
                             <AddIcon />
@@ -831,10 +831,12 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                         spacing={2}
                         component='form'
                         onSubmit={handleSubmit(() => {
-
-                            dispatch(setAddEdit(fts))
-                            idx.map((id: any) => dispatch(setRemoveSubmit(id)))
                             dispatch(setNameCarrier(data))
+                            if (isEdit.current) {
+                                idx.map((id: any) => dispatch(setRemoveSubmit(id)))
+                                dispatch(setAddEdit(fts))
+                            }
+                            isEdit.current = false
                             handleClose()
                         })}
                     >
@@ -872,7 +874,6 @@ export function EditCarrier({ open, handleClose, plan }: { open: boolean, handle
                                                 FTS_name: result?.FTS_name
                                             })
                                             setData(value)
-                                            // dispatch(setNameCarrier(value))
                                         }}
                                     >
                                         {uniqueNames.map((name, index) => {

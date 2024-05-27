@@ -59,6 +59,19 @@ export default function MainTainCraneAddCrane({ }: Props) {
                 })}>
                     <Stack direction='column' spacing={3}>
                         <Box className='w-full'>
+                            <InputLabel id="name_crane" className='font-kanit'>ชื่อ</InputLabel>
+                            <TextField
+                                {...register('name_crane', { required: true })}
+                                id='name_crane'
+                                type='text'
+                                fullWidth
+                            />
+                            {errors.desc &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
+                        <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>รายละเอียด</InputLabel>
                             <TextField
                                 {...register('desc', { required: true })}

@@ -21,7 +21,7 @@ import { RiEditLine } from 'react-icons/ri';
 export default function MainTainCranes() {
     const mainTainCraneReducer = useSelector(mainTainCraneSelector)
     const rolesReducer = useSelector(roleSelector)
-    const title = ["ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน","แจ้งเตือนก่อนกี่วัน", "แก้ไข"]
+    const title = ["ชื่อ", "ชื่อเครน", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แจ้งเตือนก่อนกี่วัน", "แก้ไข"]
     const dispatch = useAppDispatch()
     const id = rolesReducer.result?.group
     if (!id) return
@@ -88,6 +88,13 @@ export default function MainTainCranes() {
                                 key={items.maintain_crane_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
+                                <TableCell
+                                    component="th"
+                                    scope="row"
+                                    className='font-kanit text-md'
+                                >
+                                    {items.name}
+                                </TableCell>
                                 <TableCell
                                     component="th"
                                     scope="row"

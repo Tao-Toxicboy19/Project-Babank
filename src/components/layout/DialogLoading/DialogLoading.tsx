@@ -17,6 +17,7 @@ export default function DialogLoading({ plan }: { plan: string }) {
   const dispatch = useAppDispatch()
   const [open2, setOpen2] = React.useState(false)
   const [planName, setPlanName] = React.useState<string>('')
+  const [disPlan, setDisPlan] = React.useState(false)
   const {
     register,
     handleSubmit,
@@ -84,13 +85,16 @@ export default function DialogLoading({ plan }: { plan: string }) {
                   <Box
                     className='grid grid-cols-4 gap-2 mt-2'
                   >
-                    {planReducer.planAi.map((plan) => (
+                    {planReducer.planAi.map((plan, index) => (
                       <Button
                         key={plan.id}
 
                         variant='outlined'
-                        disabled={planReducer.plan === plan.id}
-                        onClick={() => dispatch(setPlans(plan.id))}
+                        disabled={planReducer.plan === plan.id || (!disPlan && index === 0)}
+                        onClick={() => {
+                          dispatch(setPlans(plan.id))
+                          setDisPlan(true)
+                        }}
                       >
                         {plan.plan_name}
                       </Button>

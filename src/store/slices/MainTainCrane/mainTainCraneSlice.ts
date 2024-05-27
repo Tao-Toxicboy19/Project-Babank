@@ -21,6 +21,7 @@ interface MainTain {
     group: number;
     noti_day: number
     noti: boolean
+    name: string
     crane: Crane;
 }
 

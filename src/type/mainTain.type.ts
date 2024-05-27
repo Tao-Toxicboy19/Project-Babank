@@ -6,7 +6,8 @@ export interface MainTain {
     start_time: string;
     mt_crane_id: number;
     group: number;
-    noti_day:number
+    noti_day: number
+    name: string
     crane: Crane;
 }
 
@@ -28,7 +29,8 @@ export interface MainTainFTS {
     start_time_FTS: any;
     mt_FTS_id: number;
     group: number;
-    noti_day:number
+    noti_day: number
+    name: string
     fts: Fts;
 }
 

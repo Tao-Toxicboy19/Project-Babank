@@ -78,9 +78,19 @@ export default function MainTainCraneEdit({ }: Props) {
                             const value = {
                                 ...data, id
                             }
-                            dispatch(updateMainTainCrane(value, navigate,Number(craneId.id)))
+                            dispatch(updateMainTainCrane(value, navigate, Number(craneId.id)))
                         })}>
                             <Stack direction='column' spacing={3}>
+                                <Box className='w-full'>
+                                    <InputLabel id="name_crane" className='font-kanit'>ชื่อ</InputLabel>
+                                    <TextField
+                                        {...register('name_crane')}
+                                        id='name_crane'
+                                        type='text'
+                                        fullWidth
+                                        defaultValue={data.name}
+                                    />
+                                </Box>
                                 <Box className='w-full'>
                                     <InputLabel id="cr_id" className='font-kanit'>รายละเอียด</InputLabel>
                                     <TextField

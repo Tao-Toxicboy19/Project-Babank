@@ -19,6 +19,7 @@ import { mainTainFtsSelector, removeNotiFTS } from '../../../store/slices/mainTa
 import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch } from '../../../store/store';
+import { MdOutlineDashboard } from "react-icons/md";
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
     const rolesReducer = useSelector(roleSelector)
@@ -34,16 +35,40 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
         setAnchorEl(null);
     }
 
+    // const MyNavLink = React.forwardRef<any, any>((props, ref) => {
+    //     return (
+    //         <NavLink
+    //             ref={ref}
+    //             to={props.to}
+    //             className={({ isActive }) =>
+    //                 `${props.className} ${isActive ? props.activeClassName : ""}`
+    //             }
+    //         >
+    //             {props.children}
+    //         </NavLink>
+    //     );
+    // });
     const MyNavLink = React.forwardRef<any, any>((props, ref) => {
+        const { external, to, className, activeClassName, children, ...rest } = props;
+
+        if (external) {
+            return (
+                <a href={to} target="_blank" rel="noopener noreferrer" className={className} {...rest}>
+                    {children}
+                </a>
+            );
+        }
+
         return (
             <NavLink
                 ref={ref}
-                to={props.to}
+                to={to}
                 className={({ isActive }) =>
-                    `${props.className} ${isActive ? props.activeClassName : ""}`
+                    `${className} ${isActive ? activeClassName : ""}`
                 }
+                {...rest}
             >
-                {props.children}
+                {children}
             </NavLink>
         );
     });
@@ -220,6 +245,17 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, drawerWidth }: any) => {
                         primary={
                             <Typography variant="body1" className="font-kanit">
                                 สรุปแผนการจัดทุ่นและต้นทุน
+                            </Typography>
+                        } />
+                </ListItem>
+                <ListItem button component={MyNavLink} to="https://new.floatingcraneservice.com/login.php" activeClassName="Mui-selected" exact external>
+                    <ListItemIcon>
+                        <MdOutlineDashboard className='flex justify-center text-3xl' />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography variant="body1" className="font-kanit">
+                                ระบบรายงานข้อมูลทุ่น
                             </Typography>
                         } />
                 </ListItem>

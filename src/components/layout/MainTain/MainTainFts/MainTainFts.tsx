@@ -17,16 +17,13 @@ type Props = {}
 export default function MainTainFts({ }: Props) {
     const mainTainFTSReducer = useSelector(mainTainFtsSelector)
     const rolesReducer = useSelector(roleSelector)
-    const title = ["ชื่อทุ่น", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แจ้งเตือนก่อนกี่วัน", "แก้ไข"]
+    const title = ["ชื่อ","ชื่อทุ่น", "รายละเอียด", "เวลาหยุดทำงาน", "เวลาเริ่มทำงาน", "แจ้งเตือนก่อนกี่วัน", "แก้ไข"]
     const dispatch = useAppDispatch()
     const id = rolesReducer.result?.group
     if (!id) return
     useEffect(() => {
         dispatch(mainTainAsync(id))
-    }, []);
-
-    console.log(mainTainFTSReducer.result)
-
+    }, [])
 
     return (
         <TableContainer component={Paper}>
@@ -87,6 +84,13 @@ export default function MainTainFts({ }: Props) {
                                 key={items.maintain_FTS_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
+                                <TableCell
+                                    component="th"
+                                    scope="row"
+                                    className='font-kanit text-md'
+                                >
+                                    {items.name}
+                                </TableCell>
                                 <TableCell
                                     component="th"
                                     scope="row"

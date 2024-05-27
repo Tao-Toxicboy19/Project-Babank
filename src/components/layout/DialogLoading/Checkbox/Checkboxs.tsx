@@ -156,6 +156,7 @@ export default function Checkboxs({ handleCloseV2 }: Props) {
                 <Button
                     variant='outlined'
                     type="submit"
+                    disabled={count === 0}
                 >
                     จัดการแผน
                 </Button>

@@ -57,6 +57,19 @@ export default function MainTainFtsAdd({ }: Props) {
                 })}>
                     <Stack direction='column' spacing={3}>
                         <Box className='w-full'>
+                            <InputLabel id="name" className='font-kanit'>ชื่อ</InputLabel>
+                            <TextField
+                                {...register('name_fts', { required: true })}
+                                id='name_fts'
+                                type='text'
+                                fullWidth
+                            />
+                            {errors.desc_FTS &&
+                                <Alert variant="outlined" severity="error" className="mt-1">
+                                    กรุณากรอกข้อมูล
+                                </Alert>}
+                        </Box>
+                        <Box className='w-full'>
                             <InputLabel id="cr_id" className='font-kanit'>รายละเอียด</InputLabel>
                             <TextField
                                 {...register('desc_FTS', { required: true })}
@@ -115,7 +128,7 @@ export default function MainTainFtsAdd({ }: Props) {
                                     </Select>
                                 </FormControl>
                                 {errors.mt_FTS_id &&
-                                    <Alert variant="outlined" severity="error" className="mt-1"> 
+                                    <Alert variant="outlined" severity="error" className="mt-1">
                                         กรุณากรอกข้อมูล
                                     </Alert>}
                             </Box>
