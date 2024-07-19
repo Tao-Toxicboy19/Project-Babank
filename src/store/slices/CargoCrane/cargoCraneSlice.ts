@@ -69,6 +69,8 @@ const cargoCraneSlice = createSlice({
   initialState,
   reducers: {
     setWherFTSId(state: craneCargoState, action: PayloadAction<number>) {
+      // console.log(action.payload)
+      // console.log(state.result.filter(i => i.FTS_id === action.payload))
       state.where_fts_id = state.result.filter(i => i.FTS_id === action.payload)
     }
   },

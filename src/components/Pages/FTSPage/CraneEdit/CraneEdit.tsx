@@ -51,6 +51,7 @@ export default function CraneEditPage({ }: Props) {
                     setIsSubmitting(true);
                     try {
                         await dispatch(craneEditAsync({ id, data, submitting, navigate, fetch }))
+                        setIsSubmitting(false);
                     } catch (error) {
                         setIsSubmitting(false);
                     }

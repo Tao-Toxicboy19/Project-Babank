@@ -47,7 +47,7 @@ export default function FTSEditPage({ }: Props) {
           setIsSubmitting(true);
           try {
             await dispatch(ftsEditAsync({ id, data, submitting, navigate }))
-            navigate('/transferstation')
+            // navigate('/transferstation')
           } catch (error) {
             setIsSubmitting(false);
             throw error;
@@ -71,11 +71,16 @@ export default function FTSEditPage({ }: Props) {
             <Box>
               <TextField
                 variant="outlined"
-                type="number"
+                type="text"
                 label='ละติจูด'
                 id="lat"
                 className='font-kanit'
-                {...register('lat', { required: true, valueAsNumber: true })}
+                {...register('lat', {
+                  required: true, pattern: {
+                    value: /^[0-9]*\.?[0-9]*$/,
+                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                  },
+                })}
                 defaultValue={FTSData.lat}
                 fullWidth
               />
@@ -84,11 +89,16 @@ export default function FTSEditPage({ }: Props) {
             <Box>
               <TextField
                 variant="outlined"
-                type="number"
+                type="text"
                 label='ลองติจูด'
                 id="lng"
                 className='font-kanit'
-                {...register('lng', { required: true, valueAsNumber: true })}
+                {...register('lng', {
+                  required: true, pattern: {
+                    value: /^[0-9]*\.?[0-9]*$/,
+                    message: 'กรุณากรอกตัวเลขที่ถูกต้อง'
+                  },
+                })}
                 defaultValue={FTSData.lng}
                 fullWidth
               />

@@ -9,7 +9,8 @@ import { cargoCraneAddAsync } from '../../../../store/slices/CargoCrane/cargoCra
 import { cargoSelector } from '../../../../store/slices/Cargo/cargoSlice';
 import { ftsSelector } from '../../../../store/slices/FTS/ftsSlice';
 import { CLOSE, SAVE } from '../../../../Constants';
-import { cargoCraneAsync, cargoCraneSelector, setWherFTSId } from '../../../../store/slices/CargoCrane/cargoCraneSlice';
+import { cargoCraneAsync } from '../../../../store/slices/CargoCrane/cargoCraneSlice';
+import { craneSelector } from '../../../../store/slices/Crane/craneSlice';
 
 type Props = {}
 
@@ -19,10 +20,10 @@ const defaultTheme = createTheme()
 export default function CargoCraneCreate({ }: Props) {
     const FTSReducer = useSelector(ftsSelector)
     const CargoReducer = useSelector(cargoSelector)
-    const CargoCraneReducer = useSelector(cargoCraneSelector)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
     const {
         register,
         handleSubmit,
@@ -46,9 +47,14 @@ export default function CargoCraneCreate({ }: Props) {
         dispatch(cargoCraneAsync())
     }, [])
 
+    const [cranes, setCranes] = useState<any[]>([])
+    const craneReducer = useSelector(craneSelector)
+
     useEffect(() => {
-        dispatch(setWherFTSId(watch('FTS_id')))
+        setCranes(craneReducer.result.filter(i => i.FTS_id === watch('FTS_id')))
     }, [watch('FTS_id')])
+
+    console.log(cranes)
 
     const showForm = () => {
         return (
@@ -137,9 +143,9 @@ export default function CargoCraneCreate({ }: Props) {
                                     label="เลือกเครน"
                                     {...register(`inputs.${index}.crane_id`, { required: true })}
                                 >
-                                    {(CargoCraneReducer.where_fts_id).map((items) => (
-                                        <MenuItem key={items.crane_id} value={items.crane_id} className='font-kanit'>
-                                            {items.crane?.crane_name}
+                                    {(cranes).map((items) => (
+                                        <MenuItem key={items.id} value={items.id} className='font-kanit'>
+                                            {items.crane_name}
                                         </MenuItem>
                                     ))}
                                 </Select>

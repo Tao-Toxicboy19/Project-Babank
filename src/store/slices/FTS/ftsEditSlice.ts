@@ -40,7 +40,13 @@ export const ftsEditAsync = createAsyncThunk(
     'ftsEdit/ftsEditAsync',
     async ({ id, data, submitting, navigate }: { id: string | undefined, data: FieldValues, submitting: () => void, navigate: NavigateFunction }) => {
         try {
-            const result = await httpClient.put(`${server.FLOATING}/${id}`, data)
+            const value = {
+                ...data,
+                lat: +data.lat,
+                lng: +data.lng
+            }
+            console.log(value)
+            const result = await httpClient.put(`${server.FLOATING}/${id}`, value)
             toast.success(SUCCESS)
             submitting()
             navigate('/transferstation')
@@ -56,7 +62,7 @@ const ftsEditSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(ftsEditAsync.fulfilled, (state: FtsEditState, action: PayloadAction<FtsCrane>) => {
+        builder.addCase(ftsEditAsync.fulfilled, (state: FtsEditState, action: PayloadAction<any>) => {
             state.result = action.payload
             state.loading = false
             state.error = false

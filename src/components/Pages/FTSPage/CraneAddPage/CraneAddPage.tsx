@@ -1,4 +1,4 @@
-import { Button, Box, Select, MenuItem, FormControl, InputLabel, createTheme, Card, ThemeProvider, CardContent, Stack, Alert, TextField } from '@mui/material'
+import { Button, Box, Select, MenuItem, FormControl, InputLabel, createTheme, Card, ThemeProvider, CardContent, Stack, Alert, TextField, Typography } from '@mui/material'
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../store/store';
 import { Link, useNavigate } from 'react-router-dom';
@@ -155,6 +155,7 @@ export default function CraneCreatePage({ }: Props) {
                             <Button fullWidth variant="contained" disabled>เพิ่มเครน</Button>
 
                         </Box>
+                        <Typography variant='h5' className='flex justify-center mt-3'>เพิ่มเครน</Typography>
                         {showForm()}
                     </CardContent>
                 </Card>
