@@ -504,21 +504,30 @@ function ShowForm() {
         return !isNaN(parsedValue) ? acc + parsedValue : acc
     }, 0)
 
-    const { fields, append } = useFieldArray({
+    // const { fields, append } = useFieldArray({
+    const {} = useFieldArray({
         control,
         name: 'inputs',
     })
     const fetch = () => dispatch(orderAsync())
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         setIsSubmitting(true)
-        const findCarrier = await carrierReducer.result.find(
+        const findCarrier = carrierReducer.result.find(
             (r) => r.carrier_name === data.cr_id,
         )
+        const uniqueInputs = Array.from(
+            new Map(
+                data.inputs.map((item) => [item.cargo_names, item]),
+            ).values(),
+        )
+
+        // console.log(uniqueInputs)
         const values = {
             ...data,
             cr_id: findCarrier?.cr_id,
             group: rolesReducer.result?.group,
             load: totalBulk,
+            inputs: uniqueInputs,
             arrival_time: moment(
                 data.arrival_time,
                 'YYYY-MM-DD HH:mm:ss',
@@ -529,6 +538,7 @@ function ShowForm() {
             ).format('YYYY-MM-DD HH:mm:ss'),
         }
         try {
+            console.log(values)
             await dispatch(orderAddAsync({ values, navigate, fetch }))
             setIsSubmitting(false)
         } catch (error) {
@@ -998,7 +1008,7 @@ function ShowForm() {
                     </Stack>
                 </Stack>
 
-                <Stack direction='row' spacing={2} className='w-full'>
+                {/* <Stack direction='row' spacing={2} className='w-full'>
                     {fields.map((_, index) => (
                         <Box key={index} className='w-full'>
                             <FormControl fullWidth>
@@ -1073,29 +1083,111 @@ function ShowForm() {
                             </Alert>
                         )}
                     </Box>
+                </Stack> */}
+                <Stack direction={'row'} spacing={2}>
+                    <Box className='w-full'>
+                        <InputLabel id='demo-simple-select-label'>
+                            จำนวนระวาง
+                        </InputLabel>
+                        <TextField
+                            // label='จำนวนระวาง'
+                            id='burden'
+                            size='small'
+                            type='number'
+                            fullWidth
+                            className='font-kanit'
+                            defaultValue={findMaxFts?.burden}
+                            {...register('burden', {
+                                min: 0,
+                                max: 10,
+                                onChange: (e) => {
+                                    setBulk(
+                                        +e.target.value ||
+                                            findMaxFts?.burden ||
+                                            0,
+                                    )
+                                },
+                            })}
+                        />
+                        {errors.reward_rate && (
+                            <Alert
+                                variant='outlined'
+                                severity='error'
+                                className={`${submit ? 'mt-2' : 'hidden'}`}
+                            >
+                                กรุณากรอกข้อมูล
+                            </Alert>
+                        )}
+                    </Box>
+                    <span className='text-lg my-auto pl-2 w-full'>
+                        รวมปริมาณสินค้า (ตัน): {totalBulk}
+                    </span>
                 </Stack>
+                {/* <Button
+                    type='button'
+                    variant='outlined'
+                    size='small'
+                    onClick={() => append({ cargo_names: '' })}
+                >
+                    เพิ่มสินค้า
+                </Button> */}
                 <Stack spacing={2} direction={'column'}>
                     {[...Array(bulk || findMaxFts?.burden)].map((_, index) => (
-                        <>
-                            <TextField
-                                key={`additional-input-${index}`}
-                                label={`ระวางที่ ${index + 1}`}
-                                type='text'
-                                size='small'
-                                fullWidth
-                                className='font-kanit'
-                                {...register(`bulkArray.${index}` as const)}
-                            />
-                            {errors.bulkArray && (
-                                <Alert
-                                    variant='outlined'
-                                    severity='error'
-                                    className={`${submit ? 'mt-2' : 'hidden'}`}
+                        <Stack spacing={2} direction={'row'}>
+                            <FormControl fullWidth>
+                                <InputLabel
+                                    size='small'
+                                    id='demo-simple-select-label'
                                 >
-                                    กรุณากรอกข้อมูล
-                                </Alert>
-                            )}
-                        </>
+                                    เลือกสินค้า
+                                </InputLabel>
+                                <Select
+                                    labelId='demo-simple-select-label'
+                                    id={`inputs.${index}.cargo_names`}
+                                    label='เลือกสินค้า'
+                                    size='small'
+                                    // defaultValue={fields[0]}
+                                    {...register(
+                                        `inputs.${index}.cargo_names` as const,
+                                        {
+                                            required: true,
+                                        },
+                                    )}
+                                >
+                                    {cargoReducer.result.map((items) => (
+                                        <MenuItem
+                                            key={items.cargo_id}
+                                            value={items.cargo_id}
+                                            className='font-kanit'
+                                        >
+                                            {items.cargo_name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <>
+                                <TextField
+                                    key={`additional-input-${index}`}
+                                    label={`ระวางที่ ${index + 1}`}
+                                    type='text'
+                                    size='small'
+                                    fullWidth
+                                    className='font-kanit'
+                                    {...register(`bulkArray.${index}` as const)}
+                                />
+                                {errors.bulkArray && (
+                                    <Alert
+                                        variant='outlined'
+                                        severity='error'
+                                        className={`${
+                                            submit ? 'mt-2' : 'hidden'
+                                        }`}
+                                    >
+                                        กรุณากรอกข้อมูล
+                                    </Alert>
+                                )}
+                            </>
+                        </Stack>
                     ))}
                 </Stack>
                 {/* <Box className='grid grid-cols-3 gap-5'>
