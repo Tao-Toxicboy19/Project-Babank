@@ -1,7 +1,7 @@
 import { Button, Box, ThemeProvider, createTheme, Card, CardContent, Stack, Typography } from '@mui/material'
 import { Field, Form, Formik, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Login } from '../../../../type/User.type';
 import { FTS } from '../../../../type/FloatingCrane.type';
@@ -142,10 +142,10 @@ export default function FTSAddPage({ }: Props) {
             <Box className="flex justify-center items-center">
               <Card>
                 <CardContent>
-                  <Box className=" w-full flex justify-between gap-x-2">
+                  {/* <Box className=" w-full flex justify-between gap-x-2">
                     <Button fullWidth variant="contained" disabled>เพิ่มทุ่น</Button >
                     <Button fullWidth variant="contained" component={Link} to="/transferstation/create/crane">เพิ่มเครน</Button>
-                  </Box >
+                  </Box > */}
                   <Typography variant='h5' className='flex justify-center mt-3'>เพิ่มทุ่น</Typography>
                   <Formik
                     onSubmit={handleSubmit}

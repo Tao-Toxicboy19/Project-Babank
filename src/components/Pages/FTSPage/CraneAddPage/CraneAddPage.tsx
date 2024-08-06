@@ -1,7 +1,7 @@
 import { Button, Box, Select, MenuItem, FormControl, InputLabel, createTheme, Card, ThemeProvider, CardContent, Stack, Alert, TextField, Typography } from '@mui/material'
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../store/store';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FTS } from '../../../../type/FloatingCrane.type';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -149,12 +149,12 @@ export default function CraneCreatePage({ }: Props) {
             <Box className="flex justify-center items-center">
                 <Card>
                     <CardContent>
-                        <Box className=" w-full flex justify-between gap-x-2">
+                        {/* <Box className=" w-full flex justify-between gap-x-2">
                             <Button fullWidth variant="contained" component={Link} to="/transferstation/create" >เพิ่มทุ่น</Button>
 
                             <Button fullWidth variant="contained" disabled>เพิ่มเครน</Button>
 
-                        </Box>
+                        </Box> */}
                         <Typography variant='h5' className='flex justify-center mt-3'>เพิ่มเครน</Typography>
                         {showForm()}
                     </CardContent>
