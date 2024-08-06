@@ -439,7 +439,8 @@ function ShowForm() {
       deadline_time: moment(data.deadline_time, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
     }
     try {
-      await dispatch(orderAddAsync({ values, navigate, fetch }))
+      console.log(values)
+      // await dispatch(orderAddAsync({ values, navigate, fetch }))
       setIsSubmitting(false)
     } catch (error) {
       setIsSubmitting(false)
